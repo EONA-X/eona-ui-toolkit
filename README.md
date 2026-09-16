@@ -1,8 +1,10 @@
-> **Read-only mirror.** The source of truth is `eona-x/web/eona-ui-toolkit` on EONA-X's
-> internal GitLab; this mirror exists so GitHub-hosted consumers — notably
-> [`eona-vocabulary-ui`](https://github.com/EONA-X/eona-vocabulary-ui) — can resolve the crate as
-> a submodule without a credential. Pull requests opened here cannot be merged; please raise
-> changes internally. Published at **v0.4.0**.
+> **This is the source of truth.** Development happens here, on GitHub, from `v0.4.0` onward.
+> EONA-X's internal GitLab (`eona-x/web/eona-ui-toolkit`) holds the pre-`v0.4.0` history as an
+> archive and is no longer the place to raise changes — open a pull request here instead.
+>
+> The crate is consumed as a git submodule by
+> [`eona-vocabulary-ui`](https://github.com/EONA-X/eona-vocabulary-ui) and by EONA-X's developer
+> portal.
 
 # eona-ui-toolkit
 
