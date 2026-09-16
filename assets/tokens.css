@@ -1,0 +1,148 @@
+/**
+ * EONA-X Design Tokens — CSS Custom Properties
+ * Synthesized from "Charte graphique EONA-X" (2025, 29 slides)
+ * See tokens.json for full documentation, usage notes and observed hex variants.
+ */
+
+:root {
+  /* ---------------------------------------------------------------- */
+  /* Color — Core palette ("Nouvelles couleurs à utiliser", slide 6)  */
+  /* ---------------------------------------------------------------- */
+  --eona-navy: #040553;           /* primary — backgrounds, headings, body text */
+  --eona-blue-royal: #001ED2;     /* secondary accent — buttons, titles (sparingly) */
+  --eona-blue-action: #006EF0;    /* primary interactive/CTA blue (alias seen as #016DEE) */
+  --eona-lavender: #BFD1FE;       /* light accent, decorative shapes */
+  --eona-lavender-deep: #B5C8F3;  /* deeper periwinkle variant, icon/declination slides */
+  --eona-lavender-pale: #E9ECFC;  /* pale tint, background washes */
+  --eona-gray-bg: #F7F9FE;        /* soft page background, gentler than white */
+  --eona-gold: #FFD047;           /* EONA-X gold — small brand-recall accents, diagonal stripe */
+  --eona-white: #FFFFFF;
+
+  /* ---------------------------------------------------------------- */
+  /* Color — Website dark neutrals (slide 5)                          */
+  /* ---------------------------------------------------------------- */
+  --eona-navy-deep: #091B3B;      /* darkest background variant */
+  --eona-slate: #243955;          /* dark neutral surface / panel */
+
+  /* ---------------------------------------------------------------- */
+  /* Color — Logo-only palette (fixed artwork; reference only)        */
+  /* Never use to recolor UI — always use the provided logo SVG.      */
+  /* ---------------------------------------------------------------- */
+  --eona-logo-teal-navy: #094672;
+  --eona-logo-mid-blue: #4A7798;
+  --eona-logo-light-blue: #9AB3C6;
+  --eona-logo-gold: #FFD047;
+
+  /* ---------------------------------------------------------------- */
+  /* Color — Semantic / status (slide 7)                              */
+  /* ---------------------------------------------------------------- */
+  --eona-success: #26B548;
+  --eona-warning: #EDA01C;
+  --eona-error: #DF1E26;
+
+  /* ---------------------------------------------------------------- */
+  /* Typography                                                       */
+  /* ---------------------------------------------------------------- */
+  --eona-font-family: 'Poppins', 'Helvetica Neue', Arial, sans-serif;
+
+  --eona-weight-light: 300;
+  --eona-weight-regular: 400;
+  --eona-weight-medium: 500;
+  --eona-weight-semibold: 600;
+  --eona-weight-bold: 700;
+
+  --eona-size-display: clamp(2.5rem, 2rem + 2.2vw, 4.5rem);
+  --eona-size-h1: clamp(1.75rem, 1.5rem + 1.1vw, 2.5rem);
+  --eona-size-h2: clamp(1.35rem, 1.2rem + 0.7vw, 1.75rem);
+  --eona-size-h3: 1.15rem;
+  --eona-size-body: 1rem;
+  --eona-size-small: 0.75rem;
+  --eona-size-button: 0.9rem;
+
+  --eona-line-display: 1.05;
+  --eona-line-heading: 1.15;
+  --eona-line-body: 1.55;
+
+  /* ---------------------------------------------------------------- */
+  /* Shape & component conventions (inferred from consistent usage)   */
+  /* ---------------------------------------------------------------- */
+  --eona-radius-pill: 999px;      /* buttons, badges */
+  --eona-radius-card: 20px;       /* cards, mockups */
+  --eona-radius-sm: 10px;         /* small chips, inputs */
+  --eona-badge-diameter: 48px;    /* numbered section badges */
+  --eona-stripe-angle: 28deg;     /* signature diagonal gold stripe */
+
+  /* Spacing scale (4px base — not stated verbatim in the deck, kept  */
+  /* consistent with its generous, airy slide layouts)                */
+  --eona-space-1: 4px;
+  --eona-space-2: 8px;
+  --eona-space-3: 16px;
+  --eona-space-4: 24px;
+  --eona-space-5: 32px;
+  --eona-space-6: 48px;
+  --eona-space-7: 64px;
+
+  --eona-shadow-card: 0 12px 32px rgba(4, 5, 83, 0.16);
+}
+
+/* ------------------------------------------------------------------ */
+/* Semantic surfaces — the themeable layer                            */
+/* ------------------------------------------------------------------ */
+/* Everything above is the charter's raw palette: fixed values, named  */
+/* after the ink. These are named after the *job* instead, so a        */
+/* surface can change with the theme while the palette stays the       */
+/* single source of truth — every value below resolves to one of the   */
+/* tokens above, never to a new colour.                                */
+/*                                                                     */
+/* The dark values come from the charter's own `websiteDarkNeutrals`   */
+/* (slide 5, "Couleurs site web"), which the deck describes as         */
+/* dark-mode neutrals "for deep backgrounds and dark UI surfaces       */
+/* beyond flat Navy" — so dark mode is sanctioned by the charter, not  */
+/* invented here.                                                      */
+
+:root {
+  --eona-surface-page: var(--eona-gray-bg);
+  --eona-surface-raised: var(--eona-white);
+  --eona-surface-sunken: var(--eona-lavender-pale);
+  --eona-surface-inverse: var(--eona-navy);
+
+  --eona-text-primary: var(--eona-navy);
+  --eona-text-muted: #33355f;
+  --eona-text-on-inverse: var(--eona-white);
+
+  --eona-border-subtle: rgba(4, 5, 83, 0.12);
+  --eona-border-strong: rgba(4, 5, 83, 0.24);
+
+  --eona-accent: var(--eona-blue-action);
+  --eona-accent-contrast: var(--eona-white);
+  --eona-shadow-surface: var(--eona-shadow-card);
+}
+
+/* Opt-in only, keyed to an explicit attribute — deliberately NOT wired */
+/* to `prefers-color-scheme`. Consumers that never set the attribute    */
+/* (developer.eona-x.eu today) must not flip to dark because a visitor's */
+/* OS is dark; a brand reference page has one intended appearance.       */
+/* A dark-first app sets `data-theme="dark"` on <html> and toggles it.   */
+:root[data-theme="dark"] {
+  --eona-surface-page: var(--eona-navy-deep);
+  --eona-surface-raised: var(--eona-slate);
+  --eona-surface-sunken: var(--eona-navy);
+  --eona-surface-inverse: var(--eona-gray-bg);
+
+  --eona-text-primary: var(--eona-white);
+  /* Lavender, not a grey: the charter's light accent is what it gives   */
+  /* for secondary text over dark surfaces.                              */
+  --eona-text-muted: var(--eona-lavender);
+  --eona-text-on-inverse: var(--eona-navy);
+
+  --eona-border-subtle: rgba(191, 209, 254, 0.18);
+  --eona-border-strong: rgba(191, 209, 254, 0.34);
+
+  /* Action Blue is the charter's interactive colour, but at #006EF0 on  */
+  /* #091B3B it sits near the AA floor for body-sized text. Lavender is  */
+  /* the charter's own answer for accents over dark, so links and        */
+  /* interactive text take it; solid accent fills keep Action Blue.      */
+  --eona-accent: var(--eona-lavender);
+  --eona-accent-contrast: var(--eona-navy);
+  --eona-shadow-surface: 0 12px 32px rgba(0, 0, 0, 0.45);
+}

@@ -1,0 +1,1992 @@
+{
+  "src_hash": "70fb822dd0ac7ebfe18307470d8b158c7a148644c84e7114a57419f6e15088af",
+  "checked": 38,
+  "emitted": 34,
+  "passed": [
+    "BadgeNum",
+    "Button",
+    "CodeBlock",
+    "OntoBadge",
+    "Pill",
+    "PillButton",
+    "TagLabel",
+    "AccordionItem",
+    "BgCheckItem",
+    "Callout",
+    "CaseCard",
+    "DeclCard",
+    "LogoDownloadCard",
+    "MemberCard",
+    "MemberFilterCard",
+    "Modal",
+    "MvoCard",
+    "NavDropdown",
+    "NewsCard",
+    "PersonalityCard",
+    "PillarCard",
+    "PropsTable",
+    "RefCard",
+    "RuleListItem",
+    "SectionHead",
+    "ShapeCard",
+    "TextField",
+    "TypeScaleRow",
+    "UsageExample",
+    "Hero",
+    "HeroFilter",
+    "MainNav",
+    "SimpleFooter",
+    "SiteHeader"
+  ],
+  "quarantined": [
+    {
+      "component": "OntoAnnotation",
+      "span": {
+        "file": "src/molecules/annotation.rs",
+        "line": 44
+      },
+      "cells": 13,
+      "notes": [
+        {
+          "check": "sentinel-integrity",
+          "cell": "values_n1__values_item_language_some__values_item_datatype_some",
+          "alphabet": "primary",
+          "detail": "the sentinel for `values[0].datatype` (\\u{E000}3\\u{E001}) never reached the markup: in this cell the component does not render the prop at all, or renders something derived from it. Check 2 tells the two apart — if the alphabets agree, nothing derived is there and the emitter must simply not reference `values[0].datatype` in this cell",
+          "span": {
+            "file": "src/ontology.rs",
+            "line": 44
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "values_n1__values_item_language_some__values_item_datatype_some",
+          "alphabet": "differential",
+          "detail": "the sentinel for `values[0].datatype` (\\u{F0000}0003aZ0kQ9#mX/bY1nR8#pW/cV2jT7#hU/dS3gN6#fM/eL4iK5#oJ/fT6hP8#qW/gU7iO9#rX/\\u{F0001}) never reached the markup: in this cell the component does not render the prop at all, or renders something derived from it. Check 2 tells the two apart — if the alphabets agree, nothing derived is there and the emitter must simply not reference `values[0].datatype` in this cell",
+          "span": {
+            "file": "src/ontology.rs",
+            "line": 44
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "values_n2__values_item_language_some__values_item_datatype_some",
+          "alphabet": "primary",
+          "detail": "the sentinel for `values[0].datatype` (\\u{E000}3\\u{E001}) never reached the markup: in this cell the component does not render the prop at all, or renders something derived from it. Check 2 tells the two apart — if the alphabets agree, nothing derived is there and the emitter must simply not reference `values[0].datatype` in this cell",
+          "span": {
+            "file": "src/ontology.rs",
+            "line": 44
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "values_n2__values_item_language_some__values_item_datatype_some",
+          "alphabet": "primary",
+          "detail": "the sentinel for `values[1].datatype` (\\u{E000}6\\u{E001}) never reached the markup: in this cell the component does not render the prop at all, or renders something derived from it. Check 2 tells the two apart — if the alphabets agree, nothing derived is there and the emitter must simply not reference `values[1].datatype` in this cell",
+          "span": {
+            "file": "src/ontology.rs",
+            "line": 44
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "values_n2__values_item_language_some__values_item_datatype_some",
+          "alphabet": "differential",
+          "detail": "the sentinel for `values[0].datatype` (\\u{F0000}0003aZ0kQ9#mX/bY1nR8#pW/cV2jT7#hU/dS3gN6#fM/eL4iK5#oJ/fT6hP8#qW/gU7iO9#rX/\\u{F0001}) never reached the markup: in this cell the component does not render the prop at all, or renders something derived from it. Check 2 tells the two apart — if the alphabets agree, nothing derived is there and the emitter must simply not reference `values[0].datatype` in this cell",
+          "span": {
+            "file": "src/ontology.rs",
+            "line": 44
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "values_n2__values_item_language_some__values_item_datatype_some",
+          "alphabet": "differential",
+          "detail": "the sentinel for `values[1].datatype` (\\u{F0000}0006aZ0kQ9#mX/bY1nR8#pW/cV2jT7#hU/dS3gN6#fM/eL4iK5#oJ/fT6hP8#qW/gU7iO9#rX/\\u{F0001}) never reached the markup: in this cell the component does not render the prop at all, or renders something derived from it. Check 2 tells the two apart — if the alphabets agree, nothing derived is there and the emitter must simply not reference `values[1].datatype` in this cell",
+          "span": {
+            "file": "src/ontology.rs",
+            "line": 44
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "values_n3__values_item_language_some__values_item_datatype_some",
+          "alphabet": "primary",
+          "detail": "the sentinel for `values[0].datatype` (\\u{E000}3\\u{E001}) never reached the markup: in this cell the component does not render the prop at all, or renders something derived from it. Check 2 tells the two apart — if the alphabets agree, nothing derived is there and the emitter must simply not reference `values[0].datatype` in this cell",
+          "span": {
+            "file": "src/ontology.rs",
+            "line": 44
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "values_n3__values_item_language_some__values_item_datatype_some",
+          "alphabet": "primary",
+          "detail": "the sentinel for `values[1].datatype` (\\u{E000}6\\u{E001}) never reached the markup: in this cell the component does not render the prop at all, or renders something derived from it. Check 2 tells the two apart — if the alphabets agree, nothing derived is there and the emitter must simply not reference `values[1].datatype` in this cell",
+          "span": {
+            "file": "src/ontology.rs",
+            "line": 44
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "values_n3__values_item_language_some__values_item_datatype_some",
+          "alphabet": "primary",
+          "detail": "the sentinel for `values[2].datatype` (\\u{E000}9\\u{E001}) never reached the markup: in this cell the component does not render the prop at all, or renders something derived from it. Check 2 tells the two apart — if the alphabets agree, nothing derived is there and the emitter must simply not reference `values[2].datatype` in this cell",
+          "span": {
+            "file": "src/ontology.rs",
+            "line": 44
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "values_n3__values_item_language_some__values_item_datatype_some",
+          "alphabet": "differential",
+          "detail": "the sentinel for `values[0].datatype` (\\u{F0000}0003aZ0kQ9#mX/bY1nR8#pW/cV2jT7#hU/dS3gN6#fM/eL4iK5#oJ/fT6hP8#qW/gU7iO9#rX/\\u{F0001}) never reached the markup: in this cell the component does not render the prop at all, or renders something derived from it. Check 2 tells the two apart — if the alphabets agree, nothing derived is there and the emitter must simply not reference `values[0].datatype` in this cell",
+          "span": {
+            "file": "src/ontology.rs",
+            "line": 44
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "values_n3__values_item_language_some__values_item_datatype_some",
+          "alphabet": "differential",
+          "detail": "the sentinel for `values[1].datatype` (\\u{F0000}0006aZ0kQ9#mX/bY1nR8#pW/cV2jT7#hU/dS3gN6#fM/eL4iK5#oJ/fT6hP8#qW/gU7iO9#rX/\\u{F0001}) never reached the markup: in this cell the component does not render the prop at all, or renders something derived from it. Check 2 tells the two apart — if the alphabets agree, nothing derived is there and the emitter must simply not reference `values[1].datatype` in this cell",
+          "span": {
+            "file": "src/ontology.rs",
+            "line": 44
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "values_n3__values_item_language_some__values_item_datatype_some",
+          "alphabet": "differential",
+          "detail": "the sentinel for `values[2].datatype` (\\u{F0000}0009aZ0kQ9#mX/bY1nR8#pW/cV2jT7#hU/dS3gN6#fM/eL4iK5#oJ/fT6hP8#qW/gU7iO9#rX/\\u{F0001}) never reached the markup: in this cell the component does not render the prop at all, or renders something derived from it. Check 2 tells the two apart — if the alphabets agree, nothing derived is there and the emitter must simply not reference `values[2].datatype` in this cell",
+          "span": {
+            "file": "src/ontology.rs",
+            "line": 44
+          }
+        }
+      ],
+      "verdict": "quarantine",
+      "reason": "does not pass its props through to the markup unmodified",
+      "evidence": [
+        {
+          "check": "sentinel-integrity",
+          "cell": "values_n1__values_item_language_none__values_item_datatype_some",
+          "alphabet": "differential",
+          "detail": "a bare \\u{F0001} delimiter at byte 359 is a fragment of a sentinel, not a sentinel: …class=\"badge badge--default\">rX/\\u{F0001}</span></div></dd></div>",
+          "span": {
+            "file": "src/molecules/annotation.rs",
+            "line": 44
+          }
+        },
+        {
+          "check": "differential-alphabet",
+          "cell": "values_n1__values_item_language_none__values_item_datatype_some",
+          "alphabet": null,
+          "detail": "the two sentinel alphabets produced different markup once normalised; they differ from byte 198: …an class=\"badge badge--default\">\\u{2}2\\u{3}</span></div></dd></div> vs …an class=\"badge badge--default\">rX/\\u{F0001}</span></div></dd></div>. The markup is a function of the prop's content (its length, its first character, its byte boundaries) and not only of the prop, so splicing JSX over the sentinels would not reproduce it",
+          "span": {
+            "file": "src/ontology.rs",
+            "line": 44
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "values_n1__values_item_language_none__values_item_datatype_some",
+          "alphabet": "differential",
+          "detail": "the sentinel for `values[0].datatype` (\\u{F0000}0002aZ0kQ9#mX/bY1nR8#pW/cV2jT7#hU/dS3gN6#fM/eL4iK5#oJ/fT6hP8#qW/gU7iO9#rX/\\u{F0001}) never reached the markup: in this cell the component does not render the prop at all, or renders something derived from it. Check 2 tells the two apart — if the alphabets agree, nothing derived is there and the emitter must simply not reference `values[0].datatype` in this cell",
+          "span": {
+            "file": "src/ontology.rs",
+            "line": 44
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "values_n2__values_item_language_none__values_item_datatype_some",
+          "alphabet": "differential",
+          "detail": "a bare \\u{F0001} delimiter at byte 359 is a fragment of a sentinel, not a sentinel: …class=\"badge badge--default\">rX/\\u{F0001}</span></div><div class=\"ann…",
+          "span": {
+            "file": "src/molecules/annotation.rs",
+            "line": 44
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "values_n2__values_item_language_none__values_item_datatype_some",
+          "alphabet": "differential",
+          "detail": "a bare \\u{F0001} delimiter at byte 563 is a fragment of a sentinel, not a sentinel: …class=\"badge badge--default\">rX/\\u{F0001}</span></div></dd></div>",
+          "span": {
+            "file": "src/molecules/annotation.rs",
+            "line": 44
+          }
+        },
+        {
+          "check": "differential-alphabet",
+          "cell": "values_n2__values_item_language_none__values_item_datatype_some",
+          "alphabet": null,
+          "detail": "the two sentinel alphabets produced different markup once normalised; they differ from byte 198: …an class=\"badge badge--default\">\\u{2}2\\u{3}</span></div><div class=\"anno… vs …an class=\"badge badge--default\">rX/\\u{F0001}</span></div><div class=\"…. The markup is a function of the prop's content (its length, its first character, its byte boundaries) and not only of the prop, so splicing JSX over the sentinels would not reproduce it",
+          "span": {
+            "file": "src/ontology.rs",
+            "line": 44
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "values_n2__values_item_language_none__values_item_datatype_some",
+          "alphabet": "differential",
+          "detail": "the sentinel for `values[0].datatype` (\\u{F0000}0002aZ0kQ9#mX/bY1nR8#pW/cV2jT7#hU/dS3gN6#fM/eL4iK5#oJ/fT6hP8#qW/gU7iO9#rX/\\u{F0001}) never reached the markup: in this cell the component does not render the prop at all, or renders something derived from it. Check 2 tells the two apart — if the alphabets agree, nothing derived is there and the emitter must simply not reference `values[0].datatype` in this cell",
+          "span": {
+            "file": "src/ontology.rs",
+            "line": 44
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "values_n2__values_item_language_none__values_item_datatype_some",
+          "alphabet": "differential",
+          "detail": "the sentinel for `values[1].datatype` (\\u{F0000}0004aZ0kQ9#mX/bY1nR8#pW/cV2jT7#hU/dS3gN6#fM/eL4iK5#oJ/fT6hP8#qW/gU7iO9#rX/\\u{F0001}) never reached the markup: in this cell the component does not render the prop at all, or renders something derived from it. Check 2 tells the two apart — if the alphabets agree, nothing derived is there and the emitter must simply not reference `values[1].datatype` in this cell",
+          "span": {
+            "file": "src/ontology.rs",
+            "line": 44
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "values_n3__values_item_language_none__values_item_datatype_some",
+          "alphabet": "differential",
+          "detail": "a bare \\u{F0001} delimiter at byte 359 is a fragment of a sentinel, not a sentinel: …class=\"badge badge--default\">rX/\\u{F0001}</span></div><div class=\"ann…",
+          "span": {
+            "file": "src/molecules/annotation.rs",
+            "line": 44
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "values_n3__values_item_language_none__values_item_datatype_some",
+          "alphabet": "differential",
+          "detail": "a bare \\u{F0001} delimiter at byte 563 is a fragment of a sentinel, not a sentinel: …class=\"badge badge--default\">rX/\\u{F0001}</span></div><div class=\"ann…",
+          "span": {
+            "file": "src/molecules/annotation.rs",
+            "line": 44
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "values_n3__values_item_language_none__values_item_datatype_some",
+          "alphabet": "differential",
+          "detail": "a bare \\u{F0001} delimiter at byte 767 is a fragment of a sentinel, not a sentinel: …class=\"badge badge--default\">rX/\\u{F0001}</span></div></dd></div>",
+          "span": {
+            "file": "src/molecules/annotation.rs",
+            "line": 44
+          }
+        },
+        {
+          "check": "differential-alphabet",
+          "cell": "values_n3__values_item_language_none__values_item_datatype_some",
+          "alphabet": null,
+          "detail": "the two sentinel alphabets produced different markup once normalised; they differ from byte 198: …an class=\"badge badge--default\">\\u{2}2\\u{3}</span></div><div class=\"anno… vs …an class=\"badge badge--default\">rX/\\u{F0001}</span></div><div class=\"…. The markup is a function of the prop's content (its length, its first character, its byte boundaries) and not only of the prop, so splicing JSX over the sentinels would not reproduce it",
+          "span": {
+            "file": "src/ontology.rs",
+            "line": 44
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "values_n3__values_item_language_none__values_item_datatype_some",
+          "alphabet": "differential",
+          "detail": "the sentinel for `values[0].datatype` (\\u{F0000}0002aZ0kQ9#mX/bY1nR8#pW/cV2jT7#hU/dS3gN6#fM/eL4iK5#oJ/fT6hP8#qW/gU7iO9#rX/\\u{F0001}) never reached the markup: in this cell the component does not render the prop at all, or renders something derived from it. Check 2 tells the two apart — if the alphabets agree, nothing derived is there and the emitter must simply not reference `values[0].datatype` in this cell",
+          "span": {
+            "file": "src/ontology.rs",
+            "line": 44
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "values_n3__values_item_language_none__values_item_datatype_some",
+          "alphabet": "differential",
+          "detail": "the sentinel for `values[1].datatype` (\\u{F0000}0004aZ0kQ9#mX/bY1nR8#pW/cV2jT7#hU/dS3gN6#fM/eL4iK5#oJ/fT6hP8#qW/gU7iO9#rX/\\u{F0001}) never reached the markup: in this cell the component does not render the prop at all, or renders something derived from it. Check 2 tells the two apart — if the alphabets agree, nothing derived is there and the emitter must simply not reference `values[1].datatype` in this cell",
+          "span": {
+            "file": "src/ontology.rs",
+            "line": 44
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "values_n3__values_item_language_none__values_item_datatype_some",
+          "alphabet": "differential",
+          "detail": "the sentinel for `values[2].datatype` (\\u{F0000}0006aZ0kQ9#mX/bY1nR8#pW/cV2jT7#hU/dS3gN6#fM/eL4iK5#oJ/fT6hP8#qW/gU7iO9#rX/\\u{F0001}) never reached the markup: in this cell the component does not render the prop at all, or renders something derived from it. Check 2 tells the two apart — if the alphabets agree, nothing derived is there and the emitter must simply not reference `values[2].datatype` in this cell",
+          "span": {
+            "file": "src/ontology.rs",
+            "line": 44
+          }
+        }
+      ]
+    },
+    {
+      "component": "DatasetCard",
+      "span": {
+        "file": "src/molecules/dataset_card.rs",
+        "line": 42
+      },
+      "cells": 49,
+      "verdict": "quarantine",
+      "reason": "does not pass its props through to the markup unmodified",
+      "evidence": [
+        {
+          "check": "sentinel-integrity",
+          "cell": "base",
+          "alphabet": "primary",
+          "detail": "a bare \\u{E000} delimiter at byte 152 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{E000}</span></div><div class=\"data…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "base",
+          "alphabet": "differential",
+          "detail": "a bare \\u{F0000} delimiter at byte 227 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{F0000}</span></div><div class=\"dat…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "differential-alphabet",
+          "cell": "base",
+          "alphabet": null,
+          "detail": "the two sentinel alphabets produced different markup once normalised; they differ from byte 148: …umb dataset-card__thumb--empty\">\\u{E000}</span></div><div class=\"data… vs …umb dataset-card__thumb--empty\">\\u{F0000}</span></div><div class=\"dat…. The markup is a function of the prop's content (its length, its first character, its byte boundaries) and not only of the prop, so splicing JSX over the sentinels would not reproduce it",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 17
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "description_some",
+          "alphabet": "primary",
+          "detail": "a bare \\u{E000} delimiter at byte 152 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{E000}</span></div><div class=\"data…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "description_some",
+          "alphabet": "differential",
+          "detail": "a bare \\u{F0000} delimiter at byte 227 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{F0000}</span></div><div class=\"dat…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "differential-alphabet",
+          "cell": "description_some",
+          "alphabet": null,
+          "detail": "the two sentinel alphabets produced different markup once normalised; they differ from byte 148: …umb dataset-card__thumb--empty\">\\u{E000}</span></div><div class=\"data… vs …umb dataset-card__thumb--empty\">\\u{F0000}</span></div><div class=\"dat…. The markup is a function of the prop's content (its length, its first character, its byte boundaries) and not only of the prop, so splicing JSX over the sentinels would not reproduce it",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 17
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "version_some",
+          "alphabet": "primary",
+          "detail": "a bare \\u{E000} delimiter at byte 152 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{E000}</span></div><div class=\"data…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "version_some",
+          "alphabet": "differential",
+          "detail": "a bare \\u{F0000} delimiter at byte 227 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{F0000}</span></div><div class=\"dat…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "differential-alphabet",
+          "cell": "version_some",
+          "alphabet": null,
+          "detail": "the two sentinel alphabets produced different markup once normalised; they differ from byte 148: …umb dataset-card__thumb--empty\">\\u{E000}</span></div><div class=\"data… vs …umb dataset-card__thumb--empty\">\\u{F0000}</span></div><div class=\"dat…. The markup is a function of the prop's content (its length, its first character, its byte boundaries) and not only of the prop, so splicing JSX over the sentinels would not reproduce it",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 17
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "description_some__version_some",
+          "alphabet": "primary",
+          "detail": "a bare \\u{E000} delimiter at byte 152 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{E000}</span></div><div class=\"data…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "description_some__version_some",
+          "alphabet": "differential",
+          "detail": "a bare \\u{F0000} delimiter at byte 227 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{F0000}</span></div><div class=\"dat…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "differential-alphabet",
+          "cell": "description_some__version_some",
+          "alphabet": null,
+          "detail": "the two sentinel alphabets produced different markup once normalised; they differ from byte 148: …umb dataset-card__thumb--empty\">\\u{E000}</span></div><div class=\"data… vs …umb dataset-card__thumb--empty\">\\u{F0000}</span></div><div class=\"dat…. The markup is a function of the prop's content (its length, its first character, its byte boundaries) and not only of the prop, so splicing JSX over the sentinels would not reproduce it",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 17
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "publisher_some",
+          "alphabet": "primary",
+          "detail": "a bare \\u{E000} delimiter at byte 152 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{E000}</span></div><div class=\"data…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "publisher_some",
+          "alphabet": "differential",
+          "detail": "a bare \\u{F0000} delimiter at byte 227 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{F0000}</span></div><div class=\"dat…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "differential-alphabet",
+          "cell": "publisher_some",
+          "alphabet": null,
+          "detail": "the two sentinel alphabets produced different markup once normalised; they differ from byte 148: …umb dataset-card__thumb--empty\">\\u{E000}</span></div><div class=\"data… vs …umb dataset-card__thumb--empty\">\\u{F0000}</span></div><div class=\"dat…. The markup is a function of the prop's content (its length, its first character, its byte boundaries) and not only of the prop, so splicing JSX over the sentinels would not reproduce it",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 17
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "description_some__publisher_some",
+          "alphabet": "primary",
+          "detail": "a bare \\u{E000} delimiter at byte 152 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{E000}</span></div><div class=\"data…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "description_some__publisher_some",
+          "alphabet": "differential",
+          "detail": "a bare \\u{F0000} delimiter at byte 227 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{F0000}</span></div><div class=\"dat…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "differential-alphabet",
+          "cell": "description_some__publisher_some",
+          "alphabet": null,
+          "detail": "the two sentinel alphabets produced different markup once normalised; they differ from byte 148: …umb dataset-card__thumb--empty\">\\u{E000}</span></div><div class=\"data… vs …umb dataset-card__thumb--empty\">\\u{F0000}</span></div><div class=\"dat…. The markup is a function of the prop's content (its length, its first character, its byte boundaries) and not only of the prop, so splicing JSX over the sentinels would not reproduce it",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 17
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "version_some__publisher_some",
+          "alphabet": "primary",
+          "detail": "a bare \\u{E000} delimiter at byte 152 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{E000}</span></div><div class=\"data…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "version_some__publisher_some",
+          "alphabet": "differential",
+          "detail": "a bare \\u{F0000} delimiter at byte 227 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{F0000}</span></div><div class=\"dat…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "differential-alphabet",
+          "cell": "version_some__publisher_some",
+          "alphabet": null,
+          "detail": "the two sentinel alphabets produced different markup once normalised; they differ from byte 148: …umb dataset-card__thumb--empty\">\\u{E000}</span></div><div class=\"data… vs …umb dataset-card__thumb--empty\">\\u{F0000}</span></div><div class=\"dat…. The markup is a function of the prop's content (its length, its first character, its byte boundaries) and not only of the prop, so splicing JSX over the sentinels would not reproduce it",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 17
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "description_some__version_some__publisher_some",
+          "alphabet": "primary",
+          "detail": "a bare \\u{E000} delimiter at byte 152 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{E000}</span></div><div class=\"data…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "description_some__version_some__publisher_some",
+          "alphabet": "differential",
+          "detail": "a bare \\u{F0000} delimiter at byte 227 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{F0000}</span></div><div class=\"dat…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "differential-alphabet",
+          "cell": "description_some__version_some__publisher_some",
+          "alphabet": null,
+          "detail": "the two sentinel alphabets produced different markup once normalised; they differ from byte 148: …umb dataset-card__thumb--empty\">\\u{E000}</span></div><div class=\"data… vs …umb dataset-card__thumb--empty\">\\u{F0000}</span></div><div class=\"dat…. The markup is a function of the prop's content (its length, its first character, its byte boundaries) and not only of the prop, so splicing JSX over the sentinels would not reproduce it",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 17
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "badge_some",
+          "alphabet": "primary",
+          "detail": "a bare \\u{E000} delimiter at byte 152 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{E000}</span><span class=\"dataset-c…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "badge_some",
+          "alphabet": "differential",
+          "detail": "a bare \\u{F0000} delimiter at byte 227 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{F0000}</span><span class=\"dataset-…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "differential-alphabet",
+          "cell": "badge_some",
+          "alphabet": null,
+          "detail": "the two sentinel alphabets produced different markup once normalised; they differ from byte 148: …umb dataset-card__thumb--empty\">\\u{E000}</span><span class=\"dataset-c… vs …umb dataset-card__thumb--empty\">\\u{F0000}</span><span class=\"dataset-…. The markup is a function of the prop's content (its length, its first character, its byte boundaries) and not only of the prop, so splicing JSX over the sentinels would not reproduce it",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 33
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "description_some__badge_some",
+          "alphabet": "primary",
+          "detail": "a bare \\u{E000} delimiter at byte 152 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{E000}</span><span class=\"dataset-c…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "description_some__badge_some",
+          "alphabet": "differential",
+          "detail": "a bare \\u{F0000} delimiter at byte 227 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{F0000}</span><span class=\"dataset-…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "differential-alphabet",
+          "cell": "description_some__badge_some",
+          "alphabet": null,
+          "detail": "the two sentinel alphabets produced different markup once normalised; they differ from byte 148: …umb dataset-card__thumb--empty\">\\u{E000}</span><span class=\"dataset-c… vs …umb dataset-card__thumb--empty\">\\u{F0000}</span><span class=\"dataset-…. The markup is a function of the prop's content (its length, its first character, its byte boundaries) and not only of the prop, so splicing JSX over the sentinels would not reproduce it",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 33
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "version_some__badge_some",
+          "alphabet": "primary",
+          "detail": "a bare \\u{E000} delimiter at byte 152 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{E000}</span><span class=\"dataset-c…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "version_some__badge_some",
+          "alphabet": "differential",
+          "detail": "a bare \\u{F0000} delimiter at byte 227 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{F0000}</span><span class=\"dataset-…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "differential-alphabet",
+          "cell": "version_some__badge_some",
+          "alphabet": null,
+          "detail": "the two sentinel alphabets produced different markup once normalised; they differ from byte 148: …umb dataset-card__thumb--empty\">\\u{E000}</span><span class=\"dataset-c… vs …umb dataset-card__thumb--empty\">\\u{F0000}</span><span class=\"dataset-…. The markup is a function of the prop's content (its length, its first character, its byte boundaries) and not only of the prop, so splicing JSX over the sentinels would not reproduce it",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 33
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "description_some__version_some__badge_some",
+          "alphabet": "primary",
+          "detail": "a bare \\u{E000} delimiter at byte 152 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{E000}</span><span class=\"dataset-c…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "description_some__version_some__badge_some",
+          "alphabet": "differential",
+          "detail": "a bare \\u{F0000} delimiter at byte 227 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{F0000}</span><span class=\"dataset-…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "differential-alphabet",
+          "cell": "description_some__version_some__badge_some",
+          "alphabet": null,
+          "detail": "the two sentinel alphabets produced different markup once normalised; they differ from byte 148: …umb dataset-card__thumb--empty\">\\u{E000}</span><span class=\"dataset-c… vs …umb dataset-card__thumb--empty\">\\u{F0000}</span><span class=\"dataset-…. The markup is a function of the prop's content (its length, its first character, its byte boundaries) and not only of the prop, so splicing JSX over the sentinels would not reproduce it",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 33
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "publisher_some__badge_some",
+          "alphabet": "primary",
+          "detail": "a bare \\u{E000} delimiter at byte 152 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{E000}</span><span class=\"dataset-c…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "publisher_some__badge_some",
+          "alphabet": "differential",
+          "detail": "a bare \\u{F0000} delimiter at byte 227 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{F0000}</span><span class=\"dataset-…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "differential-alphabet",
+          "cell": "publisher_some__badge_some",
+          "alphabet": null,
+          "detail": "the two sentinel alphabets produced different markup once normalised; they differ from byte 148: …umb dataset-card__thumb--empty\">\\u{E000}</span><span class=\"dataset-c… vs …umb dataset-card__thumb--empty\">\\u{F0000}</span><span class=\"dataset-…. The markup is a function of the prop's content (its length, its first character, its byte boundaries) and not only of the prop, so splicing JSX over the sentinels would not reproduce it",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 33
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "description_some__publisher_some__badge_some",
+          "alphabet": "primary",
+          "detail": "a bare \\u{E000} delimiter at byte 152 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{E000}</span><span class=\"dataset-c…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "description_some__publisher_some__badge_some",
+          "alphabet": "differential",
+          "detail": "a bare \\u{F0000} delimiter at byte 227 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{F0000}</span><span class=\"dataset-…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "differential-alphabet",
+          "cell": "description_some__publisher_some__badge_some",
+          "alphabet": null,
+          "detail": "the two sentinel alphabets produced different markup once normalised; they differ from byte 148: …umb dataset-card__thumb--empty\">\\u{E000}</span><span class=\"dataset-c… vs …umb dataset-card__thumb--empty\">\\u{F0000}</span><span class=\"dataset-…. The markup is a function of the prop's content (its length, its first character, its byte boundaries) and not only of the prop, so splicing JSX over the sentinels would not reproduce it",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 33
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "version_some__publisher_some__badge_some",
+          "alphabet": "primary",
+          "detail": "a bare \\u{E000} delimiter at byte 152 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{E000}</span><span class=\"dataset-c…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "version_some__publisher_some__badge_some",
+          "alphabet": "differential",
+          "detail": "a bare \\u{F0000} delimiter at byte 227 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{F0000}</span><span class=\"dataset-…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "differential-alphabet",
+          "cell": "version_some__publisher_some__badge_some",
+          "alphabet": null,
+          "detail": "the two sentinel alphabets produced different markup once normalised; they differ from byte 148: …umb dataset-card__thumb--empty\">\\u{E000}</span><span class=\"dataset-c… vs …umb dataset-card__thumb--empty\">\\u{F0000}</span><span class=\"dataset-…. The markup is a function of the prop's content (its length, its first character, its byte boundaries) and not only of the prop, so splicing JSX over the sentinels would not reproduce it",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 33
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "description_some__version_some__publisher_some__badge_some",
+          "alphabet": "primary",
+          "detail": "a bare \\u{E000} delimiter at byte 152 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{E000}</span><span class=\"dataset-c…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "description_some__version_some__publisher_some__badge_some",
+          "alphabet": "differential",
+          "detail": "a bare \\u{F0000} delimiter at byte 227 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{F0000}</span><span class=\"dataset-…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "differential-alphabet",
+          "cell": "description_some__version_some__publisher_some__badge_some",
+          "alphabet": null,
+          "detail": "the two sentinel alphabets produced different markup once normalised; they differ from byte 148: …umb dataset-card__thumb--empty\">\\u{E000}</span><span class=\"dataset-c… vs …umb dataset-card__thumb--empty\">\\u{F0000}</span><span class=\"dataset-…. The markup is a function of the prop's content (its length, its first character, its byte boundaries) and not only of the prop, so splicing JSX over the sentinels would not reproduce it",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 33
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "badge_some__badge_class_some",
+          "alphabet": "primary",
+          "detail": "a bare \\u{E000} delimiter at byte 152 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{E000}</span><span class=\"dataset-c…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "badge_some__badge_class_some",
+          "alphabet": "differential",
+          "detail": "a bare \\u{F0000} delimiter at byte 227 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{F0000}</span><span class=\"dataset-…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "differential-alphabet",
+          "cell": "badge_some__badge_class_some",
+          "alphabet": null,
+          "detail": "the two sentinel alphabets produced different markup once normalised; they differ from byte 148: …umb dataset-card__thumb--empty\">\\u{E000}</span><span class=\"dataset-c… vs …umb dataset-card__thumb--empty\">\\u{F0000}</span><span class=\"dataset-…. The markup is a function of the prop's content (its length, its first character, its byte boundaries) and not only of the prop, so splicing JSX over the sentinels would not reproduce it",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 36
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "description_some__badge_some__badge_class_some",
+          "alphabet": "primary",
+          "detail": "a bare \\u{E000} delimiter at byte 152 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{E000}</span><span class=\"dataset-c…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "description_some__badge_some__badge_class_some",
+          "alphabet": "differential",
+          "detail": "a bare \\u{F0000} delimiter at byte 227 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{F0000}</span><span class=\"dataset-…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "differential-alphabet",
+          "cell": "description_some__badge_some__badge_class_some",
+          "alphabet": null,
+          "detail": "the two sentinel alphabets produced different markup once normalised; they differ from byte 148: …umb dataset-card__thumb--empty\">\\u{E000}</span><span class=\"dataset-c… vs …umb dataset-card__thumb--empty\">\\u{F0000}</span><span class=\"dataset-…. The markup is a function of the prop's content (its length, its first character, its byte boundaries) and not only of the prop, so splicing JSX over the sentinels would not reproduce it",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 36
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "version_some__badge_some__badge_class_some",
+          "alphabet": "primary",
+          "detail": "a bare \\u{E000} delimiter at byte 152 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{E000}</span><span class=\"dataset-c…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "version_some__badge_some__badge_class_some",
+          "alphabet": "differential",
+          "detail": "a bare \\u{F0000} delimiter at byte 227 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{F0000}</span><span class=\"dataset-…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "differential-alphabet",
+          "cell": "version_some__badge_some__badge_class_some",
+          "alphabet": null,
+          "detail": "the two sentinel alphabets produced different markup once normalised; they differ from byte 148: …umb dataset-card__thumb--empty\">\\u{E000}</span><span class=\"dataset-c… vs …umb dataset-card__thumb--empty\">\\u{F0000}</span><span class=\"dataset-…. The markup is a function of the prop's content (its length, its first character, its byte boundaries) and not only of the prop, so splicing JSX over the sentinels would not reproduce it",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 36
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "description_some__version_some__badge_some__badge_class_some",
+          "alphabet": "primary",
+          "detail": "a bare \\u{E000} delimiter at byte 152 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{E000}</span><span class=\"dataset-c…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "description_some__version_some__badge_some__badge_class_some",
+          "alphabet": "differential",
+          "detail": "a bare \\u{F0000} delimiter at byte 227 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{F0000}</span><span class=\"dataset-…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "differential-alphabet",
+          "cell": "description_some__version_some__badge_some__badge_class_some",
+          "alphabet": null,
+          "detail": "the two sentinel alphabets produced different markup once normalised; they differ from byte 148: …umb dataset-card__thumb--empty\">\\u{E000}</span><span class=\"dataset-c… vs …umb dataset-card__thumb--empty\">\\u{F0000}</span><span class=\"dataset-…. The markup is a function of the prop's content (its length, its first character, its byte boundaries) and not only of the prop, so splicing JSX over the sentinels would not reproduce it",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 36
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "publisher_some__badge_some__badge_class_some",
+          "alphabet": "primary",
+          "detail": "a bare \\u{E000} delimiter at byte 152 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{E000}</span><span class=\"dataset-c…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "publisher_some__badge_some__badge_class_some",
+          "alphabet": "differential",
+          "detail": "a bare \\u{F0000} delimiter at byte 227 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{F0000}</span><span class=\"dataset-…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "differential-alphabet",
+          "cell": "publisher_some__badge_some__badge_class_some",
+          "alphabet": null,
+          "detail": "the two sentinel alphabets produced different markup once normalised; they differ from byte 148: …umb dataset-card__thumb--empty\">\\u{E000}</span><span class=\"dataset-c… vs …umb dataset-card__thumb--empty\">\\u{F0000}</span><span class=\"dataset-…. The markup is a function of the prop's content (its length, its first character, its byte boundaries) and not only of the prop, so splicing JSX over the sentinels would not reproduce it",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 36
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "description_some__publisher_some__badge_some__badge_class_some",
+          "alphabet": "primary",
+          "detail": "a bare \\u{E000} delimiter at byte 152 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{E000}</span><span class=\"dataset-c…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "description_some__publisher_some__badge_some__badge_class_some",
+          "alphabet": "differential",
+          "detail": "a bare \\u{F0000} delimiter at byte 227 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{F0000}</span><span class=\"dataset-…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "differential-alphabet",
+          "cell": "description_some__publisher_some__badge_some__badge_class_some",
+          "alphabet": null,
+          "detail": "the two sentinel alphabets produced different markup once normalised; they differ from byte 148: …umb dataset-card__thumb--empty\">\\u{E000}</span><span class=\"dataset-c… vs …umb dataset-card__thumb--empty\">\\u{F0000}</span><span class=\"dataset-…. The markup is a function of the prop's content (its length, its first character, its byte boundaries) and not only of the prop, so splicing JSX over the sentinels would not reproduce it",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 36
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "version_some__publisher_some__badge_some__badge_class_some",
+          "alphabet": "primary",
+          "detail": "a bare \\u{E000} delimiter at byte 152 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{E000}</span><span class=\"dataset-c…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "version_some__publisher_some__badge_some__badge_class_some",
+          "alphabet": "differential",
+          "detail": "a bare \\u{F0000} delimiter at byte 227 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{F0000}</span><span class=\"dataset-…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "differential-alphabet",
+          "cell": "version_some__publisher_some__badge_some__badge_class_some",
+          "alphabet": null,
+          "detail": "the two sentinel alphabets produced different markup once normalised; they differ from byte 148: …umb dataset-card__thumb--empty\">\\u{E000}</span><span class=\"dataset-c… vs …umb dataset-card__thumb--empty\">\\u{F0000}</span><span class=\"dataset-…. The markup is a function of the prop's content (its length, its first character, its byte boundaries) and not only of the prop, so splicing JSX over the sentinels would not reproduce it",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 36
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "description_some__version_some__publisher_some__badge_some__badge_class_some",
+          "alphabet": "primary",
+          "detail": "a bare \\u{E000} delimiter at byte 152 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{E000}</span><span class=\"dataset-c…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "description_some__version_some__publisher_some__badge_some__badge_class_some",
+          "alphabet": "differential",
+          "detail": "a bare \\u{F0000} delimiter at byte 227 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{F0000}</span><span class=\"dataset-…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "differential-alphabet",
+          "cell": "description_some__version_some__publisher_some__badge_some__badge_class_some",
+          "alphabet": null,
+          "detail": "the two sentinel alphabets produced different markup once normalised; they differ from byte 148: …umb dataset-card__thumb--empty\">\\u{E000}</span><span class=\"dataset-c… vs …umb dataset-card__thumb--empty\">\\u{F0000}</span><span class=\"dataset-…. The markup is a function of the prop's content (its length, its first character, its byte boundaries) and not only of the prop, so splicing JSX over the sentinels would not reproduce it",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 36
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "badge_class_some",
+          "alphabet": "primary",
+          "detail": "a bare \\u{E000} delimiter at byte 152 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{E000}</span></div><div class=\"data…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "badge_class_some",
+          "alphabet": "differential",
+          "detail": "a bare \\u{F0000} delimiter at byte 227 is a fragment of a sentinel, not a sentinel: …umb dataset-card__thumb--empty\">\\u{F0000}</span></div><div class=\"dat…",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 42
+          }
+        },
+        {
+          "check": "differential-alphabet",
+          "cell": "badge_class_some",
+          "alphabet": null,
+          "detail": "the two sentinel alphabets produced different markup once normalised; they differ from byte 148: …umb dataset-card__thumb--empty\">\\u{E000}</span></div><div class=\"data… vs …umb dataset-card__thumb--empty\">\\u{F0000}</span></div><div class=\"dat…. The markup is a function of the prop's content (its length, its first character, its byte boundaries) and not only of the prop, so splicing JSX over the sentinels would not reproduce it",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 17
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "badge_class_some",
+          "alphabet": "primary",
+          "detail": "the sentinel for `badge_class` (\\u{E000}2\\u{E001}) never reached the markup: in this cell the component does not render the prop at all, or renders something derived from it. Check 2 tells the two apart — if the alphabets agree, nothing derived is there and the emitter must simply not reference `badge_class` in this cell",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 36
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "badge_class_some",
+          "alphabet": "differential",
+          "detail": "the sentinel for `badge_class` (\\u{F0000}0002aZ0kQ9#mX/bY1nR8#pW/cV2jT7#hU/dS3gN6#fM/eL4iK5#oJ/fT6hP8#qW/gU7iO9#rX/\\u{F0001}) never reached the markup: in this cell the component does not render the prop at all, or renders something derived from it. Check 2 tells the two apart — if the alphabets agree, nothing derived is there and the emitter must simply not reference `badge_class` in this cell",
+          "span": {
+            "file": "src/molecules/dataset_card.rs",
+            "line": 36
+          }
+        }
+      ]
+    },
+    {
+      "component": "PaletteGroup",
+      "span": {
+        "file": "src/molecules/palette_group.rs",
+        "line": 37
+      },
+      "cells": 26,
+      "verdict": "quarantine",
+      "reason": "panics while rendering a sentinel",
+      "evidence": [
+        {
+          "check": "panic",
+          "cell": "colors_n1__colors_item_variants_n0",
+          "alphabet": "primary",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{e000}' (bytes 0..3 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n1__colors_item_variants_n0",
+          "alphabet": "differential",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{f0000}' (bytes 0..4 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n1__colors_item_variants_n1",
+          "alphabet": "primary",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{e000}' (bytes 0..3 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n1__colors_item_variants_n1",
+          "alphabet": "differential",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{f0000}' (bytes 0..4 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n1__colors_item_variants_n2",
+          "alphabet": "primary",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{e000}' (bytes 0..3 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n1__colors_item_variants_n2",
+          "alphabet": "differential",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{f0000}' (bytes 0..4 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n1__colors_item_variants_n3",
+          "alphabet": "primary",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{e000}' (bytes 0..3 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n1__colors_item_variants_n3",
+          "alphabet": "differential",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{f0000}' (bytes 0..4 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n2__colors_item_variants_n0",
+          "alphabet": "primary",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{e000}' (bytes 0..3 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n2__colors_item_variants_n0",
+          "alphabet": "differential",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{f0000}' (bytes 0..4 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n2__colors_item_variants_n1",
+          "alphabet": "primary",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{e000}' (bytes 0..3 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n2__colors_item_variants_n1",
+          "alphabet": "differential",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{f0000}' (bytes 0..4 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n2__colors_item_variants_n2",
+          "alphabet": "primary",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{e000}' (bytes 0..3 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n2__colors_item_variants_n2",
+          "alphabet": "differential",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{f0000}' (bytes 0..4 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n2__colors_item_variants_n3",
+          "alphabet": "primary",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{e000}' (bytes 0..3 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n2__colors_item_variants_n3",
+          "alphabet": "differential",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{f0000}' (bytes 0..4 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n3__colors_item_variants_n0",
+          "alphabet": "primary",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{e000}' (bytes 0..3 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n3__colors_item_variants_n0",
+          "alphabet": "differential",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{f0000}' (bytes 0..4 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n3__colors_item_variants_n1",
+          "alphabet": "primary",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{e000}' (bytes 0..3 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n3__colors_item_variants_n1",
+          "alphabet": "differential",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{f0000}' (bytes 0..4 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n3__colors_item_variants_n2",
+          "alphabet": "primary",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{e000}' (bytes 0..3 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n3__colors_item_variants_n2",
+          "alphabet": "differential",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{f0000}' (bytes 0..4 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n3__colors_item_variants_n3",
+          "alphabet": "primary",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{e000}' (bytes 0..3 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n3__colors_item_variants_n3",
+          "alphabet": "differential",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{f0000}' (bytes 0..4 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n1__colors_item_variants_n0__note_some",
+          "alphabet": "primary",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{e000}' (bytes 0..3 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n1__colors_item_variants_n0__note_some",
+          "alphabet": "differential",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{f0000}' (bytes 0..4 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n1__colors_item_variants_n1__note_some",
+          "alphabet": "primary",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{e000}' (bytes 0..3 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n1__colors_item_variants_n1__note_some",
+          "alphabet": "differential",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{f0000}' (bytes 0..4 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n1__colors_item_variants_n2__note_some",
+          "alphabet": "primary",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{e000}' (bytes 0..3 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n1__colors_item_variants_n2__note_some",
+          "alphabet": "differential",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{f0000}' (bytes 0..4 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n1__colors_item_variants_n3__note_some",
+          "alphabet": "primary",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{e000}' (bytes 0..3 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n1__colors_item_variants_n3__note_some",
+          "alphabet": "differential",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{f0000}' (bytes 0..4 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n2__colors_item_variants_n0__note_some",
+          "alphabet": "primary",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{e000}' (bytes 0..3 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n2__colors_item_variants_n0__note_some",
+          "alphabet": "differential",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{f0000}' (bytes 0..4 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n2__colors_item_variants_n1__note_some",
+          "alphabet": "primary",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{e000}' (bytes 0..3 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n2__colors_item_variants_n1__note_some",
+          "alphabet": "differential",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{f0000}' (bytes 0..4 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n2__colors_item_variants_n2__note_some",
+          "alphabet": "primary",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{e000}' (bytes 0..3 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n2__colors_item_variants_n2__note_some",
+          "alphabet": "differential",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{f0000}' (bytes 0..4 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n2__colors_item_variants_n3__note_some",
+          "alphabet": "primary",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{e000}' (bytes 0..3 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n2__colors_item_variants_n3__note_some",
+          "alphabet": "differential",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{f0000}' (bytes 0..4 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n3__colors_item_variants_n0__note_some",
+          "alphabet": "primary",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{e000}' (bytes 0..3 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n3__colors_item_variants_n0__note_some",
+          "alphabet": "differential",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{f0000}' (bytes 0..4 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n3__colors_item_variants_n1__note_some",
+          "alphabet": "primary",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{e000}' (bytes 0..3 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n3__colors_item_variants_n1__note_some",
+          "alphabet": "differential",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{f0000}' (bytes 0..4 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n3__colors_item_variants_n2__note_some",
+          "alphabet": "primary",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{e000}' (bytes 0..3 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n3__colors_item_variants_n2__note_some",
+          "alphabet": "differential",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{f0000}' (bytes 0..4 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n3__colors_item_variants_n3__note_some",
+          "alphabet": "primary",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{e000}' (bytes 0..3 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "colors_n3__colors_item_variants_n3__note_some",
+          "alphabet": "differential",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{f0000}' (bytes 0..4 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/palette_group.rs",
+            "line": 37
+          }
+        }
+      ]
+    },
+    {
+      "component": "Swatch",
+      "span": {
+        "file": "src/molecules/swatch.rs",
+        "line": 31
+      },
+      "cells": 4,
+      "verdict": "quarantine",
+      "reason": "panics while rendering a sentinel",
+      "evidence": [
+        {
+          "check": "panic",
+          "cell": "base",
+          "alphabet": "primary",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{e000}' (bytes 0..3 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/swatch.rs",
+            "line": 31
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "base",
+          "alphabet": "differential",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{f0000}' (bytes 0..4 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/swatch.rs",
+            "line": 31
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "variants_n1",
+          "alphabet": "primary",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{e000}' (bytes 0..3 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/swatch.rs",
+            "line": 31
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "variants_n1",
+          "alphabet": "differential",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{f0000}' (bytes 0..4 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/swatch.rs",
+            "line": 31
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "variants_n2",
+          "alphabet": "primary",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{e000}' (bytes 0..3 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/swatch.rs",
+            "line": 31
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "variants_n2",
+          "alphabet": "differential",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{f0000}' (bytes 0..4 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/swatch.rs",
+            "line": 31
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "variants_n3",
+          "alphabet": "primary",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{e000}' (bytes 0..3 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/swatch.rs",
+            "line": 31
+          }
+        },
+        {
+          "check": "panic",
+          "cell": "variants_n3",
+          "alphabet": "differential",
+          "detail": "rendering panicked: end byte index 2 is not a char boundary; it is inside '\\u{f0000}' (bytes 0..4 of string); the component reads the prop's bytes or characters, and no sentinel is a valid input to that",
+          "span": {
+            "file": "src/molecules/swatch.rs",
+            "line": 31
+          }
+        }
+      ]
+    }
+  ],
+  "noted": [
+    {
+      "component": "CodeBlock",
+      "span": {
+        "file": "src/atoms/code_block.rs",
+        "line": 27
+      },
+      "cells": 2,
+      "notes": [
+        {
+          "check": "sentinel-integrity",
+          "cell": "base",
+          "alphabet": "primary",
+          "detail": "the sentinel for `language` (\\u{E000}1\\u{E001}) appears 2 times, each one whole, so the component renders the prop verbatim in 2 places and `splice` must write the JSX expression into all 2",
+          "span": {
+            "file": "src/atoms/code_block.rs",
+            "line": 19
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "base",
+          "alphabet": "differential",
+          "detail": "the sentinel for `language` (\\u{F0000}0001aZ0kQ9#mX/bY1nR8#pW/cV2jT7#hU/dS3gN6#fM/eL4iK5#oJ/fT6hP8#qW/gU7iO9#rX/\\u{F0001}) appears 2 times, each one whole, so the component renders the prop verbatim in 2 places and `splice` must write the JSX expression into all 2",
+          "span": {
+            "file": "src/atoms/code_block.rs",
+            "line": 19
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "copyable_true",
+          "alphabet": "primary",
+          "detail": "the sentinel for `language` (\\u{E000}1\\u{E001}) appears 2 times, each one whole, so the component renders the prop verbatim in 2 places and `splice` must write the JSX expression into all 2",
+          "span": {
+            "file": "src/atoms/code_block.rs",
+            "line": 19
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "copyable_true",
+          "alphabet": "differential",
+          "detail": "the sentinel for `language` (\\u{F0000}0001aZ0kQ9#mX/bY1nR8#pW/cV2jT7#hU/dS3gN6#fM/eL4iK5#oJ/fT6hP8#qW/gU7iO9#rX/\\u{F0001}) appears 2 times, each one whole, so the component renders the prop verbatim in 2 places and `splice` must write the JSX expression into all 2",
+          "span": {
+            "file": "src/atoms/code_block.rs",
+            "line": 19
+          }
+        }
+      ],
+      "verdict": "pass"
+    },
+    {
+      "component": "LogoDownloadCard",
+      "span": {
+        "file": "src/molecules/logo_download_card.rs",
+        "line": 22
+      },
+      "cells": 2,
+      "notes": [
+        {
+          "check": "sentinel-integrity",
+          "cell": "base",
+          "alphabet": "primary",
+          "detail": "the sentinel for `file` (\\u{E000}1\\u{E001}) appears 2 times, each one whole, so the component renders the prop verbatim in 2 places and `splice` must write the JSX expression into all 2",
+          "span": {
+            "file": "src/molecules/logo_download_card.rs",
+            "line": 12
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "base",
+          "alphabet": "differential",
+          "detail": "the sentinel for `file` (\\u{F0000}0001aZ0kQ9#mX/bY1nR8#pW/cV2jT7#hU/dS3gN6#fM/eL4iK5#oJ/fT6hP8#qW/gU7iO9#rX/\\u{F0001}) appears 2 times, each one whole, so the component renders the prop verbatim in 2 places and `splice` must write the JSX expression into all 2",
+          "span": {
+            "file": "src/molecules/logo_download_card.rs",
+            "line": 12
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "is_transparent_true",
+          "alphabet": "primary",
+          "detail": "the sentinel for `file` (\\u{E000}1\\u{E001}) appears 2 times, each one whole, so the component renders the prop verbatim in 2 places and `splice` must write the JSX expression into all 2",
+          "span": {
+            "file": "src/molecules/logo_download_card.rs",
+            "line": 12
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "is_transparent_true",
+          "alphabet": "differential",
+          "detail": "the sentinel for `file` (\\u{F0000}0001aZ0kQ9#mX/bY1nR8#pW/cV2jT7#hU/dS3gN6#fM/eL4iK5#oJ/fT6hP8#qW/gU7iO9#rX/\\u{F0001}) appears 2 times, each one whole, so the component renders the prop verbatim in 2 places and `splice` must write the JSX expression into all 2",
+          "span": {
+            "file": "src/molecules/logo_download_card.rs",
+            "line": 12
+          }
+        }
+      ],
+      "verdict": "pass"
+    },
+    {
+      "component": "Modal",
+      "span": {
+        "file": "src/molecules/modal.rs",
+        "line": 20
+      },
+      "cells": 1,
+      "notes": [
+        {
+          "check": "sentinel-integrity",
+          "cell": "base",
+          "alphabet": "primary",
+          "detail": "the sentinel for `id` (\\u{E000}0\\u{E001}) appears 2 times, each one whole, so the component renders the prop verbatim in 2 places and `splice` must write the JSX expression into all 2",
+          "span": {
+            "file": "src/molecules/modal.rs",
+            "line": 14
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "base",
+          "alphabet": "primary",
+          "detail": "the sentinel for `title` (\\u{E000}1\\u{E001}) appears 2 times, each one whole, so the component renders the prop verbatim in 2 places and `splice` must write the JSX expression into all 2",
+          "span": {
+            "file": "src/molecules/modal.rs",
+            "line": 15
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "base",
+          "alphabet": "differential",
+          "detail": "the sentinel for `id` (\\u{F0000}0000aZ0kQ9#mX/bY1nR8#pW/cV2jT7#hU/dS3gN6#fM/eL4iK5#oJ/fT6hP8#qW/gU7iO9#rX/\\u{F0001}) appears 2 times, each one whole, so the component renders the prop verbatim in 2 places and `splice` must write the JSX expression into all 2",
+          "span": {
+            "file": "src/molecules/modal.rs",
+            "line": 14
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "base",
+          "alphabet": "differential",
+          "detail": "the sentinel for `title` (\\u{F0000}0001aZ0kQ9#mX/bY1nR8#pW/cV2jT7#hU/dS3gN6#fM/eL4iK5#oJ/fT6hP8#qW/gU7iO9#rX/\\u{F0001}) appears 2 times, each one whole, so the component renders the prop verbatim in 2 places and `splice` must write the JSX expression into all 2",
+          "span": {
+            "file": "src/molecules/modal.rs",
+            "line": 15
+          }
+        }
+      ],
+      "verdict": "pass"
+    },
+    {
+      "component": "NavDropdown",
+      "span": {
+        "file": "src/molecules/nav_dropdown.rs",
+        "line": 22
+      },
+      "cells": 4,
+      "notes": [
+        {
+          "check": "sentinel-integrity",
+          "cell": "base",
+          "alphabet": "primary",
+          "detail": "the sentinel for `id` (\\u{E000}0\\u{E001}) appears 4 times, each one whole, so the component renders the prop verbatim in 4 places and `splice` must write the JSX expression into all 4",
+          "span": {
+            "file": "src/molecules/nav_dropdown.rs",
+            "line": 16
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "base",
+          "alphabet": "differential",
+          "detail": "the sentinel for `id` (\\u{F0000}0000aZ0kQ9#mX/bY1nR8#pW/cV2jT7#hU/dS3gN6#fM/eL4iK5#oJ/fT6hP8#qW/gU7iO9#rX/\\u{F0001}) appears 4 times, each one whole, so the component renders the prop verbatim in 4 places and `splice` must write the JSX expression into all 4",
+          "span": {
+            "file": "src/molecules/nav_dropdown.rs",
+            "line": 16
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "links_n1",
+          "alphabet": "primary",
+          "detail": "the sentinel for `id` (\\u{E000}0\\u{E001}) appears 4 times, each one whole, so the component renders the prop verbatim in 4 places and `splice` must write the JSX expression into all 4",
+          "span": {
+            "file": "src/molecules/nav_dropdown.rs",
+            "line": 16
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "links_n1",
+          "alphabet": "differential",
+          "detail": "the sentinel for `id` (\\u{F0000}0000aZ0kQ9#mX/bY1nR8#pW/cV2jT7#hU/dS3gN6#fM/eL4iK5#oJ/fT6hP8#qW/gU7iO9#rX/\\u{F0001}) appears 4 times, each one whole, so the component renders the prop verbatim in 4 places and `splice` must write the JSX expression into all 4",
+          "span": {
+            "file": "src/molecules/nav_dropdown.rs",
+            "line": 16
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "links_n2",
+          "alphabet": "primary",
+          "detail": "the sentinel for `id` (\\u{E000}0\\u{E001}) appears 4 times, each one whole, so the component renders the prop verbatim in 4 places and `splice` must write the JSX expression into all 4",
+          "span": {
+            "file": "src/molecules/nav_dropdown.rs",
+            "line": 16
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "links_n2",
+          "alphabet": "differential",
+          "detail": "the sentinel for `id` (\\u{F0000}0000aZ0kQ9#mX/bY1nR8#pW/cV2jT7#hU/dS3gN6#fM/eL4iK5#oJ/fT6hP8#qW/gU7iO9#rX/\\u{F0001}) appears 4 times, each one whole, so the component renders the prop verbatim in 4 places and `splice` must write the JSX expression into all 4",
+          "span": {
+            "file": "src/molecules/nav_dropdown.rs",
+            "line": 16
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "links_n3",
+          "alphabet": "primary",
+          "detail": "the sentinel for `id` (\\u{E000}0\\u{E001}) appears 4 times, each one whole, so the component renders the prop verbatim in 4 places and `splice` must write the JSX expression into all 4",
+          "span": {
+            "file": "src/molecules/nav_dropdown.rs",
+            "line": 16
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "links_n3",
+          "alphabet": "differential",
+          "detail": "the sentinel for `id` (\\u{F0000}0000aZ0kQ9#mX/bY1nR8#pW/cV2jT7#hU/dS3gN6#fM/eL4iK5#oJ/fT6hP8#qW/gU7iO9#rX/\\u{F0001}) appears 4 times, each one whole, so the component renders the prop verbatim in 4 places and `splice` must write the JSX expression into all 4",
+          "span": {
+            "file": "src/molecules/nav_dropdown.rs",
+            "line": 16
+          }
+        }
+      ],
+      "verdict": "pass"
+    },
+    {
+      "component": "TextField",
+      "span": {
+        "file": "src/molecules/text_field.rs",
+        "line": 22
+      },
+      "cells": 2,
+      "notes": [
+        {
+          "check": "sentinel-integrity",
+          "cell": "base",
+          "alphabet": "primary",
+          "detail": "the sentinel for `id` (\\u{E000}0\\u{E001}) appears 2 times, each one whole, so the component renders the prop verbatim in 2 places and `splice` must write the JSX expression into all 2",
+          "span": {
+            "file": "src/molecules/text_field.rs",
+            "line": 13
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "base",
+          "alphabet": "differential",
+          "detail": "the sentinel for `id` (\\u{F0000}0000aZ0kQ9#mX/bY1nR8#pW/cV2jT7#hU/dS3gN6#fM/eL4iK5#oJ/fT6hP8#qW/gU7iO9#rX/\\u{F0001}) appears 2 times, each one whole, so the component renders the prop verbatim in 2 places and `splice` must write the JSX expression into all 2",
+          "span": {
+            "file": "src/molecules/text_field.rs",
+            "line": 13
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "kind_textarea",
+          "alphabet": "primary",
+          "detail": "the sentinel for `id` (\\u{E000}0\\u{E001}) appears 2 times, each one whole, so the component renders the prop verbatim in 2 places and `splice` must write the JSX expression into all 2",
+          "span": {
+            "file": "src/molecules/text_field.rs",
+            "line": 13
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "kind_textarea",
+          "alphabet": "differential",
+          "detail": "the sentinel for `id` (\\u{F0000}0000aZ0kQ9#mX/bY1nR8#pW/cV2jT7#hU/dS3gN6#fM/eL4iK5#oJ/fT6hP8#qW/gU7iO9#rX/\\u{F0001}) appears 2 times, each one whole, so the component renders the prop verbatim in 2 places and `splice` must write the JSX expression into all 2",
+          "span": {
+            "file": "src/molecules/text_field.rs",
+            "line": 13
+          }
+        }
+      ],
+      "verdict": "pass"
+    }
+  ],
+  "unexpected": [],
+  "missing_expected": []
+}

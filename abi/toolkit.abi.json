@@ -1,0 +1,1651 @@
+{
+  "abiVersion": 1,
+  "srcHash": "70fb822dd0ac7ebfe18307470d8b158c7a148644c84e7114a57419f6e15088af",
+  "generatorHash": "cf2593f70141f9544f26fd50abc329c22996047326d3643245616bf7e3ac4155",
+  "components": [
+    {
+      "name": "AccordionItem",
+      "status": "ok",
+      "tier": "presentational",
+      "source": "src/molecules/accordion_item.rs:17",
+      "cells": 2,
+      "props": [
+        {
+          "name": "children",
+          "rust": "Children",
+          "ts": "ReactNode",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/accordion_item.rs:11"
+        },
+        {
+          "name": "open",
+          "rust": "bool",
+          "ts": "boolean",
+          "optional": false,
+          "default": "default-trait",
+          "source": "src/molecules/accordion_item.rs:13"
+        },
+        {
+          "name": "title",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/accordion_item.rs:10"
+        }
+      ]
+    },
+    {
+      "name": "BadgeNum",
+      "status": "ok",
+      "tier": "presentational",
+      "source": "src/atoms/badge_num.rs:11",
+      "cells": 1,
+      "props": [
+        {
+          "name": "number",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/atoms/badge_num.rs:7"
+        }
+      ]
+    },
+    {
+      "name": "BgCheckItem",
+      "status": "ok",
+      "tier": "presentational",
+      "source": "src/molecules/bg_check_item.rs:16",
+      "cells": 2,
+      "props": [
+        {
+          "name": "background",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/bg_check_item.rs:7"
+        },
+        {
+          "name": "border",
+          "rust": "Option<AttrValue>",
+          "ts": "string | undefined",
+          "optional": true,
+          "default": "default-trait",
+          "source": "src/molecules/bg_check_item.rs:12"
+        },
+        {
+          "name": "color",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/bg_check_item.rs:8"
+        },
+        {
+          "name": "icon",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/bg_check_item.rs:10"
+        },
+        {
+          "name": "label",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/bg_check_item.rs:6"
+        }
+      ]
+    },
+    {
+      "name": "Button",
+      "status": "ok",
+      "tier": "presentational",
+      "source": "src/atoms/button.rs:30",
+      "cells": 4,
+      "props": [
+        {
+          "name": "href",
+          "rust": "Option<AttrValue>",
+          "ts": "string | undefined",
+          "optional": true,
+          "default": "default-trait",
+          "source": "src/atoms/button.rs:26"
+        },
+        {
+          "name": "label",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/atoms/button.rs:21"
+        },
+        {
+          "name": "variant",
+          "rust": "ButtonVariant",
+          "ts": "\"primary\" | \"ghost\"",
+          "optional": false,
+          "default": "expr",
+          "expr": "ButtonVariant::Primary",
+          "source": "src/atoms/button.rs:23"
+        }
+      ]
+    },
+    {
+      "name": "Callout",
+      "status": "ok",
+      "tier": "presentational",
+      "source": "src/molecules/callout.rs:13",
+      "cells": 1,
+      "props": [
+        {
+          "name": "english",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/callout.rs:9"
+        },
+        {
+          "name": "french",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/callout.rs:8"
+        },
+        {
+          "name": "label",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/callout.rs:7"
+        }
+      ]
+    },
+    {
+      "name": "CaseCard",
+      "status": "ok",
+      "tier": "presentational",
+      "source": "src/molecules/case_card.rs:15",
+      "cells": 1,
+      "props": [
+        {
+          "name": "href",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/case_card.rs:9"
+        },
+        {
+          "name": "tag",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/case_card.rs:10"
+        },
+        {
+          "name": "title",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/case_card.rs:11"
+        }
+      ]
+    },
+    {
+      "name": "CodeBlock",
+      "status": "ok",
+      "tier": "presentational",
+      "source": "src/atoms/code_block.rs:27",
+      "cells": 2,
+      "props": [
+        {
+          "name": "code",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/atoms/code_block.rs:13"
+        },
+        {
+          "name": "copyable",
+          "rust": "bool",
+          "ts": "boolean",
+          "optional": false,
+          "default": "expr",
+          "expr": "true",
+          "defaultTs": "true",
+          "source": "src/atoms/code_block.rs:23"
+        },
+        {
+          "name": "language",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "expr",
+          "expr": "AttrValue::Static(\"rust\")",
+          "defaultTs": "\"rust\"",
+          "source": "src/atoms/code_block.rs:19"
+        }
+      ]
+    },
+    {
+      "name": "ComponentsGallery",
+      "status": "excluded",
+      "reason": "zero-prop demo section",
+      "tier": "presentational",
+      "source": "src/organisms/components_gallery.rs:27",
+      "cells": 0,
+      "props": []
+    },
+    {
+      "name": "DatasetCard",
+      "status": "quarantined",
+      "reason": "does not pass its props through to the markup unmodified",
+      "tier": "presentational",
+      "source": "src/molecules/dataset_card.rs:42",
+      "cells": 49,
+      "props": [
+        {
+          "name": "action_label",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "expr",
+          "expr": "AttrValue::Static(\"View documentation\")",
+          "defaultTs": "\"View documentation\"",
+          "source": "src/molecules/dataset_card.rs:38"
+        },
+        {
+          "name": "badge",
+          "rust": "Option<AttrValue>",
+          "ts": "string | undefined",
+          "optional": true,
+          "default": "default-trait",
+          "source": "src/molecules/dataset_card.rs:33"
+        },
+        {
+          "name": "badge_class",
+          "rust": "Option<AttrValue>",
+          "ts": "string | undefined",
+          "optional": true,
+          "default": "default-trait",
+          "source": "src/molecules/dataset_card.rs:36"
+        },
+        {
+          "name": "description",
+          "rust": "Option<AttrValue>",
+          "ts": "string | undefined",
+          "optional": true,
+          "default": "default-trait",
+          "source": "src/molecules/dataset_card.rs:21"
+        },
+        {
+          "name": "href",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/dataset_card.rs:19"
+        },
+        {
+          "name": "publisher",
+          "rust": "Option<AttrValue>",
+          "ts": "string | undefined",
+          "optional": true,
+          "default": "default-trait",
+          "source": "src/molecules/dataset_card.rs:27"
+        },
+        {
+          "name": "thumbnail",
+          "rust": "Option<AttrValue>",
+          "ts": "string | undefined",
+          "optional": true,
+          "default": "default-trait",
+          "source": "src/molecules/dataset_card.rs:30"
+        },
+        {
+          "name": "title",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/dataset_card.rs:17"
+        },
+        {
+          "name": "version",
+          "rust": "Option<AttrValue>",
+          "ts": "string | undefined",
+          "optional": true,
+          "default": "default-trait",
+          "source": "src/molecules/dataset_card.rs:25"
+        }
+      ]
+    },
+    {
+      "name": "DeclCard",
+      "status": "ok",
+      "tier": "presentational",
+      "source": "src/molecules/decl_card.rs:17",
+      "cells": 1,
+      "props": [
+        {
+          "name": "alt",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/decl_card.rs:10"
+        },
+        {
+          "name": "category",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/decl_card.rs:8"
+        },
+        {
+          "name": "decl_type",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/decl_card.rs:11"
+        },
+        {
+          "name": "description",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/decl_card.rs:13"
+        },
+        {
+          "name": "src",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/decl_card.rs:9"
+        },
+        {
+          "name": "title",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/decl_card.rs:12"
+        }
+      ]
+    },
+    {
+      "name": "DemoPage",
+      "status": "excluded",
+      "reason": "crate showcase page",
+      "tier": "presentational",
+      "source": "src/demo.rs:62",
+      "cells": 0,
+      "props": [
+        {
+          "name": "footer_link",
+          "rust": "Option<NavLink>",
+          "ts": "NavLink | undefined",
+          "optional": true,
+          "default": "default-trait",
+          "source": "src/demo.rs:58"
+        },
+        {
+          "name": "footer_text",
+          "rust": "Option<AttrValue>",
+          "ts": "string | undefined",
+          "optional": true,
+          "default": "default-trait",
+          "source": "src/demo.rs:54"
+        },
+        {
+          "name": "nav",
+          "rust": "Vec<SiteNavLink>",
+          "ts": "SiteNavLink[]",
+          "optional": false,
+          "default": "default-trait",
+          "source": "src/demo.rs:51"
+        }
+      ]
+    },
+    {
+      "name": "Hero",
+      "status": "ok",
+      "tier": "presentational",
+      "source": "src/organisms/hero.rs:35",
+      "cells": 2,
+      "props": [
+        {
+          "name": "children",
+          "rust": "Children",
+          "ts": "ReactNode",
+          "optional": false,
+          "default": "required",
+          "source": "src/organisms/hero.rs:31"
+        },
+        {
+          "name": "eyebrow",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/organisms/hero.rs:27"
+        },
+        {
+          "name": "lede",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/organisms/hero.rs:29"
+        },
+        {
+          "name": "title_suffix",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/organisms/hero.rs:28"
+        },
+        {
+          "name": "variant",
+          "rust": "HeroVariant",
+          "ts": "\"full\" | \"compact\"",
+          "optional": false,
+          "default": "required",
+          "source": "src/organisms/hero.rs:26"
+        }
+      ]
+    },
+    {
+      "name": "HeroFilter",
+      "status": "ok",
+      "tier": "presentational",
+      "source": "src/organisms/hero_filter.rs:34",
+      "cells": 2,
+      "props": [
+        {
+          "name": "children",
+          "rust": "Children",
+          "ts": "ReactNode",
+          "optional": false,
+          "default": "required",
+          "source": "src/organisms/hero_filter.rs:28"
+        },
+        {
+          "name": "description",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/organisms/hero_filter.rs:26"
+        },
+        {
+          "name": "title",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/organisms/hero_filter.rs:25"
+        },
+        {
+          "name": "with_backdrop",
+          "rust": "bool",
+          "ts": "boolean",
+          "optional": false,
+          "default": "default-trait",
+          "source": "src/organisms/hero_filter.rs:30"
+        }
+      ]
+    },
+    {
+      "name": "IntegrationSection",
+      "status": "excluded",
+      "reason": "zero-prop demo section",
+      "tier": "presentational",
+      "source": "src/organisms/integration_section.rs:33",
+      "cells": 0,
+      "props": []
+    },
+    {
+      "name": "LogoDownloadCard",
+      "status": "ok",
+      "tier": "presentational",
+      "source": "src/molecules/logo_download_card.rs:22",
+      "cells": 2,
+      "props": [
+        {
+          "name": "download_name",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/logo_download_card.rs:14"
+        },
+        {
+          "name": "file",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/logo_download_card.rs:12"
+        },
+        {
+          "name": "is_transparent",
+          "rust": "bool",
+          "ts": "boolean",
+          "optional": false,
+          "default": "default-trait",
+          "source": "src/molecules/logo_download_card.rs:18"
+        },
+        {
+          "name": "label",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/logo_download_card.rs:10"
+        },
+        {
+          "name": "preview_style",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "default-trait",
+          "source": "src/molecules/logo_download_card.rs:16"
+        }
+      ]
+    },
+    {
+      "name": "MainNav",
+      "status": "ok",
+      "tier": "presentational",
+      "source": "src/organisms/main_nav.rs:26",
+      "cells": 8,
+      "props": [
+        {
+          "name": "back",
+          "rust": "Option<NavLink>",
+          "ts": "NavLink | undefined",
+          "optional": true,
+          "default": "default-trait",
+          "source": "src/organisms/main_nav.rs:21"
+        },
+        {
+          "name": "links",
+          "rust": "Vec<NavLink>",
+          "ts": "NavLink[]",
+          "optional": false,
+          "default": "required",
+          "source": "src/organisms/main_nav.rs:22"
+        }
+      ]
+    },
+    {
+      "name": "MemberCard",
+      "status": "ok",
+      "tier": "presentational",
+      "source": "src/molecules/member_card.rs:11",
+      "cells": 1,
+      "props": [
+        {
+          "name": "name",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/member_card.rs:7"
+        }
+      ]
+    },
+    {
+      "name": "MemberFilterCard",
+      "status": "ok",
+      "tier": "presentational",
+      "source": "src/molecules/member_filter_card.rs:18",
+      "cells": 4,
+      "props": [
+        {
+          "name": "country",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/member_filter_card.rs:13"
+        },
+        {
+          "name": "member_type",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/member_filter_card.rs:12"
+        },
+        {
+          "name": "name",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/member_filter_card.rs:11"
+        },
+        {
+          "name": "sectors",
+          "rust": "Vec<&'static str>",
+          "ts": "string[]",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/member_filter_card.rs:14"
+        }
+      ]
+    },
+    {
+      "name": "Modal",
+      "status": "needs-override",
+      "reason": "inert hardcoded; needs open: bool upstream (#809)",
+      "tier": "presentational",
+      "source": "src/molecules/modal.rs:20",
+      "cells": 1,
+      "props": [
+        {
+          "name": "children",
+          "rust": "Children",
+          "ts": "ReactNode",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/modal.rs:16"
+        },
+        {
+          "name": "id",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/modal.rs:14"
+        },
+        {
+          "name": "title",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/modal.rs:15"
+        }
+      ]
+    },
+    {
+      "name": "MvoCard",
+      "status": "ok",
+      "tier": "presentational",
+      "source": "src/molecules/mvo_card.rs:11",
+      "cells": 1,
+      "props": [
+        {
+          "name": "description",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/mvo_card.rs:7"
+        },
+        {
+          "name": "tag",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/mvo_card.rs:6"
+        }
+      ]
+    },
+    {
+      "name": "NavDropdown",
+      "status": "ok",
+      "tier": "presentational",
+      "source": "src/molecules/nav_dropdown.rs:22",
+      "cells": 4,
+      "props": [
+        {
+          "name": "id",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/nav_dropdown.rs:16"
+        },
+        {
+          "name": "label",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/nav_dropdown.rs:17"
+        },
+        {
+          "name": "links",
+          "rust": "Vec<(&'static str, &'static str)>",
+          "ts": "[string, string][]",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/nav_dropdown.rs:18"
+        }
+      ]
+    },
+    {
+      "name": "NewsCard",
+      "status": "ok",
+      "tier": "presentational",
+      "source": "src/molecules/news_card.rs:16",
+      "cells": 1,
+      "props": [
+        {
+          "name": "href",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/news_card.rs:10"
+        },
+        {
+          "name": "tag",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/news_card.rs:11"
+        },
+        {
+          "name": "title",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/news_card.rs:12"
+        }
+      ]
+    },
+    {
+      "name": "OntoAnnotation",
+      "status": "quarantined",
+      "reason": "does not pass its props through to the markup unmodified",
+      "tier": "presentational",
+      "source": "src/molecules/annotation.rs:44",
+      "cells": 13,
+      "props": [
+        {
+          "name": "label",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/annotation.rs:16"
+        },
+        {
+          "name": "values",
+          "rust": "Vec<LiteralValue>",
+          "ts": "LiteralValue[]",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/annotation.rs:17"
+        }
+      ]
+    },
+    {
+      "name": "OntoBadge",
+      "status": "ok",
+      "tier": "presentational",
+      "source": "src/atoms/onto_badge.rs:66",
+      "cells": 24,
+      "props": [
+        {
+          "name": "label",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/atoms/onto_badge.rs:58"
+        },
+        {
+          "name": "title",
+          "rust": "Option<AttrValue>",
+          "ts": "string | undefined",
+          "optional": true,
+          "default": "default-trait",
+          "source": "src/atoms/onto_badge.rs:62"
+        },
+        {
+          "name": "variant",
+          "rust": "BadgeVariant",
+          "ts": "\"ontology\" | \"class\" | \"object-property\" | \"datatype-property\" | \"annotation-property\" | \"property\" | \"named-individual\" | \"other\" | \"lang\" | \"datatype\" | \"deprecated\" | \"default\"",
+          "optional": false,
+          "default": "default-trait",
+          "source": "src/atoms/onto_badge.rs:60"
+        }
+      ]
+    },
+    {
+      "name": "OntologySection",
+      "status": "excluded",
+      "reason": "zero-prop demo section",
+      "tier": "presentational",
+      "source": "src/organisms/ontology_section.rs:27",
+      "cells": 0,
+      "props": []
+    },
+    {
+      "name": "PaletteGroup",
+      "status": "quarantined",
+      "reason": "panics while rendering a sentinel",
+      "tier": "presentational",
+      "source": "src/molecules/palette_group.rs:37",
+      "cells": 26,
+      "props": [
+        {
+          "name": "colors",
+          "rust": "Vec<ColorSpec>",
+          "ts": "ColorSpec[]",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/palette_group.rs:30"
+        },
+        {
+          "name": "description",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/palette_group.rs:29"
+        },
+        {
+          "name": "note",
+          "rust": "Option<AttrValue>",
+          "ts": "string | undefined",
+          "optional": true,
+          "default": "default-trait",
+          "source": "src/molecules/palette_group.rs:33"
+        },
+        {
+          "name": "title",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/palette_group.rs:28"
+        }
+      ]
+    },
+    {
+      "name": "PersonalityCard",
+      "status": "ok",
+      "tier": "presentational",
+      "source": "src/molecules/personality_card.rs:11",
+      "cells": 1,
+      "props": [
+        {
+          "name": "description",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/personality_card.rs:7"
+        },
+        {
+          "name": "tag",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/personality_card.rs:6"
+        }
+      ]
+    },
+    {
+      "name": "Pill",
+      "status": "ok",
+      "tier": "presentational",
+      "source": "src/atoms/pill.rs:28",
+      "cells": 2,
+      "props": [
+        {
+          "name": "children",
+          "rust": "Children",
+          "ts": "ReactNode",
+          "optional": false,
+          "default": "required",
+          "source": "src/atoms/pill.rs:22"
+        },
+        {
+          "name": "tone",
+          "rust": "PillTone",
+          "ts": "\"ok\" | \"bad\"",
+          "optional": false,
+          "default": "expr",
+          "expr": "PillTone::Ok",
+          "source": "src/atoms/pill.rs:24"
+        }
+      ]
+    },
+    {
+      "name": "PillButton",
+      "status": "ok",
+      "tier": "presentational",
+      "source": "src/atoms/pill_button.rs:37",
+      "cells": 12,
+      "props": [
+        {
+          "name": "disabled",
+          "rust": "bool",
+          "ts": "boolean",
+          "optional": false,
+          "default": "default-trait",
+          "source": "src/atoms/pill_button.rs:33"
+        },
+        {
+          "name": "href",
+          "rust": "Option<AttrValue>",
+          "ts": "string | undefined",
+          "optional": true,
+          "default": "default-trait",
+          "source": "src/atoms/pill_button.rs:29"
+        },
+        {
+          "name": "kind",
+          "rust": "PillButtonKind",
+          "ts": "\"solid\" | \"glass-light\" | \"glass-dark\"",
+          "optional": false,
+          "default": "expr",
+          "expr": "PillButtonKind::Solid",
+          "source": "src/atoms/pill_button.rs:26"
+        },
+        {
+          "name": "label",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/atoms/pill_button.rs:24"
+        }
+      ]
+    },
+    {
+      "name": "PillarCard",
+      "status": "ok",
+      "tier": "presentational",
+      "source": "src/molecules/pillar_card.rs:13",
+      "cells": 4,
+      "props": [
+        {
+          "name": "num",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/pillar_card.rs:7"
+        },
+        {
+          "name": "points",
+          "rust": "Vec<(&'static str, &'static str)>",
+          "ts": "[string, string][]",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/pillar_card.rs:9"
+        },
+        {
+          "name": "title",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/pillar_card.rs:8"
+        }
+      ]
+    },
+    {
+      "name": "PropsTable",
+      "status": "ok",
+      "tier": "presentational",
+      "source": "src/molecules/props_table.rs:40",
+      "cells": 7,
+      "props": [
+        {
+          "name": "component",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/props_table.rs:35"
+        },
+        {
+          "name": "props",
+          "rust": "Vec<PropSpec>",
+          "ts": "PropSpec[]",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/props_table.rs:36"
+        }
+      ]
+    },
+    {
+      "name": "RefCard",
+      "status": "ok",
+      "tier": "presentational",
+      "source": "src/molecules/ref_card.rs:14",
+      "cells": 1,
+      "props": [
+        {
+          "name": "alt",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/ref_card.rs:8"
+        },
+        {
+          "name": "description",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/ref_card.rs:10"
+        },
+        {
+          "name": "src",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/ref_card.rs:7"
+        },
+        {
+          "name": "title",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/ref_card.rs:9"
+        }
+      ]
+    },
+    {
+      "name": "RuleListItem",
+      "status": "ok",
+      "tier": "presentational",
+      "source": "src/molecules/rule_list_item.rs:28",
+      "cells": 3,
+      "props": [
+        {
+          "name": "children",
+          "rust": "Children",
+          "ts": "ReactNode",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/rule_list_item.rs:24"
+        },
+        {
+          "name": "kind",
+          "rust": "RuleKind",
+          "ts": "\"do\" | \"dont\" | \"caution\"",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/rule_list_item.rs:23"
+        }
+      ]
+    },
+    {
+      "name": "SectionHead",
+      "status": "ok",
+      "tier": "presentational",
+      "source": "src/molecules/section_head.rs:15",
+      "cells": 1,
+      "props": [
+        {
+          "name": "kicker",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/section_head.rs:10"
+        },
+        {
+          "name": "number",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/section_head.rs:9"
+        },
+        {
+          "name": "title",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/section_head.rs:11"
+        }
+      ]
+    },
+    {
+      "name": "ShapeCard",
+      "status": "ok",
+      "tier": "presentational",
+      "source": "src/molecules/shape_card.rs:12",
+      "cells": 1,
+      "props": [
+        {
+          "name": "demo",
+          "rust": "Html",
+          "ts": "ReactNode",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/shape_card.rs:6"
+        },
+        {
+          "name": "description",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/shape_card.rs:8"
+        },
+        {
+          "name": "title",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/shape_card.rs:7"
+        }
+      ]
+    },
+    {
+      "name": "SimpleFooter",
+      "status": "ok",
+      "tier": "presentational",
+      "source": "src/organisms/simple_footer.rs:13",
+      "cells": 1,
+      "props": [
+        {
+          "name": "link",
+          "rust": "NavLink",
+          "ts": "NavLink",
+          "optional": false,
+          "default": "required",
+          "source": "src/organisms/simple_footer.rs:9"
+        },
+        {
+          "name": "text",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/organisms/simple_footer.rs:8"
+        }
+      ]
+    },
+    {
+      "name": "SiteHeader",
+      "status": "ok",
+      "tier": "presentational",
+      "source": "src/organisms/site_header.rs:96",
+      "cells": 14,
+      "props": [
+        {
+          "name": "links",
+          "rust": "Vec<SiteNavLink>",
+          "ts": "SiteNavLink[]",
+          "optional": false,
+          "default": "required",
+          "source": "src/organisms/site_header.rs:90"
+        },
+        {
+          "name": "show_login",
+          "rust": "bool",
+          "ts": "boolean",
+          "optional": false,
+          "default": "default-trait",
+          "source": "src/organisms/site_header.rs:92"
+        }
+      ]
+    },
+    {
+      "name": "Swatch",
+      "status": "quarantined",
+      "reason": "panics while rendering a sentinel",
+      "tier": "presentational",
+      "source": "src/molecules/swatch.rs:31",
+      "cells": 4,
+      "props": [
+        {
+          "name": "hex",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/swatch.rs:23"
+        },
+        {
+          "name": "name",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/swatch.rs:24"
+        },
+        {
+          "name": "usage",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/swatch.rs:25"
+        },
+        {
+          "name": "variants",
+          "rust": "Vec<AttrValue>",
+          "ts": "string[]",
+          "optional": false,
+          "default": "default-trait",
+          "source": "src/molecules/swatch.rs:27"
+        }
+      ]
+    },
+    {
+      "name": "TagLabel",
+      "status": "ok",
+      "tier": "presentational",
+      "source": "src/atoms/tag_label.rs:27",
+      "cells": 2,
+      "props": [
+        {
+          "name": "text",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/atoms/tag_label.rs:21"
+        },
+        {
+          "name": "tone",
+          "rust": "TagLabelTone",
+          "ts": "\"default\" | \"blue\"",
+          "optional": false,
+          "default": "expr",
+          "expr": "TagLabelTone::Default",
+          "source": "src/atoms/tag_label.rs:23"
+        }
+      ]
+    },
+    {
+      "name": "TextField",
+      "status": "ok",
+      "tier": "presentational",
+      "source": "src/molecules/text_field.rs:22",
+      "cells": 2,
+      "props": [
+        {
+          "name": "id",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/text_field.rs:13"
+        },
+        {
+          "name": "kind",
+          "rust": "TextFieldKind",
+          "ts": "\"input\" | \"textarea\"",
+          "optional": false,
+          "default": "expr",
+          "expr": "TextFieldKind::Input",
+          "source": "src/molecules/text_field.rs:16"
+        },
+        {
+          "name": "label",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/text_field.rs:14"
+        },
+        {
+          "name": "placeholder",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "default-trait",
+          "source": "src/molecules/text_field.rs:18"
+        }
+      ]
+    },
+    {
+      "name": "TypeScaleRow",
+      "status": "ok",
+      "tier": "presentational",
+      "source": "src/molecules/type_scale_row.rs:14",
+      "cells": 1,
+      "props": [
+        {
+          "name": "role",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/type_scale_row.rs:8"
+        },
+        {
+          "name": "sample",
+          "rust": "Html",
+          "ts": "ReactNode",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/type_scale_row.rs:9"
+        },
+        {
+          "name": "spec",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/type_scale_row.rs:10"
+        }
+      ]
+    },
+    {
+      "name": "UsageExample",
+      "status": "ok",
+      "tier": "presentational",
+      "source": "src/molecules/usage_example.rs:24",
+      "cells": 2,
+      "props": [
+        {
+          "name": "children",
+          "rust": "Html",
+          "ts": "ReactNode",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/usage_example.rs:20"
+        },
+        {
+          "name": "on_dark",
+          "rust": "bool",
+          "ts": "boolean",
+          "optional": false,
+          "default": "default-trait",
+          "source": "src/molecules/usage_example.rs:18"
+        },
+        {
+          "name": "source",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/usage_example.rs:14"
+        }
+      ]
+    }
+  ],
+  "types": [
+    {
+      "name": "BadgeVariant",
+      "source": "src/atoms/onto_badge.rs:20",
+      "kind": "enum",
+      "union": [
+        "\"ontology\"",
+        "\"class\"",
+        "\"object-property\"",
+        "\"datatype-property\"",
+        "\"annotation-property\"",
+        "\"property\"",
+        "\"named-individual\"",
+        "\"other\"",
+        "\"lang\"",
+        "\"datatype\"",
+        "\"deprecated\"",
+        "\"default\""
+      ]
+    },
+    {
+      "name": "ButtonVariant",
+      "source": "src/atoms/button.rs:5",
+      "kind": "enum",
+      "union": [
+        "\"primary\"",
+        "\"ghost\""
+      ]
+    },
+    {
+      "name": "ColorSpec",
+      "source": "src/molecules/palette_group.rs:6",
+      "kind": "struct",
+      "fields": [
+        {
+          "name": "hex",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/palette_group.rs:8"
+        },
+        {
+          "name": "name",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/palette_group.rs:7"
+        },
+        {
+          "name": "usage",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/palette_group.rs:9"
+        },
+        {
+          "name": "variants",
+          "rust": "Vec<AttrValue>",
+          "ts": "string[]",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/palette_group.rs:10"
+        }
+      ]
+    },
+    {
+      "name": "HeroVariant",
+      "source": "src/organisms/hero.rs:8",
+      "kind": "enum",
+      "union": [
+        "\"full\"",
+        "\"compact\""
+      ]
+    },
+    {
+      "name": "LiteralValue",
+      "source": "src/ontology.rs:41",
+      "kind": "struct",
+      "fields": [
+        {
+          "name": "datatype",
+          "rust": "Option<String>",
+          "ts": "string | undefined",
+          "optional": true,
+          "default": "required",
+          "source": "src/ontology.rs:44"
+        },
+        {
+          "name": "language",
+          "rust": "Option<String>",
+          "ts": "string | undefined",
+          "optional": true,
+          "default": "required",
+          "source": "src/ontology.rs:43"
+        },
+        {
+          "name": "value",
+          "rust": "String",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/ontology.rs:42"
+        }
+      ]
+    },
+    {
+      "name": "NavLink",
+      "source": "src/organisms/main_nav.rs:4",
+      "kind": "struct",
+      "fields": [
+        {
+          "name": "href",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/organisms/main_nav.rs:5"
+        },
+        {
+          "name": "label",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/organisms/main_nav.rs:6"
+        }
+      ]
+    },
+    {
+      "name": "PillButtonKind",
+      "source": "src/atoms/pill_button.rs:6",
+      "kind": "enum",
+      "union": [
+        "\"solid\"",
+        "\"glass-light\"",
+        "\"glass-dark\""
+      ]
+    },
+    {
+      "name": "PillTone",
+      "source": "src/atoms/pill.rs:6",
+      "kind": "enum",
+      "union": [
+        "\"ok\"",
+        "\"bad\""
+      ]
+    },
+    {
+      "name": "PropSpec",
+      "source": "src/molecules/props_table.rs:6",
+      "kind": "struct",
+      "fields": [
+        {
+          "name": "default",
+          "rust": "Option<AttrValue>",
+          "ts": "string | undefined",
+          "optional": true,
+          "default": "required",
+          "source": "src/molecules/props_table.rs:11"
+        },
+        {
+          "name": "doc",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/props_table.rs:12"
+        },
+        {
+          "name": "name",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/props_table.rs:7"
+        },
+        {
+          "name": "ty",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/props_table.rs:8"
+        }
+      ]
+    },
+    {
+      "name": "RuleKind",
+      "source": "src/molecules/rule_list_item.rs:5",
+      "kind": "enum",
+      "union": [
+        "\"do\"",
+        "\"dont\"",
+        "\"caution\""
+      ]
+    },
+    {
+      "name": "SiteNavLink",
+      "source": "src/organisms/site_header.rs:6",
+      "kind": "struct",
+      "fields": [
+        {
+          "name": "current",
+          "rust": "bool",
+          "ts": "boolean",
+          "optional": false,
+          "default": "required",
+          "source": "src/organisms/site_header.rs:9"
+        },
+        {
+          "name": "href",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/organisms/site_header.rs:7"
+        },
+        {
+          "name": "label",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/organisms/site_header.rs:8"
+        }
+      ]
+    },
+    {
+      "name": "TagLabelTone",
+      "source": "src/atoms/tag_label.rs:5",
+      "kind": "enum",
+      "union": [
+        "\"default\"",
+        "\"blue\""
+      ]
+    },
+    {
+      "name": "TextFieldKind",
+      "source": "src/molecules/text_field.rs:6",
+      "kind": "enum",
+      "union": [
+        "\"input\"",
+        "\"textarea\""
+      ]
+    }
+  ]
+}

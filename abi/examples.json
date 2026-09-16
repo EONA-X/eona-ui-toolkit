@@ -1,0 +1,521 @@
+{
+  "examplesVersion": 1,
+  "srcHash": "70fb822dd0ac7ebfe18307470d8b158c7a148644c84e7114a57419f6e15088af",
+  "components": [
+    {
+      "component": "AccordionItem",
+      "source": "src/molecules/accordion_item.rs:17",
+      "status": "ok",
+      "yew": {
+        "uses": "use eona_ui_toolkit::AccordionItem;",
+        "snippet": "<AccordionItem open={true} title=\"Title\">\n    { \"Children go here.\" }\n</AccordionItem>"
+      },
+      "react": "available",
+      "import": "import { AccordionItem } from '@eona-x/ui-toolkit-react';",
+      "jsx": "<AccordionItem open title=\"Title\">\n  Children go here.\n</AccordionItem>"
+    },
+    {
+      "component": "BadgeNum",
+      "source": "src/atoms/badge_num.rs:11",
+      "status": "ok",
+      "yew": {
+        "uses": "use eona_ui_toolkit::BadgeNum;",
+        "snippet": "<BadgeNum number=\"01\" />"
+      },
+      "react": "available",
+      "import": "import { BadgeNum } from '@eona-x/ui-toolkit-react';",
+      "jsx": "<BadgeNum number=\"01\" />"
+    },
+    {
+      "component": "BgCheckItem",
+      "source": "src/molecules/bg_check_item.rs:16",
+      "status": "ok",
+      "yew": {
+        "uses": "use eona_ui_toolkit::BgCheckItem;",
+        "snippet": "<BgCheckItem\n    background=\"#fff\"\n    border=\"1px solid rgba(4,5,83,.12)\"\n    color=\"var(--eona-navy)\"\n    icon=\"✓\"\n    label=\"Label\"\n/>"
+      },
+      "react": "available",
+      "import": "import { BgCheckItem } from '@eona-x/ui-toolkit-react';",
+      "jsx": "<BgCheckItem\n  background=\"#fff\"\n  border=\"1px solid rgba(4,5,83,.12)\"\n  color=\"var(--eona-navy)\"\n  icon=\"✓\"\n  label=\"Label\"\n/>"
+    },
+    {
+      "component": "Button",
+      "source": "src/atoms/button.rs:30",
+      "status": "ok",
+      "yew": {
+        "uses": "use eona_ui_toolkit::{Button, ButtonVariant};",
+        "snippet": "<Button href=\"#\" label=\"Label\" variant={ButtonVariant::Ghost} />"
+      },
+      "react": "available",
+      "import": "import { Button } from '@eona-x/ui-toolkit-react';",
+      "jsx": "<Button href=\"#\" label=\"Label\" variant=\"ghost\" />"
+    },
+    {
+      "component": "Callout",
+      "source": "src/molecules/callout.rs:13",
+      "status": "ok",
+      "yew": {
+        "uses": "use eona_ui_toolkit::Callout;",
+        "snippet": "<Callout english=\"English\" french=\"French\" label=\"Label\" />"
+      },
+      "react": "available",
+      "import": "import { Callout } from '@eona-x/ui-toolkit-react';",
+      "jsx": "<Callout english=\"English\" french=\"French\" label=\"Label\" />"
+    },
+    {
+      "component": "CaseCard",
+      "source": "src/molecules/case_card.rs:15",
+      "status": "ok",
+      "yew": {
+        "uses": "use eona_ui_toolkit::CaseCard;",
+        "snippet": "<CaseCard href=\"#\" tag=\"Tag\" title=\"Title\" />"
+      },
+      "react": "available",
+      "import": "import { CaseCard } from '@eona-x/ui-toolkit-react';",
+      "jsx": "<CaseCard href=\"#\" tag=\"Tag\" title=\"Title\" />"
+    },
+    {
+      "component": "CodeBlock",
+      "source": "src/atoms/code_block.rs:27",
+      "status": "ok",
+      "yew": {
+        "uses": "use eona_ui_toolkit::CodeBlock;",
+        "snippet": "<CodeBlock code={r#\"let label = \"Go\";\"#} copyable={false} language=\"rust\" />"
+      },
+      "react": "available",
+      "import": "import { CodeBlock } from '@eona-x/ui-toolkit-react';",
+      "jsx": "<CodeBlock code={\"let label = \\\"Go\\\";\"} copyable={false} language=\"rust\" />"
+    },
+    {
+      "component": "ComponentsGallery",
+      "source": "src/organisms/components_gallery.rs:27",
+      "status": "excluded",
+      "reason": "zero-prop demo section",
+      "yew": {
+        "uses": "use eona_ui_toolkit::ComponentsGallery;",
+        "snippet": "<ComponentsGallery />"
+      },
+      "react": "unavailable",
+      "why": "never generated — out of scope by rule: zero-prop demo section",
+      "disposition": ""
+    },
+    {
+      "component": "DatasetCard",
+      "source": "src/molecules/dataset_card.rs:42",
+      "status": "quarantined",
+      "reason": "does not pass its props through to the markup unmodified",
+      "yew": {
+        "uses": "use eona_ui_toolkit::DatasetCard;",
+        "snippet": "<DatasetCard\n    action_label=\"View documentation\"\n    badge=\"Badge\"\n    badge_class=\"Badge Class\"\n    description=\"Description\"\n    href=\"#\"\n    publisher=\"Publisher\"\n    thumbnail=\"/assets/placeholder.svg\"\n    title=\"Title\"\n    version=\"Version\"\n/>"
+      },
+      "react": "unavailable",
+      "why": "not in the React package — the verify gate quarantined it: does not pass its props through to the markup unmodified",
+      "disposition": "hand-port the thumb; the rest of the card is faithful but is not emitted piecemeal."
+    },
+    {
+      "component": "DeclCard",
+      "source": "src/molecules/decl_card.rs:17",
+      "status": "ok",
+      "yew": {
+        "uses": "use eona_ui_toolkit::DeclCard;",
+        "snippet": "<DeclCard\n    alt=\"EONA-X logo\"\n    category=\"Category\"\n    decl_type=\"Decl Type\"\n    description=\"Description\"\n    src=\"/assets/placeholder.svg\"\n    title=\"Title\"\n/>"
+      },
+      "react": "available",
+      "import": "import { DeclCard } from '@eona-x/ui-toolkit-react';",
+      "jsx": "<DeclCard\n  alt=\"EONA-X logo\"\n  category=\"Category\"\n  declType=\"Decl Type\"\n  description=\"Description\"\n  src=\"/assets/placeholder.svg\"\n  title=\"Title\"\n/>"
+    },
+    {
+      "component": "DemoPage",
+      "source": "src/demo.rs:62",
+      "status": "excluded",
+      "reason": "crate showcase page",
+      "yew": {
+        "uses": "use eona_ui_toolkit::{NavLink, SiteNavLink};\nuse eona_ui_toolkit::demo::DemoPage;",
+        "snippet": "<DemoPage\n    footer_link={NavLink { href: \"#\".into(), label: \"Label\".into() }}\n    footer_text=\"Footer Text\"\n    nav={vec![SiteNavLink { href: \"#\".into(), label: \"Label\".into(), current: false }]}\n/>"
+      },
+      "react": "unavailable",
+      "why": "never generated — out of scope by rule: crate showcase page",
+      "disposition": ""
+    },
+    {
+      "component": "Hero",
+      "source": "src/organisms/hero.rs:35",
+      "status": "ok",
+      "yew": {
+        "uses": "use eona_ui_toolkit::{Hero, HeroVariant};",
+        "snippet": "<Hero\n    eyebrow=\"Eyebrow\"\n    lede=\"Lede\"\n    title_suffix=\"Title Suffix\"\n    variant={HeroVariant::Full}\n>\n    { \"Children go here.\" }\n</Hero>"
+      },
+      "react": "available",
+      "import": "import { Hero } from '@eona-x/ui-toolkit-react';",
+      "jsx": "<Hero\n  eyebrow=\"Eyebrow\"\n  lede=\"Lede\"\n  titleSuffix=\"Title Suffix\"\n  variant=\"full\"\n>\n  Children go here.\n</Hero>"
+    },
+    {
+      "component": "HeroFilter",
+      "source": "src/organisms/hero_filter.rs:34",
+      "status": "ok",
+      "yew": {
+        "uses": "use eona_ui_toolkit::HeroFilter;",
+        "snippet": "<HeroFilter description=\"Description\" title=\"Title\" with_backdrop={true}>\n    { \"Children go here.\" }\n</HeroFilter>"
+      },
+      "react": "available",
+      "import": "import { HeroFilter } from '@eona-x/ui-toolkit-react';",
+      "jsx": "<HeroFilter description=\"Description\" title=\"Title\" withBackdrop>\n  Children go here.\n</HeroFilter>"
+    },
+    {
+      "component": "IntegrationSection",
+      "source": "src/organisms/integration_section.rs:33",
+      "status": "excluded",
+      "reason": "zero-prop demo section",
+      "yew": {
+        "uses": "use eona_ui_toolkit::IntegrationSection;",
+        "snippet": "<IntegrationSection />"
+      },
+      "react": "unavailable",
+      "why": "never generated — out of scope by rule: zero-prop demo section",
+      "disposition": ""
+    },
+    {
+      "component": "LogoDownloadCard",
+      "source": "src/molecules/logo_download_card.rs:22",
+      "status": "ok",
+      "yew": {
+        "uses": "use eona_ui_toolkit::LogoDownloadCard;",
+        "snippet": "<LogoDownloadCard\n    download_name=\"Download Name\"\n    file=\"/assets/eona-x-logo.svg\"\n    is_transparent={true}\n    label=\"Label\"\n    preview_style=\"background:var(--eona-navy);padding:24px;\"\n/>"
+      },
+      "react": "available",
+      "import": "import { LogoDownloadCard } from '@eona-x/ui-toolkit-react';",
+      "jsx": "<LogoDownloadCard\n  downloadName=\"Download Name\"\n  file=\"/assets/eona-x-logo.svg\"\n  isTransparent\n  label=\"Label\"\n  previewStyle=\"background:var(--eona-navy);padding:24px;\"\n/>"
+    },
+    {
+      "component": "MainNav",
+      "source": "src/organisms/main_nav.rs:26",
+      "status": "ok",
+      "yew": {
+        "uses": "use eona_ui_toolkit::{MainNav, NavLink};",
+        "snippet": "<MainNav\n    back={NavLink { href: \"#\".into(), label: \"Label\".into() }}\n    links={vec![NavLink { href: \"#\".into(), label: \"Label\".into() }]}\n/>"
+      },
+      "react": "available",
+      "import": "import { MainNav } from '@eona-x/ui-toolkit-react';",
+      "jsx": "<MainNav\n  back={{ href: \"#\", label: \"Label\" }}\n  links={[{ href: \"#\", label: \"Label\" }]}\n/>"
+    },
+    {
+      "component": "MemberCard",
+      "source": "src/molecules/member_card.rs:11",
+      "status": "ok",
+      "yew": {
+        "uses": "use eona_ui_toolkit::MemberCard;",
+        "snippet": "<MemberCard name=\"Name\" />"
+      },
+      "react": "available",
+      "import": "import { MemberCard } from '@eona-x/ui-toolkit-react';",
+      "jsx": "<MemberCard name=\"Name\" />"
+    },
+    {
+      "component": "MemberFilterCard",
+      "source": "src/molecules/member_filter_card.rs:18",
+      "status": "ok",
+      "yew": {
+        "uses": "use eona_ui_toolkit::MemberFilterCard;",
+        "snippet": "<MemberFilterCard\n    country=\"Country\"\n    member_type=\"Member Type\"\n    name=\"Name\"\n    sectors={vec![\"Mobility\"]}\n/>"
+      },
+      "react": "available",
+      "import": "import { MemberFilterCard } from '@eona-x/ui-toolkit-react';",
+      "jsx": "<MemberFilterCard\n  country=\"Country\"\n  memberType=\"Member Type\"\n  name=\"Name\"\n  sectors={[\"Mobility\"]}\n/>"
+    },
+    {
+      "component": "Modal",
+      "source": "src/molecules/modal.rs:20",
+      "status": "needs-override",
+      "reason": "inert hardcoded; needs open: bool upstream (#809)",
+      "yew": {
+        "uses": "use eona_ui_toolkit::Modal;",
+        "snippet": "<Modal id=\"example\" title=\"Title\">\n    { \"Children go here.\" }\n</Modal>"
+      },
+      "react": "unavailable",
+      "why": "not in the React package — it needs an override: inert hardcoded; needs open: bool upstream (#809)",
+      "disposition": "hand-port, or add `open: bool` upstream and regenerate. Not emitted meanwhile.",
+      "tracked_by": "#809"
+    },
+    {
+      "component": "MvoCard",
+      "source": "src/molecules/mvo_card.rs:11",
+      "status": "ok",
+      "yew": {
+        "uses": "use eona_ui_toolkit::MvoCard;",
+        "snippet": "<MvoCard description=\"Description\" tag=\"Tag\" />"
+      },
+      "react": "available",
+      "import": "import { MvoCard } from '@eona-x/ui-toolkit-react';",
+      "jsx": "<MvoCard description=\"Description\" tag=\"Tag\" />"
+    },
+    {
+      "component": "NavDropdown",
+      "source": "src/molecules/nav_dropdown.rs:22",
+      "status": "ok",
+      "yew": {
+        "uses": "use eona_ui_toolkit::NavDropdown;",
+        "snippet": "<NavDropdown id=\"example\" label=\"Label\" links={vec![(\"#\", \"About\")]} />"
+      },
+      "react": "available",
+      "import": "import { NavDropdown } from '@eona-x/ui-toolkit-react';",
+      "jsx": "<NavDropdown id=\"example\" label=\"Label\" links={[[\"#\", \"About\"]]} />"
+    },
+    {
+      "component": "NewsCard",
+      "source": "src/molecules/news_card.rs:16",
+      "status": "ok",
+      "yew": {
+        "uses": "use eona_ui_toolkit::NewsCard;",
+        "snippet": "<NewsCard href=\"#\" tag=\"Tag\" title=\"Title\" />"
+      },
+      "react": "available",
+      "import": "import { NewsCard } from '@eona-x/ui-toolkit-react';",
+      "jsx": "<NewsCard href=\"#\" tag=\"Tag\" title=\"Title\" />"
+    },
+    {
+      "component": "OntoAnnotation",
+      "source": "src/molecules/annotation.rs:44",
+      "status": "quarantined",
+      "reason": "does not pass its props through to the markup unmodified",
+      "yew": {
+        "uses": "use eona_ui_toolkit::OntoAnnotation;\nuse eona_ui_toolkit::ontology::LiteralValue;",
+        "snippet": "<OntoAnnotation\n    label=\"Label\"\n    values={vec![LiteralValue { value: \"An annotation value\".into(), language: None, datatype: None }]}\n/>"
+      },
+      "react": "unavailable",
+      "why": "not in the React package — the verify gate quarantined it: does not pass its props through to the markup unmodified",
+      "disposition": "hand-port, or lift `short_datatype` out of the component so the prop arrives already shortened. The rest of the row — language-before-datatype precedence, all three arms of annotation.rs:33-41 — spliced correctly and can be reused.",
+      "tracked_by": "#809"
+    },
+    {
+      "component": "OntoBadge",
+      "source": "src/atoms/onto_badge.rs:66",
+      "status": "ok",
+      "yew": {
+        "uses": "use eona_ui_toolkit::{BadgeVariant, OntoBadge};",
+        "snippet": "<OntoBadge label=\"Label\" title=\"Title\" variant={BadgeVariant::Lang} />"
+      },
+      "react": "available",
+      "import": "import { OntoBadge } from '@eona-x/ui-toolkit-react';",
+      "jsx": "<OntoBadge label=\"Label\" title=\"Title\" variant=\"lang\" />"
+    },
+    {
+      "component": "OntologySection",
+      "source": "src/organisms/ontology_section.rs:27",
+      "status": "excluded",
+      "reason": "zero-prop demo section",
+      "yew": {
+        "uses": "use eona_ui_toolkit::OntologySection;",
+        "snippet": "<OntologySection />"
+      },
+      "react": "unavailable",
+      "why": "never generated — out of scope by rule: zero-prop demo section",
+      "disposition": ""
+    },
+    {
+      "component": "PaletteGroup",
+      "source": "src/molecules/palette_group.rs:37",
+      "status": "quarantined",
+      "reason": "panics while rendering a sentinel",
+      "yew": {
+        "uses": "use eona_ui_toolkit::{ColorSpec, PaletteGroup};",
+        "snippet": "<PaletteGroup\n    colors={vec![ColorSpec { name: \"Name\".into(), hex: \"#040553\".into(), usage: \"Primary brand colour\".into(), variants: vec![\"100\".into()] }]}\n    description=\"Description\"\n    note=\"Note\"\n    title=\"Title\"\n/>"
+      },
+      "react": "unavailable",
+      "why": "not in the React package — the verify gate quarantined it: panics while rendering a sentinel",
+      "disposition": "hand-port. Lifting Swatch's foreground into a prop does not release this one: PaletteGroup would then have to compute that prop per colour, so its markup stays a transform of `colors`. Both levels have to be lifted."
+    },
+    {
+      "component": "PersonalityCard",
+      "source": "src/molecules/personality_card.rs:11",
+      "status": "ok",
+      "yew": {
+        "uses": "use eona_ui_toolkit::PersonalityCard;",
+        "snippet": "<PersonalityCard description=\"Description\" tag=\"Tag\" />"
+      },
+      "react": "available",
+      "import": "import { PersonalityCard } from '@eona-x/ui-toolkit-react';",
+      "jsx": "<PersonalityCard description=\"Description\" tag=\"Tag\" />"
+    },
+    {
+      "component": "Pill",
+      "source": "src/atoms/pill.rs:28",
+      "status": "ok",
+      "yew": {
+        "uses": "use eona_ui_toolkit::{Pill, PillTone};",
+        "snippet": "<Pill tone={PillTone::Bad}>\n    { \"Children go here.\" }\n</Pill>"
+      },
+      "react": "available",
+      "import": "import { Pill } from '@eona-x/ui-toolkit-react';",
+      "jsx": "<Pill tone=\"bad\">\n  Children go here.\n</Pill>"
+    },
+    {
+      "component": "PillButton",
+      "source": "src/atoms/pill_button.rs:37",
+      "status": "ok",
+      "yew": {
+        "uses": "use eona_ui_toolkit::{PillButton, PillButtonKind};",
+        "snippet": "<PillButton\n    disabled={true}\n    href=\"#\"\n    kind={PillButtonKind::GlassLight}\n    label=\"Label\"\n/>"
+      },
+      "react": "available",
+      "import": "import { PillButton } from '@eona-x/ui-toolkit-react';",
+      "jsx": "<PillButton disabled href=\"#\" kind=\"glass-light\" label=\"Label\" />"
+    },
+    {
+      "component": "PillarCard",
+      "source": "src/molecules/pillar_card.rs:13",
+      "status": "ok",
+      "yew": {
+        "uses": "use eona_ui_toolkit::PillarCard;",
+        "snippet": "<PillarCard\n    num=\"01\"\n    points={vec![(\"Open\", \"by default, not by exception\")]}\n    title=\"Title\"\n/>"
+      },
+      "react": "available",
+      "import": "import { PillarCard } from '@eona-x/ui-toolkit-react';",
+      "jsx": "<PillarCard\n  num=\"01\"\n  points={[[\"Open\", \"by default, not by exception\"]]}\n  title=\"Title\"\n/>"
+    },
+    {
+      "component": "PropsTable",
+      "source": "src/molecules/props_table.rs:40",
+      "status": "ok",
+      "yew": {
+        "uses": "use eona_ui_toolkit::{PropSpec, PropsTable};",
+        "snippet": "<PropsTable\n    component=\"Button\"\n    props={vec![PropSpec { name: \"Name\".into(), ty: \"AttrValue\".into(), default: None, doc: \"What the prop does.\".into() }]}\n/>"
+      },
+      "react": "available",
+      "import": "import { PropsTable } from '@eona-x/ui-toolkit-react';",
+      "jsx": "<PropsTable\n  component=\"Button\"\n  props={[{ name: \"Name\", ty: \"AttrValue\", doc: \"What the prop does.\" }]}\n/>"
+    },
+    {
+      "component": "RefCard",
+      "source": "src/molecules/ref_card.rs:14",
+      "status": "ok",
+      "yew": {
+        "uses": "use eona_ui_toolkit::RefCard;",
+        "snippet": "<RefCard\n    alt=\"EONA-X logo\"\n    description=\"Description\"\n    src=\"/assets/placeholder.svg\"\n    title=\"Title\"\n/>"
+      },
+      "react": "available",
+      "import": "import { RefCard } from '@eona-x/ui-toolkit-react';",
+      "jsx": "<RefCard\n  alt=\"EONA-X logo\"\n  description=\"Description\"\n  src=\"/assets/placeholder.svg\"\n  title=\"Title\"\n/>"
+    },
+    {
+      "component": "RuleListItem",
+      "source": "src/molecules/rule_list_item.rs:28",
+      "status": "ok",
+      "yew": {
+        "uses": "use eona_ui_toolkit::{RuleKind, RuleListItem};",
+        "snippet": "<RuleListItem kind={RuleKind::Do}>\n    { \"Children go here.\" }\n</RuleListItem>"
+      },
+      "react": "available",
+      "import": "import { RuleListItem } from '@eona-x/ui-toolkit-react';",
+      "jsx": "<RuleListItem kind=\"do\">\n  Children go here.\n</RuleListItem>"
+    },
+    {
+      "component": "SectionHead",
+      "source": "src/molecules/section_head.rs:15",
+      "status": "ok",
+      "yew": {
+        "uses": "use eona_ui_toolkit::SectionHead;",
+        "snippet": "<SectionHead kicker=\"Kicker\" number=\"01\" title=\"Title\" />"
+      },
+      "react": "available",
+      "import": "import { SectionHead } from '@eona-x/ui-toolkit-react';",
+      "jsx": "<SectionHead kicker=\"Kicker\" number=\"01\" title=\"Title\" />"
+    },
+    {
+      "component": "ShapeCard",
+      "source": "src/molecules/shape_card.rs:12",
+      "status": "ok",
+      "yew": {
+        "uses": "use eona_ui_toolkit::ShapeCard;\nuse yew::prelude::*;",
+        "snippet": "<ShapeCard\n    demo={html! { <span>{ \"Slot content.\" }</span> }}\n    description=\"Description\"\n    title=\"Title\"\n/>"
+      },
+      "react": "available",
+      "import": "import { ShapeCard } from '@eona-x/ui-toolkit-react';",
+      "jsx": "<ShapeCard\n  demo={<span>Slot content.</span>}\n  description=\"Description\"\n  title=\"Title\"\n/>"
+    },
+    {
+      "component": "SimpleFooter",
+      "source": "src/organisms/simple_footer.rs:13",
+      "status": "ok",
+      "yew": {
+        "uses": "use eona_ui_toolkit::{NavLink, SimpleFooter};",
+        "snippet": "<SimpleFooter\n    link={NavLink { href: \"#\".into(), label: \"Label\".into() }}\n    text=\"Text\"\n/>"
+      },
+      "react": "available",
+      "import": "import { SimpleFooter } from '@eona-x/ui-toolkit-react';",
+      "jsx": "<SimpleFooter link={{ href: \"#\", label: \"Label\" }} text=\"Text\" />"
+    },
+    {
+      "component": "SiteHeader",
+      "source": "src/organisms/site_header.rs:96",
+      "status": "ok",
+      "yew": {
+        "uses": "use eona_ui_toolkit::{SiteHeader, SiteNavLink};",
+        "snippet": "<SiteHeader\n    links={vec![SiteNavLink { href: \"#\".into(), label: \"Label\".into(), current: false }]}\n    show_login={true}\n/>"
+      },
+      "react": "available",
+      "import": "import { SiteHeader } from '@eona-x/ui-toolkit-react';",
+      "jsx": "<SiteHeader\n  links={[{ href: \"#\", label: \"Label\", current: false }]}\n  showLogin\n/>"
+    },
+    {
+      "component": "Swatch",
+      "source": "src/molecules/swatch.rs:31",
+      "status": "quarantined",
+      "reason": "panics while rendering a sentinel",
+      "yew": {
+        "uses": "use eona_ui_toolkit::Swatch;",
+        "snippet": "<Swatch\n    hex=\"#040553\"\n    name=\"Name\"\n    usage=\"Primary brand colour\"\n    variants={vec![\"100\".into()]}\n/>"
+      },
+      "react": "unavailable",
+      "why": "not in the React package — the verify gate quarantined it: panics while rendering a sentinel",
+      "disposition": "hand-port. The component derives a contrast colour from the prop, so no pass-through splice can be correct."
+    },
+    {
+      "component": "TagLabel",
+      "source": "src/atoms/tag_label.rs:27",
+      "status": "ok",
+      "yew": {
+        "uses": "use eona_ui_toolkit::{TagLabel, TagLabelTone};",
+        "snippet": "<TagLabel text=\"Text\" tone={TagLabelTone::Blue} />"
+      },
+      "react": "available",
+      "import": "import { TagLabel } from '@eona-x/ui-toolkit-react';",
+      "jsx": "<TagLabel text=\"Text\" tone=\"blue\" />"
+    },
+    {
+      "component": "TextField",
+      "source": "src/molecules/text_field.rs:22",
+      "status": "ok",
+      "yew": {
+        "uses": "use eona_ui_toolkit::{TextField, TextFieldKind};",
+        "snippet": "<TextField\n    id=\"example\"\n    kind={TextFieldKind::Textarea}\n    label=\"Label\"\n    placeholder=\"Placeholder\"\n/>"
+      },
+      "react": "available",
+      "import": "import { TextField } from '@eona-x/ui-toolkit-react';",
+      "jsx": "<TextField\n  id=\"example\"\n  kind=\"textarea\"\n  label=\"Label\"\n  placeholder=\"Placeholder\"\n/>"
+    },
+    {
+      "component": "TypeScaleRow",
+      "source": "src/molecules/type_scale_row.rs:14",
+      "status": "ok",
+      "yew": {
+        "uses": "use eona_ui_toolkit::TypeScaleRow;\nuse yew::prelude::*;",
+        "snippet": "<TypeScaleRow\n    role=\"Role\"\n    sample={html! { <span>{ \"Slot content.\" }</span> }}\n    spec=\"Spec\"\n/>"
+      },
+      "react": "available",
+      "import": "import { TypeScaleRow } from '@eona-x/ui-toolkit-react';",
+      "jsx": "<TypeScaleRow role=\"Role\" sample={<span>Slot content.</span>} spec=\"Spec\" />"
+    },
+    {
+      "component": "UsageExample",
+      "source": "src/molecules/usage_example.rs:24",
+      "status": "ok",
+      "yew": {
+        "uses": "use eona_ui_toolkit::UsageExample;",
+        "snippet": "<UsageExample on_dark={true} source={r#\"<Button label=\"Go\" />\"#}>\n    { \"Children go here.\" }\n</UsageExample>"
+      },
+      "react": "available",
+      "import": "import { UsageExample } from '@eona-x/ui-toolkit-react';",
+      "jsx": "<UsageExample onDark source={\"<Button label=\\\"Go\\\" />\"}>\n  Children go here.\n</UsageExample>"
+    }
+  ]
+}

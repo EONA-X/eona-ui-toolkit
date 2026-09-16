@@ -1,0 +1,35 @@
+[workspace]
+resolver = "2"
+members = [".", "xtask"]
+
+[package]
+name = "eona-ui-toolkit"
+version = "0.1.0"
+edition = "2021"
+description = "Shared Yew atoms/molecules/organisms for the EONA-X design system — consumed by developer.eona-x.eu and, eventually, other EONA-X front-ends."
+license = "Apache-2.0"
+repository = "https://gitlab.eona-x.org/eona-x/web/eona-ui-toolkit"
+keywords = ["eona-x", "design-system", "yew", "components"]
+readme = "README.md"
+
+[dependencies]
+# The whole dependency set. The toolkit is presentational Yew and nothing else:
+# `serde`/`serde_json` left with the JSON-LD parser in `src/ontology.rs`, and the
+# five `csr`-gated crates left with the `interactive` tier — both now live in
+# `eona-vocabulary-ui`, their only consumer.
+yew = "0.23"
+
+[features]
+# Consumers pick a renderer: `ssr` for static generation (developer.eona-x.eu),
+# `csr` for a browser/WASM host (Trunk apps, the Streamlit component bridge).
+# The components themselves are renderer-agnostic, so neither is on by default.
+default = []
+ssr = ["yew/ssr"]
+# Now only picks Yew's renderer: the `interactive` module this also used to gate
+# has moved to `eona-vocabulary-ui`. Kept as a feature name so that consumer's
+# `features = ["csr"]` keeps resolving.
+csr = ["yew/csr"]
+
+[dev-dependencies]
+yew = { version = "0.23", features = ["ssr"] }
+tokio = { version = "1", features = ["rt-multi-thread", "macros"] }

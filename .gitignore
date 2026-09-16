@@ -1,0 +1,11 @@
+/target
+Cargo.lock
+
+# npm build output of the generated React package. `packages/react/src`,
+# `package.json`, `tsconfig.json` and `README.md` ARE committed — they are the
+# generator's deliverable and `cargo xtask check` diffs them — but `dist/` is
+# tsup's output and `node_modules/` is npm's, and neither is written by any
+# stage of the generator. Keeping them untracked is also what lets the drift
+# gate treat every other file under packages/react as one it owns.
+/packages/*/dist/
+/packages/*/node_modules/

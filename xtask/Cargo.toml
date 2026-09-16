@@ -1,0 +1,19 @@
+[package]
+name = "xtask"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+syn = { version = "2", features = ["full", "visit", "extra-traits", "parsing", "printing"] }
+quote = "1"
+proc-macro2 = { version = "1", features = ["span-locations"] }
+prettyplease = "0.2"
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["preserve_order"] }
+cargo_metadata = "0.18"
+html5ever = "0.27"
+markup5ever_rcdom = "0.3"
+sha2 = "0.10"
+anyhow = "1"
+walkdir = "2"

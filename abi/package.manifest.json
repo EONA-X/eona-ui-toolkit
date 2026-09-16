@@ -1,0 +1,198 @@
+{
+  "srcHash": "70fb822dd0ac7ebfe18307470d8b158c7a148644c84e7114a57419f6e15088af",
+  "generatorHash": "cf2593f70141f9544f26fd50abc329c22996047326d3643245616bf7e3ac4155",
+  "dir": "packages/react",
+  "exported": [
+    "AccordionItem",
+    "BadgeNum",
+    "BgCheckItem",
+    "Button",
+    "Callout",
+    "CaseCard",
+    "CodeBlock",
+    "DeclCard",
+    "Hero",
+    "HeroFilter",
+    "LogoDownloadCard",
+    "MainNav",
+    "MemberCard",
+    "MemberFilterCard",
+    "MvoCard",
+    "NavDropdown",
+    "NewsCard",
+    "OntoBadge",
+    "PersonalityCard",
+    "Pill",
+    "PillButton",
+    "PillarCard",
+    "PropsTable",
+    "RefCard",
+    "RuleListItem",
+    "SectionHead",
+    "ShapeCard",
+    "SimpleFooter",
+    "SiteHeader",
+    "TagLabel",
+    "TextField",
+    "TypeScaleRow",
+    "UsageExample"
+  ],
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "f21b857783b18fe7497f2ac8640b06c18999b45447bb73699090e831945ca3f0"
+    },
+    {
+      "path": "package.json",
+      "sha256": "7d9a0326147dcc6ad26638e05357a78d48df176cc061e3fc93cf3add4f6df87c"
+    },
+    {
+      "path": "src/AccordionItem.tsx",
+      "sha256": "b8d7d5ebc67263a271b7fc4226da87a8a9a43e005872d7214d52a2c3b8fd6a74"
+    },
+    {
+      "path": "src/BadgeNum.tsx",
+      "sha256": "b73a1deb6cff53f6aee569cf2d0676ec35f2279a69e8e3c6a94efc677c489b71"
+    },
+    {
+      "path": "src/BgCheckItem.tsx",
+      "sha256": "1385732f9bb2bc618e7bbcf32ed3b74c7a97bed9e9237b53f5795aeec3a83092"
+    },
+    {
+      "path": "src/Button.tsx",
+      "sha256": "68c5e352951fc643015aec0303d391cfecb50bb4c08e0486a8ed3c779ad1d169"
+    },
+    {
+      "path": "src/Callout.tsx",
+      "sha256": "40eeeb73379be0e8c65769f36a615482cda1f409cb91e45795e36bf092c3c5eb"
+    },
+    {
+      "path": "src/CaseCard.tsx",
+      "sha256": "c39a6f3e246d29a6a83956dd7a26446e680d65b163a116f805c8ac04d1d3bd36"
+    },
+    {
+      "path": "src/CodeBlock.tsx",
+      "sha256": "00a17e3cb84aac5f9314a50d04c351111d339c2118756ad8ff25351ea4cd3a2e"
+    },
+    {
+      "path": "src/DeclCard.tsx",
+      "sha256": "0859339bcc2465447dcda098a8e74c1e8670b9b59d1cedc478bdff960e8287e8"
+    },
+    {
+      "path": "src/Hero.tsx",
+      "sha256": "2106a5b0f24d01d3c978d73e4fc58cee8a0dbfe0b9e7d279eb1a2c7552b88004"
+    },
+    {
+      "path": "src/HeroFilter.tsx",
+      "sha256": "c12409c963bea54c7568f0bdac73af8ed8cfde76f7dfb357bb95e0ef41fa7e8c"
+    },
+    {
+      "path": "src/LogoDownloadCard.tsx",
+      "sha256": "8ec2779d94840fe0566c41a8e596b59079ba233bce4e7356a6c96583fc6af0d8"
+    },
+    {
+      "path": "src/MainNav.tsx",
+      "sha256": "398fee3f6e901ec52da6afaa013807720959b747206dcf002ad3ec210a6e64b0"
+    },
+    {
+      "path": "src/MemberCard.tsx",
+      "sha256": "6d4996dad8961daf7b5c292d8b8af4492f8a55869084118c1677a4a707088490"
+    },
+    {
+      "path": "src/MemberFilterCard.tsx",
+      "sha256": "1dff9cfaa6780e647aa40ad33160450cec989e3c83629d2cfc396797e190e30f"
+    },
+    {
+      "path": "src/Modal.tsx",
+      "sha256": "63a794ee8690b7b1940b441ef4aa4ae9d378501456eb0fb2e4b5677e0a9d950d"
+    },
+    {
+      "path": "src/MvoCard.tsx",
+      "sha256": "f36fb157d755997fa371c49d196c7f2903ee0bf7495b8d3354edc27f63ba0d25"
+    },
+    {
+      "path": "src/NavDropdown.tsx",
+      "sha256": "b5825807da1cce0b8c6290cf98fd26d71161eb5dcdcac0df8f20e43fb79203d7"
+    },
+    {
+      "path": "src/NewsCard.tsx",
+      "sha256": "25c1a6fa6defccf53eaf5dc79332b1d4f96e6e6155e20450b16d1eaad03170d3"
+    },
+    {
+      "path": "src/OntoBadge.tsx",
+      "sha256": "e07c4a284edf29fc51b05a034562876a8481e74e48d8e4f4535eb5f56890b0c4"
+    },
+    {
+      "path": "src/PersonalityCard.tsx",
+      "sha256": "81fa9147a62399650354a8d518b66eebee2aa62c1cceb1ba53856af456f69995"
+    },
+    {
+      "path": "src/Pill.tsx",
+      "sha256": "3fcd975f42c57123f95fbc391fef9c6d09cb1c0d4ed6fd00ec4383dbfd3aafb2"
+    },
+    {
+      "path": "src/PillButton.tsx",
+      "sha256": "c76a7d1b0ccf9e0ec6623fefe1f991b2c6ca0f15e0fe092ed00fb79ccc74300b"
+    },
+    {
+      "path": "src/PillarCard.tsx",
+      "sha256": "e856f80ce9632f59cdf08969ac7a1d0b58543aef5a3fa89290487341341038fa"
+    },
+    {
+      "path": "src/PropsTable.tsx",
+      "sha256": "68d7d56d6f2dc90953ae5e65f2c3e70009c53ef15278180a261e283fff7c7b99"
+    },
+    {
+      "path": "src/RefCard.tsx",
+      "sha256": "49ba1ec48dff7293cabe27e2f4e0a7a08cc104518a89413e93cc911a84488ba9"
+    },
+    {
+      "path": "src/RuleListItem.tsx",
+      "sha256": "b4978d8590599a94fa39bdc9d94c0f78e6a1aa96697e01d900a92646a308e9ac"
+    },
+    {
+      "path": "src/SectionHead.tsx",
+      "sha256": "ff9619aaa02d997b6ca1b1465c9ccfca778865e32f0830f667fe5df87e8c5b4e"
+    },
+    {
+      "path": "src/ShapeCard.tsx",
+      "sha256": "69f37245b6ede96ba2b36e60c06066fda0026f4d2e3fe0dfabde42f6ab15eced"
+    },
+    {
+      "path": "src/SimpleFooter.tsx",
+      "sha256": "79ecbf426099a1be08bcce26b3965c2dc19c01896b7bfc3a12debcb7928d9460"
+    },
+    {
+      "path": "src/SiteHeader.tsx",
+      "sha256": "621171842a261ae0bbd83d13f0cfef7d375a6de207491f825d143b613793d4f3"
+    },
+    {
+      "path": "src/TagLabel.tsx",
+      "sha256": "74bf639a3866bc45188b7b9eaf994ab7c9f442514668bb43a977a307856d908c"
+    },
+    {
+      "path": "src/TextField.tsx",
+      "sha256": "c92ebbf4174d8c6dfb52773b7a07da413202ebe99161d16cc52fcd879d338369"
+    },
+    {
+      "path": "src/TypeScaleRow.tsx",
+      "sha256": "c2ec372edfd661d41d3b78e54b023174417bbcb98a3bfa86d26cf525f72f3cf2"
+    },
+    {
+      "path": "src/UsageExample.tsx",
+      "sha256": "b8e3095e7329466276f3ca87322ef8736a17b6a99ca8bbb618d289e5ead3a527"
+    },
+    {
+      "path": "src/index.ts",
+      "sha256": "f84e953392b6a359d072ebfe7542b9ce56b4bf5c8cb7092588db6b7d5f599f76"
+    },
+    {
+      "path": "src/types.ts",
+      "sha256": "e57f4c487a1ef8b1da25739366e0aedf0d72374011fb3e0c5a34bd7cbe2f8d1b"
+    },
+    {
+      "path": "tsconfig.json",
+      "sha256": "b818fb65e7c637baf576494f5a3329c6bf588a29a59c38d6ad31db021a076a5f"
+    }
+  ]
+}
