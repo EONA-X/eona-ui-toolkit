@@ -1,0 +1,74 @@
+# Publishes the component gallery — the crate's own documentation — to GitHub Pages.
+#
+# The page is `DemoPage`, rendered server-side by `examples/render-docs.rs`. EONA-X's
+# developer portal publishes the same component as `components.html` inside a larger
+# site; this deploy serves it standalone from the repository that owns it, so the
+# documentation cannot lag the code it documents.
+name: Publish the component gallery
+
+on:
+  push:
+    branches: [main]
+    # Anything that can change what the page renders. Editing the README or the
+    # generated React package alone does not warrant a redeploy.
+    paths:
+      - 'src/**'
+      - 'assets/**'
+      - 'bridge/**'
+      - 'examples/**'
+      - 'Cargo.toml'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+# Least privilege plus the two tokens the Pages deploy itself needs.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deployment at a time. Newer pushes supersede an in-flight run rather than
+# queueing behind it, since only the latest tree is worth publishing.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+
+      # Gate the deploy on the tests that pin what this page renders: ssr_parity
+      # keeps `inert` on the modal and the submenu, and demo_page checks the
+      # gallery's own structure. Publishing a page the crate's own tests reject
+      # would be worse than not publishing.
+      - name: Test
+        run: cargo test --features ssr
+
+      # The committed React package and ABI must match `src/`. The page documents
+      # both stacks from one source of truth, so a stale `bridge/examples.rs` would
+      # show React snippets for a crate that has moved on. Replays committed
+      # verdicts; no browser, no wasm toolchain.
+      - name: Check generated output is not stale
+        run: cargo run -p xtask -- check
+
+      - name: Render the gallery
+        run: cargo run --example render-docs --features ssr -- dist
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

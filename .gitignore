@@ -9,3 +9,6 @@ Cargo.lock
 # gate treat every other file under packages/react as one it owns.
 /packages/*/dist/
 /packages/*/node_modules/
+
+# Rendered by `cargo run --example render-docs`; the Pages workflow builds it.
+/dist/
