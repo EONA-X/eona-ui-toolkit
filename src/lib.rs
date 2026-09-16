@@ -38,6 +38,19 @@ pub const COMPONENTS_CSS: &str = include_str!("../assets/components.css");
 /// the stateful tier — see the `ontology` module's note.
 pub const ONTOLOGY_CSS: &str = include_str!("../assets/ontology.css");
 
+/// The EONA-X mark, as an SVG. Write it to `logo/logo-transparent.svg` relative to
+/// the page.
+///
+/// A crate asset rather than the host's problem, because two things here cannot
+/// render correctly without it: [`crate::SiteHeader`] hardcodes that path twice
+/// (`src/organisms/site_header.rs:101,105`) and `assets/demo-shell.html` links it
+/// as the favicon. A host that had to supply it got a header with a hole in it.
+///
+/// It is 264 KB — a generated wrapper whose actual payload is a 34 KB greyscale
+/// mask — because these are the charter's own bytes. Re-authoring it smaller would
+/// mean redrawing the mark, which is not this crate's call to make.
+pub const LOGO_SVG: &str = include_str!("../assets/logo/logo-transparent.svg");
+
 pub mod atoms;
 pub mod demo;
 

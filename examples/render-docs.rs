@@ -10,33 +10,25 @@ use std::{env, fs, path::PathBuf};
 
 use eona_ui_toolkit::{
     demo::{DemoPage, DEMO_JS, DEMO_SHELL},
-    COMPONENTS_CSS, ONTOLOGY_CSS, TOKENS_CSS,
+    COMPONENTS_CSS, LOGO_SVG, ONTOLOGY_CSS, TOKENS_CSS,
 };
 use yew::ServerRenderer;
 
-/// Two of `DEMO_SHELL`'s references belong to the portal, not to this crate, and
-/// a standalone build has no way to satisfy them:
+/// One of `DEMO_SHELL`'s references belongs to the portal and a standalone build
+/// cannot satisfy it.
 ///
-/// - `site-header.js` is the scroll-collapse glue for [`SiteHeader`]. Every portal
-///   page uses it, which is why it lives there; without it the header renders
-///   correctly and simply never collapses. Vendoring a second copy here is how the
-///   two would drift, so the tag is dropped instead of duplicated.
-/// - `logo/logo-transparent.svg` is the EONA-X mark, which the integration guide
-///   already documents as the host's to supply (`integration_section.rs`). The
-///   portal's copy is 264 KB of base64-embedded raster rather than a real vector,
-///   and the brand repository has no vector mark to use instead, so this deploy
-///   ships without it. Only the favicon link is dropped here; `SiteHeader`'s two
-///   `<img>` tags stay as the component emits them, and because both carry
-///   `alt=""` a failed load renders nothing rather than a broken-image icon.
-///
-/// Dropping the tags rather than leaving them is deliberate: a 404 in the console
+/// `site-header.js` is the scroll-collapse glue for [`SiteHeader`]. Every portal
+/// page uses it, which is why it lives there; without it the header renders and
+/// simply never collapses. Vendoring a second copy here is how the two would
+/// drift, so the tag is dropped rather than duplicated — a 404 in the console
 /// reads as a broken deploy, and this one is not broken.
+///
+/// The favicon and the header's mark are no longer a problem: `LOGO_SVG` is a
+/// crate constant now, written out below like the stylesheets.
 fn strip_portal_assets(shell: &str) -> String {
     shell
         .lines()
-        .filter(|line| {
-            !line.contains("site-header.js") && !line.contains("logo/logo-transparent.svg")
-        })
+        .filter(|line| !line.contains("site-header.js"))
         .collect::<Vec<_>>()
         .join("\n")
 }
@@ -64,6 +56,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     fs::write(out.join("ontology.css"), ONTOLOGY_CSS)?;
     fs::write(out.join("demo-page.js"), DEMO_JS)?;
 
+    // `SiteHeader` hardcodes this path and the shell links it as the favicon, so
+    // the directory name is part of the contract, not a choice.
+    fs::create_dir_all(out.join("logo"))?;
+    fs::write(out.join("logo/logo-transparent.svg"), LOGO_SVG)?;
+
     // Pages runs the upload through Jekyll unless told not to; `_`-prefixed paths
     // would be dropped silently. Nothing here starts with `_` today, so this is a
     // guard against a future asset that does.
@@ -71,7 +68,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     println!(
         "wrote {} ({} KB of HTML) to {}",
-        ["index.html", "tokens.css", "components.css", "ontology.css", "demo-page.js"].len(),
+        ["index.html", "tokens.css", "components.css", "ontology.css", "demo-page.js",
+         "logo/logo-transparent.svg"].len(),
         page.len() / 1024,
         out.display()
     );

@@ -202,27 +202,29 @@ std::fs::write(dist.join("components.html"), DEMO_SHELL.replace("__APP__", &body
 std::fs::write(dist.join("demo-page.js"), DEMO_JS)?;"##}
                     />
                     <div class="integration-note">
-                        <b>{ "Six assets the shell expects, and two are not in the crate." }</b>
+                        <b>{ "Six assets the shell expects, and one is not in the crate." }</b>
                         <p>
-                            { "Four are crate constants, written out above and in section 12: " }
+                            { "Five are crate constants, written out above and in section 12: " }
                             <code>{ "tokens.css" }</code>{ ", " }<code>{ "components.css" }</code>
-                            { ", " }<code>{ "ontology.css" }</code>{ " and " }
-                            <code>{ "demo-page.js" }</code>
-                            { ". The other two the host has to supply, and they fail differently. " }
-                            <code>{ "site-header.js" }</code>
-                            { " is the scroll-collapse glue for " }<code>{ "SiteHeader" }</code>
-                            { "; omit it and the header simply never collapses — degraded, not \
-                               broken. " }<code>{ "logo/logo-transparent.svg" }</code>
-                            { " is the EONA-X mark, and it is " }<em>{ "required" }</em>
-                            { ": the shell links it as the favicon (" }
-                            <code>{ "assets/demo-shell.html:14" }</code>{ ") and " }
-                            <code>{ "SiteHeader" }</code>{ " hardcodes it twice more (" }
+                            { ", " }<code>{ "ontology.css" }</code>{ ", " }
+                            <code>{ "demo-page.js" }</code>{ " and " }<code>{ "LOGO_SVG" }</code>
+                            { ", the EONA-X mark — write that one to " }
+                            <code>{ "logo/logo-transparent.svg" }</code>
+                            { ", the path " }<code>{ "SiteHeader" }</code>
+                            { " hardcodes twice (" }
                             <code>{ "src/organisms/site_header.rs:101,105" }</code>
-                            { "). The crate ships no " }<code>{ "logo/" }</code>
-                            { " directory — the file belongs to the portal, like " }
-                            <code>{ "site-header.js" }</code>
-                            { " — so a host that does not copy it in renders a broken image where \
-                               the mark should be. It is worth knowing on the React side too: " }
+                            { ") and the shell links as the favicon (" }
+                            <code>{ "assets/demo-shell.html:14" }</code>{ "). It ships here because \
+                               a component that names an asset should carry it; hosts used to have \
+                               to copy the file in and got a header with a hole in it when they \
+                               forgot." }
+                        </p>
+                        <p>
+                            { "The one exception is " }<code>{ "site-header.js" }</code>
+                            { ", the scroll-collapse glue for " }<code>{ "SiteHeader" }</code>
+                            { ". It stays with the portal, whose every page uses it; omit it and \
+                               the header renders and simply never collapses — degraded, not \
+                               broken. It is worth knowing on the React side too: " }
                             <code>{ "SiteHeader" }</code>
                             { " is one of the 33 exported components and the npm package carries no \
                                assets at all." }

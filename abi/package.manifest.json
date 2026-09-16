@@ -1,5 +1,5 @@
 {
-  "srcHash": "70fb822dd0ac7ebfe18307470d8b158c7a148644c84e7114a57419f6e15088af",
+  "srcHash": "af5c6808ec3a3e4fddcb80f342480c4083ef6e88605ff113d130ec403da802e8",
   "generatorHash": "cf2593f70141f9544f26fd50abc329c22996047326d3643245616bf7e3ac4155",
   "dir": "packages/react",
   "exported": [
@@ -40,7 +40,7 @@
   "files": [
     {
       "path": "README.md",
-      "sha256": "f21b857783b18fe7497f2ac8640b06c18999b45447bb73699090e831945ca3f0"
+      "sha256": "e9d6d1f3874093884202db24381c3289f09b6c2368160f650293c2e5b4e63ed1"
     },
     {
       "path": "package.json",
@@ -184,7 +184,7 @@
     },
     {
       "path": "src/index.ts",
-      "sha256": "f84e953392b6a359d072ebfe7542b9ce56b4bf5c8cb7092588db6b7d5f599f76"
+      "sha256": "1a20d870b191948739d4cde7804b0efe37b9a2d350f35b181194d51e2581ceca"
     },
     {
       "path": "src/types.ts",
