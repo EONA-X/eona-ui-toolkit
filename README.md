@@ -210,10 +210,13 @@ Dark mode is opt-in via an explicit attribute and is deliberately **not** wired 
 <html data-theme="dark">
 ```
 
-Its values are the charter's own `websiteDarkNeutrals` (slide 5). The tokens live in
-[`eona-design-system`](https://gitlab.eona-x.org/eona-x/poc-rnd/design-system) on the
-`charte-graphique-design-system` lineage; `assets/tokens.css` here is a byte-identical mirror
-of that repo's `brand/tokens.css`.
+Its values are the charter's own `websiteDarkNeutrals` (slide 5). `assets/tokens.css` began as a
+byte-identical mirror of `brand/tokens.css` in
+[`eona-design-system`](https://gitlab.eona-x.org/eona-x/poc-rnd/design-system), on the
+`charte-graphique-design-system` lineage — but that repository is **archived**, and the two have
+since diverged: the alert levels moved to the Data Quality set, `--eona-critical` was added, and
+a chart scale that does not exist there was introduced. **This file is the source of truth for the
+charter now**; the archive is provenance, not an upstream to sync against.
 
 Note that `COMPONENTS_CSS` still reads the raw palette directly, so the presentational
 components do not follow `data-theme` yet — re-pointing them is a separate change, since it
