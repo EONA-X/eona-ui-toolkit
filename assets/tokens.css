@@ -36,9 +36,19 @@
   /* ---------------------------------------------------------------- */
   /* Color — Semantic / status (slide 7)                              */
   /* ---------------------------------------------------------------- */
-  --eona-success: #26B548;
-  --eona-warning: #EDA01C;
-  --eona-error: #DF1E26;
+  /* The Data Quality tool's validated set (its `app/theme.py`, ticket #730),
+     adopted as the charter's semantic alert levels so one palette serves both.
+     Replaces the slide-7 values #26B548 / #EDA01C / #DF1E26.
+
+     These are alert *levels*, not chart series: they appear beside their own
+     glyph or label, never as adjacent fills whose hues must be told apart. That
+     is the distinction `--eona-chart-*` exists for, and why those are stepped
+     differently rather than aliased to these. */
+  --eona-success: #7ED957;
+  --eona-warning: #FAD04D;
+  --eona-error: #FF3131;
+  /* The charter had no neutral level; #730 does. */
+  --eona-neutral: #6C757D;
 
   /* ---------------------------------------------------------------- */
   /* Color — chart scale (see eona-x/backlog#822)                      */
@@ -48,12 +58,24 @@
      semantic hues, corrected so good and warning stay apart for a
      red-green colour-blind reader.
 
-     `--eona-success` (#26B548) against `--eona-warning` measures ΔE 2.5
-     under protanopia — the two are the same colour to roughly 8% of men.
-     `--eona-chart-good` is the same hue darkened: ΔE 17.4. The slide-7
-     tokens keep their values for badges and text, where a colour appears
-     beside its own label and never next to its sibling; charts put the
-     three side by side, which is what makes the distance load-bearing.
+     `--eona-success` against `--eona-warning` measures ΔE 2.0 under
+     protanopia (#7ED957 vs #FAD04D; the slide-7 pair it replaced measured
+     2.5) — the two are the same colour to roughly 8% of men. Neither set
+     is usable where hue alone has to separate them.
+
+     `--eona-chart-good` is a darker green in the same family: ΔE 17.4
+     against the amber. The alert levels keep their own values because they
+     appear beside a glyph or a label and never next to their sibling as a
+     bare fill; charts put the three side by side, which is what makes the
+     distance load-bearing.
+
+     The two warnings are deliberately different hues and should stay that
+     way. Re-deriving this scale from the alert amber (#FAD04D) separates
+     from the green well enough — ΔE 18.2 — but fails the fill lightness
+     band at L 0.871; #EDA01C sits inside it at 0.763. A colour read as a
+     small glyph and a colour read as a filled arc are not the same job, and
+     aliasing one to the other trades a measurable property for a tidier
+     token list.
 
      Both sit under 3:1 against a white card. That is allowed for status,
      and the relief is present by construction: the donut carries its
