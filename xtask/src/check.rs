@@ -1674,11 +1674,14 @@ mod tests {
 
     #[test]
     fn a_component_the_generator_withholds_must_carry_a_decision() {
-        // `Modal` is NeedsOverride in the real crate (src/molecules/modal.rs
-        // hardcodes `inert`). Against a root with no overrides.toml, that has
-        // to surface — otherwise a component can leave the package with nobody
+        // Synthetic since eona-x/backlog#822: the real crate withholds nothing
+        // any more, so the fixture has to supply the shape. The rule under test
+        // is unchanged — a component the generator will not emit must have a
+        // human's decision recorded, or it leaves the package with nobody
         // having said so.
-        let tk = real_toolkit();
+        let mut tk = real_toolkit();
+        let victim = tk.components.iter_mut().find(|c| c.name == "Modal").unwrap();
+        victim.status = Status::NeedsOverride { reason: "fixture: withheld".into() };
         let empty = scratch_root("no-overrides");
         let findings = check_overrides(&empty, &tk).unwrap();
         assert!(
@@ -1859,8 +1862,9 @@ mod tests {
         let findings = check_overrides(&root(), &tk).unwrap();
         assert!(findings.is_empty(), "{findings:#?}");
 
-        // And every one of the five is genuinely withheld, so none of those
-        // entries is decoration.
+        // Nothing is withheld any more (#822), so the committed overrides file is
+        // empty and this set must be too — an entry for a component that now
+        // emits would be a stale decision nobody cleaned up.
         let withheld: BTreeSet<&str> = tk
             .components
             .iter()
@@ -1869,19 +1873,7 @@ mod tests {
             })
             .map(|c| c.name.as_str())
             .collect();
-        assert_eq!(
-            withheld,
-            BTreeSet::from([
-                "DatasetCard",
-                "Modal",
-                // src/molecules/annotation.rs:24 shortens the datatype IRI.
-                // Caught only once verify's differential alphabet carried `#`
-                // and `/` in its body (xtask/src/verify.rs `PAD`).
-                "OntoAnnotation",
-                "PaletteGroup",
-                "Swatch",
-            ])
-        );
+        assert!(withheld.is_empty(), "{withheld:?}");
     }
 
     #[test]

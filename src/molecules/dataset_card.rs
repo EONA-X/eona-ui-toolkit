@@ -1,5 +1,14 @@
 use yew::prelude::*;
 
+/// The placeholder letter for a dataset with no thumbnail: the title's first
+/// character, upper-cased, or `?` for an empty title.
+///
+/// Lives beside the component rather than inside it so [`DatasetCard`] stays a
+/// pass-through of its props — see the `initial` prop.
+pub fn dataset_initial(title: &str) -> String {
+    title.chars().next().unwrap_or('?').to_uppercase().to_string()
+}
+
 /// A catalog entry: thumbnail, title, version, publisher and a short
 /// description, ending in a call to action.
 ///
@@ -15,6 +24,12 @@ use yew::prelude::*;
 #[derive(Properties, PartialEq)]
 pub struct DatasetCardProps {
     pub title: AttrValue,
+    /// The letter shown when there is no thumbnail, from [`dataset_initial`].
+    ///
+    /// A prop rather than `title.chars().next()`: deriving it made the markup a
+    /// transform of `title`, which the React generator's verify gate
+    /// quarantines. See eona-x/backlog#822.
+    pub initial: AttrValue,
     /// Where the whole card points.
     pub href: AttrValue,
     #[prop_or_default]
@@ -40,8 +55,6 @@ pub struct DatasetCardProps {
 
 #[function_component(DatasetCard)]
 pub fn dataset_card(props: &DatasetCardProps) -> Html {
-    let initial = props.title.chars().next().unwrap_or('?').to_uppercase().to_string();
-
     html! {
         <a class="dataset-card" href={props.href.clone()}>
             <div class="dataset-card__media">
@@ -49,7 +62,7 @@ pub fn dataset_card(props: &DatasetCardProps) -> Html {
                     <img class="dataset-card__thumb" src={src.clone()} alt="" loading="lazy" />
                 } else {
                     <span class="dataset-card__thumb dataset-card__thumb--empty" aria-hidden="true">
-                        { initial }
+                        { &props.initial }
                     </span>
                 }
                 if let Some(badge) = &props.badge {

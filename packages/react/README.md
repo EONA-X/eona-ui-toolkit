@@ -7,7 +7,7 @@ of truth is the Yew crate in this repository (`src/`): each component here was p
 rendering the Rust component with Yew's own server renderer and splicing the props back
 into the resulting markup, so the React and Yew renders are the same HTML by construction.
 
-Generated from src_hash `dd5ca60df5911d6a0d2b644075a504c90536d1a3b13a715309e25dbeee8242b9`.
+Generated from src_hash `e2f87d37a98628ba1179b6685c343ac908f0107ef8e37da01f0b07580c98f5f9`.
 
 ## Do not edit
 
@@ -83,7 +83,7 @@ snapshot test that diffs this package's SSR bytes against the Yew portal's:
    every `<img src>` it renders, and omits `src=""` entirely (with a warning) where Yew
    emits it.
 
-## Components (36)
+## Components (41)
 
 - `AccordionItem` — `src/molecules/accordion_item.rs:17`
 - `BadgeNum` — `src/atoms/badge_num.rs:11`
@@ -92,6 +92,7 @@ snapshot test that diffs this package's SSR bytes against the Yew portal's:
 - `Callout` — `src/molecules/callout.rs:13`
 - `CaseCard` — `src/molecules/case_card.rs:15`
 - `CodeBlock` — `src/atoms/code_block.rs:27`
+- `DatasetCard` — `src/molecules/dataset_card.rs:57`
 - `DeclCard` — `src/molecules/decl_card.rs:17`
 - `EvolutionBadge` — `src/atoms/evolution_badge.rs:23`
 - `Hero` — `src/organisms/hero.rs:35`
@@ -101,10 +102,13 @@ snapshot test that diffs this package's SSR bytes against the Yew portal's:
 - `MemberCard` — `src/molecules/member_card.rs:11`
 - `MemberFilterCard` — `src/molecules/member_filter_card.rs:18`
 - `MetricTile` — `src/molecules/metric_tile.rs:28`
+- `Modal` — `src/molecules/modal.rs:28`
 - `MvoCard` — `src/molecules/mvo_card.rs:11`
 - `NavDropdown` — `src/molecules/nav_dropdown.rs:22`
 - `NewsCard` — `src/molecules/news_card.rs:16`
+- `OntoAnnotation` — `src/molecules/annotation.rs:38`
 - `OntoBadge` — `src/atoms/onto_badge.rs:66`
+- `PaletteGroup` — `src/molecules/palette_group.rs:43`
 - `PersonalityCard` — `src/molecules/personality_card.rs:11`
 - `Pill` — `src/atoms/pill.rs:28`
 - `PillButton` — `src/atoms/pill_button.rs:37`
@@ -117,18 +121,11 @@ snapshot test that diffs this package's SSR bytes against the Yew portal's:
 - `ShapeCard` — `src/molecules/shape_card.rs:12`
 - `SimpleFooter` — `src/organisms/simple_footer.rs:13`
 - `SiteHeader` — `src/organisms/site_header.rs:96`
+- `Swatch` — `src/molecules/swatch.rs:44`
 - `TagLabel` — `src/atoms/tag_label.rs:27`
 - `TextField` — `src/molecules/text_field.rs:22`
 - `TypeScaleRow` — `src/molecules/type_scale_row.rs:14`
 - `UsageExample` — `src/molecules/usage_example.rs:24`
-
-## Not exported (5)
-
-- `Modal` — needs an override — inert hardcoded; needs open: bool upstream (#809) (`src/molecules/modal.rs:20`)
-- `DatasetCard` — quarantined — does not pass its props through to the markup unmodified (`src/molecules/dataset_card.rs:42`)
-- `OntoAnnotation` — quarantined — does not pass its props through to the markup unmodified (`src/molecules/annotation.rs:44`)
-- `PaletteGroup` — quarantined — panics while rendering a sentinel (`src/molecules/palette_group.rs:37`)
-- `Swatch` — quarantined — panics while rendering a sentinel (`src/molecules/swatch.rs:31`)
 
 ## Out of scope (4)
 

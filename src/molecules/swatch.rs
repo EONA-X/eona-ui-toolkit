@@ -21,16 +21,28 @@ pub fn contrast_color(hex: &str) -> &'static str {
 #[derive(Properties, PartialEq)]
 pub struct SwatchProps {
     pub hex: AttrValue,
+    /// The foreground the swatch prints its hex in, from [`contrast_color`].
+    ///
+    /// A prop rather than a computation: deriving it here read the prop's bytes
+    /// (`contrast_color` slices `hex[0..2]`), which both panicked on a
+    /// multi-byte probe and made the markup a transform of the prop — the shape
+    /// the React generator's verify gate quarantines. Computing it at the call
+    /// site keeps this component pass-through. See eona-x/backlog#822.
+    pub ink: AttrValue,
     pub name: AttrValue,
     pub usage: AttrValue,
+    /// Near-duplicate hexes seen in the wild, already joined for display.
+    ///
+    /// A joined string rather than a `Vec`: collapsing a list into one text
+    /// node is a transform the splicer cannot express from a 0..3 render
+    /// matrix, so the join happens at the call site. See eona-x/backlog#822.
     #[prop_or_default]
-    pub variants: Vec<AttrValue>,
+    pub variants: Option<AttrValue>,
 }
 
 #[function_component(Swatch)]
 pub fn swatch(props: &SwatchProps) -> Html {
-    let fg = contrast_color(&props.hex);
-    let style = format!("background:{};color:{};", props.hex, fg);
+    let style = format!("background:{};color:{};", props.hex, props.ink);
     html! {
         <button class="swatch" type="button" data-hex={props.hex.clone()}>
             <span class="swatch-color" style={style}>
@@ -40,10 +52,10 @@ pub fn swatch(props: &SwatchProps) -> Html {
             <span class="swatch-meta">
                 <span class="swatch-name">{ &props.name }</span>
                 <span class="swatch-usage">{ &props.usage }</span>
-                if !props.variants.is_empty() {
+                if let Some(variants) = &props.variants {
                     <span class="swatch-variants">
                         { "Also seen: " }
-                        { props.variants.iter().map(AttrValue::to_string).collect::<Vec<_>>().join(" · ") }
+                        { variants }
                     </span>
                 }
             </span>

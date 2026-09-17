@@ -1,6 +1,6 @@
 {
   "examplesVersion": 1,
-  "srcHash": "dd5ca60df5911d6a0d2b644075a504c90536d1a3b13a715309e25dbeee8242b9",
+  "srcHash": "e2f87d37a98628ba1179b6685c343ac908f0107ef8e37da01f0b07580c98f5f9",
   "components": [
     {
       "component": "AccordionItem",
@@ -101,16 +101,15 @@
     },
     {
       "component": "DatasetCard",
-      "source": "src/molecules/dataset_card.rs:42",
-      "status": "quarantined",
-      "reason": "does not pass its props through to the markup unmodified",
+      "source": "src/molecules/dataset_card.rs:57",
+      "status": "ok",
       "yew": {
         "uses": "use eona_ui_toolkit::DatasetCard;",
-        "snippet": "<DatasetCard\n    action_label=\"View documentation\"\n    badge=\"Badge\"\n    badge_class=\"Badge Class\"\n    description=\"Description\"\n    href=\"#\"\n    publisher=\"Publisher\"\n    thumbnail=\"/assets/placeholder.svg\"\n    title=\"Title\"\n    version=\"Version\"\n/>"
+        "snippet": "<DatasetCard\n    action_label=\"View documentation\"\n    badge=\"Badge\"\n    badge_class=\"Badge Class\"\n    description=\"Description\"\n    href=\"#\"\n    initial=\"Initial\"\n    publisher=\"Publisher\"\n    thumbnail=\"/assets/placeholder.svg\"\n    title=\"Title\"\n    version=\"Version\"\n/>"
       },
-      "react": "unavailable",
-      "why": "not in the React package — the verify gate quarantined it: does not pass its props through to the markup unmodified",
-      "disposition": "hand-port the thumb; the rest of the card is faithful but is not emitted piecemeal."
+      "react": "available",
+      "import": "import { DatasetCard } from '@eona-x/ui-toolkit-react';",
+      "jsx": "<DatasetCard\n  actionLabel=\"View documentation\"\n  badge=\"Badge\"\n  badgeClass=\"Badge Class\"\n  description=\"Description\"\n  href=\"#\"\n  initial=\"Initial\"\n  publisher=\"Publisher\"\n  thumbnail=\"/assets/placeholder.svg\"\n  title=\"Title\"\n  version=\"Version\"\n/>"
     },
     {
       "component": "DeclCard",
@@ -248,17 +247,15 @@
     },
     {
       "component": "Modal",
-      "source": "src/molecules/modal.rs:20",
-      "status": "needs-override",
-      "reason": "inert hardcoded; needs open: bool upstream (#809)",
+      "source": "src/molecules/modal.rs:28",
+      "status": "ok",
       "yew": {
         "uses": "use eona_ui_toolkit::Modal;",
-        "snippet": "<Modal id=\"example\" title=\"Title\">\n    { \"Children go here.\" }\n</Modal>"
+        "snippet": "<Modal id=\"example\" open={true} title=\"Title\">\n    { \"Children go here.\" }\n</Modal>"
       },
-      "react": "unavailable",
-      "why": "not in the React package — it needs an override: inert hardcoded; needs open: bool upstream (#809)",
-      "disposition": "hand-port, or add `open: bool` upstream and regenerate. Not emitted meanwhile.",
-      "tracked_by": "#809"
+      "react": "available",
+      "import": "import { Modal } from '@eona-x/ui-toolkit-react';",
+      "jsx": "<Modal id=\"example\" open title=\"Title\">\n  Children go here.\n</Modal>"
     },
     {
       "component": "MvoCard",
@@ -298,17 +295,15 @@
     },
     {
       "component": "OntoAnnotation",
-      "source": "src/molecules/annotation.rs:44",
-      "status": "quarantined",
-      "reason": "does not pass its props through to the markup unmodified",
+      "source": "src/molecules/annotation.rs:38",
+      "status": "ok",
       "yew": {
         "uses": "use eona_ui_toolkit::OntoAnnotation;\nuse eona_ui_toolkit::ontology::LiteralValue;",
-        "snippet": "<OntoAnnotation\n    label=\"Label\"\n    values={vec![LiteralValue { value: \"An annotation value\".into(), language: None, datatype: None }]}\n/>"
+        "snippet": "<OntoAnnotation\n    label=\"Label\"\n    values={vec![LiteralValue { value: \"An annotation value\".into(), language: None, datatype: None, datatype_label: None }]}\n/>"
       },
-      "react": "unavailable",
-      "why": "not in the React package — the verify gate quarantined it: does not pass its props through to the markup unmodified",
-      "disposition": "hand-port, or lift `short_datatype` out of the component so the prop arrives already shortened. The rest of the row — language-before-datatype precedence, all three arms of annotation.rs:33-41 — spliced correctly and can be reused.",
-      "tracked_by": "#809"
+      "react": "available",
+      "import": "import { OntoAnnotation } from '@eona-x/ui-toolkit-react';",
+      "jsx": "<OntoAnnotation label=\"Label\" values={[{ value: \"An annotation value\" }]} />"
     },
     {
       "component": "OntoBadge",
@@ -324,7 +319,7 @@
     },
     {
       "component": "OntologySection",
-      "source": "src/organisms/ontology_section.rs:27",
+      "source": "src/organisms/ontology_section.rs:28",
       "status": "excluded",
       "reason": "zero-prop demo section",
       "yew": {
@@ -337,16 +332,15 @@
     },
     {
       "component": "PaletteGroup",
-      "source": "src/molecules/palette_group.rs:37",
-      "status": "quarantined",
-      "reason": "panics while rendering a sentinel",
+      "source": "src/molecules/palette_group.rs:43",
+      "status": "ok",
       "yew": {
         "uses": "use eona_ui_toolkit::{ColorSpec, PaletteGroup};",
-        "snippet": "<PaletteGroup\n    colors={vec![ColorSpec { name: \"Name\".into(), hex: \"#040553\".into(), usage: \"Primary brand colour\".into(), variants: vec![\"100\".into()] }]}\n    description=\"Description\"\n    note=\"Note\"\n    title=\"Title\"\n/>"
+        "snippet": "<PaletteGroup\n    colors={vec![ColorSpec { name: \"Name\".into(), hex: \"#040553\".into(), usage: \"Primary brand colour\".into(), ink: \"Ink\".into(), variants_label: None }]}\n    description=\"Description\"\n    note=\"Note\"\n    title=\"Title\"\n/>"
       },
-      "react": "unavailable",
-      "why": "not in the React package — the verify gate quarantined it: panics while rendering a sentinel",
-      "disposition": "hand-port. Lifting Swatch's foreground into a prop does not release this one: PaletteGroup would then have to compute that prop per colour, so its markup stays a transform of `colors`. Both levels have to be lifted."
+      "react": "available",
+      "import": "import { PaletteGroup } from '@eona-x/ui-toolkit-react';",
+      "jsx": "<PaletteGroup\n  colors={[{ name: \"Name\", hex: \"#040553\", usage: \"Primary brand colour\", ink: \"Ink\" }]}\n  description=\"Description\"\n  note=\"Note\"\n  title=\"Title\"\n/>"
     },
     {
       "component": "PersonalityCard",
@@ -494,16 +488,15 @@
     },
     {
       "component": "Swatch",
-      "source": "src/molecules/swatch.rs:31",
-      "status": "quarantined",
-      "reason": "panics while rendering a sentinel",
+      "source": "src/molecules/swatch.rs:44",
+      "status": "ok",
       "yew": {
         "uses": "use eona_ui_toolkit::Swatch;",
-        "snippet": "<Swatch\n    hex=\"#040553\"\n    name=\"Name\"\n    usage=\"Primary brand colour\"\n    variants={vec![\"100\".into()]}\n/>"
+        "snippet": "<Swatch\n    hex=\"#040553\"\n    ink=\"Ink\"\n    name=\"Name\"\n    usage=\"Primary brand colour\"\n    variants=\"Variants\"\n/>"
       },
-      "react": "unavailable",
-      "why": "not in the React package — the verify gate quarantined it: panics while rendering a sentinel",
-      "disposition": "hand-port. The component derives a contrast colour from the prop, so no pass-through splice can be correct."
+      "react": "available",
+      "import": "import { Swatch } from '@eona-x/ui-toolkit-react';",
+      "jsx": "<Swatch\n  hex=\"#040553\"\n  ink=\"Ink\"\n  name=\"Name\"\n  usage=\"Primary brand colour\"\n  variants=\"Variants\"\n/>"
     },
     {
       "component": "TagLabel",

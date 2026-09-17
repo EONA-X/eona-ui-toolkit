@@ -4,14 +4,15 @@ use crate::atoms::{BadgeVariant, CodeBlock, OntoBadge};
 use crate::molecules::{
     DatasetCard, OntoAnnotation, PropSpec, PropsTable, SectionHead, UsageExample,
 };
+use crate::molecules::dataset_initial;
 use crate::ontology::{LiteralValue, TermKind};
 
 fn literal(value: &str, language: Option<&str>, datatype: Option<&str>) -> LiteralValue {
-    LiteralValue {
-        value: value.to_string(),
-        language: language.map(str::to_string),
-        datatype: datatype.map(str::to_string),
-    }
+    LiteralValue::new(
+        value.to_string(),
+        language.map(str::to_string),
+        datatype.map(str::to_string),
+    )
 }
 
 /// Sections 20-23: the ontology components this crate keeps — `OntoBadge`,
@@ -213,6 +214,7 @@ html! {
                         <div class="gallery-grid">
                             <DatasetCard
                                 title="EONA-X Mobility"
+                                initial={dataset_initial("EONA-X Mobility")}
                                 href="#catalog"
                                 version="1.2.0"
                                 publisher="EONA-X"
@@ -221,6 +223,7 @@ html! {
                             />
                             <DatasetCard
                                 title="NeTEx ↔ GTFS"
+                                initial={dataset_initial("NeTEx ↔ GTFS")}
                                 href="#catalog"
                                 publisher="EONA-X"
                                 badge="CROSSWALK"

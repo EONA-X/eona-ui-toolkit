@@ -8,7 +8,7 @@
 //! (xtask/src/parse.rs), and a generated file inside `src/` would be an input
 //! to the hash of the document that describes it.
 //!
-//! src_hash dd5ca60df5911d6a0d2b644075a504c90536d1a3b13a715309e25dbeee8242b9
+//! src_hash e2f87d37a98628ba1179b6685c343ac908f0107ef8e37da01f0b07580c98f5f9
 
 /// Whether a component ships in `@eona-x/ui-toolkit-react`.
 ///
@@ -134,7 +134,7 @@ pub static SNIPPETS: &[Snippet] = &[
     },
     Snippet {
         component: r#"DatasetCard"#,
-        source: r#"src/molecules/dataset_card.rs:42"#,
+        source: r#"src/molecules/dataset_card.rs:57"#,
         yew_uses: r#"use eona_ui_toolkit::DatasetCard;"#,
         yew: r##"<DatasetCard
     action_label="View documentation"
@@ -142,15 +142,26 @@ pub static SNIPPETS: &[Snippet] = &[
     badge_class="Badge Class"
     description="Description"
     href="#"
+    initial="Initial"
     publisher="Publisher"
     thumbnail="/assets/placeholder.svg"
     title="Title"
     version="Version"
 />"##,
-        react: ReactSnippet::Unavailable {
-            why: r#"not in the React package — the verify gate quarantined it: does not pass its props through to the markup unmodified"#,
-            disposition: r#"hand-port the thumb; the rest of the card is faithful but is not emitted piecemeal."#,
-            tracked_by: "",
+        react: ReactSnippet::Available {
+            import: r#"import { DatasetCard } from '@eona-x/ui-toolkit-react';"#,
+            jsx: r##"<DatasetCard
+  actionLabel="View documentation"
+  badge="Badge"
+  badgeClass="Badge Class"
+  description="Description"
+  href="#"
+  initial="Initial"
+  publisher="Publisher"
+  thumbnail="/assets/placeholder.svg"
+  title="Title"
+  version="Version"
+/>"##,
         },
     },
     Snippet {
@@ -337,15 +348,16 @@ use eona_ui_toolkit::chart::Trend;"#,
     },
     Snippet {
         component: r#"Modal"#,
-        source: r#"src/molecules/modal.rs:20"#,
+        source: r#"src/molecules/modal.rs:28"#,
         yew_uses: r#"use eona_ui_toolkit::Modal;"#,
-        yew: r#"<Modal id="example" title="Title">
+        yew: r#"<Modal id="example" open={true} title="Title">
     { "Children go here." }
 </Modal>"#,
-        react: ReactSnippet::Unavailable {
-            why: r#"not in the React package — it needs an override: inert hardcoded; needs open: bool upstream (#809)"#,
-            disposition: r#"hand-port, or add `open: bool` upstream and regenerate. Not emitted meanwhile."#,
-            tracked_by: r#"#809"#,
+        react: ReactSnippet::Available {
+            import: r#"import { Modal } from '@eona-x/ui-toolkit-react';"#,
+            jsx: r#"<Modal id="example" open title="Title">
+  Children go here.
+</Modal>"#,
         },
     },
     Snippet {
@@ -380,17 +392,16 @@ use eona_ui_toolkit::chart::Trend;"#,
     },
     Snippet {
         component: r#"OntoAnnotation"#,
-        source: r#"src/molecules/annotation.rs:44"#,
+        source: r#"src/molecules/annotation.rs:38"#,
         yew_uses: r#"use eona_ui_toolkit::OntoAnnotation;
 use eona_ui_toolkit::ontology::LiteralValue;"#,
         yew: r#"<OntoAnnotation
     label="Label"
-    values={vec![LiteralValue { value: "An annotation value".into(), language: None, datatype: None }]}
+    values={vec![LiteralValue { value: "An annotation value".into(), language: None, datatype: None, datatype_label: None }]}
 />"#,
-        react: ReactSnippet::Unavailable {
-            why: r#"not in the React package — the verify gate quarantined it: does not pass its props through to the markup unmodified"#,
-            disposition: r#"hand-port, or lift `short_datatype` out of the component so the prop arrives already shortened. The rest of the row — language-before-datatype precedence, all three arms of annotation.rs:33-41 — spliced correctly and can be reused."#,
-            tracked_by: r#"#809"#,
+        react: ReactSnippet::Available {
+            import: r#"import { OntoAnnotation } from '@eona-x/ui-toolkit-react';"#,
+            jsx: r#"<OntoAnnotation label="Label" values={[{ value: "An annotation value" }]} />"#,
         },
     },
     Snippet {
@@ -405,7 +416,7 @@ use eona_ui_toolkit::ontology::LiteralValue;"#,
     },
     Snippet {
         component: r#"OntologySection"#,
-        source: r#"src/organisms/ontology_section.rs:27"#,
+        source: r#"src/organisms/ontology_section.rs:28"#,
         yew_uses: r#"use eona_ui_toolkit::OntologySection;"#,
         yew: r#"<OntologySection />"#,
         react: ReactSnippet::Unavailable {
@@ -416,18 +427,22 @@ use eona_ui_toolkit::ontology::LiteralValue;"#,
     },
     Snippet {
         component: r#"PaletteGroup"#,
-        source: r#"src/molecules/palette_group.rs:37"#,
+        source: r#"src/molecules/palette_group.rs:43"#,
         yew_uses: r#"use eona_ui_toolkit::{ColorSpec, PaletteGroup};"#,
         yew: r##"<PaletteGroup
-    colors={vec![ColorSpec { name: "Name".into(), hex: "#040553".into(), usage: "Primary brand colour".into(), variants: vec!["100".into()] }]}
+    colors={vec![ColorSpec { name: "Name".into(), hex: "#040553".into(), usage: "Primary brand colour".into(), ink: "Ink".into(), variants_label: None }]}
     description="Description"
     note="Note"
     title="Title"
 />"##,
-        react: ReactSnippet::Unavailable {
-            why: r#"not in the React package — the verify gate quarantined it: panics while rendering a sentinel"#,
-            disposition: r#"hand-port. Lifting Swatch's foreground into a prop does not release this one: PaletteGroup would then have to compute that prop per colour, so its markup stays a transform of `colors`. Both levels have to be lifted."#,
-            tracked_by: "",
+        react: ReactSnippet::Available {
+            import: r#"import { PaletteGroup } from '@eona-x/ui-toolkit-react';"#,
+            jsx: r##"<PaletteGroup
+  colors={[{ name: "Name", hex: "#040553", usage: "Primary brand colour", ink: "Ink" }]}
+  description="Description"
+  note="Note"
+  title="Title"
+/>"##,
         },
     },
     Snippet {
@@ -618,18 +633,24 @@ use yew::prelude::*;"#,
     },
     Snippet {
         component: r#"Swatch"#,
-        source: r#"src/molecules/swatch.rs:31"#,
+        source: r#"src/molecules/swatch.rs:44"#,
         yew_uses: r#"use eona_ui_toolkit::Swatch;"#,
         yew: r##"<Swatch
     hex="#040553"
+    ink="Ink"
     name="Name"
     usage="Primary brand colour"
-    variants={vec!["100".into()]}
+    variants="Variants"
 />"##,
-        react: ReactSnippet::Unavailable {
-            why: r#"not in the React package — the verify gate quarantined it: panics while rendering a sentinel"#,
-            disposition: r#"hand-port. The component derives a contrast colour from the prop, so no pass-through splice can be correct."#,
-            tracked_by: "",
+        react: ReactSnippet::Available {
+            import: r#"import { Swatch } from '@eona-x/ui-toolkit-react';"#,
+            jsx: r##"<Swatch
+  hex="#040553"
+  ink="Ink"
+  name="Name"
+  usage="Primary brand colour"
+  variants="Variants"
+/>"##,
         },
     },
     Snippet {

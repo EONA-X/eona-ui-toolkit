@@ -1,6 +1,6 @@
 {
-  "srcHash": "dd5ca60df5911d6a0d2b644075a504c90536d1a3b13a715309e25dbeee8242b9",
-  "generatorHash": "7eaabca9236447da918f43aa4a1eada6c88e82f6ac8c3abec6cc9affe9ff87ca",
+  "srcHash": "e2f87d37a98628ba1179b6685c343ac908f0107ef8e37da01f0b07580c98f5f9",
+  "generatorHash": "bc5a4e9aa31f94102bbbde042028ba9de4b76904bfb0135d030c36deec81e1e0",
   "dir": "packages/react",
   "exported": [
     "AccordionItem",
@@ -10,6 +10,7 @@
     "Callout",
     "CaseCard",
     "CodeBlock",
+    "DatasetCard",
     "DeclCard",
     "EvolutionBadge",
     "Hero",
@@ -19,10 +20,13 @@
     "MemberCard",
     "MemberFilterCard",
     "MetricTile",
+    "Modal",
     "MvoCard",
     "NavDropdown",
     "NewsCard",
+    "OntoAnnotation",
     "OntoBadge",
+    "PaletteGroup",
     "PersonalityCard",
     "Pill",
     "PillButton",
@@ -35,6 +39,7 @@
     "ShapeCard",
     "SimpleFooter",
     "SiteHeader",
+    "Swatch",
     "TagLabel",
     "TextField",
     "TypeScaleRow",
@@ -43,7 +48,7 @@
   "files": [
     {
       "path": "README.md",
-      "sha256": "533c6da66f53e8e1a7910deebeef2aa67842ec42c26cc320e187cb0d3b06951f"
+      "sha256": "260209315c2ececd20389759e744870d1802d59125cf844d581de7ddfb15da54"
     },
     {
       "path": "package.json",
@@ -76,6 +81,10 @@
     {
       "path": "src/CodeBlock.tsx",
       "sha256": "00a17e3cb84aac5f9314a50d04c351111d339c2118756ad8ff25351ea4cd3a2e"
+    },
+    {
+      "path": "src/DatasetCard.tsx",
+      "sha256": "fafd426a794963d779857e3e0508d76c1ca74e1def5fac9ece73dded8eb3ee77"
     },
     {
       "path": "src/DeclCard.tsx",
@@ -115,7 +124,7 @@
     },
     {
       "path": "src/Modal.tsx",
-      "sha256": "63a794ee8690b7b1940b441ef4aa4ae9d378501456eb0fb2e4b5677e0a9d950d"
+      "sha256": "f58577acd42c38d4be8404cc3de755e05d707ec95d517fde5face8f11f215868"
     },
     {
       "path": "src/MvoCard.tsx",
@@ -130,8 +139,16 @@
       "sha256": "25c1a6fa6defccf53eaf5dc79332b1d4f96e6e6155e20450b16d1eaad03170d3"
     },
     {
+      "path": "src/OntoAnnotation.tsx",
+      "sha256": "2459aed2ea316531a802a01b6f3048393fb6d874dddbe526e8007e101b67eacd"
+    },
+    {
       "path": "src/OntoBadge.tsx",
       "sha256": "e07c4a284edf29fc51b05a034562876a8481e74e48d8e4f4535eb5f56890b0c4"
+    },
+    {
+      "path": "src/PaletteGroup.tsx",
+      "sha256": "c1d4607bb9859a289e5c53b638c6d72cd01c2a8d3104bd08439b0734b5d047a9"
     },
     {
       "path": "src/PersonalityCard.tsx",
@@ -182,6 +199,10 @@
       "sha256": "621171842a261ae0bbd83d13f0cfef7d375a6de207491f825d143b613793d4f3"
     },
     {
+      "path": "src/Swatch.tsx",
+      "sha256": "4d7e0d09aca61f26ff55d026bcbbc8122e22ef84aa0dfb7be398e6366a810ae5"
+    },
+    {
       "path": "src/TagLabel.tsx",
       "sha256": "74bf639a3866bc45188b7b9eaf994ab7c9f442514668bb43a977a307856d908c"
     },
@@ -199,11 +220,11 @@
     },
     {
       "path": "src/index.ts",
-      "sha256": "56e53eb8af24dfd82432c58e5cfbbde9fc055e9028f859f77279c4208c4ce319"
+      "sha256": "bae6186f62043ece860de73505881c4546fdc77177b4bdb3d098027cf2dbda4c"
     },
     {
       "path": "src/types.ts",
-      "sha256": "e57f4c487a1ef8b1da25739366e0aedf0d72374011fb3e0c5a34bd7cbe2f8d1b"
+      "sha256": "5883ba7fa571ea2ab07f2a32b26a315bd4f96f7a963067429876a0811a7d1978"
     },
     {
       "path": "tsconfig.json",

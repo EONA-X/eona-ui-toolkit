@@ -10,41 +10,11 @@
 # `source` points at the line that forces it; `disposition` says what consumers
 # should do until it changes.
 
-[Modal]
-reason = "src/molecules/modal.rs:22 hardcodes inert={true}, so the open state is unrenderable and the generator can only ever prove the closed one."
-source = "src/molecules/modal.rs:22"
-tracked_by = "#809"
-disposition = "hand-port, or add `open: bool` upstream and regenerate. Not emitted meanwhile."
-
-[Swatch]
-reason = "src/molecules/swatch.rs:11 slices &hex[0..2]; a sentinel's first char is 3 or 4 bytes, so byte 2 is never a char boundary and every cell panics. Expected."
-source = "src/molecules/swatch.rs:11"
-disposition = "hand-port. The component derives a contrast colour from the prop, so no pass-through splice can be correct."
-# An audit proposed an ASCII hex-safe alphabet so this would stop panicking. It
-# was tried and refused: `contrast_color` (src/molecules/swatch.rs:7-16) parses
-# the prop as hex with `unwrap_or(0)`, so no sentinel is valid hex under any
-# alphabet, every channel is 0, and both alphabets render the same constant
-# `#ffffff`. The gate would then PASS Swatch and emit a foreground frozen to
-# white — unreadable on every light swatch. The panic is the loud symptom of a
-# transform that would otherwise be silent. Pinned by
-# xtask/src/verify.rs::a_hex_safe_alphabet_would_not_recover_swatch_it_would_silence_it.
-
-[DatasetCard]
-reason = "src/molecules/dataset_card.rs:43 derives `initial` from title.chars().next(), so the markup is a transform of the prop rather than a pass-through. Expected."
-source = "src/molecules/dataset_card.rs:43"
-disposition = "hand-port the thumb; the rest of the card is faithful but is not emitted piecemeal."
-
-[PaletteGroup]
-reason = "src/molecules/palette_group.rs:52 renders a <Swatch> per ColorSpec, so swatch.rs:11's panic propagates. Quarantining a leaf is not transitive on its own — only running the render found this."
-source = "src/molecules/palette_group.rs:52"
-disposition = "hand-port. Lifting Swatch's foreground into a prop does not release this one: PaletteGroup would then have to compute that prop per colour, so its markup stays a transform of `colors`. Both levels have to be lifted."
-# Not merely collateral from the probe alphabet: because Swatch's foreground is
-# derived from the hex prop, PaletteGroup's markup is a transform of its
-# `colors` too, so it could not be spliced correctly even if the panic were
-# removed. See the note under [Swatch].
-
-[OntoAnnotation]
-reason = "src/molecules/annotation.rs:24's `short_datatype` returns the slice after the datatype IRI's last `#` or `/`, so a datatype-only literal renders its local name, not the prop. The React port would print the whole IRI where Yew prints `string`. The gate missed this until the differential alphabet's body gained `#` and `/` (xtask/src/verify.rs `PAD`); with them, the badge comes back as `oJ/` — the tail of the pad — and check 1 reports the fragment."
-source = "src/molecules/annotation.rs:24"
-tracked_by = "#809"
-disposition = "hand-port, or lift `short_datatype` out of the component so the prop arrives already shortened. The rest of the row — language-before-datatype precedence, all three arms of annotation.rs:33-41 — spliced correctly and can be reused."
+# Empty as of eona-x/backlog#822. Every former entry — Swatch, PaletteGroup,
+# DatasetCard, OntoAnnotation and Modal — was resolved by changing the component
+# rather than by recording a decision to live with it: the derivation moved out
+# and its result became a prop, so the markup is a pass-through and the generator
+# can splice it. All 41 in-scope components now emit.
+#
+# The file stays because its job does. The next component that cannot be emitted
+# needs a human's decision here before `check` will pass.

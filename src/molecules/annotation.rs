@@ -17,26 +17,20 @@ pub struct OntoAnnotationProps {
     pub values: Vec<LiteralValue>,
 }
 
-/// Mirrors the Vue source's `shortDatatype`: the datatype IRI's local name
-/// after its last `#` or `/`, falling back to the whole IRI if neither is
-/// present.
-fn short_datatype(datatype: &str) -> &str {
-    match datatype.rfind('#').or_else(|| datatype.rfind('/')) {
-        Some(i) => &datatype[i + 1..],
-        None => datatype,
-    }
-}
-
 /// One rendered row: the literal text plus its optional language/datatype
 /// chip. Precomputed like the Vue source's `rows` computed property —
 /// language is checked before datatype, and a value with neither gets no tag.
 fn row_tag(value: &LiteralValue) -> Option<(AttrValue, BadgeVariant)> {
-    match (&value.language, &value.datatype) {
-        (Some(lang), _) => Some((AttrValue::from(lang.clone()), BadgeVariant::Lang)),
-        (None, Some(datatype)) => {
-            Some((AttrValue::from(short_datatype(datatype).to_string()), BadgeVariant::Datatype))
-        }
-        (None, None) => None,
+    // Language wins over datatype, as the Vue source does. The datatype arm
+    // reads the precomputed label rather than `datatype` itself: shortening the
+    // IRI here made the markup a transform of the prop, and testing `datatype`
+    // as well would leave a second axis that cannot change what renders.
+    match &value.language {
+        Some(lang) => Some((AttrValue::from(lang.clone()), BadgeVariant::Lang)),
+        None => value
+            .datatype_label
+            .as_ref()
+            .map(|d| (AttrValue::from(d.clone()), BadgeVariant::Datatype)),
     }
 }
 

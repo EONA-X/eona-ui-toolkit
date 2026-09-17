@@ -26,10 +26,6 @@ use anyhow::{bail, Result};
 
 /// `src/demo.rs` — the crate's own showcase page, not a library component.
 const SHOWCASE: &str = "DemoPage";
-/// `src/molecules/modal.rs` hardcodes `inert={true}`, so the open state is
-/// unrenderable today; #809 tracks adding `open: bool` upstream.
-const MODAL: &str = "Modal";
-
 /// Fills every `Prop::kind` (component props *and* plain-struct fields) and
 /// sets every `Component::status`.
 pub fn classify(tk: &mut Toolkit) -> Result<()> {
@@ -254,11 +250,6 @@ fn scope(c: &Component) -> Status {
                 "`{}: {}` is a Callback ({}:{}); behaviour cannot be pre-rendered",
                 p.name, p.rust_ty, p.span.file, p.span.line
             ),
-        };
-    }
-    if c.name == MODAL {
-        return Status::NeedsOverride {
-            reason: "inert hardcoded; needs open: bool upstream (#809)".into(),
         };
     }
     // One slot is React `children`. Two are not expressible that way, and
@@ -985,7 +976,7 @@ mod tests {
     }
 
     #[test]
-    fn only_modal_needs_an_override() {
+    fn nothing_needs_an_override_any_more() {
         let tk = classified();
         let overrides: Vec<(&str, &str)> = tk
             .components
@@ -997,12 +988,12 @@ mod tests {
             .collect();
         assert_eq!(
             overrides,
-            vec![("Modal", "inert hardcoded; needs open: bool upstream (#809)")]
+            Vec::<(&str, &str)>::new()
         );
         // 41 in scope, one of which cannot be pre-rendered yet. `Swatch` and
         // `DatasetCard` leave this stage `Ok` on purpose: only `verify` can see
         // that they panic on / transform the sentinel.
-        assert_eq!(tk.generated().count(), 40);
+        assert_eq!(tk.generated().count(), 41);
     }
 
     #[test]
@@ -1343,8 +1334,8 @@ mod tests {
         assert_eq!(scope.len(), 41, "#809's list plus #822's charts: {scope:?}");
         assert_eq!(
             tk.components.iter().filter(|c| matches!(c.status, Status::Ok)).count(),
-            40,
-            "41 less Modal, which needs `open: bool` upstream"
+            41,
+            "all 41 in scope now generate"
         );
 
         // No prop anywhere may reach the emitter as an unmappable type.

@@ -4,6 +4,32 @@
 // Rust; each carries the `file:line` it came from, and is optional when
 // the Rust field is `Option<T>`.
 
+/** `ColorSpec` — src/molecules/palette_group.rs:6 */
+export interface ColorSpec {
+  /** `AttrValue` — src/molecules/palette_group.rs:7 */
+  name: string;
+  /** `AttrValue` — src/molecules/palette_group.rs:8 */
+  hex: string;
+  /** `AttrValue` — src/molecules/palette_group.rs:9 */
+  usage: string;
+  /** `AttrValue` — src/molecules/palette_group.rs:12 */
+  ink: string;
+  /** `Option<AttrValue>` — src/molecules/palette_group.rs:14 */
+  variantsLabel?: string | undefined;
+}
+
+/** `LiteralValue` — src/ontology.rs:44 */
+export interface LiteralValue {
+  /** `String` — src/ontology.rs:45 */
+  value: string;
+  /** `Option<String>` — src/ontology.rs:46 */
+  language?: string | undefined;
+  /** `Option<String>` — src/ontology.rs:47 */
+  datatype?: string | undefined;
+  /** `Option<String>` — src/ontology.rs:56 */
+  datatypeLabel?: string | undefined;
+}
+
 /** `NavLink` — src/organisms/main_nav.rs:4 */
 export interface NavLink {
   /** `AttrValue` — src/organisms/main_nav.rs:5 */

@@ -1,7 +1,7 @@
 {
   "abiVersion": 1,
-  "srcHash": "dd5ca60df5911d6a0d2b644075a504c90536d1a3b13a715309e25dbeee8242b9",
-  "generatorHash": "7eaabca9236447da918f43aa4a1eada6c88e82f6ac8c3abec6cc9affe9ff87ca",
+  "srcHash": "e2f87d37a98628ba1179b6685c343ac908f0107ef8e37da01f0b07580c98f5f9",
+  "generatorHash": "bc5a4e9aa31f94102bbbde042028ba9de4b76904bfb0135d030c36deec81e1e0",
   "components": [
     {
       "name": "AccordionItem",
@@ -250,10 +250,9 @@
     },
     {
       "name": "DatasetCard",
-      "status": "quarantined",
-      "reason": "does not pass its props through to the markup unmodified",
+      "status": "ok",
       "tier": "presentational",
-      "source": "src/molecules/dataset_card.rs:42",
+      "source": "src/molecules/dataset_card.rs:57",
       "cells": 49,
       "props": [
         {
@@ -264,7 +263,7 @@
           "default": "expr",
           "expr": "AttrValue::Static(\"View documentation\")",
           "defaultTs": "\"View documentation\"",
-          "source": "src/molecules/dataset_card.rs:38"
+          "source": "src/molecules/dataset_card.rs:53"
         },
         {
           "name": "badge",
@@ -272,7 +271,7 @@
           "ts": "string | undefined",
           "optional": true,
           "default": "default-trait",
-          "source": "src/molecules/dataset_card.rs:33"
+          "source": "src/molecules/dataset_card.rs:48"
         },
         {
           "name": "badge_class",
@@ -280,7 +279,7 @@
           "ts": "string | undefined",
           "optional": true,
           "default": "default-trait",
-          "source": "src/molecules/dataset_card.rs:36"
+          "source": "src/molecules/dataset_card.rs:51"
         },
         {
           "name": "description",
@@ -288,7 +287,7 @@
           "ts": "string | undefined",
           "optional": true,
           "default": "default-trait",
-          "source": "src/molecules/dataset_card.rs:21"
+          "source": "src/molecules/dataset_card.rs:36"
         },
         {
           "name": "href",
@@ -296,7 +295,15 @@
           "ts": "string",
           "optional": false,
           "default": "required",
-          "source": "src/molecules/dataset_card.rs:19"
+          "source": "src/molecules/dataset_card.rs:34"
+        },
+        {
+          "name": "initial",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/dataset_card.rs:32"
         },
         {
           "name": "publisher",
@@ -304,7 +311,7 @@
           "ts": "string | undefined",
           "optional": true,
           "default": "default-trait",
-          "source": "src/molecules/dataset_card.rs:27"
+          "source": "src/molecules/dataset_card.rs:42"
         },
         {
           "name": "thumbnail",
@@ -312,7 +319,7 @@
           "ts": "string | undefined",
           "optional": true,
           "default": "default-trait",
-          "source": "src/molecules/dataset_card.rs:30"
+          "source": "src/molecules/dataset_card.rs:45"
         },
         {
           "name": "title",
@@ -320,7 +327,7 @@
           "ts": "string",
           "optional": false,
           "default": "required",
-          "source": "src/molecules/dataset_card.rs:17"
+          "source": "src/molecules/dataset_card.rs:26"
         },
         {
           "name": "version",
@@ -328,7 +335,7 @@
           "ts": "string | undefined",
           "optional": true,
           "default": "default-trait",
-          "source": "src/molecules/dataset_card.rs:25"
+          "source": "src/molecules/dataset_card.rs:40"
         }
       ]
     },
@@ -722,11 +729,10 @@
     },
     {
       "name": "Modal",
-      "status": "needs-override",
-      "reason": "inert hardcoded; needs open: bool upstream (#809)",
+      "status": "ok",
       "tier": "presentational",
-      "source": "src/molecules/modal.rs:20",
-      "cells": 1,
+      "source": "src/molecules/modal.rs:28",
+      "cells": 2,
       "props": [
         {
           "name": "children",
@@ -734,7 +740,7 @@
           "ts": "ReactNode",
           "optional": false,
           "default": "required",
-          "source": "src/molecules/modal.rs:16"
+          "source": "src/molecules/modal.rs:24"
         },
         {
           "name": "id",
@@ -742,7 +748,15 @@
           "ts": "string",
           "optional": false,
           "default": "required",
-          "source": "src/molecules/modal.rs:14"
+          "source": "src/molecules/modal.rs:22"
+        },
+        {
+          "name": "open",
+          "rust": "bool",
+          "ts": "boolean",
+          "optional": false,
+          "default": "default-trait",
+          "source": "src/molecules/modal.rs:21"
         },
         {
           "name": "title",
@@ -750,7 +764,7 @@
           "ts": "string",
           "optional": false,
           "default": "required",
-          "source": "src/molecules/modal.rs:15"
+          "source": "src/molecules/modal.rs:23"
         }
       ]
     },
@@ -847,11 +861,10 @@
     },
     {
       "name": "OntoAnnotation",
-      "status": "quarantined",
-      "reason": "does not pass its props through to the markup unmodified",
+      "status": "ok",
       "tier": "presentational",
-      "source": "src/molecules/annotation.rs:44",
-      "cells": 13,
+      "source": "src/molecules/annotation.rs:38",
+      "cells": 20,
       "props": [
         {
           "name": "label",
@@ -909,17 +922,16 @@
       "status": "excluded",
       "reason": "zero-prop demo section",
       "tier": "presentational",
-      "source": "src/organisms/ontology_section.rs:27",
+      "source": "src/organisms/ontology_section.rs:28",
       "cells": 0,
       "props": []
     },
     {
       "name": "PaletteGroup",
-      "status": "quarantined",
-      "reason": "panics while rendering a sentinel",
+      "status": "ok",
       "tier": "presentational",
-      "source": "src/molecules/palette_group.rs:37",
-      "cells": 26,
+      "source": "src/molecules/palette_group.rs:43",
+      "cells": 14,
       "props": [
         {
           "name": "colors",
@@ -927,7 +939,7 @@
           "ts": "ColorSpec[]",
           "optional": false,
           "default": "required",
-          "source": "src/molecules/palette_group.rs:30"
+          "source": "src/molecules/palette_group.rs:36"
         },
         {
           "name": "description",
@@ -935,7 +947,7 @@
           "ts": "string",
           "optional": false,
           "default": "required",
-          "source": "src/molecules/palette_group.rs:29"
+          "source": "src/molecules/palette_group.rs:35"
         },
         {
           "name": "note",
@@ -943,7 +955,7 @@
           "ts": "string | undefined",
           "optional": true,
           "default": "default-trait",
-          "source": "src/molecules/palette_group.rs:33"
+          "source": "src/molecules/palette_group.rs:39"
         },
         {
           "name": "title",
@@ -951,7 +963,7 @@
           "ts": "string",
           "optional": false,
           "default": "required",
-          "source": "src/molecules/palette_group.rs:28"
+          "source": "src/molecules/palette_group.rs:34"
         }
       ]
     },
@@ -1331,11 +1343,10 @@
     },
     {
       "name": "Swatch",
-      "status": "quarantined",
-      "reason": "panics while rendering a sentinel",
+      "status": "ok",
       "tier": "presentational",
-      "source": "src/molecules/swatch.rs:31",
-      "cells": 4,
+      "source": "src/molecules/swatch.rs:44",
+      "cells": 2,
       "props": [
         {
           "name": "hex",
@@ -1346,12 +1357,20 @@
           "source": "src/molecules/swatch.rs:23"
         },
         {
+          "name": "ink",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/swatch.rs:31"
+        },
+        {
           "name": "name",
           "rust": "AttrValue",
           "ts": "string",
           "optional": false,
           "default": "required",
-          "source": "src/molecules/swatch.rs:24"
+          "source": "src/molecules/swatch.rs:32"
         },
         {
           "name": "usage",
@@ -1359,15 +1378,15 @@
           "ts": "string",
           "optional": false,
           "default": "required",
-          "source": "src/molecules/swatch.rs:25"
+          "source": "src/molecules/swatch.rs:33"
         },
         {
           "name": "variants",
-          "rust": "Vec<AttrValue>",
-          "ts": "string[]",
-          "optional": false,
+          "rust": "Option<AttrValue>",
+          "ts": "string | undefined",
+          "optional": true,
           "default": "default-trait",
-          "source": "src/molecules/swatch.rs:27"
+          "source": "src/molecules/swatch.rs:40"
         }
       ]
     },
@@ -1549,6 +1568,14 @@
           "source": "src/molecules/palette_group.rs:8"
         },
         {
+          "name": "ink",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/palette_group.rs:12"
+        },
+        {
           "name": "name",
           "rust": "AttrValue",
           "ts": "string",
@@ -1565,12 +1592,12 @@
           "source": "src/molecules/palette_group.rs:9"
         },
         {
-          "name": "variants",
-          "rust": "Vec<AttrValue>",
-          "ts": "string[]",
-          "optional": false,
+          "name": "variants_label",
+          "rust": "Option<AttrValue>",
+          "ts": "string | undefined",
+          "optional": true,
           "default": "required",
-          "source": "src/molecules/palette_group.rs:10"
+          "source": "src/molecules/palette_group.rs:14"
         }
       ]
     },
@@ -1585,7 +1612,7 @@
     },
     {
       "name": "LiteralValue",
-      "source": "src/ontology.rs:41",
+      "source": "src/ontology.rs:44",
       "kind": "struct",
       "fields": [
         {
@@ -1594,7 +1621,15 @@
           "ts": "string | undefined",
           "optional": true,
           "default": "required",
-          "source": "src/ontology.rs:44"
+          "source": "src/ontology.rs:47"
+        },
+        {
+          "name": "datatype_label",
+          "rust": "Option<String>",
+          "ts": "string | undefined",
+          "optional": true,
+          "default": "required",
+          "source": "src/ontology.rs:56"
         },
         {
           "name": "language",
@@ -1602,7 +1637,7 @@
           "ts": "string | undefined",
           "optional": true,
           "default": "required",
-          "source": "src/ontology.rs:43"
+          "source": "src/ontology.rs:46"
         },
         {
           "name": "value",
@@ -1610,7 +1645,7 @@
           "ts": "string",
           "optional": false,
           "default": "required",
-          "source": "src/ontology.rs:42"
+          "source": "src/ontology.rs:45"
         }
       ]
     },

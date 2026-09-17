@@ -32,7 +32,7 @@ pub use annotation::{OntoAnnotation, OntoAnnotationProps};
 pub use bg_check_item::BgCheckItem;
 pub use callout::Callout;
 pub use case_card::CaseCard;
-pub use dataset_card::{DatasetCard, DatasetCardProps};
+pub use dataset_card::{DatasetCard, dataset_initial};
 pub use decl_card::DeclCard;
 pub use logo_download_card::LogoDownloadCard;
 pub use member_card::MemberCard;

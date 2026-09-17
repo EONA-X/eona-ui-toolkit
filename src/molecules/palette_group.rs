@@ -7,7 +7,11 @@ pub struct ColorSpec {
     pub name: AttrValue,
     pub hex: AttrValue,
     pub usage: AttrValue,
-    pub variants: Vec<AttrValue>,
+    /// Precomputed by [`ColorSpec::new`]; see [`crate::Swatch`]'s `ink` for why
+    /// it is carried rather than derived while rendering.
+    pub ink: AttrValue,
+    /// `variants`, joined for display. Same reason: see [`crate::Swatch`].
+    pub variants_label: Option<AttrValue>,
 }
 
 impl ColorSpec {
@@ -16,7 +20,9 @@ impl ColorSpec {
             name: name.into(),
             hex: hex.into(),
             usage: usage.into(),
-            variants: variants.iter().map(|v| AttrValue::from(*v)).collect(),
+            ink: AttrValue::from(crate::molecules::contrast_color(hex)),
+            variants_label: (!variants.is_empty())
+                .then(|| AttrValue::from(variants.join(" · "))),
         }
     }
 }
@@ -49,7 +55,8 @@ pub fn palette_group(props: &PaletteGroupProps) -> Html {
             <p class="group-desc">{ &props.description }</p>
             <div class="swatch-grid">
                 { for props.colors.iter().map(|c| html! {
-                    <Swatch hex={c.hex.clone()} name={c.name.clone()} usage={c.usage.clone()} variants={c.variants.clone()} />
+                    <Swatch hex={c.hex.clone()} ink={c.ink.clone()} name={c.name.clone()}
+                            usage={c.usage.clone()} variants={c.variants_label.clone()} />
                 }) }
             </div>
         </div>

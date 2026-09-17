@@ -1331,10 +1331,14 @@ mod tests {
         );
     }
 
-    /// Both expected quarantine candidates must still be *rendered*: the verify
-    /// gate can only see the `&hex[0..2]` panic (src/molecules/swatch.rs:11) and
-    /// the `title` -> `initial` transform (src/molecules/dataset_card.rs:43) in
-    /// the harness output.
+    /// A component the gate might withhold must still be *rendered*: verify can
+    /// only see a panic or a transform in the harness output, so skipping a
+    /// suspect component would make it pass by never being looked at.
+    ///
+    /// The three named here were the crate's real quarantine cases until
+    /// eona-x/backlog#822 fixed them. They are kept as the subjects because the
+    /// property under test is about rendering coverage, not about their verdict
+    /// — which is now `Ok`, and which this test deliberately does not assert.
     #[test]
     fn the_quarantine_candidates_are_rendered_not_skipped() {
         let (tk, cells, _) = emit_to_out();
@@ -1345,10 +1349,13 @@ mod tests {
                 "{name} has no cells in the harness"
             );
         }
-        // Modal is NeedsOverride (src/molecules/modal.rs hardcodes inert), and
-        // the plan carries that so verify need not re-read the IR.
-        let modal = plan.cells.iter().find(|c| c.component == "Modal").unwrap();
-        assert!(matches!(modal.status, Status::NeedsOverride { .. }), "{:?}", modal.status);
+        // Every planned cell carries its component's status, so verify need not
+        // re-read the IR to know what it is looking at.
+        for name in ["Swatch", "DatasetCard", "Modal"] {
+            let cell = plan.cells.iter().find(|c| c.component == name).unwrap();
+            let ir = tk.component(name).unwrap();
+            assert_eq!(cell.status, ir.status, "{name}: plan and IR disagree on status");
+        }
     }
 
     #[test]

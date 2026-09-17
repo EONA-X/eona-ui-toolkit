@@ -56,30 +56,28 @@ use crate::matrix;
 // spellings of the same fact is how the two stages would drift apart.
 use crate::render::RenderResult;
 
-/// The two components this gate is *expected* to catch on the crate at the
-/// commit under test, with the line that causes it. They are listed so that the
-/// gate can report its own failure: a run where `Swatch` passes is a run where
-/// the panic capture or the harness stopped working, and a silent pass would
-/// look exactly like success.
-pub const EXPECTED_QUARANTINES: &[(&str, &str)] = &[
-    // `contrast_color` slices the hex string by byte index.
-    ("Swatch", "src/molecules/swatch.rs:11"),
-    // `initial` is `title.chars().next()`, a transform of the prop.
-    ("DatasetCard", "src/molecules/dataset_card.rs:42"),
-    // Renders a `<Swatch>` per `ColorSpec` (src/molecules/palette_group.rs:52),
-    // so it inherits Swatch's panic. Quarantining a component is not transitive
-    // on its own — this is the crate's only composer of a quarantined leaf, and
-    // it is listed because the gate found it, not because anyone predicted it.
-    ("PaletteGroup", "src/molecules/palette_group.rs:52"),
-    // `short_datatype` (src/molecules/annotation.rs:24) slices after the last
-    // `#` or `/`. Invisible until the differential alphabet's body contained
-    // both — before that the transform was the identity on every probe, both
-    // alphabets agreed, and the component shipped rendering a whole IRI where
-    // Yew renders its local name. Listed so that a future run where it *passes*
-    // is reported as a gate regression rather than as good news.
-    ("OntoAnnotation", "src/molecules/annotation.rs:24"),
-];
-
+/// Components this gate is *expected* to catch on the crate at the commit under
+/// test, with the line that causes it.
+///
+/// **Empty, as of eona-x/backlog#822.** All four former entries — `Swatch`,
+/// `PaletteGroup`, `DatasetCard` and `OntoAnnotation` — were fixed by moving the
+/// derivation out of the component and passing the result in as a prop, the same
+/// split `chart.rs` is built around. The crate no longer contains a component
+/// whose markup is a transform of its props.
+///
+/// The list is kept rather than deleted because its job survives its entries: a
+/// future component that derives instead of passing through gets listed here,
+/// and a run where it then *passes* is reported as a gate regression rather than
+/// as good news.
+///
+/// Emptying it does not weaken the gate's self-check. That never rested on the
+/// live crate — `mod tests` reproduces every caught shape on fixtures
+/// (`swatch_panics_and_that_is_a_quarantine_not_a_crash`,
+/// `dataset_card_derives_an_initial_and_is_quarantined_twice_over`,
+/// `the_pad_catches_the_transforms_a_digits_only_payload_hid`,
+/// `a_reversed_list_is_caught_even_though_both_alphabets_agree`), so the gate is
+/// proved against synthetic transforms whether or not the toolkit has any.
+pub const EXPECTED_QUARANTINES: &[(&str, &str)] = &[];
 // ---------------------------------------------------------------- alphabets
 
 /// A sentinel alphabet: the delimiters `harness` wraps a prop's placeholder id
@@ -458,6 +456,12 @@ pub struct VerifyReport {
     /// what it was built to catch is indistinguishable from a clean run unless
     /// it is stated.
     pub missing_expected: Vec<String>,
+    /// The list this run was checked against. Held rather than read from
+    /// [`EXPECTED_QUARANTINES`] at use time so a test can supply its own — the
+    /// gate's self-check must be provable on fixtures, not only on whatever the
+    /// live crate happens to contain. See eona-x/backlog#822, which emptied the
+    /// constant by fixing every component that was on it.
+    pub expected: Vec<(String, String)>,
 }
 
 impl VerifyReport {
@@ -484,7 +488,7 @@ impl VerifyReport {
                 "the verify gate passed {} which it is supposed to quarantine ({}); \
                  the gate itself has regressed, not the toolkit",
                 self.missing_expected.join(", "),
-                EXPECTED_QUARANTINES
+                self.expected
                     .iter()
                     .map(|(n, at)| format!("{n} at {at}"))
                     .collect::<Vec<_>>()
@@ -529,7 +533,7 @@ impl VerifyReport {
     pub fn emit(&self) {
         for c in self.quarantined() {
             let Verdict::Quarantine { reason, evidence } = &c.verdict else { continue };
-            let expected = EXPECTED_QUARANTINES.iter().any(|(n, _)| *n == c.component);
+            let expected = self.expected.iter().any(|(n, _)| *n == c.component);
             eprintln!(
                 "verify: quarantined {} ({}:{}) — {reason}{}",
                 c.component,
@@ -595,6 +599,19 @@ struct QuarantineFile<'a> {
 /// those is a statement about a component, and letting any of them through would
 /// weaken a check rather than fail one.
 pub fn verify(tk: &Toolkit, renders: &[CellRender]) -> Result<VerifyReport> {
+    verify_against(tk, renders, EXPECTED_QUARANTINES)
+}
+
+/// [`verify`], against an explicit expected-quarantine list.
+///
+/// The seam exists so the gate's own self-check can be tested on fixtures: with
+/// [`EXPECTED_QUARANTINES`] empty, a test that needs a missing-expected case has
+/// to bring its own list.
+pub fn verify_against(
+    tk: &Toolkit,
+    renders: &[CellRender],
+    expected_list: &[(&str, &str)],
+) -> Result<VerifyReport> {
     let by_component = group(renders)?;
 
     // A component the renderer skipped would otherwise vanish between `matrix`
@@ -630,7 +647,11 @@ pub fn verify(tk: &Toolkit, renders: &[CellRender]) -> Result<VerifyReport> {
 
     let quarantined: BTreeSet<String> =
         report.quarantined().map(|c| c.component.clone()).collect();
-    let expected: BTreeSet<&str> = EXPECTED_QUARANTINES.iter().map(|(n, _)| *n).collect();
+    let expected: BTreeSet<&str> = expected_list.iter().map(|(n, _)| *n).collect();
+    report.expected = expected_list
+        .iter()
+        .map(|(n, at)| ((*n).to_string(), (*at).to_string()))
+        .collect();
     report.unexpected = quarantined
         .iter()
         .filter(|n| !expected.contains(n.as_str()))
@@ -1698,7 +1719,14 @@ mod tests {
             html(format!("<span>{}</span>", s[0]))
         }));
 
-        let report = verify(&tk, &renders).unwrap();
+        // Its own list, not EXPECTED_QUARANTINES: that constant is empty on the
+        // live crate (#822 fixed every entry), and this test is about the
+        // mechanism, not about what the toolkit happens to contain today.
+        const EXPECTED: &[(&str, &str)] = &[
+            ("Swatch", "src/molecules/swatch.rs:31"),
+            ("DatasetCard", "src/molecules/dataset_card.rs:42"),
+        ];
+        let report = verify_against(&tk, &renders, EXPECTED).unwrap();
         let q: Vec<&str> = report.quarantined().map(|c| c.component.as_str()).collect();
         // IR order, not alphabetical: the report reads like `dump-ir`.
         assert_eq!(q, vec!["Swatch", "DatasetCard"]);
@@ -2150,7 +2178,8 @@ mod tests {
         let renders = pair("Swatch", "base", plan(&[(0, "hex", "src/molecules/swatch.rs", 23)]), |s| {
             html(format!("<button class=\"swatch\">{}</button>", s[0]))
         });
-        let report = verify(&tk, &renders).unwrap();
+        const EXPECTED: &[(&str, &str)] = &[("Swatch", "src/molecules/swatch.rs:31")];
+        let report = verify_against(&tk, &renders, EXPECTED).unwrap();
         assert_eq!(verdict_of(&report, "Swatch"), &Verdict::Pass);
         assert_eq!(report.missing_expected, vec!["Swatch".to_string()]);
         let err = report.self_check().unwrap_err().to_string();

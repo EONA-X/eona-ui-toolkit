@@ -35,11 +35,41 @@ pub enum TermKind {
 }
 
 /// One RDF literal: its lexical form plus at most one of a language tag or a
-/// datatype IRI. Both `Option`s are matrix axes — `OntoAnnotation` renders a
-/// different trailing badge for each of the three combinations it can see.
+/// datatype IRI.
+///
+/// `language` and `datatype_label` are the matrix axes — `OntoAnnotation`
+/// renders a different trailing badge for each combination. `datatype` itself is
+/// carried as data and never drives markup; see `datatype_label`.
 #[derive(Clone, Debug, PartialEq)]
 pub struct LiteralValue {
     pub value: String,
     pub language: Option<String>,
     pub datatype: Option<String>,
+    /// The datatype's local name, precomputed by [`LiteralValue::new`].
+    ///
+    /// Carried rather than derived while rendering: `OntoAnnotation` used to
+    /// call `short_datatype` on `datatype` in its view, which made its markup a
+    /// transform of the prop and quarantined it out of the React distribution.
+    /// Worse, the bug was invisible for a while — the probe alphabet was
+    /// digits-only, on which `short_datatype` is the identity. See
+    /// eona-x/backlog#822.
+    pub datatype_label: Option<String>,
+}
+
+/// A datatype IRI's local name: whatever follows its last `#` or `/`, or the
+/// whole IRI if it has neither. Mirrors the Vue source's `shortDatatype`.
+pub fn short_datatype(datatype: &str) -> &str {
+    match datatype.rfind('#').or_else(|| datatype.rfind('/')) {
+        Some(i) => &datatype[i + 1..],
+        None => datatype,
+    }
+}
+
+impl LiteralValue {
+    /// Builds a literal, shortening the datatype IRI once, here, rather than on
+    /// every render.
+    pub fn new(value: String, language: Option<String>, datatype: Option<String>) -> Self {
+        let datatype_label = datatype.as_deref().map(|d| short_datatype(d).to_string());
+        Self { value, language, datatype, datatype_label }
+    }
 }

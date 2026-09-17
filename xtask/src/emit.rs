@@ -1680,11 +1680,11 @@ mod tests {
 
         let ok = tk.components.iter().filter(|c| matches!(c.status, Status::Ok)).count();
         let tsx = files.keys().filter(|k| k.ends_with(".tsx")).count();
-        // Every Ok component plus Modal, which is written but not exported.
-        assert_eq!(tsx, ok + 1, "{:?}", files.keys().collect::<Vec<_>>());
+        // One .tsx per Ok component. There is no longer a written-but-withheld
+        // case: #822 fixed the last of them, so the counts match exactly.
+        assert_eq!(tsx, ok, "{:?}", files.keys().collect::<Vec<_>>());
         let index = &files["src/index.ts"];
         assert_eq!(index.matches("export { ").count(), ok, "{index}");
-        assert!(index.contains("Modal — needs an override"), "{index}");
 
         // Every default in the crate is now expressible: `PropEnum::default_variant`
         // closed the last hole (`#[prop_or_default]` on `BadgeVariant`,

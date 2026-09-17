@@ -11,6 +11,14 @@ use yew::prelude::*;
 /// component concern, same as `NavDropdown`.
 #[derive(Properties, PartialEq)]
 pub struct ModalProps {
+    /// Whether the dialog is open. Closed renders `inert`, which is what
+    /// `.modal[inert]` keys off.
+    ///
+    /// A prop rather than a constant: hardcoding `inert` meant the open state
+    /// could not be rendered at all, so the React generator had no way to
+    /// enumerate it and withheld the component. See eona-x/backlog#822.
+    #[prop_or_default]
+    pub open: bool,
     pub id: AttrValue,
     pub title: AttrValue,
     pub children: Children,
@@ -19,7 +27,7 @@ pub struct ModalProps {
 #[function_component(Modal)]
 pub fn modal(props: &ModalProps) -> Html {
     html! {
-        <div id={props.id.clone()} role="dialog" aria-modal="true" aria-label={props.title.clone()} inert={true} class="modal">
+        <div id={props.id.clone()} role="dialog" aria-modal="true" aria-label={props.title.clone()} inert={!props.open} class="modal">
             <div class="modal-inner">
                 <button type="button" data-close-modal={props.id.clone()} aria-label="Close" class="submenu-close">
                     { "\u{2715}" }
