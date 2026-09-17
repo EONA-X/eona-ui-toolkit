@@ -1,10 +1,11 @@
 use yew::prelude::*;
 
-use crate::atoms::{CodeBlock, PillButton, PillButtonKind, TagLabel, TagLabelTone};
+use crate::atoms::{CodeBlock, EvolutionBadge, PillButton, PillButtonKind, TagLabel, TagLabelTone};
+use crate::chart::{donut_arc, trend_of};
 use crate::examples::{ReactSnippet, Snippet, SNIPPETS};
 use crate::molecules::{
-    AccordionItem, CaseCard, MemberCard, MemberFilterCard, Modal, NavDropdown, NewsCard, PropSpec,
-    PropsTable, SectionHead, TextField, TextFieldKind, UsageExample,
+    AccordionItem, CaseCard, MemberCard, MemberFilterCard, MetricTile, Modal, NavDropdown,
+    NewsCard, PropSpec, PropsTable, ScoreDonut, SectionHead, TextField, TextFieldKind, UsageExample,
 };
 
 /// The components-gallery page body: buttons, tags, form fields, and cards
@@ -304,9 +305,55 @@ pub fn components_gallery() -> Html {
                 </div>
             </section>
 
+            <section class="block" id="charts">
+                <div class="wrap">
+                    <SectionHead number="09" kicker="data quality" title="Charts" />
+                    <p class="section-intro">
+                        { "Pure SVG and no script, so these render server-side and print. The \
+                           geometry is computed by " }<code>{ "chart::donut_arc" }</code>
+                        { " and handed over already-derived — the components themselves do no \
+                           arithmetic, which is what keeps them in the React package instead of \
+                           its quarantine list." }
+                    </p>
+                    <UsageExample source={r##"let score = donut_arc(0.842);
+<ScoreDonut dash_array={score.dash_array} band={score.band}
+            label={score.label} caption="Completeness" />"##}>
+                        <div class="gallery-row">
+                            { for [(0.842, "Completeness"), (0.63, "Validity"), (0.31, "Freshness")]
+                                .into_iter()
+                                .map(|(score, caption)| {
+                                    let arc = donut_arc(score);
+                                    html! {
+                                        <ScoreDonut dash_array={arc.dash_array} band={arc.band}
+                                                    label={arc.label} caption={caption} />
+                                    }
+                                }) }
+                        </div>
+                    </UsageExample>
+                    <UsageExample source={r##"<MetricTile label="Records analysed" value="128 430"
+            help="Across 12 datasets">
+    <EvolutionBadge value="+3.2 pts" trend={trend_of(3.2)} />
+</MetricTile>"##}>
+                        <div class="gallery-row">
+                            <MetricTile label="Records analysed" value="128 430"
+                                        help="Across 12 datasets">
+                                <EvolutionBadge value="+3.2 pts" trend={trend_of(3.2)} />
+                            </MetricTile>
+                            <MetricTile label="Rules failing" value="47">
+                                <EvolutionBadge value="-11" trend={trend_of(-11.0)} />
+                            </MetricTile>
+                            <MetricTile label="Datasets" value="12"
+                                        help="Unchanged since the last run">
+                                <EvolutionBadge value="0" trend={trend_of(0.0)} />
+                            </MetricTile>
+                        </div>
+                    </UsageExample>
+                </div>
+            </section>
+
             <section class="block" id="snippets">
                 <div class="wrap">
-                    <SectionHead number="09" kicker="both stacks" title="Every component, in both stacks" />
+                    <SectionHead number="10" kicker="both stacks" title="Every component, in both stacks" />
                     <p class="section-intro">
                         { format!("All {} components the crate defines, one canonical call each: \
                                    the Yew ", SNIPPETS.len()) }

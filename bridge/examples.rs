@@ -8,7 +8,7 @@
 //! (xtask/src/parse.rs), and a generated file inside `src/` would be an input
 //! to the hash of the document that describes it.
 //!
-//! src_hash af5c6808ec3a3e4fddcb80f342480c4083ef6e88605ff113d130ec403da802e8
+//! src_hash dd5ca60df5911d6a0d2b644075a504c90536d1a3b13a715309e25dbeee8242b9
 
 /// Whether a component ships in `@eona-x/ui-toolkit-react`.
 ///
@@ -123,7 +123,7 @@ pub static SNIPPETS: &[Snippet] = &[
     },
     Snippet {
         component: r#"ComponentsGallery"#,
-        source: r#"src/organisms/components_gallery.rs:27"#,
+        source: r#"src/organisms/components_gallery.rs:28"#,
         yew_uses: r#"use eona_ui_toolkit::ComponentsGallery;"#,
         yew: r#"<ComponentsGallery />"#,
         react: ReactSnippet::Unavailable {
@@ -191,6 +191,17 @@ use eona_ui_toolkit::demo::DemoPage;"#,
             why: r#"never generated — out of scope by rule: crate showcase page"#,
             disposition: "",
             tracked_by: "",
+        },
+    },
+    Snippet {
+        component: r#"EvolutionBadge"#,
+        source: r#"src/atoms/evolution_badge.rs:23"#,
+        yew_uses: r#"use eona_ui_toolkit::EvolutionBadge;
+use eona_ui_toolkit::chart::Trend;"#,
+        yew: r#"<EvolutionBadge trend={Trend::Up} value="An annotation value" />"#,
+        react: ReactSnippet::Available {
+            import: r#"import { EvolutionBadge } from '@eona-x/ui-toolkit-react';"#,
+            jsx: r#"<EvolutionBadge trend="up" value="An annotation value" />"#,
         },
     },
     Snippet {
@@ -308,6 +319,20 @@ use eona_ui_toolkit::demo::DemoPage;"#,
   name="Name"
   sectors={["Mobility"]}
 />"#,
+        },
+    },
+    Snippet {
+        component: r#"MetricTile"#,
+        source: r#"src/molecules/metric_tile.rs:28"#,
+        yew_uses: r#"use eona_ui_toolkit::MetricTile;"#,
+        yew: r#"<MetricTile help="Help" label="Label" value="An annotation value">
+    { "Children go here." }
+</MetricTile>"#,
+        react: ReactSnippet::Available {
+            import: r#"import { MetricTile } from '@eona-x/ui-toolkit-react';"#,
+            jsx: r#"<MetricTile help="Help" label="Label" value="An annotation value">
+  Children go here.
+</MetricTile>"#,
         },
     },
     Snippet {
@@ -510,6 +535,27 @@ use eona_ui_toolkit::ontology::LiteralValue;"#,
             jsx: r#"<RuleListItem kind="do">
   Children go here.
 </RuleListItem>"#,
+        },
+    },
+    Snippet {
+        component: r#"ScoreDonut"#,
+        source: r#"src/molecules/score_donut.rs:29"#,
+        yew_uses: r#"use eona_ui_toolkit::ScoreDonut;
+use eona_ui_toolkit::chart::ScoreBand;"#,
+        yew: r#"<ScoreDonut
+    band={ScoreBand::Good}
+    caption="Caption"
+    dash_array="Dash Array"
+    label="Label"
+/>"#,
+        react: ReactSnippet::Available {
+            import: r#"import { ScoreDonut } from '@eona-x/ui-toolkit-react';"#,
+            jsx: r#"<ScoreDonut
+  band="good"
+  caption="Caption"
+  dashArray="Dash Array"
+  label="Label"
+/>"#,
         },
     },
     Snippet {

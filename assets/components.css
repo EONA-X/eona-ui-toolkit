@@ -1305,3 +1305,68 @@ section.block-alt { background: var(--eona-gray-bg); }
   color: var(--eona-blue-action);
 }
 .dataset-card:hover .dataset-card__action { color: var(--eona-blue-royal); }
+
+/* Screen-reader-only text. The crate's first use is `EvolutionBadge`, whose
+   direction glyph is aria-hidden so it is never read as punctuation; this
+   carries the word instead. Not `display:none`, which removes it from the
+   accessibility tree too. */
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
+}
+
+/* ---------- charts (eona-x/backlog#822) ---------- */
+/* Pure SVG and no script: these render server-side and print. */
+
+.chart-donut { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.chart-donut__svg { width: 120px; height: 120px; display: block; }
+/* `fill: none` matters: a dashed circle is a ring only if it is unfilled. */
+.chart-donut__track,
+.chart-donut__value { fill: none; stroke-width: 22.5; }
+.chart-donut__track { stroke: var(--eona-chart-track); }
+.chart-donut__value--good { stroke: var(--eona-chart-good); }
+.chart-donut__value--warning { stroke: var(--eona-chart-warning); }
+.chart-donut__value--danger { stroke: var(--eona-chart-danger); }
+.chart-donut__label {
+  font-family: var(--eona-font-family);
+  font-size: 22px; font-weight: var(--eona-weight-semibold);
+  fill: var(--eona-text-primary);
+}
+.chart-donut__caption {
+  font-size: 13px; color: var(--eona-text-muted); text-align: center;
+}
+
+.metric-tile {
+  display: flex; flex-direction: column; gap: 2px;
+  padding: 16px 18px; background: var(--eona-surface-raised);
+  border: 1px solid var(--eona-border-subtle); border-radius: var(--eona-radius-card);
+}
+.metric-tile__label { font-size: 13px; color: var(--eona-text-muted); }
+.metric-tile__value {
+  font-size: 28px; font-weight: var(--eona-weight-semibold);
+  color: var(--eona-text-primary); line-height: 1.15;
+}
+.metric-tile__help { font-size: 12px; color: var(--eona-text-muted); }
+.metric-tile__delta { margin-top: 6px; }
+
+.evolution-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 13px; font-weight: var(--eona-weight-medium);
+}
+.evolution-badge__glyph { font-size: 11px; line-height: 1; }
+/* The value carries the text weight; the glyph beside it stays small so the
+   pair reads as one unit rather than as an icon and a number. */
+.evolution-badge__value { font-variant-numeric: tabular-nums; }
+.evolution-badge--up { color: var(--eona-chart-good); }
+.evolution-badge--down { color: var(--eona-chart-danger); }
+.evolution-badge--flat { color: var(--eona-text-muted); }
+
+/* Direction and band must survive a black-and-white print, where every
+   stroke above collapses to a similar grey. The glyph carries direction;
+   the ring is distinguished by a dash pattern per band. */
+@media print {
+  .chart-donut__value--warning { stroke-dasharray: none; stroke: #000; opacity: .55; }
+  .chart-donut__value--danger { stroke: #000; opacity: .85; }
+  .chart-donut__value--good { stroke: #000; opacity: .3; }
+  .chart-donut__track { stroke: #d8d8d8; }
+}

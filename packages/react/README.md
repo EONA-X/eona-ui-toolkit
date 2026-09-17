@@ -7,7 +7,7 @@ of truth is the Yew crate in this repository (`src/`): each component here was p
 rendering the Rust component with Yew's own server renderer and splicing the props back
 into the resulting markup, so the React and Yew renders are the same HTML by construction.
 
-Generated from src_hash `af5c6808ec3a3e4fddcb80f342480c4083ef6e88605ff113d130ec403da802e8`.
+Generated from src_hash `dd5ca60df5911d6a0d2b644075a504c90536d1a3b13a715309e25dbeee8242b9`.
 
 ## Do not edit
 
@@ -83,7 +83,7 @@ snapshot test that diffs this package's SSR bytes against the Yew portal's:
    every `<img src>` it renders, and omits `src=""` entirely (with a warning) where Yew
    emits it.
 
-## Components (33)
+## Components (36)
 
 - `AccordionItem` — `src/molecules/accordion_item.rs:17`
 - `BadgeNum` — `src/atoms/badge_num.rs:11`
@@ -93,12 +93,14 @@ snapshot test that diffs this package's SSR bytes against the Yew portal's:
 - `CaseCard` — `src/molecules/case_card.rs:15`
 - `CodeBlock` — `src/atoms/code_block.rs:27`
 - `DeclCard` — `src/molecules/decl_card.rs:17`
+- `EvolutionBadge` — `src/atoms/evolution_badge.rs:23`
 - `Hero` — `src/organisms/hero.rs:35`
 - `HeroFilter` — `src/organisms/hero_filter.rs:34`
 - `LogoDownloadCard` — `src/molecules/logo_download_card.rs:22`
 - `MainNav` — `src/organisms/main_nav.rs:26`
 - `MemberCard` — `src/molecules/member_card.rs:11`
 - `MemberFilterCard` — `src/molecules/member_filter_card.rs:18`
+- `MetricTile` — `src/molecules/metric_tile.rs:28`
 - `MvoCard` — `src/molecules/mvo_card.rs:11`
 - `NavDropdown` — `src/molecules/nav_dropdown.rs:22`
 - `NewsCard` — `src/molecules/news_card.rs:16`
@@ -110,6 +112,7 @@ snapshot test that diffs this package's SSR bytes against the Yew portal's:
 - `PropsTable` — `src/molecules/props_table.rs:40`
 - `RefCard` — `src/molecules/ref_card.rs:14`
 - `RuleListItem` — `src/molecules/rule_list_item.rs:28`
+- `ScoreDonut` — `src/molecules/score_donut.rs:29`
 - `SectionHead` — `src/molecules/section_head.rs:15`
 - `ShapeCard` — `src/molecules/shape_card.rs:12`
 - `SimpleFooter` — `src/organisms/simple_footer.rs:13`

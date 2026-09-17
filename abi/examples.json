@@ -1,6 +1,6 @@
 {
   "examplesVersion": 1,
-  "srcHash": "af5c6808ec3a3e4fddcb80f342480c4083ef6e88605ff113d130ec403da802e8",
+  "srcHash": "dd5ca60df5911d6a0d2b644075a504c90536d1a3b13a715309e25dbeee8242b9",
   "components": [
     {
       "component": "AccordionItem",
@@ -88,7 +88,7 @@
     },
     {
       "component": "ComponentsGallery",
-      "source": "src/organisms/components_gallery.rs:27",
+      "source": "src/organisms/components_gallery.rs:28",
       "status": "excluded",
       "reason": "zero-prop demo section",
       "yew": {
@@ -136,6 +136,18 @@
       "react": "unavailable",
       "why": "never generated — out of scope by rule: crate showcase page",
       "disposition": ""
+    },
+    {
+      "component": "EvolutionBadge",
+      "source": "src/atoms/evolution_badge.rs:23",
+      "status": "ok",
+      "yew": {
+        "uses": "use eona_ui_toolkit::EvolutionBadge;\nuse eona_ui_toolkit::chart::Trend;",
+        "snippet": "<EvolutionBadge trend={Trend::Up} value=\"An annotation value\" />"
+      },
+      "react": "available",
+      "import": "import { EvolutionBadge } from '@eona-x/ui-toolkit-react';",
+      "jsx": "<EvolutionBadge trend=\"up\" value=\"An annotation value\" />"
     },
     {
       "component": "Hero",
@@ -221,6 +233,18 @@
       "react": "available",
       "import": "import { MemberFilterCard } from '@eona-x/ui-toolkit-react';",
       "jsx": "<MemberFilterCard\n  country=\"Country\"\n  memberType=\"Member Type\"\n  name=\"Name\"\n  sectors={[\"Mobility\"]}\n/>"
+    },
+    {
+      "component": "MetricTile",
+      "source": "src/molecules/metric_tile.rs:28",
+      "status": "ok",
+      "yew": {
+        "uses": "use eona_ui_toolkit::MetricTile;",
+        "snippet": "<MetricTile help=\"Help\" label=\"Label\" value=\"An annotation value\">\n    { \"Children go here.\" }\n</MetricTile>"
+      },
+      "react": "available",
+      "import": "import { MetricTile } from '@eona-x/ui-toolkit-react';",
+      "jsx": "<MetricTile help=\"Help\" label=\"Label\" value=\"An annotation value\">\n  Children go here.\n</MetricTile>"
     },
     {
       "component": "Modal",
@@ -407,6 +431,18 @@
       "react": "available",
       "import": "import { RuleListItem } from '@eona-x/ui-toolkit-react';",
       "jsx": "<RuleListItem kind=\"do\">\n  Children go here.\n</RuleListItem>"
+    },
+    {
+      "component": "ScoreDonut",
+      "source": "src/molecules/score_donut.rs:29",
+      "status": "ok",
+      "yew": {
+        "uses": "use eona_ui_toolkit::ScoreDonut;\nuse eona_ui_toolkit::chart::ScoreBand;",
+        "snippet": "<ScoreDonut\n    band={ScoreBand::Good}\n    caption=\"Caption\"\n    dash_array=\"Dash Array\"\n    label=\"Label\"\n/>"
+      },
+      "react": "available",
+      "import": "import { ScoreDonut } from '@eona-x/ui-toolkit-react';",
+      "jsx": "<ScoreDonut\n  band=\"good\"\n  caption=\"Caption\"\n  dashArray=\"Dash Array\"\n  label=\"Label\"\n/>"
     },
     {
       "component": "SectionHead",

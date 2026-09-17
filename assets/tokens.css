@@ -41,6 +41,31 @@
   --eona-error: #DF1E26;
 
   /* ---------------------------------------------------------------- */
+  /* Color — chart scale (see eona-x/backlog#822)                      */
+  /* ---------------------------------------------------------------- */
+  /* Mode-invariant, like every status palette: these are not series
+     colours and must not be reused as one. They are steps of the slide-7
+     semantic hues, corrected so good and warning stay apart for a
+     red-green colour-blind reader.
+
+     `--eona-success` (#26B548) against `--eona-warning` measures ΔE 2.5
+     under protanopia — the two are the same colour to roughly 8% of men.
+     `--eona-chart-good` is the same hue darkened: ΔE 17.4. The slide-7
+     tokens keep their values for badges and text, where a colour appears
+     beside its own label and never next to its sibling; charts put the
+     three side by side, which is what makes the distance load-bearing.
+
+     Both sit under 3:1 against a white card. That is allowed for status,
+     and the relief is present by construction: the donut carries its
+     percentage, the badge carries a glyph. */
+  --eona-chart-good: #15803D;
+  --eona-chart-warning: #EDA01C;
+  --eona-chart-danger: #DF1E26;
+  /* The unfilled remainder of a ring. Recessive by design — it is the
+     absence of score, not a fourth status. */
+  --eona-chart-track: #E4E9F2;
+
+  /* ---------------------------------------------------------------- */
   /* Typography                                                       */
   /* ---------------------------------------------------------------- */
   --eona-font-family: 'Poppins', 'Helvetica Neue', Arial, sans-serif;
@@ -128,6 +153,9 @@
   --eona-surface-raised: var(--eona-slate);
   --eona-surface-sunken: var(--eona-navy);
   --eona-surface-inverse: var(--eona-gray-bg);
+
+  /* The triad is mode-invariant; only the recessive track follows the surface. */
+  --eona-chart-track: #33445E;
 
   --eona-text-primary: var(--eona-white);
   /* Lavender, not a grey: the charter's light accent is what it gives   */

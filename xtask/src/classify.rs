@@ -8,7 +8,7 @@
 //!    downstream as a TypeScript `any` and a React component whose props do
 //!    not match what the Yew component actually reads.
 //! 2. Decide each component's `Status` from the #809 scope rules. Every one of
-//!    the crate's 42 components ends up with a status, so the ABI can prove
+//!    the crate's 45 components ends up with a status, so the ABI can prove
 //!    nothing was dropped by accident.
 //!
 //! Struct fields are classified too, not just component props: a struct prop's
@@ -598,7 +598,7 @@ mod tests {
     type C = (&'static str, &'static str, usize, bool, &'static [P]);
 
     /// The crate's own surface, transcribed from `src/` at the commit under
-    /// test: all 42 `#[function_component]`s and, for the 39 that take props,
+    /// test: all 45 `#[function_component]`s and, for the 42 that take props,
     /// every field of their `*Props` struct with its type verbatim.
     ///
     /// Hand-written rather than produced by `parse`, on purpose: this test has
@@ -618,6 +618,10 @@ mod tests {
             ("code", "AttrValue", 13),
             ("language", "AttrValue", 19),
             ("copyable", "bool", 23),
+        ]),
+        ("EvolutionBadge", "src/atoms/evolution_badge.rs", 23, false, &[
+            ("value", "AttrValue", 18),
+            ("trend", "Trend", 19),
         ]),
         ("OntoBadge", "src/atoms/onto_badge.rs", 65, false, &[
             ("label", "AttrValue", 58),
@@ -704,6 +708,12 @@ mod tests {
             ("country", "AttrValue", 13),
             ("sectors", "Vec<&'static str>", 14),
         ]),
+        ("MetricTile", "src/molecules/metric_tile.rs", 28, false, &[
+            ("label", "AttrValue", 15),
+            ("value", "AttrValue", 17),
+            ("help", "Option<AttrValue>", 21),
+            ("children", "Children", 24),
+        ]),
         ("Modal", "src/molecules/modal.rs", 19, false, &[
             ("id", "AttrValue", 14),
             ("title", "AttrValue", 15),
@@ -751,6 +761,12 @@ mod tests {
         ("RuleListItem", "src/molecules/rule_list_item.rs", 27, false, &[
             ("kind", "RuleKind", 23),
             ("children", "Children", 24),
+        ]),
+        ("ScoreDonut", "src/molecules/score_donut.rs", 29, false, &[
+            ("dash_array", "AttrValue", 19),
+            ("band", "ScoreBand", 20),
+            ("label", "AttrValue", 22),
+            ("caption", "AttrValue", 25),
         ]),
         ("SectionHead", "src/molecules/section_head.rs", 14, false, &[
             ("number", "AttrValue", 9),
@@ -834,6 +850,11 @@ mod tests {
         ("BadgeVariant", "src/atoms/onto_badge.rs", 20, &[
             "Kind(TermKind)", "Lang", "Datatype", "Deprecated", "Default",
         ]),
+        // #822's chart geometry. Both live in `src/chart.rs` rather than beside
+        // their components: the arithmetic is kept apart from the markup so the
+        // components stay pass-through and out of the quarantine list.
+        ("ScoreBand", "src/chart.rs", 28, &["Good", "Warning", "Danger"]),
+        ("Trend", "src/chart.rs", 97, &["Up", "Down", "Flat"]),
         ("TermKind", "src/ontology.rs", 26, &[
             "Ontology", "Class", "ObjectProperty", "DatatypeProperty", "AnnotationProperty",
             "Property", "NamedIndividual", "Other",
@@ -874,13 +895,15 @@ mod tests {
         ]),
     ];
 
-    /// The 38 components #809 scopes in: presentational, and taking props.
+    /// The 41 components #809 scopes in (38, plus the three charts of #822): presentational, and taking props.
     const IN_SCOPE: &[&str] = &[
         "AccordionItem", "BadgeNum", "BgCheckItem", "Button", "Callout", "CaseCard", "CodeBlock",
-        "DatasetCard", "DeclCard", "Hero", "HeroFilter", "LogoDownloadCard", "MainNav",
-        "MemberCard", "MemberFilterCard", "Modal", "MvoCard", "NavDropdown", "NewsCard",
+        "DatasetCard", "DeclCard", "EvolutionBadge", "Hero", "HeroFilter", "LogoDownloadCard",
+        "MainNav",
+        "MemberCard", "MemberFilterCard", "MetricTile", "Modal", "MvoCard", "NavDropdown", "NewsCard",
         "OntoAnnotation", "OntoBadge", "PaletteGroup", "PersonalityCard", "Pill", "PillButton",
-        "PillarCard", "PropsTable", "RefCard", "RuleListItem", "SectionHead", "ShapeCard",
+        "PillarCard", "PropsTable", "RefCard", "RuleListItem", "ScoreDonut", "SectionHead",
+        "ShapeCard",
         "SimpleFooter", "SiteHeader", "Swatch", "TagLabel", "TextField", "TypeScaleRow",
         "UsageExample",
     ];
@@ -939,16 +962,16 @@ mod tests {
 
     #[test]
     fn the_fixture_is_the_whole_crate() {
-        assert_eq!(COMPONENTS.len(), 42, "the crate has 42 function components");
+        assert_eq!(COMPONENTS.len(), 45, "the crate has 45 function components");
         assert_eq!(
             COMPONENTS.iter().filter(|c| !c.4.is_empty()).count(),
-            39,
-            "39 of them take props"
+            42,
+            "42 of them take props"
         );
     }
 
     #[test]
-    fn scope_is_the_thirty_eight() {
+    fn scope_is_the_in_scope_set() {
         let tk = classified();
         let mut generated: Vec<&str> = tk
             .components
@@ -957,8 +980,8 @@ mod tests {
             .map(|c| c.name.as_str())
             .collect();
         generated.sort_unstable();
-        assert_eq!(generated, IN_SCOPE, "in-scope set must be exactly #809's 38");
-        assert_eq!(generated.len(), 38);
+        assert_eq!(generated, IN_SCOPE, "in-scope set must be exactly #809's 38 plus #822's three");
+        assert_eq!(generated.len(), 41);
     }
 
     #[test]
@@ -976,10 +999,10 @@ mod tests {
             overrides,
             vec![("Modal", "inert hardcoded; needs open: bool upstream (#809)")]
         );
-        // 38 in scope, one of which cannot be pre-rendered yet. `Swatch` and
+        // 41 in scope, one of which cannot be pre-rendered yet. `Swatch` and
         // `DatasetCard` leave this stage `Ok` on purpose: only `verify` can see
         // that they panic on / transform the sentinel.
-        assert_eq!(tk.generated().count(), 37);
+        assert_eq!(tk.generated().count(), 40);
     }
 
     #[test]
@@ -1003,7 +1026,7 @@ mod tests {
         assert_eq!(
             tk.components.iter().filter(|c| matches!(c.status, Status::Excluded { .. })).count()
                 + tk.components.iter().filter(|c| !matches!(c.status, Status::Excluded { .. })).count(),
-            42
+            45
         );
     }
 
@@ -1317,11 +1340,11 @@ mod tests {
             .filter(|c| !matches!(c.status, Status::Excluded { .. }))
             .map(|c| c.name.as_str())
             .collect();
-        assert_eq!(scope.len(), 38, "#809's list: {scope:?}");
+        assert_eq!(scope.len(), 41, "#809's list plus #822's charts: {scope:?}");
         assert_eq!(
             tk.components.iter().filter(|c| matches!(c.status, Status::Ok)).count(),
-            37,
-            "38 less Modal, which needs `open: bool` upstream"
+            40,
+            "41 less Modal, which needs `open: bool` upstream"
         );
 
         // No prop anywhere may reach the emitter as an unmappable type.

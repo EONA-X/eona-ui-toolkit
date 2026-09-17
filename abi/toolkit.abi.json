@@ -1,7 +1,7 @@
 {
   "abiVersion": 1,
-  "srcHash": "af5c6808ec3a3e4fddcb80f342480c4083ef6e88605ff113d130ec403da802e8",
-  "generatorHash": "cf2593f70141f9544f26fd50abc329c22996047326d3643245616bf7e3ac4155",
+  "srcHash": "dd5ca60df5911d6a0d2b644075a504c90536d1a3b13a715309e25dbeee8242b9",
+  "generatorHash": "7eaabca9236447da918f43aa4a1eada6c88e82f6ac8c3abec6cc9affe9ff87ca",
   "components": [
     {
       "name": "AccordionItem",
@@ -244,7 +244,7 @@
       "status": "excluded",
       "reason": "zero-prop demo section",
       "tier": "presentational",
-      "source": "src/organisms/components_gallery.rs:27",
+      "source": "src/organisms/components_gallery.rs:28",
       "cells": 0,
       "props": []
     },
@@ -420,6 +420,31 @@
           "optional": false,
           "default": "default-trait",
           "source": "src/demo.rs:51"
+        }
+      ]
+    },
+    {
+      "name": "EvolutionBadge",
+      "status": "ok",
+      "tier": "presentational",
+      "source": "src/atoms/evolution_badge.rs:23",
+      "cells": 3,
+      "props": [
+        {
+          "name": "trend",
+          "rust": "Trend",
+          "ts": "\"up\" | \"down\" | \"flat\"",
+          "optional": false,
+          "default": "required",
+          "source": "src/atoms/evolution_badge.rs:19"
+        },
+        {
+          "name": "value",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/atoms/evolution_badge.rs:18"
         }
       ]
     },
@@ -651,6 +676,47 @@
           "optional": false,
           "default": "required",
           "source": "src/molecules/member_filter_card.rs:14"
+        }
+      ]
+    },
+    {
+      "name": "MetricTile",
+      "status": "ok",
+      "tier": "presentational",
+      "source": "src/molecules/metric_tile.rs:28",
+      "cells": 2,
+      "props": [
+        {
+          "name": "children",
+          "rust": "Children",
+          "ts": "ReactNode",
+          "optional": false,
+          "default": "default-trait",
+          "source": "src/molecules/metric_tile.rs:24"
+        },
+        {
+          "name": "help",
+          "rust": "Option<AttrValue>",
+          "ts": "string | undefined",
+          "optional": true,
+          "default": "default-trait",
+          "source": "src/molecules/metric_tile.rs:21"
+        },
+        {
+          "name": "label",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/metric_tile.rs:15"
+        },
+        {
+          "name": "value",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/metric_tile.rs:17"
         }
       ]
     },
@@ -1103,6 +1169,47 @@
           "optional": false,
           "default": "required",
           "source": "src/molecules/rule_list_item.rs:23"
+        }
+      ]
+    },
+    {
+      "name": "ScoreDonut",
+      "status": "ok",
+      "tier": "presentational",
+      "source": "src/molecules/score_donut.rs:29",
+      "cells": 3,
+      "props": [
+        {
+          "name": "band",
+          "rust": "ScoreBand",
+          "ts": "\"good\" | \"warning\" | \"danger\"",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/score_donut.rs:20"
+        },
+        {
+          "name": "caption",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/score_donut.rs:25"
+        },
+        {
+          "name": "dash_array",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/score_donut.rs:19"
+        },
+        {
+          "name": "label",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/score_donut.rs:22"
         }
       ]
     },
@@ -1599,6 +1706,16 @@
       ]
     },
     {
+      "name": "ScoreBand",
+      "source": "src/chart.rs:28",
+      "kind": "enum",
+      "union": [
+        "\"good\"",
+        "\"warning\"",
+        "\"danger\""
+      ]
+    },
+    {
       "name": "SiteNavLink",
       "source": "src/organisms/site_header.rs:6",
       "kind": "struct",
@@ -1645,6 +1762,16 @@
       "union": [
         "\"input\"",
         "\"textarea\""
+      ]
+    },
+    {
+      "name": "Trend",
+      "source": "src/chart.rs:97",
+      "kind": "enum",
+      "union": [
+        "\"up\"",
+        "\"down\"",
+        "\"flat\""
       ]
     }
   ]

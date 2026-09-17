@@ -618,11 +618,11 @@ mod tests {
     #[test]
     fn counts_match_the_crate() {
         let collected = collect(&root()).unwrap();
-        assert_eq!(collected.components.len(), 42, "every #[function_component] in src/**/*.rs");
-        assert_eq!(collected.props_structs.len(), 39, "every #[derive(Properties)] struct");
+        assert_eq!(collected.components.len(), 45, "every #[function_component] in src/**/*.rs");
+        assert_eq!(collected.props_structs.len(), 42, "every #[derive(Properties)] struct");
 
         let toolkit = parse(&root()).unwrap();
-        assert_eq!(toolkit.components.len(), 42);
+        assert_eq!(toolkit.components.len(), 45);
         assert_eq!(
             toolkit.components.iter().filter(|c| c.tier == Tier::Interactive).count(),
             0,
@@ -640,7 +640,7 @@ mod tests {
                 .filter_map(|c| c.props_ty.clone())
                 .collect::<BTreeSet<_>>()
                 .len(),
-            39,
+            42,
             "each Properties struct backs exactly one component"
         );
         assert!(toolkit.components.iter().all(|c| matches!(c.status, Status::Ok)));

@@ -1,11 +1,12 @@
 {
-  "src_hash": "af5c6808ec3a3e4fddcb80f342480c4083ef6e88605ff113d130ec403da802e8",
-  "checked": 38,
-  "emitted": 34,
+  "src_hash": "dd5ca60df5911d6a0d2b644075a504c90536d1a3b13a715309e25dbeee8242b9",
+  "checked": 41,
+  "emitted": 37,
   "passed": [
     "BadgeNum",
     "Button",
     "CodeBlock",
+    "EvolutionBadge",
     "OntoBadge",
     "Pill",
     "PillButton",
@@ -18,6 +19,7 @@
     "LogoDownloadCard",
     "MemberCard",
     "MemberFilterCard",
+    "MetricTile",
     "Modal",
     "MvoCard",
     "NavDropdown",
@@ -27,6 +29,7 @@
     "PropsTable",
     "RefCard",
     "RuleListItem",
+    "ScoreDonut",
     "SectionHead",
     "ShapeCard",
     "TextField",
@@ -1930,6 +1933,137 @@
           "span": {
             "file": "src/molecules/nav_dropdown.rs",
             "line": 16
+          }
+        }
+      ],
+      "verdict": "pass"
+    },
+    {
+      "component": "ScoreDonut",
+      "span": {
+        "file": "src/molecules/score_donut.rs",
+        "line": 29
+      },
+      "cells": 3,
+      "notes": [
+        {
+          "check": "sentinel-integrity",
+          "cell": "base",
+          "alphabet": "primary",
+          "detail": "the sentinel for `label` (\\u{E000}1\\u{E001}) appears 2 times, each one whole, so the component renders the prop verbatim in 2 places and `splice` must write the JSX expression into all 2",
+          "span": {
+            "file": "src/molecules/score_donut.rs",
+            "line": 22
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "base",
+          "alphabet": "primary",
+          "detail": "the sentinel for `caption` (\\u{E000}2\\u{E001}) appears 2 times, each one whole, so the component renders the prop verbatim in 2 places and `splice` must write the JSX expression into all 2",
+          "span": {
+            "file": "src/molecules/score_donut.rs",
+            "line": 25
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "base",
+          "alphabet": "differential",
+          "detail": "the sentinel for `label` (\\u{F0000}0001aZ0kQ9#mX/bY1nR8#pW/cV2jT7#hU/dS3gN6#fM/eL4iK5#oJ/fT6hP8#qW/gU7iO9#rX/\\u{F0001}) appears 2 times, each one whole, so the component renders the prop verbatim in 2 places and `splice` must write the JSX expression into all 2",
+          "span": {
+            "file": "src/molecules/score_donut.rs",
+            "line": 22
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "base",
+          "alphabet": "differential",
+          "detail": "the sentinel for `caption` (\\u{F0000}0002aZ0kQ9#mX/bY1nR8#pW/cV2jT7#hU/dS3gN6#fM/eL4iK5#oJ/fT6hP8#qW/gU7iO9#rX/\\u{F0001}) appears 2 times, each one whole, so the component renders the prop verbatim in 2 places and `splice` must write the JSX expression into all 2",
+          "span": {
+            "file": "src/molecules/score_donut.rs",
+            "line": 25
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "band_warning",
+          "alphabet": "primary",
+          "detail": "the sentinel for `label` (\\u{E000}1\\u{E001}) appears 2 times, each one whole, so the component renders the prop verbatim in 2 places and `splice` must write the JSX expression into all 2",
+          "span": {
+            "file": "src/molecules/score_donut.rs",
+            "line": 22
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "band_warning",
+          "alphabet": "primary",
+          "detail": "the sentinel for `caption` (\\u{E000}2\\u{E001}) appears 2 times, each one whole, so the component renders the prop verbatim in 2 places and `splice` must write the JSX expression into all 2",
+          "span": {
+            "file": "src/molecules/score_donut.rs",
+            "line": 25
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "band_warning",
+          "alphabet": "differential",
+          "detail": "the sentinel for `label` (\\u{F0000}0001aZ0kQ9#mX/bY1nR8#pW/cV2jT7#hU/dS3gN6#fM/eL4iK5#oJ/fT6hP8#qW/gU7iO9#rX/\\u{F0001}) appears 2 times, each one whole, so the component renders the prop verbatim in 2 places and `splice` must write the JSX expression into all 2",
+          "span": {
+            "file": "src/molecules/score_donut.rs",
+            "line": 22
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "band_warning",
+          "alphabet": "differential",
+          "detail": "the sentinel for `caption` (\\u{F0000}0002aZ0kQ9#mX/bY1nR8#pW/cV2jT7#hU/dS3gN6#fM/eL4iK5#oJ/fT6hP8#qW/gU7iO9#rX/\\u{F0001}) appears 2 times, each one whole, so the component renders the prop verbatim in 2 places and `splice` must write the JSX expression into all 2",
+          "span": {
+            "file": "src/molecules/score_donut.rs",
+            "line": 25
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "band_danger",
+          "alphabet": "primary",
+          "detail": "the sentinel for `label` (\\u{E000}1\\u{E001}) appears 2 times, each one whole, so the component renders the prop verbatim in 2 places and `splice` must write the JSX expression into all 2",
+          "span": {
+            "file": "src/molecules/score_donut.rs",
+            "line": 22
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "band_danger",
+          "alphabet": "primary",
+          "detail": "the sentinel for `caption` (\\u{E000}2\\u{E001}) appears 2 times, each one whole, so the component renders the prop verbatim in 2 places and `splice` must write the JSX expression into all 2",
+          "span": {
+            "file": "src/molecules/score_donut.rs",
+            "line": 25
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "band_danger",
+          "alphabet": "differential",
+          "detail": "the sentinel for `label` (\\u{F0000}0001aZ0kQ9#mX/bY1nR8#pW/cV2jT7#hU/dS3gN6#fM/eL4iK5#oJ/fT6hP8#qW/gU7iO9#rX/\\u{F0001}) appears 2 times, each one whole, so the component renders the prop verbatim in 2 places and `splice` must write the JSX expression into all 2",
+          "span": {
+            "file": "src/molecules/score_donut.rs",
+            "line": 22
+          }
+        },
+        {
+          "check": "sentinel-integrity",
+          "cell": "band_danger",
+          "alphabet": "differential",
+          "detail": "the sentinel for `caption` (\\u{F0000}0002aZ0kQ9#mX/bY1nR8#pW/cV2jT7#hU/dS3gN6#fM/eL4iK5#oJ/fT6hP8#qW/gU7iO9#rX/\\u{F0001}) appears 2 times, each one whole, so the component renders the prop verbatim in 2 places and `splice` must write the JSX expression into all 2",
+          "span": {
+            "file": "src/molecules/score_donut.rs",
+            "line": 25
           }
         }
       ],

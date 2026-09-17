@@ -1,6 +1,6 @@
 {
-  "srcHash": "af5c6808ec3a3e4fddcb80f342480c4083ef6e88605ff113d130ec403da802e8",
-  "generatorHash": "cf2593f70141f9544f26fd50abc329c22996047326d3643245616bf7e3ac4155",
+  "srcHash": "dd5ca60df5911d6a0d2b644075a504c90536d1a3b13a715309e25dbeee8242b9",
+  "generatorHash": "7eaabca9236447da918f43aa4a1eada6c88e82f6ac8c3abec6cc9affe9ff87ca",
   "dir": "packages/react",
   "exported": [
     "AccordionItem",
@@ -11,12 +11,14 @@
     "CaseCard",
     "CodeBlock",
     "DeclCard",
+    "EvolutionBadge",
     "Hero",
     "HeroFilter",
     "LogoDownloadCard",
     "MainNav",
     "MemberCard",
     "MemberFilterCard",
+    "MetricTile",
     "MvoCard",
     "NavDropdown",
     "NewsCard",
@@ -28,6 +30,7 @@
     "PropsTable",
     "RefCard",
     "RuleListItem",
+    "ScoreDonut",
     "SectionHead",
     "ShapeCard",
     "SimpleFooter",
@@ -40,7 +43,7 @@
   "files": [
     {
       "path": "README.md",
-      "sha256": "e9d6d1f3874093884202db24381c3289f09b6c2368160f650293c2e5b4e63ed1"
+      "sha256": "533c6da66f53e8e1a7910deebeef2aa67842ec42c26cc320e187cb0d3b06951f"
     },
     {
       "path": "package.json",
@@ -79,6 +82,10 @@
       "sha256": "0859339bcc2465447dcda098a8e74c1e8670b9b59d1cedc478bdff960e8287e8"
     },
     {
+      "path": "src/EvolutionBadge.tsx",
+      "sha256": "a6eaa052ce313c4a8df7c8ad3ecb9fc0b7515343504c4d1fe41714fc3f7cd58a"
+    },
+    {
       "path": "src/Hero.tsx",
       "sha256": "2106a5b0f24d01d3c978d73e4fc58cee8a0dbfe0b9e7d279eb1a2c7552b88004"
     },
@@ -101,6 +108,10 @@
     {
       "path": "src/MemberFilterCard.tsx",
       "sha256": "1dff9cfaa6780e647aa40ad33160450cec989e3c83629d2cfc396797e190e30f"
+    },
+    {
+      "path": "src/MetricTile.tsx",
+      "sha256": "c0d74ee9b760ddf8b1ccf310a368c35041f314d22a1e0066708af090e73b11ba"
     },
     {
       "path": "src/Modal.tsx",
@@ -151,6 +162,10 @@
       "sha256": "b4978d8590599a94fa39bdc9d94c0f78e6a1aa96697e01d900a92646a308e9ac"
     },
     {
+      "path": "src/ScoreDonut.tsx",
+      "sha256": "0243f4f4d767aed3733d343d798fe2d50fc9c6aa1611b2bdbc94891518206b10"
+    },
+    {
       "path": "src/SectionHead.tsx",
       "sha256": "ff9619aaa02d997b6ca1b1465c9ccfca778865e32f0830f667fe5df87e8c5b4e"
     },
@@ -184,7 +199,7 @@
     },
     {
       "path": "src/index.ts",
-      "sha256": "1a20d870b191948739d4cde7804b0efe37b9a2d350f35b181194d51e2581ceca"
+      "sha256": "56e53eb8af24dfd82432c58e5cfbbde9fc055e9028f859f77279c4208c4ce319"
     },
     {
       "path": "src/types.ts",
