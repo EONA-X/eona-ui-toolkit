@@ -49,6 +49,20 @@
   --eona-error: #FF3131;
   /* The charter had no neutral level; #730 does. */
   --eona-neutral: #6C757D;
+  /* A level above error, for a condition that stops the thing rather than
+     spoiling it. Two reds cannot be told apart by hue — a protanope sees
+     neither as red — so this separates from `--eona-error` by weight:
+     ΔE 22.8 under protanopia, and 11.14:1 against white, the most legible
+     of the five, which is the right way round for the most severe.
+
+     It is also the one alert level that is NOT mode-invariant, and the
+     reason is structural rather than aesthetic. "More severe" is rendered
+     here as "further from the surface", and that flips direction between a
+     white page and a navy one: going darker than #243955 is invisible
+     (#7A0C0C measures 1.05:1 on it), and lifting it toward the surface
+     collapses it back into error (ΔE 3.7). The dark step goes lighter
+     instead and keeps ΔE 15.1. See the dark block. */
+  --eona-critical: #7A0C0C;
 
   /* ---------------------------------------------------------------- */
   /* Color — chart scale (see eona-x/backlog#822)                      */
@@ -178,6 +192,12 @@
 
   /* The triad is mode-invariant; only the recessive track follows the surface. */
   --eona-chart-track: #33445E;
+
+  /* The exception to that: see `--eona-critical` in the light block. Lighter
+     than `--eona-error` here, darker than it there — both directions mean
+     "further from the surface". 5.77:1 on the raised surface, ΔE 15.1 from
+     error. */
+  --eona-critical: #FF9A9A;
 
   --eona-text-primary: var(--eona-white);
   /* Lavender, not a grey: the charter's light accent is what it gives   */
