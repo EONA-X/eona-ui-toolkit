@@ -413,54 +413,82 @@ html > body { padding-top: 156px; }
    behind it); none of this portal's pages do that (each one's first
    section is pushed below .site-header by the padding-top reserve above),
    so a dedicated backdrop reproduces the same *look* without moving
-   Hero/DeckTop/HeroFilter's own box -- one fixed rectangle, independent of
-   whatever each page's first section happens to be, sized to the header's
-   own resting footprint (32px top offset + 116px header height -- 156px,
-   the same number as the desktop padding-top reserve above, and for the
-   same reason: err toward covering slightly more than the measured header
-   height rather than clipping it if content nudges it taller. Keep this
-   in sync with that value -- both move together whenever the header's own
-   resting height does, e.g. the logo-sizing change below).
-   This is scoped to exactly the situation the real site doesn't have to
-   solve: it disappears below 1024px and once `.is-scrolled` (both cases
-   the header sits flush at `top: 0`, so there is no gap above it left to
-   fill), at which point .site-header is just as see-through as the real
-   one, over whatever the page happens to be showing at that scroll
-   position -- matching the real header's own tolerance for that (confirmed
-   on the live site: scrolled past its hero, the transparent bar shows
-   arbitrary page content behind it too, legible only via each piece's own
-   glass chip, not the bar itself). */
+   Hero/DeckTop/HeroFilter's own box.
+
+   `position: absolute` against `.site-header` (not `fixed` against the
+   viewport) -- `.site-header` is itself `position: fixed`, so it already
+   establishes the containing block this pseudo-element needs, and an
+   absolutely-positioned box is exactly as "positioned" as a fixed one for
+   the z-index/paint-order trick documented on the rule below, so switching
+   from `fixed` to `absolute` changes nothing about that. `left: 0; right:
+   0; bottom: 0` then anchor three sides of this backdrop to `.site-header`'s
+   own padding box, so its height *is* the header's real rendered height,
+   automatically -- including whatever it grows to once the nav pill wraps
+   to two or three rows below ~700px (see `.site-header__wrap`'s own
+   `flex-wrap` fix further down, and `.site-header__pill`'s own comments
+   above that). A hard-coded `height: 156px` used to sit here instead,
+   measured against the single-row desktop header only: below the width
+   where the pill starts wrapping, the real header silently outgrew that
+   fixed height and the extra row(s) fell outside the backdrop entirely,
+   landing on body's own light background -- `.site-header__link` there is
+   white-on-nothing (`rgba(255,255,255,.75)` on `--eona-gray-bg`), a WCAG
+   1.4.3 contrast failure. Anchoring to the header's own box instead of a
+   magic number means this can't happen again regardless of how tall the
+   wrapped pill ends up.
+
+   `top: -2rem` (rather than `0`) extends the backdrop upward past the
+   header's own top edge, to also cover the gap above it: `.site-header`
+   floats at `top: 2rem` on desktop (see its own rule above), so there is a
+   2rem strip between the true viewport top and the header's own box that
+   also needs filling. Below 1024px, and once `.is-scrolled`, the header
+   sits flush at `top: 0` instead -- there `top: -2rem` just pushes this
+   backdrop's own top edge 2rem above the viewport, off-screen and
+   harmless (nothing renders above y:0 anyway), so one rule covers both
+   cases without its own media query.
+
+   This backdrop used to disappear entirely below 1024px (`content: none`),
+   on the reasoning that the header sits flush there so there is no *gap
+   above* it left to fill. True, but incomplete: the header's own box is
+   still transparent at every width, and below 1024px none of this
+   portal's pages have anything dark of their own directly behind it either
+   (same problem as above) -- confirmed empirically, this left the nav
+   links near-white-on-white already at e.g. 1000px and 760px, well before
+   the pill ever starts wrapping below 700px, not just the wrapped-row case
+   this rule was originally written to describe. The backdrop now stays on
+   at every width for that reason; only `.is-scrolled` still turns it off
+   (its own rule, below) -- that variant is gated to >=1024px by
+   site-header.js's own `matchMedia` (see the `.is-scrolled` pill-width
+   comment further down), a width where the header never wraps, so
+   dropping the backdrop there only ever exposes the same kind of
+   already-scrolled-past page content the real site's own header tolerates
+   too (confirmed on the live site, see the comment above). */
 .site-header::before {
   content: "";
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  height: 156px;
+  position: absolute;
+  top: -2rem; left: 0; right: 0; bottom: 0;
   background: var(--eona-navy-deep);
   /* Without this, the standalone logo silently disappears behind this
      backdrop (confirmed empirically -- getBoundingClientRect() and
      computed opacity/visibility all said it should be showing, only
      elementFromPoint() at its own center gave it away, returning
      .site-header instead of the logo's <img>). Cause: this pseudo-element
-     is `position: fixed`, a *positioned* box, so CSS painting order puts
-     it in the same layer as -- and, being earlier in the generated-content
-     order, *underneath* -- any other positioned-or-equivalent sibling; but
-     `.site-header__pill` and `.site-header__lang` each carry their own
-     `backdrop-filter`, which (per spec) promotes an element into that same
-     positioned paint layer even without `position` of its own, so they
-     ended up above this backdrop by DOM-order coincidence while the
-     standalone logo -- a plain, unpromoted, non-positioned <a> -- painted
-     in the *earlier*, non-positioned layer, underneath it. `z-index: -1`
-     sidesteps the coincidence entirely: it forces this backdrop into the
-     negative-z-index layer, which paints before (behind) every other kind
-     of child of `.site-header` regardless of which of them happen to have
-     their own stacking context. Only became visible once this rule grew
-     from a 2rem sliver (which never overlapped the header's own content
-     box) to its current full-header-height -- see this rule's own comment
-     above for why. */
+     is a *positioned* box (`position: absolute`), so CSS painting order
+     puts it in the same layer as -- and, being earlier in the
+     generated-content order, *underneath* -- any other positioned-or-
+     equivalent sibling; but `.site-header__pill` and `.site-header__lang`
+     each carry their own `backdrop-filter`, which (per spec) promotes an
+     element into that same positioned paint layer even without `position`
+     of its own, so they ended up above this backdrop by DOM-order
+     coincidence while the standalone logo -- a plain, unpromoted,
+     non-positioned <a> -- painted in the *earlier*, non-positioned layer,
+     underneath it. `z-index: -1` sidesteps the coincidence entirely: it
+     forces this backdrop into the negative-z-index layer, which paints
+     before (behind) every other kind of child of `.site-header` regardless
+     of which of them happen to have their own stacking context. Only
+     became visible once this rule grew from a 2rem sliver (which never
+     overlapped the header's own content box) to its current full-header-
+     height -- see this rule's own comment above for why. */
   z-index: -1;
-}
-@media (max-width: 1023px) {
-  .site-header::before { content: none; }
 }
 .site-header.is-scrolled::before { content: none; }
 .site-header .site-header__wrap {
