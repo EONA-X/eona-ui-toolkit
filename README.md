@@ -201,7 +201,8 @@ Section 15-19 of the demo page is the consumer-facing version of all of this, an
 
 `TOKENS_CSS` carries the charter palette plus a semantic layer named after the job rather
 than the ink — `--eona-surface-page`, `--eona-text-primary`, `--eona-border-subtle`,
-`--eona-accent`. Those are the themeable ones; the raw palette never changes.
+`--eona-accent`, and the site header's own `--eona-surface-header` / `--eona-text-on-header`
+set. Those are the themeable ones; the raw palette never changes.
 
 Dark mode is opt-in via an explicit attribute and is deliberately **not** wired to
 `prefers-color-scheme`, so a consumer that never sets it keeps the appearance it has today:
@@ -215,9 +216,24 @@ Its values are the charter's own `websiteDarkNeutrals` (slide 5). The tokens liv
 `charte-graphique-design-system` lineage; `assets/tokens.css` here is a byte-identical mirror
 of that repo's `brand/tokens.css`.
 
-Note that `COMPONENTS_CSS` still reads the raw palette directly, so the presentational
-components do not follow `data-theme` yet — re-pointing them is a separate change, since it
-would alter developer.eona-x.eu's rendering.
+Note that `COMPONENTS_CSS` still reads the raw palette directly for most components, so they
+do not follow `data-theme` yet — re-pointing them is a separate change, since it would alter
+developer.eona-x.eu's rendering.
+
+`SiteHeader` is the exception, and only because it had to be: its menu hard-coded one navy bar
+and one white-at-75% ink, which is a WCAG 1.4.3 failure on any consumer whose pages are light —
+1.04:1 measured on this portal once the page scrolls, 1.00:1 over a white card. Its colours are
+now the paired set below, with defaults that render pixel-identically to what shipped:
+
+| background | ink that sits on it |
+| --- | --- |
+| `--eona-surface-header` | `--eona-text-on-header`, `--eona-text-on-header-strong` (hover) |
+| `--eona-surface-header-active` | `--eona-text-on-header-active` |
+| `--eona-surface-header-chip`, `--eona-border-header-chip` | *(a wash over the bar; carries no ink of its own)* |
+
+Set both halves of a pair or neither. Lightening the bar alone is exactly how a themed header
+lands back at 1:1, which is why they are documented as pairs in `tokens.css` and measured, in
+both colour modes, by `tests/site_header_theme.rs`.
 
 ## Status
 
