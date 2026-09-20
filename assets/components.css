@@ -357,9 +357,10 @@ footer.icons-footer .bottom-line { font-size: 12.5px; display: flex; justify-con
      starts at the true viewport top -- see the padding-top comment above)
      is now reproduced by `.site-header::before` below instead of by
      painting this element, so `.site-header` itself stays honestly
-     transparent like the real one; once `.is-scrolled` that backdrop drops
-     out too (see its own rule) and this header becomes just as see-through
-     as the real site's. */
+     transparent like the real one. That backdrop stays painted once
+     scrolled, which is the single place this header deliberately departs
+     from eona-x.eu's -- see its own rule for the contrast measurements that
+     forced the difference. */
   padding: 20px 0;
   transition: padding .2s ease, top .2s ease;
 }
@@ -455,18 +456,35 @@ html > body { padding-top: 156px; }
    links near-white-on-white already at e.g. 1000px and 760px, well before
    the pill ever starts wrapping below 700px, not just the wrapped-row case
    this rule was originally written to describe. The backdrop now stays on
-   at every width for that reason; only `.is-scrolled` still turns it off
-   (its own rule, below) -- that variant is gated to >=1024px by
-   site-header.js's own `matchMedia` (see the `.is-scrolled` pill-width
-   comment further down), a width where the header never wraps, so
-   dropping the backdrop there only ever exposes the same kind of
-   already-scrolled-past page content the real site's own header tolerates
-   too (confirmed on the live site, see the comment above). */
+   at every width for that reason -- and in every scroll state, which is the
+   same argument one step further on. A `.site-header.is-scrolled::before {
+   content: none; }` rule used to sit directly below this one and drop the
+   backdrop the moment the page scrolled, on the grounds that the real
+   site's header is see-through there and survives it. It survives it
+   because its pages are dark under the header; this portal's are not.
+   Measured in headless Chromium through the real composited stack: once
+   scrolled at 1600px, `.site-header__link` reads 1.04:1 over editor.html's
+   `--eona-gray-bg`, and 1.00:1 over index.html's white cards -- ink and
+   background the same colour, the whole nav gone, on every page of every
+   consumer whose pages are light. The width gate that rule leaned on
+   (site-header.js only adds `.is-scrolled` at >=1024px, where the header
+   never wraps) was answering the wrong question: wrapping was never what
+   made the links unreadable, the page behind them was, and at >=1024px
+   there is just as much light page behind them. So the strip is now
+   unconditional, and `tests/site_header_theme.rs` fails if anything
+   switches it back off. The cost is the one thing it buys the real site: a
+   scrolled header here is an opaque bar across the viewport, not a
+   see-through one, so page content no longer shows through behind the nav.
+
+   The fill is `--eona-surface-header` rather than `--eona-navy-deep`
+   directly, so a consumer can re-theme the menu without touching these
+   rules; tokens.css carries the whole paired set, and the reason it is
+   paired rather than a set of independent knobs. */
 .site-header::before {
   content: "";
   position: absolute;
   top: -2rem; left: 0; right: 0; bottom: 0;
-  background: var(--eona-navy-deep);
+  background: var(--eona-surface-header);
   /* Without this, the standalone logo silently disappears behind this
      backdrop (confirmed empirically -- getBoundingClientRect() and
      computed opacity/visibility all said it should be showing, only
@@ -490,7 +508,6 @@ html > body { padding-top: 156px; }
      height -- see this rule's own comment above for why. */
   z-index: -1;
 }
-.site-header.is-scrolled::before { content: none; }
 .site-header .site-header__wrap {
   display: flex; align-items: center; justify-content: space-between; gap: 16px;
 }
@@ -518,16 +535,27 @@ html > body { padding-top: 156px; }
 .site-header__pill {
   display: flex; align-items: center; justify-content: center; gap: 2px;
   flex: 1; max-width: 460px; margin: 0 auto;
-  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.14);
+  background: var(--eona-surface-header-chip); border: 1px solid var(--eona-border-header-chip);
   backdrop-filter: blur(var(--eona-blur, 16px));
   border-radius: var(--eona-radius-pill); padding: 6px;
 }
+/* Every colour in the rules that follow is a token, not a literal, and each
+   one resolves to exactly what this menu shipped before they existed -- navy
+   bar, white-at-75% ink, white current-page chip, verified pixel-identical at
+   the top of a page. The point is not the default, which is unchanged; it is
+   that a consumer whose header is not navy can now theme the menu by setting
+   `--eona-surface-header` and its paired ink on `:root` (or on one page's own
+   `.site-header`), instead of re-declaring `.site-header__link` in their own
+   stylesheet against this crate's internal class names -- which is the only
+   thing that worked before, and which quietly makes those names part of the
+   public API. tokens.css says which values are pairs, and why setting half of
+   a pair is exactly how this lands back at 1:1. */
 .site-header__link {
-  color: rgba(255,255,255,.75); font-size: 14px; font-weight: var(--eona-weight-medium);
+  color: var(--eona-text-on-header); font-size: 14px; font-weight: var(--eona-weight-medium);
   padding: 8px 16px; border-radius: var(--eona-radius-pill); white-space: nowrap;
 }
-.site-header__link:hover { background: rgba(255,255,255,.1); color: #fff; text-decoration: none; }
-.site-header__link[aria-current=page] { background: #fff; color: var(--eona-navy); }
+.site-header__link:hover { background: var(--eona-surface-header-chip); color: var(--eona-text-on-header-strong); text-decoration: none; }
+.site-header__link[aria-current=page] { background: var(--eona-surface-header-active); color: var(--eona-text-on-header-active); }
 .site-header__actions {
   display: flex; align-items: center; gap: 8px; flex: none;
 }
@@ -538,9 +566,9 @@ html > body { padding-top: 156px; }
    (already self-styled, `.pill-btn-glass-light`) sits next to it as its own
    chip rather than nesting inside this wrapper's. */
 .site-header__lang {
-  color: rgba(255,255,255,.75); font-size: 14px; font-weight: var(--eona-weight-medium);
+  color: var(--eona-text-on-header); font-size: 14px; font-weight: var(--eona-weight-medium);
   padding: 8px 16px; border-radius: var(--eona-radius-pill); white-space: nowrap;
-  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.14);
+  background: var(--eona-surface-header-chip); border: 1px solid var(--eona-border-header-chip);
   backdrop-filter: blur(var(--eona-blur, 16px));
 }
 

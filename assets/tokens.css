@@ -177,6 +177,46 @@
   --eona-accent: var(--eona-blue-action);
   --eona-accent-contrast: var(--eona-white);
   --eona-shadow-surface: var(--eona-shadow-card);
+
+  /* The site header's menu.
+
+     These exist because the header used to hard-code one navy rectangle and
+     one white-at-75% ink -- a palette the component dictated rather than a
+     parameter a consumer could set. A portal whose header is not navy had no
+     way to theme the menu except by overriding this crate's own class names
+     from its own stylesheet, which is the kind of coupling a design system is
+     supposed to remove rather than create.
+
+     Read them as pairs, not as independent knobs. A background and the ink
+     that sits on it belong together, and changing one without the other is
+     exactly the failure this group was extracted to fix: the ink is white at
+     75%, so lightening `--eona-surface-header` alone puts the nav links at
+     about 1:1 -- WCAG 1.4.3, and invisible to whoever made the change,
+     because they were looking at a page they had already themed. The pairs:
+
+       --eona-surface-header         with  --eona-text-on-header
+                                     and   --eona-text-on-header-strong (hover)
+       --eona-surface-header-active  with  --eona-text-on-header-active
+
+     The two chip values are not a third pair. The nav pill and the language
+     chip carry no ink of their own; they are a translucent wash *over*
+     `--eona-surface-header` that the links then sit on, given in the ink's
+     colour rather than the bar's, which is what makes them read as glass. The
+     `rgba()` literals are the white token at 10% and 14% -- the same pattern
+     as `--eona-border-subtle` being the navy token at 12%, not a new colour.
+
+     `tests/site_header_theme.rs` computes the real contrast of every pair in
+     both modes, through the same composited stack the browser paints (the
+     chip's wash included, which lowers the resting ratio from 9.95:1 to
+     7.97:1 rather than raising it), and fails below the 4.5:1 AA floor. */
+  --eona-surface-header: var(--eona-navy-deep);
+  --eona-surface-header-chip: rgba(255, 255, 255, 0.1);
+  --eona-border-header-chip: rgba(255, 255, 255, 0.14);
+  --eona-surface-header-active: var(--eona-white);
+
+  --eona-text-on-header: rgba(255, 255, 255, 0.75);
+  --eona-text-on-header-strong: var(--eona-white);
+  --eona-text-on-header-active: var(--eona-navy);
 }
 
 /* Opt-in only, keyed to an explicit attribute — deliberately NOT wired */
@@ -215,4 +255,25 @@
   --eona-accent: var(--eona-lavender);
   --eona-accent-contrast: var(--eona-navy);
   --eona-shadow-surface: 0 12px 32px rgba(0, 0, 0, 0.45);
+
+  /* The menu is the brand's dark strip in both modes -- it does not follow the
+     page the way the surfaces above do, because "dark bar, light ink" is what
+     the charter's header *is*, not a light-mode rendering of it. Only the bar
+     itself moves, and only because it has to: `--eona-surface-page` is already
+     `--eona-navy-deep` here, so keeping the light value would paint the header
+     in the page's own colour and leave nothing to tell the strip apart from
+     what scrolls under it. `--eona-navy` is the charter's next surface down,
+     and the ink still clears AA on it (8.82:1 through the chip, against
+     7.97:1 in the light block -- a navy bar is darker than a navy-deep one,
+     so the white ink gains rather than loses). Everything
+     else is deliberately identical to the light block: a white chip with navy
+     ink reads the same on either page. */
+  --eona-surface-header: var(--eona-navy);
+  --eona-surface-header-chip: rgba(255, 255, 255, 0.1);
+  --eona-border-header-chip: rgba(255, 255, 255, 0.14);
+  --eona-surface-header-active: var(--eona-white);
+
+  --eona-text-on-header: rgba(255, 255, 255, 0.75);
+  --eona-text-on-header-strong: var(--eona-white);
+  --eona-text-on-header-active: var(--eona-navy);
 }
