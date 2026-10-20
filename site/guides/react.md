@@ -1,3 +1,8 @@
+> **Supported, not recommended for new projects.** The React package is maintained for existing
+> React apps and has the same 41 components; for a new site, prefer
+> [Svelte](../../svelte/getting-started/) (`npm create @eona-x/app`) or
+> [Yew](../../yew/getting-started/).
+
 ## Install
 
 ```sh

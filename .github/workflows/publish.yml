@@ -3,6 +3,8 @@
 #   @eona-x/ui-toolkit-css     packages/css
 #   @eona-x/ui-toolkit-react   packages/react   (depends on -css at the same version)
 #   @eona-x/ui-toolkit-svelte  packages/svelte  (depends on -css at the same version)
+#   @eona-x/create-app         packages/create-app (`npm create @eona-x/app`; its
+#                              template pins the toolkit at the same version)
 #
 # Release: bump `version` in Cargo.toml and `PACKAGE_VERSION` in xtask/src/emit.rs
 # (a unit test holds them equal), run `cargo xtask bridgegen`, merge, then
@@ -69,7 +71,7 @@ jobs:
           crate=$(sed -n '/^\[package\]/,/^\[/s/^version = "\(.*\)"/\1/p' Cargo.toml)
           echo "tag $want, crate $crate"
           test "$crate" = "$want" || { echo "::error::Cargo.toml is $crate, tag is $TAG"; exit 1; }
-          for p in css react svelte; do
+          for p in css react svelte create-app; do
             v=$(node -p "require('./packages/$p/package.json').version")
             d=$(node -p "(require('./packages/$p/package.json').dependencies || {})['@eona-x/ui-toolkit-css'] || '$want'")
             echo "$p $v (css dependency $d)"
@@ -106,9 +108,18 @@ jobs:
             echo "Approve on npmjs.com (Staged Packages) or with \`npm stage approve <stage-id>\`, css first."
             echo
           } >> "$GITHUB_STEP_SUMMARY"
-          for p in css react svelte; do
+          for p in css react svelte create-app; do
             name=$(node -p "require('./packages/$p/package.json').name")
             version=$(node -p "require('./packages/$p/package.json').version")
+            # npm attaches a trusted publisher only to a package that exists, so
+            # a package's very first version is published by hand (`npm publish
+            # --otp`), then its trusted publisher configured; until then it is
+            # skipped here rather than failing the whole release.
+            if ! npm view "$name" name >/dev/null 2>&1; then
+              echo "::warning::$name is not on npm yet: publish $version by hand once, then add its trusted publisher"
+              echo "- \`$name@$version\` **not staged**: first release must be published by hand" >> "$GITHUB_STEP_SUMMARY"
+              continue
+            fi
             if npm view "$name@$version" version >/dev/null 2>&1; then
               echo "$name@$version is already on npm; skipping"
               echo "- \`$name@$version\` already published" >> "$GITHUB_STEP_SUMMARY"

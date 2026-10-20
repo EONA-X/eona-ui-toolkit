@@ -44,7 +44,8 @@ enum Stack {
 }
 
 impl Stack {
-    const ALL: [Stack; 3] = [Stack::Yew, Stack::React, Stack::Svelte];
+    /// Recommended first: Yew (the source) and Svelte; React is supported.
+    const ALL: [Stack; 3] = [Stack::Yew, Stack::Svelte, Stack::React];
 
     fn slug(self) -> &'static str {
         match self {
@@ -60,6 +61,10 @@ impl Stack {
             Stack::React => "React",
             Stack::Svelte => "Svelte",
         }
+    }
+
+    fn recommended(self) -> bool {
+        !matches!(self, Stack::React)
     }
 
     fn package(self) -> &'static str {
@@ -171,13 +176,14 @@ fn overview() -> Html {
     html! {
         <Shell page={Page::Overview}
             title="eona-ui-toolkit"
-            description="The EONA-X design system: authored once in Yew, generated for React and Svelte, styled by one stylesheet. The same 41 components, the same markup, in whichever stack your app is written in.">
+            description="The EONA-X design system: authored once in Yew, generated for Svelte and React, styled by one stylesheet. Recommended: Rust with Yew, or Svelte — start a Svelte site with npm create @eona-x/app. React is supported for existing React apps.">
             <section class="block">
                 <div class="wrap">
                     <div class="docs-stacks">
                         { for Stack::ALL.into_iter().enumerate().map(|(i, s)| html! {
                             <div class="docs-stack">
-                                <PillarCard num={format!("0{}", i + 1)} title={format!("{} — {}", s.name(), s.package())}
+                                <PillarCard num={format!("0{}", i + 1)}
+                                    title={format!("{} — {}", s.name(), if s.recommended() { "recommended" } else { "supported" })}
                                     points={stack_points(s)} />
                                 <div class="docs-stack__links">
                                     <PillButton label="Getting started" href={format!("{}/getting-started/", s.slug())} />
@@ -196,18 +202,18 @@ fn overview() -> Html {
 fn stack_points(s: Stack) -> Vec<(&'static str, &'static str)> {
     match s {
         Stack::Yew => vec![
-            ("Source", "the components themselves; every other stack is generated from them"),
-            ("Builds", "Trunk for WebAssembly, or Yew's server renderer for plain HTML"),
-            ("Styles", "embedded as string constants"),
+            ("Rust", "the components themselves; every other stack is generated from them"),
+            ("Builds", "Yew's server renderer for plain HTML, or Trunk for WebAssembly"),
+            ("Samples", "examples/yew-ssg and examples/yew-trunk"),
         ],
         Stack::React => vec![
-            ("Package", "TSX generated from the Yew render, no WebAssembly"),
+            ("For", "existing React apps; new projects should prefer Yew or Svelte"),
+            ("Package", "@eona-x/ui-toolkit-react, TSX generated from the Yew render"),
             ("Builds", "Vite, Next.js, Astro: anything that runs React 19"),
-            ("Styles", "@eona-x/ui-toolkit-css, scoped under .eona-ui"),
         ],
         Stack::Svelte => vec![
-            ("Package", "Svelte 5 components generated from the Yew render"),
-            ("Builds", "SvelteKit or plain Vite"),
+            ("Start", "npm create @eona-x/app: a branded SvelteKit static site"),
+            ("Package", "@eona-x/ui-toolkit-svelte, generated from the Yew render"),
             ("Extra", "an opt-in mount for interactive Yew components over WebAssembly"),
         ],
     }

@@ -28,3 +28,9 @@ Cargo.lock
 /site/*/node_modules/
 /site/*/dist/
 /site/*/public/
+
+# The Yew sample projects' build output.
+/examples/yew-ssg/target/
+/examples/yew-ssg/dist/
+/examples/yew-trunk/target/
+/examples/yew-trunk/dist/

@@ -1,3 +1,18 @@
+> **Recommended** for JavaScript projects.
+
+## Quick start
+
+```sh
+npm create @eona-x/app my-site
+cd my-site
+npm run dev        # http://localhost:5173
+npm run build      # static site in build/
+```
+
+That is a complete, branded EONA-X site — SvelteKit with `adapter-static` on Vite, the EONA-X header
+and footer, two pages, and the toolkit at {{version}} — with its dependencies installed. The rest of
+this guide is what it contains, step by step.
+
 ## Install
 
 ```sh
@@ -115,7 +130,8 @@ export const prerender = true;
 ```
 
 `npm run build` writes `build/`. The prerender crawls every link and fails on one to a route that
-does not exist — link to real pages, or to absolute URLs as here.
+does not exist — link to real pages, or to absolute URLs as here. `npm create @eona-x/app` produces
+this, plus a shared header and footer in `+layout.svelte` and an `about` page.
 
 ## Mounting a Yew component
 

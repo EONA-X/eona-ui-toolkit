@@ -1,0 +1,5 @@
+node_modules/
+/.svelte-kit/
+/build/
+# Copied from @eona-x/ui-toolkit-css by scripts/copy-logo.js.
+/static/logo/

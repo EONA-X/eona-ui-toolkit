@@ -1509,6 +1509,14 @@ mod tests {
             .map(|v| v.trim_matches('"'))
             .unwrap();
         assert_eq!(PACKAGE_VERSION, crate_version);
+        // `@eona-x/create-app` is hand-written, not generated, but is released
+        // with the others and pins them at its own version.
+        let create_app = std::fs::read_to_string(
+            Path::new(env!("CARGO_MANIFEST_DIR")).parent().unwrap().join("packages/create-app/package.json"),
+        )
+        .unwrap();
+        let v: serde_json::Value = serde_json::from_str(&create_app).unwrap();
+        assert_eq!(v["version"], PACKAGE_VERSION, "packages/create-app/package.json");
     }
 
     #[test]

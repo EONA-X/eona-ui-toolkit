@@ -31,6 +31,8 @@ jobs:
           workspaces: |
             .
             examples/svelte-wasm
+            examples/yew-ssg
+            examples/yew-trunk
 
       - uses: actions/setup-node@v4
         with:
@@ -69,3 +71,28 @@ jobs:
       - name: The WASM entry mounts a real Yew build
         working-directory: tests/bridge-parity
         run: npm run test:wasm
+
+      - name: The Yew static-site sample renders its pages
+        working-directory: examples/yew-ssg
+        run: |
+          cargo run
+          grep -q 'class="site-header' dist/index.html
+          grep -q 'class="site-header' dist/about/index.html
+
+      - name: The Yew Trunk sample builds
+        working-directory: examples/yew-trunk
+        run: |
+          curl -sSL https://github.com/trunk-rs/trunk/releases/latest/download/trunk-x86_64-unknown-linux-gnu.tar.gz | tar xz -C "$RUNNER_TEMP"
+          "$RUNNER_TEMP/trunk" build --release
+          ls dist/*.wasm dist/logo/logo-transparent.svg
+
+      # The generator, end to end: scaffold a site, point it at this commit's
+      # packages (this version is not on npm until it is released), build it.
+      - name: npm create @eona-x/app produces a site that builds
+        run: |
+          node packages/create-app/index.js "$RUNNER_TEMP/generated" --no-install
+          cd "$RUNNER_TEMP/generated"
+          npm install --no-audit --no-fund "$GITHUB_WORKSPACE/packages/css" "$GITHUB_WORKSPACE/packages/svelte"
+          npm run build
+          grep -q 'class="site-header' build/index.html
+          grep -q 'class="site-header' build/about.html

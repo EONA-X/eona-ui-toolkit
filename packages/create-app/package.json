@@ -1,0 +1,16 @@
+{
+  "name": "@eona-x/create-app",
+  "version": "0.9.2",
+  "description": "npm create @eona-x/app — a SvelteKit static site on the EONA-X design system, with @eona-x/ui-toolkit-svelte and -css.",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EONA-X/eona-ui-toolkit.git",
+    "directory": "packages/create-app"
+  },
+  "type": "module",
+  "bin": { "create-app": "index.js" },
+  "files": ["index.js", "template"],
+  "engines": { "node": ">=20" },
+  "publishConfig": { "access": "public", "provenance": true }
+}
