@@ -39,10 +39,13 @@ jobs:
       - name: Generated output is not stale
         run: cargo run -p xtask -- check
 
+      # `../css`, not the registry: both component packages depend on
+      # @eona-x/ui-toolkit-css at their own version, which is not on npm until
+      # that version is released. `--no-save` leaves package.json as generated.
       - name: Svelte package typechecks and builds
         working-directory: packages/svelte
         run: |
-          npm install --no-audit --no-fund
+          npm install --no-save --no-audit --no-fund ../css
           npm run check
           npm run build
 

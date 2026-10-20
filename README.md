@@ -222,7 +222,7 @@ to 130 KB gzip), nothing tree-shakes across the boundary, it renders nothing on 
 
 ```sh
 cargo xtask bridgegen                                    # regenerates packages/react and packages/svelte
-cd packages/svelte && npm install && npm run check       # svelte-check, warnings fail
+cd packages/svelte && npm install --no-save ../css && npm run check   # svelte-check, warnings fail
 cd tests/bridge-parity && npm ci && npm test             # React and Svelte render the same HTML
 (cd tests/bridge-parity && npm run test:css)             # the published CSS styles them like the crate's
 wasm-pack build --target web examples/svelte-wasm && (cd tests/bridge-parity && npm run test:wasm)
