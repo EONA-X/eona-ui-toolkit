@@ -237,9 +237,14 @@ wasm-pack build --target web examples/svelte-wasm && (cd tests/bridge-parity && 
 
 | Page | What | Rendered by |
 | --- | --- | --- |
-| [`/`](https://eona-x.github.io/eona-ui-toolkit/) | the gallery: every component's Yew, React and Svelte call side by side, plus the crate's design sections | Yew, server-side (`examples/render-docs.rs`) |
+| [`/`](https://eona-x.github.io/eona-ui-toolkit/) | overview of the three stacks | Yew, server-side (`examples/render-docs.rs`) |
+| [`/yew/getting-started/`](https://eona-x.github.io/eona-ui-toolkit/yew/getting-started/), [`/react/…`](https://eona-x.github.io/eona-ui-toolkit/react/getting-started/), [`/svelte/…`](https://eona-x.github.io/eona-ui-toolkit/svelte/getting-started/) | install, a first component, a static site (Trunk or Yew SSR; Vite; SvelteKit), theming, the page shell — and for Svelte, mounting a Yew component over WebAssembly. Source: `site/guides/*.md` | Yew, server-side |
+| [`/yew/`](https://eona-x.github.io/eona-ui-toolkit/yew/) | the gallery: every component's Yew, React and Svelte call side by side, plus the crate's design sections | Yew, server-side |
 | [`/react/`](https://eona-x.github.io/eona-ui-toolkit/react/) | every `@eona-x/ui-toolkit-react` call, live | React (`site/react`) |
 | [`/svelte/`](https://eona-x.github.io/eona-ui-toolkit/svelte/) | every `@eona-x/ui-toolkit-svelte` call, live | Svelte (`site/svelte`) |
+
+Every page carries the same navigation — the toolkit's own `SiteHeader`, with a getting started /
+components switch per stack. The guides' setup instructions were each built and run as written.
 
 The calls come from one place: `cargo xtask bridgegen` writes the gallery's snippet table and the
 two live pages' component lists (`site/*/src/gallery.*`) from `abi/examples.json`, so the three

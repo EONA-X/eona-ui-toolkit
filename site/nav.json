@@ -1,0 +1,10 @@
+{
+  "//": "The site navigation for the Vite-built pages (site/react, site/svelte). examples/render-docs.rs builds the same list for the Yew pages; keep the two in step.",
+  "links": [
+    { "label": "Overview", "path": "" },
+    { "label": "Yew", "path": "yew/getting-started/", "stack": "yew" },
+    { "label": "React", "path": "react/getting-started/", "stack": "react" },
+    { "label": "Svelte", "path": "svelte/getting-started/", "stack": "svelte" }
+  ],
+  "repo": "https://github.com/EONA-X/eona-ui-toolkit"
+}

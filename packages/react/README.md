@@ -9,6 +9,11 @@ into the resulting markup, so the React and Yew renders are the same HTML by con
 
 Generated from src_hash `6b5e166285546e8f773e7e24b49871d2b541213a89ce5a23b7ce030199f90c36`.
 
+## Documentation
+
+- [Getting started](https://eona-x.github.io/eona-ui-toolkit/react/getting-started/) — install, a first component, a static site, theming
+- [Components](https://eona-x.github.io/eona-ui-toolkit/react/) — every component, rendered live, with its call
+
 ## Do not edit
 
 Every file under `src/` is overwritten by the next `cargo xtask bridgegen`, and `cargo xtask check`

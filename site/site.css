@@ -1,20 +1,8 @@
 /* The live pages' own frame. Hand-written, shared by site/react and site/svelte;
    everything inside a .stage is the toolkit's, styled by @eona-x/ui-toolkit-css. */
-:root { color-scheme: light; }
-body {
-  margin: 0; font: 15px/1.5 system-ui, sans-serif; color: #040553; background: #f5f6fb;
-}
-.top {
-  position: sticky; top: 0; z-index: 10; display: flex; gap: 18px; align-items: baseline;
-  padding: 14px 24px; background: #040553; color: #fff;
-}
-.top h1 { font-size: 17px; margin: 0; font-weight: 600; }
-.top nav { display: flex; gap: 14px; font-size: 14px; }
-.top a { color: #c9cbf7; text-decoration: none; }
-.top a[aria-current="page"] { color: #fff; font-weight: 600; }
-.intro { max-width: 1180px; margin: 22px auto 0; padding: 0 24px; color: #3b3d6e; }
-.intro code { font-size: 13px; }
-.entries { max-width: 1180px; margin: 0 auto; padding: 8px 24px 64px; }
+/* The page shell (fixed SiteHeader, body offset, typography) is the toolkit's
+   own opt-in page.css; this file only lays out the component entries. */
+.entries { max-width: 1180px; margin: 0 auto; padding: 24px 24px 64px; }
 .entry { padding: 22px 0; border-bottom: 1px solid rgba(4,5,83,.1); }
 .entry h2 { margin: 0; font: 600 18px/1.3 ui-monospace, SFMono-Regular, Menlo, monospace; }
 .entry .src { margin: 2px 0 10px; font-size: 12.5px; color: #5a5d86; }

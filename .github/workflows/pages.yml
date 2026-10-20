@@ -1,10 +1,15 @@
-# Publishes the toolkit's documentation to GitHub Pages, one page per stack:
+# Publishes the toolkit's documentation to GitHub Pages:
 #
-#   /          the Yew gallery: `DemoPage`, rendered server-side by
-#              `examples/render-docs.rs`, with every component's Yew, React and
-#              Svelte call side by side
-#   /react/    every call from @eona-x/ui-toolkit-react, rendered live by React
-#   /svelte/   every call from @eona-x/ui-toolkit-svelte, rendered live by Svelte
+#   /                          overview of the three stacks
+#   /<stack>/getting-started/  install, first component, static site, theming
+#                              (site/guides/<stack>.md), for yew, react, svelte
+#   /yew/                      the gallery: every component's Yew, React and
+#                              Svelte call side by side, and the design sections
+#   /react/, /svelte/          every call, rendered live by React / Svelte
+#
+# The Yew pages are rendered server-side by `examples/render-docs.rs`; every
+# page, the live ones included, carries the same navigation (the toolkit's own
+# SiteHeader; links in site/nav.json for the Vite builds).
 #
 # The two live pages (`site/`) render `site/*/src/gallery.*`, which bridgegen
 # writes from the same `abi/examples.json` the gallery prints, against the
@@ -81,7 +86,9 @@ jobs:
         run: |
           for stack in react svelte; do
             (cd site/$stack && npm ci --no-audit --no-fund && npm run build)
-            cp -r site/$stack/dist dist/$stack
+            # Merged into the directory render-docs already wrote: it holds
+            # this stack's getting-started page.
+            mkdir -p dist/$stack && cp -r site/$stack/dist/. dist/$stack/
           done
 
       - uses: actions/upload-pages-artifact@v3

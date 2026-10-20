@@ -729,6 +729,11 @@ fn readme_md(plan: &Plan<'_>, tk: &Toolkit) -> Result<String> {
     writeln!(s, "<YewMount module={{load}} component=\"Counter\" props={{{{ start: 3 }}}} />")?;
     writeln!(s, "```")?;
     writeln!(s)?;
+    writeln!(s, "## Documentation")?;
+    writeln!(s)?;
+    writeln!(s, "- [Getting started](https://eona-x.github.io/eona-ui-toolkit/svelte/getting-started/) — install, a first component, a static site, theming")?;
+    writeln!(s, "- [Components](https://eona-x.github.io/eona-ui-toolkit/svelte/) — every component, rendered live, with its call")?;
+    writeln!(s)?;
     writeln!(s, "## Do not edit")?;
     writeln!(s)?;
     writeln!(s, "Every file here is overwritten by `cargo xtask bridgegen` and checked by `cargo xtask check`.")?;

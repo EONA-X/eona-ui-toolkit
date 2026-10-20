@@ -41,7 +41,7 @@ pub const CSS_PACKAGE: &str = "@eona-x/ui-toolkit-css";
 /// crate version, so this is kept in step by hand — and pinned by the test
 /// `the_package_version_is_the_crate_version`, and by the publish workflow,
 /// which refuses a tag that disagrees with either.
-pub const PACKAGE_VERSION: &str = "0.9.1";
+pub const PACKAGE_VERSION: &str = "0.9.2";
 
 pub(crate) const GENERATOR: &str = "cargo xtask bridgegen";
 
@@ -994,6 +994,11 @@ fn readme_md(plan: &Plan<'_>, tk: &Toolkit) -> Result<String> {
     )?;
     writeln!(s)?;
     writeln!(s, "Generated from src_hash `{}`.", tk.src_hash)?;
+    writeln!(s)?;
+    writeln!(s, "## Documentation")?;
+    writeln!(s)?;
+    writeln!(s, "- [Getting started](https://eona-x.github.io/eona-ui-toolkit/react/getting-started/) — install, a first component, a static site, theming")?;
+    writeln!(s, "- [Components](https://eona-x.github.io/eona-ui-toolkit/react/) — every component, rendered live, with its call")?;
     writeln!(s)?;
     writeln!(s, "## Do not edit")?;
     writeln!(s)?;

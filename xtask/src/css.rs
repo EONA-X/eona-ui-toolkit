@@ -397,6 +397,9 @@ fn readme_md() -> Result<String> {
     writeln!(s, "| `{PACKAGE_NAME}/page.css` | **opt-in**, global: the EONA-X page shell (reset on `body`, headings, links; the 156px offset under the fixed `SiteHeader`). Only for an app whose whole page is an EONA-X page |")?;
     writeln!(s, "| `{PACKAGE_NAME}/logo/logo-transparent.svg` | the mark `SiteHeader` renders from `logo/logo-transparent.svg` relative to the page — serve it there |")?;
     writeln!(s)?;
+    writeln!(s, "Documentation: <https://eona-x.github.io/eona-ui-toolkit/> — the getting started for each stack")?;
+    writeln!(s, "covers this package's entry points and the `.eona-ui` scope.")?;
+    writeln!(s)?;
     writeln!(s, "Generated from `assets/` in [eona-ui-toolkit](https://github.com/EONA-X/eona-ui-toolkit); a")?;
     writeln!(s, "change belongs there.")?;
     Ok(s)
