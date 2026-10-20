@@ -1,6 +1,6 @@
 {
-  "examplesVersion": 1,
-  "srcHash": "e2f87d37a98628ba1179b6685c343ac908f0107ef8e37da01f0b07580c98f5f9",
+  "examplesVersion": 2,
+  "srcHash": "6b5e166285546e8f773e7e24b49871d2b541213a89ce5a23b7ce030199f90c36",
   "components": [
     {
       "component": "AccordionItem",
@@ -12,7 +12,9 @@
       },
       "react": "available",
       "import": "import { AccordionItem } from '@eona-x/ui-toolkit-react';",
-      "jsx": "<AccordionItem open title=\"Title\">\n  Children go here.\n</AccordionItem>"
+      "jsx": "<AccordionItem open title=\"Title\">\n  Children go here.\n</AccordionItem>",
+      "svelteImport": "import { AccordionItem } from '@eona-x/ui-toolkit-svelte';",
+      "svelte": "<AccordionItem open title=\"Title\">\n  Children go here.\n</AccordionItem>"
     },
     {
       "component": "BadgeNum",
@@ -24,7 +26,9 @@
       },
       "react": "available",
       "import": "import { BadgeNum } from '@eona-x/ui-toolkit-react';",
-      "jsx": "<BadgeNum number=\"01\" />"
+      "jsx": "<BadgeNum number=\"01\" />",
+      "svelteImport": "import { BadgeNum } from '@eona-x/ui-toolkit-svelte';",
+      "svelte": "<BadgeNum number=\"01\" />"
     },
     {
       "component": "BgCheckItem",
@@ -36,7 +40,9 @@
       },
       "react": "available",
       "import": "import { BgCheckItem } from '@eona-x/ui-toolkit-react';",
-      "jsx": "<BgCheckItem\n  background=\"#fff\"\n  border=\"1px solid rgba(4,5,83,.12)\"\n  color=\"var(--eona-navy)\"\n  icon=\"✓\"\n  label=\"Label\"\n/>"
+      "jsx": "<BgCheckItem\n  background=\"#fff\"\n  border=\"1px solid rgba(4,5,83,.12)\"\n  color=\"var(--eona-navy)\"\n  icon=\"✓\"\n  label=\"Label\"\n/>",
+      "svelteImport": "import { BgCheckItem } from '@eona-x/ui-toolkit-svelte';",
+      "svelte": "<BgCheckItem\n  background=\"#fff\"\n  border=\"1px solid rgba(4,5,83,.12)\"\n  color=\"var(--eona-navy)\"\n  icon=\"✓\"\n  label=\"Label\"\n/>"
     },
     {
       "component": "Button",
@@ -48,7 +54,9 @@
       },
       "react": "available",
       "import": "import { Button } from '@eona-x/ui-toolkit-react';",
-      "jsx": "<Button href=\"#\" label=\"Label\" variant=\"ghost\" />"
+      "jsx": "<Button href=\"#\" label=\"Label\" variant=\"ghost\" />",
+      "svelteImport": "import { Button } from '@eona-x/ui-toolkit-svelte';",
+      "svelte": "<Button href=\"#\" label=\"Label\" variant=\"ghost\" />"
     },
     {
       "component": "Callout",
@@ -60,7 +68,9 @@
       },
       "react": "available",
       "import": "import { Callout } from '@eona-x/ui-toolkit-react';",
-      "jsx": "<Callout english=\"English\" french=\"French\" label=\"Label\" />"
+      "jsx": "<Callout english=\"English\" french=\"French\" label=\"Label\" />",
+      "svelteImport": "import { Callout } from '@eona-x/ui-toolkit-svelte';",
+      "svelte": "<Callout english=\"English\" french=\"French\" label=\"Label\" />"
     },
     {
       "component": "CaseCard",
@@ -72,7 +82,9 @@
       },
       "react": "available",
       "import": "import { CaseCard } from '@eona-x/ui-toolkit-react';",
-      "jsx": "<CaseCard href=\"#\" tag=\"Tag\" title=\"Title\" />"
+      "jsx": "<CaseCard href=\"#\" tag=\"Tag\" title=\"Title\" />",
+      "svelteImport": "import { CaseCard } from '@eona-x/ui-toolkit-svelte';",
+      "svelte": "<CaseCard href=\"#\" tag=\"Tag\" title=\"Title\" />"
     },
     {
       "component": "CodeBlock",
@@ -84,7 +96,9 @@
       },
       "react": "available",
       "import": "import { CodeBlock } from '@eona-x/ui-toolkit-react';",
-      "jsx": "<CodeBlock code={\"let label = \\\"Go\\\";\"} copyable={false} language=\"rust\" />"
+      "jsx": "<CodeBlock code={\"let label = \\\"Go\\\";\"} copyable={false} language=\"rust\" />",
+      "svelteImport": "import { CodeBlock } from '@eona-x/ui-toolkit-svelte';",
+      "svelte": "<CodeBlock code={\"let label = \\\"Go\\\";\"} copyable={false} language=\"rust\" />"
     },
     {
       "component": "ComponentsGallery",
@@ -105,11 +119,13 @@
       "status": "ok",
       "yew": {
         "uses": "use eona_ui_toolkit::DatasetCard;",
-        "snippet": "<DatasetCard\n    action_label=\"View documentation\"\n    badge=\"Badge\"\n    badge_class=\"Badge Class\"\n    description=\"Description\"\n    href=\"#\"\n    initial=\"Initial\"\n    publisher=\"Publisher\"\n    thumbnail=\"/assets/placeholder.svg\"\n    title=\"Title\"\n    version=\"Version\"\n/>"
+        "snippet": "<DatasetCard\n    action_label=\"View documentation\"\n    badge=\"Badge\"\n    badge_class=\"Badge Class\"\n    description=\"Description\"\n    href=\"#\"\n    initial=\"Initial\"\n    publisher=\"Publisher\"\n    thumbnail=\"logo/logo-transparent.svg\"\n    title=\"Title\"\n    version=\"Version\"\n/>"
       },
       "react": "available",
       "import": "import { DatasetCard } from '@eona-x/ui-toolkit-react';",
-      "jsx": "<DatasetCard\n  actionLabel=\"View documentation\"\n  badge=\"Badge\"\n  badgeClass=\"Badge Class\"\n  description=\"Description\"\n  href=\"#\"\n  initial=\"Initial\"\n  publisher=\"Publisher\"\n  thumbnail=\"/assets/placeholder.svg\"\n  title=\"Title\"\n  version=\"Version\"\n/>"
+      "jsx": "<DatasetCard\n  actionLabel=\"View documentation\"\n  badge=\"Badge\"\n  badgeClass=\"Badge Class\"\n  description=\"Description\"\n  href=\"#\"\n  initial=\"Initial\"\n  publisher=\"Publisher\"\n  thumbnail=\"logo/logo-transparent.svg\"\n  title=\"Title\"\n  version=\"Version\"\n/>",
+      "svelteImport": "import { DatasetCard } from '@eona-x/ui-toolkit-svelte';",
+      "svelte": "<DatasetCard\n  actionLabel=\"View documentation\"\n  badge=\"Badge\"\n  badgeClass=\"Badge Class\"\n  description=\"Description\"\n  href=\"#\"\n  initial=\"Initial\"\n  publisher=\"Publisher\"\n  thumbnail=\"logo/logo-transparent.svg\"\n  title=\"Title\"\n  version=\"Version\"\n/>"
     },
     {
       "component": "DeclCard",
@@ -117,11 +133,13 @@
       "status": "ok",
       "yew": {
         "uses": "use eona_ui_toolkit::DeclCard;",
-        "snippet": "<DeclCard\n    alt=\"EONA-X logo\"\n    category=\"Category\"\n    decl_type=\"Decl Type\"\n    description=\"Description\"\n    src=\"/assets/placeholder.svg\"\n    title=\"Title\"\n/>"
+        "snippet": "<DeclCard\n    alt=\"EONA-X logo\"\n    category=\"Category\"\n    decl_type=\"Decl Type\"\n    description=\"Description\"\n    src=\"logo/logo-transparent.svg\"\n    title=\"Title\"\n/>"
       },
       "react": "available",
       "import": "import { DeclCard } from '@eona-x/ui-toolkit-react';",
-      "jsx": "<DeclCard\n  alt=\"EONA-X logo\"\n  category=\"Category\"\n  declType=\"Decl Type\"\n  description=\"Description\"\n  src=\"/assets/placeholder.svg\"\n  title=\"Title\"\n/>"
+      "jsx": "<DeclCard\n  alt=\"EONA-X logo\"\n  category=\"Category\"\n  declType=\"Decl Type\"\n  description=\"Description\"\n  src=\"logo/logo-transparent.svg\"\n  title=\"Title\"\n/>",
+      "svelteImport": "import { DeclCard } from '@eona-x/ui-toolkit-svelte';",
+      "svelte": "<DeclCard\n  alt=\"EONA-X logo\"\n  category=\"Category\"\n  declType=\"Decl Type\"\n  description=\"Description\"\n  src=\"logo/logo-transparent.svg\"\n  title=\"Title\"\n/>"
     },
     {
       "component": "DemoPage",
@@ -146,7 +164,9 @@
       },
       "react": "available",
       "import": "import { EvolutionBadge } from '@eona-x/ui-toolkit-react';",
-      "jsx": "<EvolutionBadge trend=\"up\" value=\"An annotation value\" />"
+      "jsx": "<EvolutionBadge trend=\"up\" value=\"An annotation value\" />",
+      "svelteImport": "import { EvolutionBadge } from '@eona-x/ui-toolkit-svelte';",
+      "svelte": "<EvolutionBadge trend=\"up\" value=\"An annotation value\" />"
     },
     {
       "component": "Hero",
@@ -158,7 +178,9 @@
       },
       "react": "available",
       "import": "import { Hero } from '@eona-x/ui-toolkit-react';",
-      "jsx": "<Hero\n  eyebrow=\"Eyebrow\"\n  lede=\"Lede\"\n  titleSuffix=\"Title Suffix\"\n  variant=\"full\"\n>\n  Children go here.\n</Hero>"
+      "jsx": "<Hero\n  eyebrow=\"Eyebrow\"\n  lede=\"Lede\"\n  titleSuffix=\"Title Suffix\"\n  variant=\"full\"\n>\n  Children go here.\n</Hero>",
+      "svelteImport": "import { Hero } from '@eona-x/ui-toolkit-svelte';",
+      "svelte": "<Hero\n  eyebrow=\"Eyebrow\"\n  lede=\"Lede\"\n  titleSuffix=\"Title Suffix\"\n  variant=\"full\"\n>\n  Children go here.\n</Hero>"
     },
     {
       "component": "HeroFilter",
@@ -170,7 +192,9 @@
       },
       "react": "available",
       "import": "import { HeroFilter } from '@eona-x/ui-toolkit-react';",
-      "jsx": "<HeroFilter description=\"Description\" title=\"Title\" withBackdrop>\n  Children go here.\n</HeroFilter>"
+      "jsx": "<HeroFilter description=\"Description\" title=\"Title\" withBackdrop>\n  Children go here.\n</HeroFilter>",
+      "svelteImport": "import { HeroFilter } from '@eona-x/ui-toolkit-svelte';",
+      "svelte": "<HeroFilter description=\"Description\" title=\"Title\" withBackdrop>\n  Children go here.\n</HeroFilter>"
     },
     {
       "component": "IntegrationSection",
@@ -191,11 +215,13 @@
       "status": "ok",
       "yew": {
         "uses": "use eona_ui_toolkit::LogoDownloadCard;",
-        "snippet": "<LogoDownloadCard\n    download_name=\"Download Name\"\n    file=\"/assets/eona-x-logo.svg\"\n    is_transparent={true}\n    label=\"Label\"\n    preview_style=\"background:var(--eona-navy);padding:24px;\"\n/>"
+        "snippet": "<LogoDownloadCard\n    download_name=\"Download Name\"\n    file=\"logo/logo-transparent.svg\"\n    is_transparent={true}\n    label=\"Label\"\n    preview_style=\"background:var(--eona-navy);padding:24px;\"\n/>"
       },
       "react": "available",
       "import": "import { LogoDownloadCard } from '@eona-x/ui-toolkit-react';",
-      "jsx": "<LogoDownloadCard\n  downloadName=\"Download Name\"\n  file=\"/assets/eona-x-logo.svg\"\n  isTransparent\n  label=\"Label\"\n  previewStyle=\"background:var(--eona-navy);padding:24px;\"\n/>"
+      "jsx": "<LogoDownloadCard\n  downloadName=\"Download Name\"\n  file=\"logo/logo-transparent.svg\"\n  isTransparent\n  label=\"Label\"\n  previewStyle=\"background:var(--eona-navy);padding:24px;\"\n/>",
+      "svelteImport": "import { LogoDownloadCard } from '@eona-x/ui-toolkit-svelte';",
+      "svelte": "<LogoDownloadCard\n  downloadName=\"Download Name\"\n  file=\"logo/logo-transparent.svg\"\n  isTransparent\n  label=\"Label\"\n  previewStyle=\"background:var(--eona-navy);padding:24px;\"\n/>"
     },
     {
       "component": "MainNav",
@@ -207,7 +233,9 @@
       },
       "react": "available",
       "import": "import { MainNav } from '@eona-x/ui-toolkit-react';",
-      "jsx": "<MainNav\n  back={{ href: \"#\", label: \"Label\" }}\n  links={[{ href: \"#\", label: \"Label\" }]}\n/>"
+      "jsx": "<MainNav\n  back={{ href: \"#\", label: \"Label\" }}\n  links={[{ href: \"#\", label: \"Label\" }]}\n/>",
+      "svelteImport": "import { MainNav } from '@eona-x/ui-toolkit-svelte';",
+      "svelte": "<MainNav\n  back={{ href: \"#\", label: \"Label\" }}\n  links={[{ href: \"#\", label: \"Label\" }]}\n/>"
     },
     {
       "component": "MemberCard",
@@ -219,7 +247,9 @@
       },
       "react": "available",
       "import": "import { MemberCard } from '@eona-x/ui-toolkit-react';",
-      "jsx": "<MemberCard name=\"Name\" />"
+      "jsx": "<MemberCard name=\"Name\" />",
+      "svelteImport": "import { MemberCard } from '@eona-x/ui-toolkit-svelte';",
+      "svelte": "<MemberCard name=\"Name\" />"
     },
     {
       "component": "MemberFilterCard",
@@ -231,7 +261,9 @@
       },
       "react": "available",
       "import": "import { MemberFilterCard } from '@eona-x/ui-toolkit-react';",
-      "jsx": "<MemberFilterCard\n  country=\"Country\"\n  memberType=\"Member Type\"\n  name=\"Name\"\n  sectors={[\"Mobility\"]}\n/>"
+      "jsx": "<MemberFilterCard\n  country=\"Country\"\n  memberType=\"Member Type\"\n  name=\"Name\"\n  sectors={[\"Mobility\"]}\n/>",
+      "svelteImport": "import { MemberFilterCard } from '@eona-x/ui-toolkit-svelte';",
+      "svelte": "<MemberFilterCard\n  country=\"Country\"\n  memberType=\"Member Type\"\n  name=\"Name\"\n  sectors={[\"Mobility\"]}\n/>"
     },
     {
       "component": "MetricTile",
@@ -243,7 +275,9 @@
       },
       "react": "available",
       "import": "import { MetricTile } from '@eona-x/ui-toolkit-react';",
-      "jsx": "<MetricTile help=\"Help\" label=\"Label\" value=\"An annotation value\">\n  Children go here.\n</MetricTile>"
+      "jsx": "<MetricTile help=\"Help\" label=\"Label\" value=\"An annotation value\">\n  Children go here.\n</MetricTile>",
+      "svelteImport": "import { MetricTile } from '@eona-x/ui-toolkit-svelte';",
+      "svelte": "<MetricTile help=\"Help\" label=\"Label\" value=\"An annotation value\">\n  Children go here.\n</MetricTile>"
     },
     {
       "component": "Modal",
@@ -255,7 +289,9 @@
       },
       "react": "available",
       "import": "import { Modal } from '@eona-x/ui-toolkit-react';",
-      "jsx": "<Modal id=\"example\" open title=\"Title\">\n  Children go here.\n</Modal>"
+      "jsx": "<Modal id=\"example\" open title=\"Title\">\n  Children go here.\n</Modal>",
+      "svelteImport": "import { Modal } from '@eona-x/ui-toolkit-svelte';",
+      "svelte": "<Modal id=\"example\" open title=\"Title\">\n  Children go here.\n</Modal>"
     },
     {
       "component": "MvoCard",
@@ -267,7 +303,9 @@
       },
       "react": "available",
       "import": "import { MvoCard } from '@eona-x/ui-toolkit-react';",
-      "jsx": "<MvoCard description=\"Description\" tag=\"Tag\" />"
+      "jsx": "<MvoCard description=\"Description\" tag=\"Tag\" />",
+      "svelteImport": "import { MvoCard } from '@eona-x/ui-toolkit-svelte';",
+      "svelte": "<MvoCard description=\"Description\" tag=\"Tag\" />"
     },
     {
       "component": "NavDropdown",
@@ -279,7 +317,9 @@
       },
       "react": "available",
       "import": "import { NavDropdown } from '@eona-x/ui-toolkit-react';",
-      "jsx": "<NavDropdown id=\"example\" label=\"Label\" links={[[\"#\", \"About\"]]} />"
+      "jsx": "<NavDropdown id=\"example\" label=\"Label\" links={[[\"#\", \"About\"]]} />",
+      "svelteImport": "import { NavDropdown } from '@eona-x/ui-toolkit-svelte';",
+      "svelte": "<NavDropdown id=\"example\" label=\"Label\" links={[[\"#\", \"About\"]]} />"
     },
     {
       "component": "NewsCard",
@@ -291,7 +331,9 @@
       },
       "react": "available",
       "import": "import { NewsCard } from '@eona-x/ui-toolkit-react';",
-      "jsx": "<NewsCard href=\"#\" tag=\"Tag\" title=\"Title\" />"
+      "jsx": "<NewsCard href=\"#\" tag=\"Tag\" title=\"Title\" />",
+      "svelteImport": "import { NewsCard } from '@eona-x/ui-toolkit-svelte';",
+      "svelte": "<NewsCard href=\"#\" tag=\"Tag\" title=\"Title\" />"
     },
     {
       "component": "OntoAnnotation",
@@ -303,7 +345,9 @@
       },
       "react": "available",
       "import": "import { OntoAnnotation } from '@eona-x/ui-toolkit-react';",
-      "jsx": "<OntoAnnotation label=\"Label\" values={[{ value: \"An annotation value\" }]} />"
+      "jsx": "<OntoAnnotation label=\"Label\" values={[{ value: \"An annotation value\" }]} />",
+      "svelteImport": "import { OntoAnnotation } from '@eona-x/ui-toolkit-svelte';",
+      "svelte": "<OntoAnnotation label=\"Label\" values={[{ value: \"An annotation value\" }]} />"
     },
     {
       "component": "OntoBadge",
@@ -315,7 +359,9 @@
       },
       "react": "available",
       "import": "import { OntoBadge } from '@eona-x/ui-toolkit-react';",
-      "jsx": "<OntoBadge label=\"Label\" title=\"Title\" variant=\"lang\" />"
+      "jsx": "<OntoBadge label=\"Label\" title=\"Title\" variant=\"lang\" />",
+      "svelteImport": "import { OntoBadge } from '@eona-x/ui-toolkit-svelte';",
+      "svelte": "<OntoBadge label=\"Label\" title=\"Title\" variant=\"lang\" />"
     },
     {
       "component": "OntologySection",
@@ -340,7 +386,9 @@
       },
       "react": "available",
       "import": "import { PaletteGroup } from '@eona-x/ui-toolkit-react';",
-      "jsx": "<PaletteGroup\n  colors={[{ name: \"Name\", hex: \"#040553\", usage: \"Primary brand colour\", ink: \"Ink\" }]}\n  description=\"Description\"\n  note=\"Note\"\n  title=\"Title\"\n/>"
+      "jsx": "<PaletteGroup\n  colors={[{ name: \"Name\", hex: \"#040553\", usage: \"Primary brand colour\", ink: \"Ink\" }]}\n  description=\"Description\"\n  note=\"Note\"\n  title=\"Title\"\n/>",
+      "svelteImport": "import { PaletteGroup } from '@eona-x/ui-toolkit-svelte';",
+      "svelte": "<PaletteGroup\n  colors={[{ name: \"Name\", hex: \"#040553\", usage: \"Primary brand colour\", ink: \"Ink\" }]}\n  description=\"Description\"\n  note=\"Note\"\n  title=\"Title\"\n/>"
     },
     {
       "component": "PersonalityCard",
@@ -352,7 +400,9 @@
       },
       "react": "available",
       "import": "import { PersonalityCard } from '@eona-x/ui-toolkit-react';",
-      "jsx": "<PersonalityCard description=\"Description\" tag=\"Tag\" />"
+      "jsx": "<PersonalityCard description=\"Description\" tag=\"Tag\" />",
+      "svelteImport": "import { PersonalityCard } from '@eona-x/ui-toolkit-svelte';",
+      "svelte": "<PersonalityCard description=\"Description\" tag=\"Tag\" />"
     },
     {
       "component": "Pill",
@@ -364,7 +414,9 @@
       },
       "react": "available",
       "import": "import { Pill } from '@eona-x/ui-toolkit-react';",
-      "jsx": "<Pill tone=\"bad\">\n  Children go here.\n</Pill>"
+      "jsx": "<Pill tone=\"bad\">\n  Children go here.\n</Pill>",
+      "svelteImport": "import { Pill } from '@eona-x/ui-toolkit-svelte';",
+      "svelte": "<Pill tone=\"bad\">\n  Children go here.\n</Pill>"
     },
     {
       "component": "PillButton",
@@ -376,7 +428,9 @@
       },
       "react": "available",
       "import": "import { PillButton } from '@eona-x/ui-toolkit-react';",
-      "jsx": "<PillButton disabled href=\"#\" kind=\"glass-light\" label=\"Label\" />"
+      "jsx": "<PillButton disabled href=\"#\" kind=\"glass-light\" label=\"Label\" />",
+      "svelteImport": "import { PillButton } from '@eona-x/ui-toolkit-svelte';",
+      "svelte": "<PillButton disabled href=\"#\" kind=\"glass-light\" label=\"Label\" />"
     },
     {
       "component": "PillarCard",
@@ -388,7 +442,9 @@
       },
       "react": "available",
       "import": "import { PillarCard } from '@eona-x/ui-toolkit-react';",
-      "jsx": "<PillarCard\n  num=\"01\"\n  points={[[\"Open\", \"by default, not by exception\"]]}\n  title=\"Title\"\n/>"
+      "jsx": "<PillarCard\n  num=\"01\"\n  points={[[\"Open\", \"by default, not by exception\"]]}\n  title=\"Title\"\n/>",
+      "svelteImport": "import { PillarCard } from '@eona-x/ui-toolkit-svelte';",
+      "svelte": "<PillarCard\n  num=\"01\"\n  points={[[\"Open\", \"by default, not by exception\"]]}\n  title=\"Title\"\n/>"
     },
     {
       "component": "PropsTable",
@@ -400,7 +456,9 @@
       },
       "react": "available",
       "import": "import { PropsTable } from '@eona-x/ui-toolkit-react';",
-      "jsx": "<PropsTable\n  component=\"Button\"\n  props={[{ name: \"Name\", ty: \"AttrValue\", doc: \"What the prop does.\" }]}\n/>"
+      "jsx": "<PropsTable\n  component=\"Button\"\n  props={[{ name: \"Name\", ty: \"AttrValue\", doc: \"What the prop does.\" }]}\n/>",
+      "svelteImport": "import { PropsTable } from '@eona-x/ui-toolkit-svelte';",
+      "svelte": "<PropsTable\n  component=\"Button\"\n  props={[{ name: \"Name\", ty: \"AttrValue\", doc: \"What the prop does.\" }]}\n/>"
     },
     {
       "component": "RefCard",
@@ -408,11 +466,13 @@
       "status": "ok",
       "yew": {
         "uses": "use eona_ui_toolkit::RefCard;",
-        "snippet": "<RefCard\n    alt=\"EONA-X logo\"\n    description=\"Description\"\n    src=\"/assets/placeholder.svg\"\n    title=\"Title\"\n/>"
+        "snippet": "<RefCard\n    alt=\"EONA-X logo\"\n    description=\"Description\"\n    src=\"logo/logo-transparent.svg\"\n    title=\"Title\"\n/>"
       },
       "react": "available",
       "import": "import { RefCard } from '@eona-x/ui-toolkit-react';",
-      "jsx": "<RefCard\n  alt=\"EONA-X logo\"\n  description=\"Description\"\n  src=\"/assets/placeholder.svg\"\n  title=\"Title\"\n/>"
+      "jsx": "<RefCard\n  alt=\"EONA-X logo\"\n  description=\"Description\"\n  src=\"logo/logo-transparent.svg\"\n  title=\"Title\"\n/>",
+      "svelteImport": "import { RefCard } from '@eona-x/ui-toolkit-svelte';",
+      "svelte": "<RefCard\n  alt=\"EONA-X logo\"\n  description=\"Description\"\n  src=\"logo/logo-transparent.svg\"\n  title=\"Title\"\n/>"
     },
     {
       "component": "RuleListItem",
@@ -424,7 +484,9 @@
       },
       "react": "available",
       "import": "import { RuleListItem } from '@eona-x/ui-toolkit-react';",
-      "jsx": "<RuleListItem kind=\"do\">\n  Children go here.\n</RuleListItem>"
+      "jsx": "<RuleListItem kind=\"do\">\n  Children go here.\n</RuleListItem>",
+      "svelteImport": "import { RuleListItem } from '@eona-x/ui-toolkit-svelte';",
+      "svelte": "<RuleListItem kind=\"do\">\n  Children go here.\n</RuleListItem>"
     },
     {
       "component": "ScoreDonut",
@@ -436,7 +498,9 @@
       },
       "react": "available",
       "import": "import { ScoreDonut } from '@eona-x/ui-toolkit-react';",
-      "jsx": "<ScoreDonut\n  band=\"good\"\n  caption=\"Caption\"\n  dashArray=\"Dash Array\"\n  label=\"Label\"\n/>"
+      "jsx": "<ScoreDonut\n  band=\"good\"\n  caption=\"Caption\"\n  dashArray=\"Dash Array\"\n  label=\"Label\"\n/>",
+      "svelteImport": "import { ScoreDonut } from '@eona-x/ui-toolkit-svelte';",
+      "svelte": "<ScoreDonut\n  band=\"good\"\n  caption=\"Caption\"\n  dashArray=\"Dash Array\"\n  label=\"Label\"\n/>"
     },
     {
       "component": "SectionHead",
@@ -448,7 +512,9 @@
       },
       "react": "available",
       "import": "import { SectionHead } from '@eona-x/ui-toolkit-react';",
-      "jsx": "<SectionHead kicker=\"Kicker\" number=\"01\" title=\"Title\" />"
+      "jsx": "<SectionHead kicker=\"Kicker\" number=\"01\" title=\"Title\" />",
+      "svelteImport": "import { SectionHead } from '@eona-x/ui-toolkit-svelte';",
+      "svelte": "<SectionHead kicker=\"Kicker\" number=\"01\" title=\"Title\" />"
     },
     {
       "component": "ShapeCard",
@@ -460,7 +526,9 @@
       },
       "react": "available",
       "import": "import { ShapeCard } from '@eona-x/ui-toolkit-react';",
-      "jsx": "<ShapeCard\n  demo={<span>Slot content.</span>}\n  description=\"Description\"\n  title=\"Title\"\n/>"
+      "jsx": "<ShapeCard\n  demo={<span>Slot content.</span>}\n  description=\"Description\"\n  title=\"Title\"\n/>",
+      "svelteImport": "import { ShapeCard } from '@eona-x/ui-toolkit-svelte';",
+      "svelte": "<ShapeCard description=\"Description\" title=\"Title\">\n  {#snippet demo()}<span>Slot content.</span>{/snippet}\n</ShapeCard>"
     },
     {
       "component": "SimpleFooter",
@@ -472,7 +540,9 @@
       },
       "react": "available",
       "import": "import { SimpleFooter } from '@eona-x/ui-toolkit-react';",
-      "jsx": "<SimpleFooter link={{ href: \"#\", label: \"Label\" }} text=\"Text\" />"
+      "jsx": "<SimpleFooter link={{ href: \"#\", label: \"Label\" }} text=\"Text\" />",
+      "svelteImport": "import { SimpleFooter } from '@eona-x/ui-toolkit-svelte';",
+      "svelte": "<SimpleFooter link={{ href: \"#\", label: \"Label\" }} text=\"Text\" />"
     },
     {
       "component": "SiteHeader",
@@ -484,7 +554,9 @@
       },
       "react": "available",
       "import": "import { SiteHeader } from '@eona-x/ui-toolkit-react';",
-      "jsx": "<SiteHeader\n  links={[{ href: \"#\", label: \"Label\", current: false }]}\n  showLogin\n/>"
+      "jsx": "<SiteHeader\n  links={[{ href: \"#\", label: \"Label\", current: false }]}\n  showLogin\n/>",
+      "svelteImport": "import { SiteHeader } from '@eona-x/ui-toolkit-svelte';",
+      "svelte": "<SiteHeader\n  links={[{ href: \"#\", label: \"Label\", current: false }]}\n  showLogin\n/>"
     },
     {
       "component": "Swatch",
@@ -496,7 +568,9 @@
       },
       "react": "available",
       "import": "import { Swatch } from '@eona-x/ui-toolkit-react';",
-      "jsx": "<Swatch\n  hex=\"#040553\"\n  ink=\"Ink\"\n  name=\"Name\"\n  usage=\"Primary brand colour\"\n  variants=\"Variants\"\n/>"
+      "jsx": "<Swatch\n  hex=\"#040553\"\n  ink=\"Ink\"\n  name=\"Name\"\n  usage=\"Primary brand colour\"\n  variants=\"Variants\"\n/>",
+      "svelteImport": "import { Swatch } from '@eona-x/ui-toolkit-svelte';",
+      "svelte": "<Swatch\n  hex=\"#040553\"\n  ink=\"Ink\"\n  name=\"Name\"\n  usage=\"Primary brand colour\"\n  variants=\"Variants\"\n/>"
     },
     {
       "component": "TagLabel",
@@ -508,7 +582,9 @@
       },
       "react": "available",
       "import": "import { TagLabel } from '@eona-x/ui-toolkit-react';",
-      "jsx": "<TagLabel text=\"Text\" tone=\"blue\" />"
+      "jsx": "<TagLabel text=\"Text\" tone=\"blue\" />",
+      "svelteImport": "import { TagLabel } from '@eona-x/ui-toolkit-svelte';",
+      "svelte": "<TagLabel text=\"Text\" tone=\"blue\" />"
     },
     {
       "component": "TextField",
@@ -520,7 +596,9 @@
       },
       "react": "available",
       "import": "import { TextField } from '@eona-x/ui-toolkit-react';",
-      "jsx": "<TextField\n  id=\"example\"\n  kind=\"textarea\"\n  label=\"Label\"\n  placeholder=\"Placeholder\"\n/>"
+      "jsx": "<TextField\n  id=\"example\"\n  kind=\"textarea\"\n  label=\"Label\"\n  placeholder=\"Placeholder\"\n/>",
+      "svelteImport": "import { TextField } from '@eona-x/ui-toolkit-svelte';",
+      "svelte": "<TextField\n  id=\"example\"\n  kind=\"textarea\"\n  label=\"Label\"\n  placeholder=\"Placeholder\"\n/>"
     },
     {
       "component": "TypeScaleRow",
@@ -532,7 +610,9 @@
       },
       "react": "available",
       "import": "import { TypeScaleRow } from '@eona-x/ui-toolkit-react';",
-      "jsx": "<TypeScaleRow role=\"Role\" sample={<span>Slot content.</span>} spec=\"Spec\" />"
+      "jsx": "<TypeScaleRow role=\"Role\" sample={<span>Slot content.</span>} spec=\"Spec\" />",
+      "svelteImport": "import { TypeScaleRow } from '@eona-x/ui-toolkit-svelte';",
+      "svelte": "<TypeScaleRow role=\"Role\" spec=\"Spec\">\n  {#snippet sample()}<span>Slot content.</span>{/snippet}\n</TypeScaleRow>"
     },
     {
       "component": "UsageExample",
@@ -544,7 +624,9 @@
       },
       "react": "available",
       "import": "import { UsageExample } from '@eona-x/ui-toolkit-react';",
-      "jsx": "<UsageExample onDark source={\"<Button label=\\\"Go\\\" />\"}>\n  Children go here.\n</UsageExample>"
+      "jsx": "<UsageExample onDark source={\"<Button label=\\\"Go\\\" />\"}>\n  Children go here.\n</UsageExample>",
+      "svelteImport": "import { UsageExample } from '@eona-x/ui-toolkit-svelte';",
+      "svelte": "<UsageExample onDark source={\"<Button label=\\\"Go\\\" />\"}>\n  Children go here.\n</UsageExample>"
     }
   ]
 }

@@ -34,7 +34,7 @@ Each stage's own module doc is the detailed contract; this is the map.
 | `emit` | `src/emit.rs` | IR + JSX | `packages/react` — one self-contained `.tsx` per component, plus `index.ts`, `types.ts`, `package.json`, `tsconfig.json`, `README.md` |
 | `svelte` | `src/svelte.rs` | IR + the same splice tree | `packages/svelte` — one `.svelte` (Svelte 5, runes) per component, `index.ts`, `types.ts` (shared with `emit`), the opt-in `src/wasm/` mount, `package.json`, `tsconfig.json`, `README.md`; its hashes go to `abi/package.svelte.manifest.json` |
 | `abi` | `src/abi.rs` | IR + cells | `abi/toolkit.abi.json`, and the semver diff behind `check --semver` |
-| `examples` | `src/examples.rs` | the ABI + IR + `abi/overrides.toml` | `abi/examples.json` and `bridge/examples.rs` — one usage snippet per component, in Yew **and** React |
+| `examples` | `src/examples.rs` | the ABI + IR + `abi/overrides.toml` | `abi/examples.json` and `bridge/examples.rs` — one usage snippet per component, in Yew, React **and** Svelte — plus `site/react/src/gallery.tsx` and `site/svelte/src/Gallery.svelte`, the same React and Svelte calls as the live docs pages render them |
 | `check` | `src/check.rs` | all of the above | the drift gate |
 
 The IR that crosses every boundary is `src/ir.rs`. Nothing downstream of `parse`

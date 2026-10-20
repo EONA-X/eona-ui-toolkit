@@ -22,3 +22,9 @@ Cargo.lock
 # The svelte-wasm example's build output (`wasm-pack build --target web examples/svelte-wasm`).
 /examples/svelte-wasm/target/
 /examples/svelte-wasm/pkg/
+
+# The live docs pages (site/react, site/svelte): npm installs and Vite output, and the
+# logo `prebuild` copies out of @eona-x/ui-toolkit-css.
+/site/*/node_modules/
+/site/*/dist/
+/site/*/public/

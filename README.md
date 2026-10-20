@@ -230,6 +230,23 @@ wasm-pack build --target web examples/svelte-wasm && (cd tests/bridge-parity && 
 
 `npm install @eona-x/ui-toolkit-svelte` — see [The npm packages](#the-npm-packages).
 
+## Documentation
+
+**<https://eona-x.github.io/eona-ui-toolkit/>**, deployed by `.github/workflows/pages.yml` on every
+`main` push that touches what a page shows:
+
+| Page | What | Rendered by |
+| --- | --- | --- |
+| [`/`](https://eona-x.github.io/eona-ui-toolkit/) | the gallery: every component's Yew, React and Svelte call side by side, plus the crate's design sections | Yew, server-side (`examples/render-docs.rs`) |
+| [`/react/`](https://eona-x.github.io/eona-ui-toolkit/react/) | every `@eona-x/ui-toolkit-react` call, live | React (`site/react`) |
+| [`/svelte/`](https://eona-x.github.io/eona-ui-toolkit/svelte/) | every `@eona-x/ui-toolkit-svelte` call, live | Svelte (`site/svelte`) |
+
+The calls come from one place: `cargo xtask bridgegen` writes the gallery's snippet table and the
+two live pages' component lists (`site/*/src/gallery.*`) from `abi/examples.json`, so the three
+pages cannot show different calls, and building the live pages typechecks every snippet against the
+generated packages. Locally: build `packages/react` and `packages/svelte` (see below), then
+`npm ci && npm run dev` in `site/react` or `site/svelte`.
+
 ## The npm packages
 
 | Package | From | Built by |

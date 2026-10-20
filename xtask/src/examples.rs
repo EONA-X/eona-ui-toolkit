@@ -65,12 +65,20 @@ use crate::splice::{js_prop_name, variant_literal};
 /// Bumped when the *shape* of `abi/examples.json` changes, so a stale file fails
 /// to deserialise loudly instead of diffing as if every component moved at once.
 /// Same contract as [`crate::abi::ABI_VERSION`].
-pub const EXAMPLES_VERSION: u32 = 1;
+pub const EXAMPLES_VERSION: u32 = 2;
 
 /// The reviewable artifact, relative to the toolkit root.
 pub const EXAMPLES_JSON: &str = "abi/examples.json";
 /// The consumable artifact: zero-dependency Rust the toolkit can `#[path]`-mod.
 pub const EXAMPLES_RS: &str = "bridge/examples.rs";
+/// The live React page's component list: every available snippet, as JSX the
+/// docs site renders. The page therefore shows exactly the calls the gallery
+/// prints, and its build typechecks them against the generated package.
+pub const SITE_REACT: &str = "site/react/src/gallery.tsx";
+/// The live Svelte page's component list, likewise.
+pub const SITE_SVELTE: &str = "site/svelte/src/Gallery.svelte";
+/// The Svelte package's name, for the same reason as [`PACKAGE_NAME`].
+use crate::svelte::PACKAGE_NAME as SVELTE_PACKAGE;
 
 /// The npm package name a React snippet imports from. Same constant `emit` puts
 /// in `package.json`, so the import line in a snippet cannot name a package the
@@ -144,6 +152,11 @@ pub enum ReactSnippet {
         /// The import the JSX needs, naming only what `index.ts` exports.
         import: String,
         jsx: String,
+        /// The same call for `@eona-x/ui-toolkit-svelte`, which exports exactly
+        /// what the React package does: the two are written from one plan.
+        #[serde(rename = "svelteImport")]
+        svelte_import: String,
+        svelte: String,
     },
     Unavailable {
         /// The generator's own rule, in its own words.
@@ -203,6 +216,8 @@ fn example(
         Status::Ok => ReactSnippet::Available {
             import: format!("import {{ {} }} from '{PACKAGE_NAME}';", c.name),
             jsx: call.jsx(&c.name),
+            svelte_import: format!("import {{ {} }} from '{SVELTE_PACKAGE}';", c.name),
+            svelte: call.svelte(&c.name),
         },
         other => {
             let entry = overrides.get(&c.name);
@@ -257,6 +272,10 @@ fn why(status: &Status) -> String {
 struct Call {
     yew_attrs: Vec<String>,
     jsx_attrs: Vec<String>,
+    /// Svelte spells every attribute as JSX does — `{[...]}`, `{"..."}`, a bare
+    /// `true` — except a named slot, which is a `{#snippet}` in the body.
+    svelte_attrs: Vec<String>,
+    svelte_slots: Vec<String>,
     /// The component takes a `children` slot, so the call has an element body.
     children: bool,
     /// Rust types the Yew snippet names, for the `use` lines.
@@ -350,6 +369,11 @@ impl Call {
                 format!("{js}={{() => {{}}}}"),
             ),
         };
+        if matches!(p.kind, PropKind::Slot) {
+            self.svelte_slots.push(format!("{{#snippet {js}()}}<span>Slot content.</span>{{/snippet}}"));
+        } else {
+            self.svelte_attrs.push(jsx.clone());
+        }
         self.yew_attrs.push(yew);
         self.jsx_attrs.push(jsx);
         Ok(())
@@ -451,6 +475,16 @@ impl Call {
 
     fn jsx(&self, name: &str) -> String {
         layout(name, &self.jsx_attrs, self.children.then_some("Children go here."), 2)
+    }
+
+    /// Named slots first, then the children — one per line, in the body.
+    fn svelte(&self, name: &str) -> String {
+        let mut body: Vec<&str> = self.svelte_slots.iter().map(String::as_str).collect();
+        if self.children {
+            body.push("Children go here.");
+        }
+        let body = (!body.is_empty()).then(|| body.join("\n  "));
+        layout(name, &self.svelte_attrs, body.as_deref(), 2)
     }
 
     /// The `use` lines, one per module path, sorted.
@@ -717,9 +751,12 @@ const PLACEHOLDERS: &[(&str, &str)] = &[
     // halves of one `NavDropdownProps::links` entry are `link.0` and `link.1`.
     ("link.0", "#"),
     ("link.1", "About"),
-    ("src", "/assets/placeholder.svg"),
-    ("thumbnail", "/assets/placeholder.svg"),
-    ("file", "/assets/eona-x-logo.svg"),
+    // The one image a consumer is already told to serve, at the path
+    // `SiteHeader` loads it from: the live pages (`site/`) render these calls,
+    // and an absolute `/assets/...` resolves outside a project-site's path.
+    ("src", "logo/logo-transparent.svg"),
+    ("thumbnail", "logo/logo-transparent.svg"),
+    ("file", "logo/logo-transparent.svg"),
     ("alt", "EONA-X logo"),
     // CSS fragments, passed through to a `style`/`class` attribute verbatim.
     ("hex", "#040553"),
@@ -826,6 +863,8 @@ pub fn files(ex: &Examples) -> Result<BTreeMap<&'static str, String>> {
     let mut out = BTreeMap::new();
     out.insert(EXAMPLES_JSON, to_json(ex)?);
     out.insert(EXAMPLES_RS, to_rust(ex)?);
+    out.insert(SITE_REACT, site_react(ex)?);
+    out.insert(SITE_SVELTE, site_svelte(ex)?);
     Ok(out)
 }
 
@@ -845,9 +884,10 @@ pub fn to_rust(ex: &Examples) -> Result<String> {
     s.push_str(&format!(
         "//! Generated by `cargo xtask bridgegen` from the eona-ui-toolkit Yew crate. Do not edit.\n\
          //!\n\
-         //! One usage snippet per component, in both stacks. The React half is\n\
-         //! derived from the same `abi/toolkit.abi.json` entry as the Yew half, so a\n\
-         //! prop added in `src/` reaches both panes of the components page at once.\n\
+         //! One usage snippet per component, in every stack. The React and Svelte\n\
+         //! halves are derived from the same `abi/toolkit.abi.json` entry as the Yew\n\
+         //! half, so a prop added in `src/` reaches every pane of the components page\n\
+         //! at once.\n\
          //!\n\
          //! Outside `src/` on purpose: `src_hash` is taken over `src/**/*.rs`\n\
          //! (xtask/src/parse.rs), and a generated file inside `src/` would be an input\n\
@@ -871,10 +911,12 @@ pub fn to_rust(ex: &Examples) -> Result<String> {
         s.push_str(&format!("        yew_uses: {},\n", rust_lit(&e.yew.uses)));
         s.push_str(&format!("        yew: {},\n", rust_lit(&e.yew.snippet)));
         match &e.react {
-            ReactSnippet::Available { import, jsx } => {
+            ReactSnippet::Available { import, jsx, svelte_import, svelte } => {
                 s.push_str("        react: ReactSnippet::Available {\n");
                 s.push_str(&format!("            import: {},\n", rust_lit(import)));
                 s.push_str(&format!("            jsx: {},\n", rust_lit(jsx)));
+                s.push_str(&format!("            svelte_import: {},\n", rust_lit(svelte_import)));
+                s.push_str(&format!("            svelte: {},\n", rust_lit(svelte)));
                 s.push_str("        },\n");
             }
             ReactSnippet::Unavailable { why, disposition, tracked_by } => {
@@ -896,20 +938,26 @@ pub fn to_rust(ex: &Examples) -> Result<String> {
 }
 
 const REACT_SNIPPET_TY: &str = "\
-/// Whether a component ships in `@eona-x/ui-toolkit-react`.
+/// Whether a component ships in `@eona-x/ui-toolkit-react` — and so in
+/// `@eona-x/ui-toolkit-svelte`, which is written from the same plan.
 ///
-/// Five do not — one needs an override and four are quarantined — and a page
-/// that showed them JSX anyway would hand a reader an import that does not
-/// resolve. `abi/overrides.toml` is where the disposition comes from.
+/// A page that showed a component's JSX anyway would hand a reader an import
+/// that does not resolve. `abi/overrides.toml` is where the disposition comes
+/// from.
 pub enum ReactSnippet {
-    Available { import: &'static str, jsx: &'static str },
+    Available {
+        import: &'static str,
+        jsx: &'static str,
+        svelte_import: &'static str,
+        svelte: &'static str,
+    },
     Unavailable { why: &'static str, disposition: &'static str, tracked_by: &'static str },
 }
 
 ";
 
 const SNIPPET_TY: &str = "\
-/// One component's usage snippet, in both stacks.
+/// One component's usage snippet, in every stack.
 pub struct Snippet {
     pub component: &'static str,
     /// `file:line` of the `#[function_component]`.
@@ -937,6 +985,79 @@ pub fn snippet(component: &str) -> Option<&'static Snippet> {
         .map(|i| &SNIPPETS[i])
 }
 ";
+
+/// The available snippets, in name order: what the live pages render.
+fn available(ex: &Examples) -> Vec<(&Example, &str, &str, &str, &str)> {
+    ex.components
+        .iter()
+        .filter_map(|e| match &e.react {
+            ReactSnippet::Available { import, jsx, svelte_import, svelte } => {
+                Some((e, import.as_str(), jsx.as_str(), svelte_import.as_str(), svelte.as_str()))
+            }
+            ReactSnippet::Unavailable { .. } => None,
+        })
+        .collect()
+}
+
+/// A JavaScript string literal, by way of JSON, which is a subset.
+fn js_lit(s: &str) -> Result<String> {
+    Ok(serde_json::to_string(s)?)
+}
+
+fn indent_by(text: &str, n: usize) -> String {
+    let pad = " ".repeat(n);
+    text.lines().map(|l| if l.is_empty() { String::new() } else { format!("{pad}{l}") }).collect::<Vec<_>>().join("\n")
+}
+
+/// `site/react/src/gallery.tsx`: each available component's JSX, live.
+fn site_react(ex: &Examples) -> Result<String> {
+    let entries = available(ex);
+    let mut s = String::new();
+    s.push_str("// Generated by `cargo xtask bridgegen` from abi/examples.json. Do not edit.\n");
+    s.push_str("//\n// The calls the components page prints in its React pane, rendered live.\n\n");
+    s.push_str("import type { ReactNode } from 'react';\n");
+    s.push_str(&format!(
+        "import {{\n{}\n}} from '{PACKAGE_NAME}';\n\n",
+        entries.iter().map(|(e, ..)| format!("  {},", e.component)).collect::<Vec<_>>().join("\n")
+    ));
+    s.push_str("export interface Entry {\n  name: string;\n  source: string;\n  code: string;\n  element: ReactNode;\n}\n\n");
+    s.push_str("export const entries: Entry[] = [\n");
+    for (e, import, jsx, ..) in &entries {
+        s.push_str("  {\n");
+        s.push_str(&format!("    name: {},\n", js_lit(&e.component)?));
+        s.push_str(&format!("    source: {},\n", js_lit(&e.source)?));
+        s.push_str(&format!("    code: {},\n", js_lit(&format!("{import}\n\n{jsx}"))?));
+        s.push_str(&format!("    element: (\n{}\n    ),\n", indent_by(jsx, 6)));
+        s.push_str("  },\n");
+    }
+    s.push_str("];\n");
+    Ok(s)
+}
+
+/// `site/svelte/src/Gallery.svelte`: each available component's Svelte call,
+/// live, inside the hand-written `Entry.svelte` frame.
+fn site_svelte(ex: &Examples) -> Result<String> {
+    let entries = available(ex);
+    let mut s = String::new();
+    s.push_str("<!-- Generated by `cargo xtask bridgegen` from abi/examples.json. Do not edit. -->\n");
+    s.push_str("<!-- The calls the components page prints in its Svelte pane, rendered live. -->\n");
+    s.push_str("<script lang=\"ts\">\n");
+    s.push_str(&format!(
+        "  import {{\n{}\n  }} from '{SVELTE_PACKAGE}';\n",
+        entries.iter().map(|(e, ..)| format!("    {},", e.component)).collect::<Vec<_>>().join("\n")
+    ));
+    s.push_str("  import Entry from './Entry.svelte';\n</script>\n");
+    for (e, _, _, import, svelte) in &entries {
+        s.push_str(&format!(
+            "\n<Entry name={} source={} code={{{}}}>\n{}\n</Entry>\n",
+            js_lit(&e.component)?,
+            js_lit(&e.source)?,
+            js_lit(&format!("{import}\n\n{svelte}"))?,
+            indent_by(svelte, 2)
+        ));
+    }
+    Ok(s)
+}
 
 /// A `&'static str` literal for generated Rust: raw when it can be, escaped when
 /// the content would break out of a raw string.
@@ -1167,8 +1288,13 @@ mod tests {
              \x20   { \"Children go here.\" }\n\
              </Probe>"
         );
-        let ReactSnippet::Available { jsx, import } = &p.react else { panic!("Probe is Ok") };
+        let ReactSnippet::Available { jsx, import, svelte_import, svelte } = &p.react else {
+            panic!("Probe is Ok")
+        };
         assert_eq!(import, "import { Probe } from '@eona-x/ui-toolkit-react';");
+        assert_eq!(svelte_import, "import { Probe } from '@eona-x/ui-toolkit-svelte';");
+        // Every attribute as JSX spells it; with no named slot, the same call.
+        assert_eq!(svelte, jsx);
         assert_eq!(
             jsx,
             "<Probe\n\
@@ -1197,6 +1323,32 @@ mod tests {
         assert!(p.yew.snippet.contains("tag: \"Tag\""), "&'static str must not carry .into()");
         let ReactSnippet::Available { jsx, .. } = &p.react else { panic!() };
         assert!(!jsx.contains("note"), "an optional field is omitted from the JS object");
+    }
+
+    /// A named slot is an attribute in JSX and a `{#snippet}` in Svelte; read off
+    /// the committed document, where `ShapeCard.demo` is the crate's one case.
+    #[test]
+    fn a_named_slot_is_a_svelte_snippet_not_an_attribute() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).parent().unwrap();
+        let ex: Examples =
+            serde_json::from_str(&std::fs::read_to_string(root.join(EXAMPLES_JSON)).unwrap()).unwrap();
+        let ReactSnippet::Available { jsx, svelte, .. } = &ex.get("ShapeCard").unwrap().react else {
+            panic!("ShapeCard ships")
+        };
+        assert!(jsx.contains("demo={<span>Slot content.</span>}"), "{jsx}");
+        assert!(svelte.contains("{#snippet demo()}<span>Slot content.</span>{/snippet}"), "{svelte}");
+        assert!(!svelte.contains("demo={"), "{svelte}");
+    }
+
+    /// The live pages list exactly the snippets the gallery prints.
+    #[test]
+    fn the_live_pages_render_every_available_snippet() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).parent().unwrap();
+        let ex: Examples =
+            serde_json::from_str(&std::fs::read_to_string(root.join(EXAMPLES_JSON)).unwrap()).unwrap();
+        let n = available(&ex).len();
+        assert_eq!(site_react(&ex).unwrap().matches("\n    element: (").count(), n);
+        assert_eq!(site_svelte(&ex).unwrap().matches("\n<Entry name=").count(), n);
     }
 
     /// `shown_bool` and `shown_variant` both pick the value that is *not* the
@@ -1297,7 +1449,7 @@ mod tests {
         assert_eq!(files(&a).unwrap(), files(&b).unwrap());
         assert_eq!(
             files(&a).unwrap().keys().copied().collect::<Vec<_>>(),
-            vec!["abi/examples.json", "bridge/examples.rs"]
+            vec![EXAMPLES_JSON, EXAMPLES_RS, SITE_REACT, SITE_SVELTE]
         );
     }
 

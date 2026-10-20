@@ -128,9 +128,9 @@ async fn section_09_reaches_every_component_in_both_stacks() {
         );
     }
 
-    // Every row carries a Yew pane; a row whose component ships in React
-    // carries a second one, and a row whose component does not carries a note
-    // instead. Counted off the same table the page renders from, so the
+    // Every row carries a Yew pane; a row whose component ships in the npm
+    // packages carries a React and a Svelte one, and a row whose component does
+    // not carries a note instead. Counted off the same table the page renders from, so the
     // expected numbers move with the verify gate rather than with this file.
     let absent = eona_ui_toolkit::examples::SNIPPETS
         .iter()
@@ -150,8 +150,8 @@ async fn section_09_reaches_every_component_in_both_stacks() {
     );
     assert_eq!(
         html.matches(r#"class="snippet-pane">"#).count(),
-        rows + (rows - absent),
-        "one Yew pane per row, plus one React pane per row that has JSX"
+        rows + 2 * (rows - absent),
+        "one Yew pane per row, plus a React and a Svelte pane per row that ships"
     );
 }
 
