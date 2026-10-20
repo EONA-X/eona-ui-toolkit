@@ -1,21 +1,29 @@
-# Publishes the component gallery — the crate's own documentation — to GitHub Pages.
+# Publishes the toolkit's documentation to GitHub Pages, one page per stack:
 #
-# The page is `DemoPage`, rendered server-side by `examples/render-docs.rs`. EONA-X's
-# developer portal publishes the same component as `components.html` inside a larger
-# site; this deploy serves it standalone from the repository that owns it, so the
-# documentation cannot lag the code it documents.
+#   /          the Yew gallery: `DemoPage`, rendered server-side by
+#              `examples/render-docs.rs`, with every component's Yew, React and
+#              Svelte call side by side
+#   /react/    every call from @eona-x/ui-toolkit-react, rendered live by React
+#   /svelte/   every call from @eona-x/ui-toolkit-svelte, rendered live by Svelte
+#
+# The two live pages (`site/`) render `site/*/src/gallery.*`, which bridgegen
+# writes from the same `abi/examples.json` the gallery prints, against the
+# packages built from this commit — so the three can never show different calls.
+# EONA-X's developer portal publishes the gallery as `components.html` inside a
+# larger site; this deploy serves it standalone from the repository that owns it.
 name: Publish the component gallery
 
 on:
   push:
     branches: [main]
-    # Anything that can change what the page renders. Editing the README or the
-    # generated React package alone does not warrant a redeploy.
+    # Anything that can change what a page renders.
     paths:
       - 'src/**'
       - 'assets/**'
       - 'bridge/**'
       - 'examples/**'
+      - 'packages/**'
+      - 'site/**'
       - 'Cargo.toml'
       - '.github/workflows/pages.yml'
   workflow_dispatch:
@@ -58,6 +66,23 @@ jobs:
 
       - name: Render the gallery
         run: cargo run --example render-docs --features ssr -- dist
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # Against the local stylesheet: this commit's version may not be on npm yet.
+      - name: Build the packages
+        run: |
+          (cd packages/react && npm install --no-save --no-audit --no-fund ../css && npm run build)
+          (cd packages/svelte && npm install --no-save --no-audit --no-fund ../css && npm run build)
+
+      - name: Build the live pages
+        run: |
+          for stack in react svelte; do
+            (cd site/$stack && npm ci --no-audit --no-fund && npm run build)
+            cp -r site/$stack/dist dist/$stack
+          done
 
       - uses: actions/upload-pages-artifact@v3
         with:

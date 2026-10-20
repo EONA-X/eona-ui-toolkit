@@ -41,7 +41,7 @@ pub const CSS_PACKAGE: &str = "@eona-x/ui-toolkit-css";
 /// crate version, so this is kept in step by hand — and pinned by the test
 /// `the_package_version_is_the_crate_version`, and by the publish workflow,
 /// which refuses a tag that disagrees with either.
-pub const PACKAGE_VERSION: &str = "0.9.0";
+pub const PACKAGE_VERSION: &str = "0.9.1";
 
 pub(crate) const GENERATOR: &str = "cargo xtask bridgegen";
 
