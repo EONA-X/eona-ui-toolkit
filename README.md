@@ -188,12 +188,8 @@ no renderable open state, and four are out of scope by rule (`DemoPage` and the 
 demo sections). `abi/overrides.toml` records what is being done about each and
 `packages/react/src/index.ts` prints the list to consumers.
 
-**The package is not published yet** — that is Layer 4 of
-[eona-x/backlog#809](https://gitlab.eona-x.org/eona-x/backlog/-/issues/809), whose prerequisite
-is #808. Meanwhile, copy `packages/react/src/*.tsx` into the app, or vendor this repository and
-run `npm install && npm run build` inside `packages/react` first: every entry point in its
-`package.json` is under `dist/`, which is generated and not committed. `react >= 19` is a peer
-dependency because `NavDropdown` renders `inert`.
+`npm install @eona-x/ui-toolkit-react` — see [The npm packages](#the-npm-packages). `react >= 19`
+is a peer dependency because `NavDropdown` renders `inert`.
 
 Section 15-19 of the demo page is the consumer-facing version of all of this, and
 `packages/react/README.md` is generated alongside the package.
@@ -228,11 +224,42 @@ to 130 KB gzip), nothing tree-shakes across the boundary, it renders nothing on 
 cargo xtask bridgegen                                    # regenerates packages/react and packages/svelte
 cd packages/svelte && npm install && npm run check       # svelte-check, warnings fail
 cd tests/bridge-parity && npm ci && npm test             # React and Svelte render the same HTML
+(cd tests/bridge-parity && npm run test:css)             # the published CSS styles them like the crate's
 wasm-pack build --target web examples/svelte-wasm && (cd tests/bridge-parity && npm run test:wasm)
 ```
 
-Like the React package it is not published to a registry yet; vendor the repository and run
-`npm run build` inside `packages/svelte` (`svelte-package`, output in `dist/`).
+`npm install @eona-x/ui-toolkit-svelte` — see [The npm packages](#the-npm-packages).
+
+## The npm packages
+
+| Package | From | Built by |
+| --- | --- | --- |
+| [`@eona-x/ui-toolkit-css`](packages/css) | `assets/` | `cargo xtask bridgegen` (`xtask/src/css.rs`) |
+| [`@eona-x/ui-toolkit-react`](packages/react) | `src/` | `cargo xtask bridgegen`, then `tsup` |
+| [`@eona-x/ui-toolkit-svelte`](packages/svelte) | `src/` | `cargo xtask bridgegen`, then `svelte-package` |
+
+All three carry the crate's version, and both component packages depend on the stylesheet at
+exactly that version. **The stylesheet is scoped**: every rule sits under `.eona-ui`, so a
+consumer imports it once and renders the components inside an element with that class, and the
+host page is left alone — the crate's `components.css` opens with a page reset and pushes `body`
+down 156px, which is right for an EONA-X page and wrong inside anybody else's. That page shell is
+published separately as the opt-in `page.css`. `tests/bridge-parity`'s `npm run test:css`
+renders every component in Chromium under the crate's sheets and under the published ones and
+compares every computed style of every element.
+
+```js
+import '@eona-x/ui-toolkit-css';
+import { Button } from '@eona-x/ui-toolkit-react'; // or -svelte
+// <div class="eona-ui"> <Button label="Go" /> </div>
+```
+
+**Releasing.** Bump `version` in `Cargo.toml` and `PACKAGE_VERSION` in `xtask/src/emit.rs` (a
+test holds them equal), run `cargo xtask bridgegen`, merge, then push a `vX.Y.Z` tag.
+`.github/workflows/publish.yml` refuses a tag that disagrees with either, re-runs the gate and the
+bridge suites, and publishes css, react, svelte in that order with npm provenance, skipping any
+version already on the registry (so a failed run is re-run with `workflow_dispatch`). It
+authenticates with npm trusted publishing; only the very first release of a package needs the
+`NPM_TOKEN` secret, because npm configures a trusted publisher on an existing package only.
 
 ## Theming
 

@@ -36,10 +36,12 @@ pub const PACKAGE_NAME: &str = "@eona-x/ui-toolkit-react";
 /// against. A dependency rather than a peer: the markup is meaningless without
 /// it, and it carries no code, so there is nothing to deduplicate.
 pub const CSS_PACKAGE: &str = "@eona-x/ui-toolkit-css";
-/// Mirrors the toolkit crate's own version. The IR carries `src_hash` but not
-/// the crate version, so this is the one string here that has to be kept in
-/// step with the root `Cargo.toml` by hand.
-pub const PACKAGE_VERSION: &str = "0.1.0";
+/// Mirrors the toolkit crate's own version, so a package and the git tag it was
+/// published from carry the same number. The IR carries `src_hash` but not the
+/// crate version, so this is kept in step by hand — and pinned by the test
+/// `the_package_version_is_the_crate_version`, and by the publish workflow,
+/// which refuses a tag that disagrees with either.
+pub const PACKAGE_VERSION: &str = "0.9.0";
 
 pub(crate) const GENERATOR: &str = "cargo xtask bridgegen";
 
@@ -887,7 +889,7 @@ fn package_json() -> Result<String> {
         "license": "Apache-2.0",
         "repository": {
             "type": "git",
-            "url": "https://gitlab.eona-x.org/eona-x/web/eona-ui-toolkit",
+            "url": "git+https://github.com/EONA-X/eona-ui-toolkit.git",
             "directory": PACKAGE_DIR,
         },
         "type": "module",
@@ -930,14 +932,13 @@ fn package_json() -> Result<String> {
         // package does not typecheck. Measured, not assumed — those two files
         // are the only errors `tsc` reports under 18.
         "peerDependencies": { "react": ">=19" },
-        // No `dependencies`. This used to declare `CSS_PACKAGE` as
-        // `"workspace:*"`, which is a pnpm/yarn protocol npm rejects outright
-        // (`EUNSUPPORTEDPROTOCOL`) — and there is no such package anywhere in
-        // this repo to resolve it against: `packages/` holds only `react`, and
-        // there is no root `package.json` or `pnpm-workspace.yaml`. So the
-        // published manifest could never be installed. The stylesheet ships
-        // from the Yew crate's `assets/` today; README.md says so and says what
-        // to import once it is packaged.
+        // The stylesheet, pinned to the exact version cut from the same render:
+        // the class names in this markup and the rules in that sheet only agree
+        // release by release. A plain version, not `"workspace:*"`, which npm
+        // rejects (`EUNSUPPORTEDPROTOCOL`).
+        "dependencies": { CSS_PACKAGE: PACKAGE_VERSION },
+        // `npm publish --provenance` from `.github/workflows/publish.yml`.
+        "publishConfig": { "access": "public", "provenance": true },
         "devDependencies": {
             "@types/react": ">=19",
             "tsup": "^8",
@@ -1004,86 +1005,36 @@ fn readme_md(plan: &Plan<'_>, tk: &Toolkit) -> Result<String> {
         s,
         "re-runs the generator and diffs the result, so a hand edit is reported rather than"
     )?;
-    writeln!(
-        s,
-        "surviving quietly. (It is a command, not yet a pipeline: the crate has no CI"
-    )?;
-    writeln!(s, "configuration — eona-x/backlog#808.)")?;
+    writeln!(s, "surviving quietly; CI runs it on every push.")?;
     writeln!(s, "To change a component, change the Rust component it came from — the `file:line` is")?;
     writeln!(s, "in the header of every generated file — and regenerate.")?;
     writeln!(s)?;
     writeln!(s, "## Install")?;
     writeln!(s)?;
-    writeln!(
-        s,
-        "**Not published yet.** Packaging and publishing `{PACKAGE_NAME}` is Layer 4 of"
-    )?;
-    writeln!(
-        s,
-        "eona-x/backlog#809. Until it lands, copy `packages/react/src/*.tsx` into the app, or"
-    )?;
-    writeln!(
-        s,
-        "vendor this repository and run `npm install && npm run build` in `packages/react` first —"
-    )?;
-    writeln!(
-        s,
-        "every entry point in `package.json` is under `dist/`, which is generated and not committed."
-    )?;
-    writeln!(s)?;
     writeln!(s, "```sh")?;
     writeln!(s, "npm install {PACKAGE_NAME}")?;
     writeln!(s, "```")?;
     writeln!(s)?;
-    writeln!(
-        s,
-        "`react >= 19` is a peer dependency: `NavDropdown` renders `inert`"
-    )?;
-    writeln!(
-        s,
-        "(`src/molecules/nav_dropdown.rs:29`), which React only added to its DOM attribute types"
-    )?;
+    writeln!(s, "`react >= 19` is a peer dependency: `NavDropdown` renders `inert`")?;
+    writeln!(s, "(`src/molecules/nav_dropdown.rs:29`), which React only added to its DOM attribute types")?;
     writeln!(s, "in 19.")?;
     writeln!(s)?;
-    writeln!(
-        s,
-        "The markup carries the design system's class names and is unstyled on its own. There is"
-    )?;
-    writeln!(
-        s,
-        "no `{CSS_PACKAGE}` package yet, so this package declares **no runtime dependency**."
-    )?;
-    writeln!(
-        s,
-        "Do not import the Yew crate's `assets/components.css` whole into an app meanwhile: it"
-    )?;
-    writeln!(
-        s,
-        "opens with a page-shell reset on `*`, `html`, `body`, `img`, `a`, `h1`-`h4`, `p` and"
-    )?;
-    writeln!(
-        s,
-        "`code` (`assets/components.css:13-30`) and sets `html > body {{ padding-top: 156px }}` at"
-    )?;
-    writeln!(
-        s,
-        "`:393`, so it resets the host's typography and displaces its layout. The published"
-    )?;
-    writeln!(
-        s,
-        "`{CSS_PACKAGE}` drops those rules and scopes the rest under `.eona-ui`, which the markup"
-    )?;
-    writeln!(
-        s,
-        "will then need as an ancestor (eona-x/backlog#808 Layer 3). `tokens.css` is safe as-is:"
-    )?;
-    writeln!(s, "it declares nothing but `:root` custom properties.")?;
+    writeln!(s, "The markup carries the design system's class names; `{CSS_PACKAGE}`, installed with this")?;
+    writeln!(s, "package at the same version, styles them. Import it once, and render the components inside")?;
+    writeln!(s, "an element with the class `eona-ui` — every rule in it is scoped under that class, so it")?;
+    writeln!(s, "neither resets nor displaces the rest of the page. Its own README lists the entry points,")?;
+    writeln!(s, "including the opt-in `page.css` for an app that *is* an EONA-X page.")?;
     writeln!(s)?;
     writeln!(s, "```tsx")?;
+    writeln!(s, "import '{CSS_PACKAGE}';")?;
     writeln!(s, "import {{ Button }} from '{PACKAGE_NAME}';")?;
     writeln!(s)?;
     writeln!(s, "export default function Page() {{")?;
-    writeln!(s, "  return <Button label=\"Get started\" href=\"/docs\" />;")?;
+    writeln!(s, "  return (")?;
+    writeln!(s, "    <div className=\"eona-ui\">")?;
+    writeln!(s, "      <Button label=\"Get started\" href=\"/docs\" />")?;
+    writeln!(s, "    </div>")?;
+    writeln!(s, "  );")?;
     writeln!(s, "}}")?;
     writeln!(s, "```")?;
     writeln!(s)?;
@@ -1541,17 +1492,30 @@ mod tests {
     }
 
     #[test]
+    fn the_package_version_is_the_crate_version() {
+        let cargo = std::fs::read_to_string(
+            Path::new(env!("CARGO_MANIFEST_DIR")).parent().unwrap().join("Cargo.toml"),
+        )
+        .unwrap();
+        let crate_version = cargo
+            .lines()
+            .skip_while(|l| l.trim() != "[package]")
+            .find_map(|l| l.trim().strip_prefix("version = "))
+            .map(|v| v.trim_matches('"'))
+            .unwrap();
+        assert_eq!(PACKAGE_VERSION, crate_version);
+    }
+
+    #[test]
     fn package_json_is_valid_json_and_holds_the_agreed_fields() {
         let raw = package_json().unwrap();
         let v: serde_json::Value = serde_json::from_str(&raw).unwrap();
         assert_eq!(v["name"], PACKAGE_NAME);
         assert_eq!(v["sideEffects"], false);
         assert_eq!(v["peerDependencies"]["react"], ">=19");
-        // No runtime dependency at all. `CSS_PACKAGE` used to be declared here
-        // as `"workspace:*"`, which npm rejects (`EUNSUPPORTEDPROTOCOL`) and
-        // which named a package this repo does not contain, so the published
-        // manifest could not be installed.
-        assert!(v["dependencies"].is_null(), "{}", v["dependencies"]);
+        // The stylesheet, at exactly this version — never `"workspace:*"`,
+        // which npm rejects (`EUNSUPPORTEDPROTOCOL`).
+        assert_eq!(v["dependencies"][CSS_PACKAGE], PACKAGE_VERSION);
         assert!(!raw.contains("workspace:"), "{raw}");
         // The three paths below must name files the `build` script actually
         // produces. Under `"type": "module"` tsup writes `index.js` (ESM),

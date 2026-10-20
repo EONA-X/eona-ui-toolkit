@@ -22,14 +22,25 @@ interactive one, which lives outside this crate — and accept its cost: one com
 WASM bridge was measured at 74,593 B gzip against 112 B pre-rendered, it renders nothing
 on the server, and a CSP must allow `wasm-unsafe-eval`.
 
+```sh
+npm install @eona-x/ui-toolkit-svelte
+```
+
 ```svelte
 <script lang="ts">
+  import '@eona-x/ui-toolkit-css';
   import { Button, Pill } from '@eona-x/ui-toolkit-svelte';
 </script>
 
-<Button label="Explore" variant="ghost" />
-<Pill>Mobility</Pill>
+<div class="eona-ui">
+  <Button label="Explore" />
+  <Pill>Mobility</Pill>
+</div>
 ```
+
+`@eona-x/ui-toolkit-css` comes with this package, at the same version. Every rule in it is scoped under
+`.eona-ui`, so render the components inside an element with that class; it then touches
+nothing else on the page.
 
 A Rust `Children`/`Html` prop is a Svelte 5 `Snippet`: pass `children` as element content
 and any other slot (`ShapeCard`'s `demo`) as a `{#snippet}`.

@@ -597,7 +597,7 @@ fn package_json() -> Result<String> {
         "license": "Apache-2.0",
         "repository": {
             "type": "git",
-            "url": "https://github.com/EONA-X/eona-ui-toolkit",
+            "url": "git+https://github.com/EONA-X/eona-ui-toolkit.git",
             "directory": PACKAGE_DIR,
         },
         "type": "module",
@@ -630,6 +630,9 @@ fn package_json() -> Result<String> {
         // Runes (`$props`, `$derived`), snippets and native `lang="ts"` are all
         // Svelte 5.0; nothing later is used.
         "peerDependencies": { "svelte": "^5.0.0" },
+        // The stylesheet, at exactly the version cut from the same render.
+        "dependencies": { emit::CSS_PACKAGE: PACKAGE_VERSION },
+        "publishConfig": { "access": "public", "provenance": true },
         "devDependencies": {
             "@sveltejs/package": "^2.3.0",
             "svelte": "^5.0.0",
@@ -688,14 +691,25 @@ fn readme_md(plan: &Plan<'_>, tk: &Toolkit) -> Result<String> {
     writeln!(s, "WASM bridge was measured at 74,593 B gzip against 112 B pre-rendered, it renders nothing")?;
     writeln!(s, "on the server, and a CSP must allow `wasm-unsafe-eval`.")?;
     writeln!(s)?;
+    writeln!(s, "```sh")?;
+    writeln!(s, "npm install {PACKAGE_NAME}")?;
+    writeln!(s, "```")?;
+    writeln!(s)?;
     writeln!(s, "```svelte")?;
     writeln!(s, "<script lang=\"ts\">")?;
+    writeln!(s, "  import '{}';", emit::CSS_PACKAGE)?;
     writeln!(s, "  import {{ Button, Pill }} from '{PACKAGE_NAME}';")?;
     writeln!(s, "</script>")?;
     writeln!(s)?;
-    writeln!(s, "<Button label=\"Explore\" variant=\"ghost\" />")?;
-    writeln!(s, "<Pill>Mobility</Pill>")?;
+    writeln!(s, "<div class=\"eona-ui\">")?;
+    writeln!(s, "  <Button label=\"Explore\" />")?;
+    writeln!(s, "  <Pill>Mobility</Pill>")?;
+    writeln!(s, "</div>")?;
     writeln!(s, "```")?;
+    writeln!(s)?;
+    writeln!(s, "`{}` comes with this package, at the same version. Every rule in it is scoped under", emit::CSS_PACKAGE)?;
+    writeln!(s, "`.eona-ui`, so render the components inside an element with that class; it then touches")?;
+    writeln!(s, "nothing else on the page.")?;
     writeln!(s)?;
     writeln!(s, "A Rust `Children`/`Html` prop is a Svelte 5 `Snippet`: pass `children` as element content")?;
     writeln!(s, "and any other slot (`ShapeCard`'s `demo`) as a `{{#snippet}}`.")?;
