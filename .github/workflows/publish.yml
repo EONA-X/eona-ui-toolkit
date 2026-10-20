@@ -11,11 +11,14 @@
 #
 # Authentication is npm trusted publishing (OIDC): no long-lived token, and
 # every release carries a provenance attestation tying it to this workflow
-# run. npm only lets a trusted publisher be configured on a package that
-# already exists, so the FIRST release of each package needs the `NPM_TOKEN`
-# repository secret (a granular token, publish rights on @eona-x, short
-# expiry). Once each package lists this repository and `publish.yml` as its
-# trusted publisher, delete the secret: OIDC is used whenever it is absent.
+# run.
+#
+# The release is STAGED, not published: the packages' trusted-publisher
+# configurations are stage-only, so this workflow runs `npm stage publish`,
+# which puts each version in npm's stage queue. Nothing is installable until a
+# maintainer approves it with 2FA — npmjs.com -> Staged Packages, or
+# `npm stage approve <stage-id>` — and an OIDC token cannot approve. Approve
+# `@eona-x/ui-toolkit-css` first: the other two depend on it at this version.
 name: Publish to npm
 
 on:
@@ -93,16 +96,36 @@ jobs:
           npm run test:css
 
       # CSS first: the other two depend on it at exactly this version.
-      - name: Publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      # A version already on npm, or already in the stage queue, is skipped,
+      # so a run that failed half-way can be re-run with workflow_dispatch.
+      - name: Stage for approval
         run: |
+          {
+            echo "## Staged for approval"
+            echo
+            echo "Approve on npmjs.com (Staged Packages) or with \`npm stage approve <stage-id>\`, css first."
+            echo
+          } >> "$GITHUB_STEP_SUMMARY"
           for p in css react svelte; do
             name=$(node -p "require('./packages/$p/package.json').name")
             version=$(node -p "require('./packages/$p/package.json').version")
             if npm view "$name@$version" version >/dev/null 2>&1; then
               echo "$name@$version is already on npm; skipping"
+              echo "- \`$name@$version\` already published" >> "$GITHUB_STEP_SUMMARY"
               continue
             fi
-            (cd "packages/$p" && npm publish --provenance --access public)
+            if out=$(cd "packages/$p" && npm stage publish --provenance --access public 2>&1); then
+              echo "$out"
+              echo "- \`$name@$version\` staged" >> "$GITHUB_STEP_SUMMARY"
+              echo '```' >> "$GITHUB_STEP_SUMMARY"
+              echo "$out" | grep -iE "stage|id" >> "$GITHUB_STEP_SUMMARY" || true
+              echo '```' >> "$GITHUB_STEP_SUMMARY"
+            elif echo "$out" | grep -qiE "already (staged|exists)|E409|conflict"; then
+              echo "$out"
+              echo "$name@$version is already staged; skipping"
+              echo "- \`$name@$version\` was already staged" >> "$GITHUB_STEP_SUMMARY"
+            else
+              echo "$out"
+              exit 1
+            fi
           done

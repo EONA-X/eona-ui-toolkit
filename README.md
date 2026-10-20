@@ -275,8 +275,9 @@ test holds them equal), run `cargo xtask bridgegen`, merge, then push a `vX.Y.Z`
 `.github/workflows/publish.yml` refuses a tag that disagrees with either, re-runs the gate and the
 bridge suites, and publishes css, react, svelte in that order with npm provenance, skipping any
 version already on the registry (so a failed run is re-run with `workflow_dispatch`). It
-authenticates with npm trusted publishing; only the very first release of a package needs the
-`NPM_TOKEN` secret, because npm configures a trusted publisher on an existing package only.
+authenticates with npm trusted publishing and **stages** the release (`npm stage publish`): nothing is
+installable until a maintainer approves each version with 2FA, on npmjs.com under Staged Packages or
+with `npm stage approve <stage-id>` — css first, since the other two depend on it.
 
 ## Theming
 
