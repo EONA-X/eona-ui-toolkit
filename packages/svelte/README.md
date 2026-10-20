@@ -60,6 +60,11 @@ working one.
 <YewMount module={load} component="Counter" props={{ start: 3 }} />
 ```
 
+## Documentation
+
+- [Getting started](https://eona-x.github.io/eona-ui-toolkit/svelte/getting-started/) — install, a first component, a static site, theming
+- [Components](https://eona-x.github.io/eona-ui-toolkit/svelte/) — every component, rendered live, with its call
+
 ## Do not edit
 
 Every file here is overwritten by `cargo xtask bridgegen` and checked by `cargo xtask check`.

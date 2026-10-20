@@ -1,20 +1,28 @@
 <script lang="ts">
+  import { HeroFilter, PillButton, SimpleFooter, SiteHeader } from '@eona-x/ui-toolkit-svelte';
+
+  import nav from '../../nav.json';
   import Gallery from './Gallery.svelte';
+
+  // This page is /svelte/: one level below the site root.
+  const links = nav.links.map((l) => ({ href: `../${l.path}`, label: l.label, current: l.stack === 'svelte' }));
 </script>
 
-<header class="top">
-  <h1>eona-ui-toolkit</h1>
-  <nav>
-    <a href="../">Yew gallery</a>
-    <a href="../react/">React</a>
-    <a href="./" aria-current="page">Svelte</a>
-  </nav>
-</header>
-<p class="intro">
-  Every component <code>@eona-x/ui-toolkit-svelte</code> exports, rendered by Svelte from the call
-  the gallery prints, styled by <code>@eona-x/ui-toolkit-css</code>. Generated from the Yew source;
-  see <a href="https://github.com/EONA-X/eona-ui-toolkit">the repository</a>.
-</p>
-<main class="entries">
-  <Gallery />
-</main>
+<div class="eona-ui">
+  <SiteHeader {links} />
+  <HeroFilter
+    title="Components"
+    description="Every component @eona-x/ui-toolkit-svelte exports, rendered live by Svelte from the call the gallery prints, styled by @eona-x/ui-toolkit-css."
+    withBackdrop
+  >
+    <PillButton label="Getting started" kind="glass-light" href="getting-started/" />
+    <PillButton label="Components" href="./" />
+  </HeroFilter>
+  <main class="entries">
+    <Gallery />
+  </main>
+  <SimpleFooter
+    text="eona-ui-toolkit — one design system, generated for Yew, React and Svelte"
+    link={{ href: nav.repo, label: 'Source on GitHub' }}
+  />
+</div>

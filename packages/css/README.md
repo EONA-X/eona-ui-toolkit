@@ -29,5 +29,8 @@ so a component looks the same in a host app as on an EONA-X page.
 | `@eona-x/ui-toolkit-css/page.css` | **opt-in**, global: the EONA-X page shell (reset on `body`, headings, links; the 156px offset under the fixed `SiteHeader`). Only for an app whose whole page is an EONA-X page |
 | `@eona-x/ui-toolkit-css/logo/logo-transparent.svg` | the mark `SiteHeader` renders from `logo/logo-transparent.svg` relative to the page — serve it there |
 
+Documentation: <https://eona-x.github.io/eona-ui-toolkit/> — the getting started for each stack
+covers this package's entry points and the `.eona-ui` scope.
+
 Generated from `assets/` in [eona-ui-toolkit](https://github.com/EONA-X/eona-ui-toolkit); a
 change belongs there.

@@ -6,7 +6,7 @@ exclude = ["examples/svelte-wasm"]
 
 [package]
 name = "eona-ui-toolkit"
-version = "0.9.1"
+version = "0.9.2"
 edition = "2021"
 description = "Shared Yew atoms/molecules/organisms for the EONA-X design system — consumed by developer.eona-x.eu and, eventually, other EONA-X front-ends."
 license = "Apache-2.0"
@@ -35,3 +35,6 @@ csr = ["yew/csr"]
 [dev-dependencies]
 yew = { version = "0.23", features = ["ssr"] }
 tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
+# examples/render-docs.rs turns site/guides/*.md into the getting-started pages.
+# A dev-dependency only: the crate's own dependency set stays `yew` alone.
+pulldown-cmark = { version = "0.13", default-features = false, features = ["html"] }
