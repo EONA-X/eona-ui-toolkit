@@ -77,10 +77,12 @@ jobs:
       - name: Generated output is not stale
         run: cargo run -p xtask -- check
 
+      # Against the local `packages/css`: this release's stylesheet is not on
+      # npm until the Publish step below puts it there.
       - name: Build
         run: |
-          (cd packages/react && npm install --no-audit --no-fund && npm run build)
-          (cd packages/svelte && npm install --no-audit --no-fund && npm run check && npm run build)
+          (cd packages/react && npm install --no-save --no-audit --no-fund ../css && npm run build)
+          (cd packages/svelte && npm install --no-save --no-audit --no-fund ../css && npm run check && npm run build)
 
       - name: Bridges render the same HTML, styled the same
         working-directory: tests/bridge-parity
