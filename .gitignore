@@ -9,6 +9,16 @@ Cargo.lock
 # gate treat every other file under packages/react as one it owns.
 /packages/*/dist/
 /packages/*/node_modules/
+/packages/*/package-lock.json
+/packages/*/.svelte-kit/
+
+# The bridge parity suite's npm install and its compiled components.
+/tests/bridge-parity/node_modules/
+/tests/bridge-parity/.out/
 
 # Rendered by `cargo run --example render-docs`; the Pages workflow builds it.
 /dist/
+
+# The svelte-wasm example's build output (`wasm-pack build --target web examples/svelte-wasm`).
+/examples/svelte-wasm/target/
+/examples/svelte-wasm/pkg/

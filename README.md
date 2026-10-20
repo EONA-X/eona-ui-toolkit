@@ -9,8 +9,9 @@
 # eona-ui-toolkit
 
 Shared component library for the EONA-X design system — atoms → molecules → organisms.
-Authored once in Yew; consumed from Yew directly, and from React through
-[`packages/react`](packages/react), which is generated from this source rather than written.
+Authored once in Yew; consumed from Yew directly, and from React and Svelte through
+[`packages/react`](packages/react) and [`packages/svelte`](packages/svelte), which are generated
+from this source rather than written.
 
 Extracted from [`developer.eona-x.eu`](https://gitlab.eona-x.org/eona-x/web/developer.eona-x.eu)
 (`crates/eona-ds`); the git history of that crate is preserved here.
@@ -197,6 +198,42 @@ dependency because `NavDropdown` renders `inert`.
 Section 15-19 of the demo page is the consumer-facing version of all of this, and
 `packages/react/README.md` is generated alongside the package.
 
+## The Svelte package
+
+`packages/svelte` is `@eona-x/ui-toolkit-svelte`: **the same 41 components, as Svelte 5
+`.svelte` files, with no WebAssembly**, plus an opt-in entry that mounts a Yew component compiled
+to WebAssembly for the ones the generator cannot reach.
+
+| Import | What | WebAssembly |
+| --- | --- | --- |
+| `@eona-x/ui-toolkit-svelte` | the generated components | none |
+| `@eona-x/ui-toolkit-svelte/wasm` | `<YewMount>` and `use:yew` | the module you pass it, loaded on demand |
+
+The first is written by the same `cargo xtask bridgegen` run, from the same `splice` tree the
+React package is written from (`xtask/src/svelte.rs`), so the two cannot disagree about markup
+unless one spelling is wrong — and `tests/bridge-parity` renders every component through both,
+338 prop sets derived from `abi/toolkit.abi.json`, and fails on any difference. `cargo xtask
+check` owns `packages/svelte` exactly as it owns `packages/react`, through its own
+`abi/package.svelte.manifest.json`. A Rust `Children` prop is a Svelte `Snippet`.
+
+The second exists because everything in this crate is presentational, so the generator covers it
+all, and the interactive tier lives elsewhere (`eona-vocabulary-ui`). The contract with the Rust
+side is a single `mount(target, component, props)` export; `examples/svelte-wasm` is a working
+one, mounting the toolkit's `Button` and a stateful `Counter`. It costs what #809 measured — one
+component over WASM is 74,593 B gzip against 112 B pre-rendered (the example, with two, builds
+to 130 KB gzip), nothing tree-shakes across the boundary, it renders nothing on the server, and a CSP must allow
+`wasm-unsafe-eval` — so reach for it only for what the first entry does not export.
+
+```sh
+cargo xtask bridgegen                                    # regenerates packages/react and packages/svelte
+cd packages/svelte && npm install && npm run check       # svelte-check, warnings fail
+cd tests/bridge-parity && npm ci && npm test             # React and Svelte render the same HTML
+wasm-pack build --target web examples/svelte-wasm && (cd tests/bridge-parity && npm run test:wasm)
+```
+
+Like the React package it is not published to a registry yet; vendor the repository and run
+`npm run build` inside `packages/svelte` (`svelte-package`, output in `dist/`).
+
 ## Theming
 
 `TOKENS_CSS` carries the charter palette plus a semantic layer named after the job rather
@@ -231,7 +268,7 @@ Every component here is presentational: no `use_state`, no `Callback`, no event 
 They render identically under SSR and CSR. That is not a style preference — it is the property
 that makes the React generation legal, and a component that held state could not be generated
 at all. Interaction belongs to the host: `DEMO_JS` for the Yew demo page, a hand-written client
-component for a React app.
+component for a React app, a Svelte component or `@eona-x/ui-toolkit-svelte/wasm` for a Svelte one.
 
 ## Development
 
@@ -240,13 +277,13 @@ cargo test --features ssr                               # SSR parity + demo-page
 cargo check --target wasm32-unknown-unknown --features csr
 cargo clippy --all-targets --features ssr
 cargo test -p xtask                                     # the generator's own suite
-cargo xtask check                                       # packages/react and abi/ match src/
+cargo xtask check                                       # packages/react, packages/svelte and abi/ match src/
 ```
 
-`cargo xtask check` is the gate that keeps the two stacks from drifting, and it is a command
-rather than a pipeline: this repository has no CI configuration yet
-([eona-x/backlog#808](https://gitlab.eona-x.org/eona-x/backlog/-/issues/808)). Run it before
-committing anything under `src/`. `xtask/README.md` documents the stages and the seven
+`cargo xtask check` is the gate that keeps the three stacks from drifting. CI runs it twice:
+`.github/workflows/pages.yml` before every gallery deploy, and `.github/workflows/bridges.yml` on
+every push and pull request, together with `svelte-check`, the React/Svelte parity suite and the
+WASM mount test. Run it before committing anything under `src/`. `xtask/README.md` documents the stages and the seven
 invariants it enforces.
 
 `tests/ssr_parity.rs` pins the rendered markup against the portal's committed output. Read

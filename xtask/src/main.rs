@@ -1,7 +1,7 @@
-//! `cargo xtask` — the eona-ui-toolkit React generator.
+//! `cargo xtask` — the eona-ui-toolkit React and Svelte generator.
 //!
 //! Pipeline: parse -> classify -> matrix -> abi -> harness -> render -> verify
-//! -> splice -> emit -> examples, with `check` re-running the whole thing and
+//! -> splice -> emit + svelte -> examples, with `check` re-running the whole thing and
 //! diffing.
 
 mod abi;
@@ -15,6 +15,7 @@ mod matrix;
 mod parse;
 mod render;
 mod splice;
+mod svelte;
 mod verify;
 
 use std::collections::BTreeMap;
@@ -376,19 +377,14 @@ fn bridgegen() -> Result<()> {
         );
     }
 
-    let jsx = to_emit_jsx(&spliced, &report);
-    // `render_package` then `write_package`, not `emit::emit`: the drift gate's
-    // manifest has to carry hashes of the exact bytes that were written, and
-    // routing both through one map is what makes that true by construction
-    // rather than by two code paths agreeing.
-    let (package, warnings) =
-        emit::render_package(&tk, &jsx).context("rendering the React package")?;
-    emit::write_files(&package, &root.join(emit::PACKAGE_DIR))
-        .context("writing the React package")?;
+    // `render_packages` then `write_packages`, not `emit::emit`: the drift
+    // gate's manifests have to carry hashes of the exact bytes that were
+    // written, and routing both through one map is what makes that true by
+    // construction rather than by two code paths agreeing.
+    let (packages, warnings) = render_packages(&tk, &spliced, &report)?;
     for w in &warnings {
         eprintln!("emit: {w}");
     }
-    emit::report_package(&package, &root.join(emit::PACKAGE_DIR));
 
     // Built once and then both written and handed on: `examples` derives its
     // member list, TS types, optionality and defaults from this exact document,
@@ -398,7 +394,9 @@ fn bridgegen() -> Result<()> {
     std::fs::write(root.join(check::ABI_FILE), abi::to_json(&abi_doc)?)
         .with_context(|| format!("writing {}", check::ABI_FILE))?;
     report.write(&root.join(check::QUARANTINE_FILE))?;
-    check::write_package(&root, &tk, &package).context("writing the package manifest")?;
+    check::write_packages(&root, &tk, &packages).context("writing the packages and their manifests")?;
+    emit::report_package(&packages.react, &root.join(emit::PACKAGE_DIR));
+    svelte::report_package(&packages.svelte, &root.join(svelte::PACKAGE_DIR));
 
     let overrides = check::read_overrides(&root)?;
     let snippets = examples::build(&abi_doc, &tk, &overrides)
@@ -410,13 +408,34 @@ fn bridgegen() -> Result<()> {
     println!();
     println!("wrote");
     println!("  {}", root.join(emit::PACKAGE_DIR).display());
+    println!("  {}", root.join(svelte::PACKAGE_DIR).display());
     println!("  {}", root.join(check::ABI_FILE).display());
     println!("  {}", root.join(check::QUARANTINE_FILE).display());
     println!("  {}", root.join(check::PACKAGE_MANIFEST_FILE).display());
+    println!("  {}", root.join(check::SVELTE_MANIFEST_FILE).display());
     for rel in &example_files {
         println!("  {}", root.join(rel).display());
     }
     report.self_check()
+}
+
+/// Both generated packages from one splice, so `bridgegen` and the drift gate
+/// cannot render them by two routes. React reads `emit::Jsx` (the body as
+/// text); Svelte reads the same plan plus splice's tree, which it spells itself.
+pub(crate) fn render_packages(
+    tk: &Toolkit,
+    spliced: &splice::SpliceReport,
+    report: &verify::VerifyReport,
+) -> Result<(check::Packages, Vec<String>)> {
+    let jsx = to_emit_jsx(spliced, report);
+    let (react, mut warnings) =
+        emit::render_package(tk, &jsx).context("rendering the React package")?;
+    let trees: BTreeMap<String, splice::Jsx> = spliced.components.iter().cloned().collect();
+    let (svelte, more) =
+        svelte::render_package(tk, &jsx, &trees).context("rendering the Svelte package")?;
+    // `emit::plan` runs in both and warns the same way twice.
+    warnings.extend(more.into_iter().filter(|w| !warnings.contains(w)).collect::<Vec<_>>());
+    Ok((check::Packages { react, svelte }, warnings))
 }
 
 /// `splice::Jsx` (a tree) -> `emit::Jsx` (a file body plus its provenance).

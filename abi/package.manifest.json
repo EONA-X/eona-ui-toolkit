@@ -1,6 +1,6 @@
 {
   "srcHash": "e2f87d37a98628ba1179b6685c343ac908f0107ef8e37da01f0b07580c98f5f9",
-  "generatorHash": "bc5a4e9aa31f94102bbbde042028ba9de4b76904bfb0135d030c36deec81e1e0",
+  "generatorHash": "73bb627f4ca129084897a00d132eeba13c1988d3c0ed64afefd6a85db00d0565",
   "dir": "packages/react",
   "exported": [
     "AccordionItem",

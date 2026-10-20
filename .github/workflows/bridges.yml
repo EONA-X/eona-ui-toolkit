@@ -1,0 +1,61 @@
+# Holds the two generated packages to the Yew source and to each other.
+#
+# `pages.yml` already runs the drift gate before a deploy, but only on `main`.
+# This runs on every push and pull request, and adds what needs Node: that the
+# Svelte package typechecks and builds, that every generated component renders
+# the same HTML through React and Svelte, and that the opt-in WASM entry mounts
+# a real Yew build.
+name: Bridges
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  bridges:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: |
+            .
+            examples/svelte-wasm
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Generated output is not stale
+        run: cargo run -p xtask -- check
+
+      - name: Svelte package typechecks and builds
+        working-directory: packages/svelte
+        run: |
+          npm install --no-audit --no-fund
+          npm run check
+          npm run build
+
+      - name: React and Svelte render the same HTML
+        working-directory: tests/bridge-parity
+        run: |
+          npm ci --no-audit --no-fund
+          npm test
+
+      - name: Build the WASM example
+        run: |
+          npm install -g wasm-pack
+          wasm-pack build --target web --release examples/svelte-wasm
+
+      - name: The WASM entry mounts a real Yew build
+        working-directory: tests/bridge-parity
+        run: npm run test:wasm

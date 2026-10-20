@@ -1,4 +1,4 @@
-# `cargo xtask` — the eona-ui-toolkit React generator
+# `cargo xtask` — the eona-ui-toolkit React and Svelte generator
 
 This crate turns the Yew components in `../src` into a React component library
 at `../packages/react`. It is **not** a Rust-to-TSX transpiler and there is no
@@ -14,7 +14,7 @@ produced, not markup anybody re-implemented.
 ```
 cargo xtask dump-ir     # parse + classify only; prints the scope arithmetic
 cargo xtask render      # ... + matrix + harness + render + verify
-cargo xtask bridgegen   # ... + splice + emit + examples + write abi/, bridge/ and packages/react
+cargo xtask bridgegen   # ... + splice + emit + svelte + examples + write abi/, bridge/, packages/react and packages/svelte
 cargo xtask check       # is abi/ and packages/react what this src/ would produce?
 ```
 
@@ -32,6 +32,7 @@ Each stage's own module doc is the detailed contract; this is the map.
 | `verify` | `src/verify.rs` | renders | the safety gate — see below. Produces `abi/quarantine.json` |
 | `splice` | `src/splice.rs` | renders + plan | one JSX tree per component, recovering conditionals and list templates |
 | `emit` | `src/emit.rs` | IR + JSX | `packages/react` — one self-contained `.tsx` per component, plus `index.ts`, `types.ts`, `package.json`, `tsconfig.json`, `README.md` |
+| `svelte` | `src/svelte.rs` | IR + the same splice tree | `packages/svelte` — one `.svelte` (Svelte 5, runes) per component, `index.ts`, `types.ts` (shared with `emit`), the opt-in `src/wasm/` mount, `package.json`, `tsconfig.json`, `README.md`; its hashes go to `abi/package.svelte.manifest.json` |
 | `abi` | `src/abi.rs` | IR + cells | `abi/toolkit.abi.json`, and the semver diff behind `check --semver` |
 | `examples` | `src/examples.rs` | the ABI + IR + `abi/overrides.toml` | `abi/examples.json` and `bridge/examples.rs` — one usage snippet per component, in Yew **and** React |
 | `check` | `src/check.rs` | all of the above | the drift gate |
@@ -291,8 +292,8 @@ not have to read a 4000-line diff to learn which one broke:
    `abi/overrides.toml` entry;
 3. no component's `Status` changed;
 4. the quarantine set equals `abi/quarantine.json` exactly;
-5. every file under `packages/react` hashes to what the emitter wrote
-   (`abi/package.manifest.json`), none is missing, and none is present that no
+5. every file under `packages/react` and `packages/svelte` hashes to what the emitter wrote
+   (`abi/package.manifest.json`, `abi/package.svelte.manifest.json`), none is missing, and none is present that no
    stage wrote;
 6. the package and the ABI agree about which components exist — derived from
    `Status` on both sides, so it holds even when every hash agrees;

@@ -405,7 +405,7 @@ fn style_object(entries: &[StyleEntry]) -> String {
     format!("{{ {body} }}")
 }
 
-fn template(frags: &[Frag]) -> String {
+pub(crate) fn template(frags: &[Frag]) -> String {
     let mut out = String::from("`");
     for f in frags {
         match f {
@@ -449,7 +449,7 @@ fn text_needs_expr(s: &str) -> bool {
         || s.chars().any(|c| matches!(c, '{' | '}' | '<' | '>' | '&'))
 }
 
-fn js_string(s: &str) -> String {
+pub(crate) fn js_string(s: &str) -> String {
     let mut out = String::from("\"");
     for ch in s.chars() {
         match ch {
@@ -474,7 +474,7 @@ pub fn js_prop_name(rust: &str) -> String {
     camel(rust)
 }
 
-fn camel(s: &str) -> String {
+pub(crate) fn camel(s: &str) -> String {
     let mut out = String::new();
     let mut up = false;
     for ch in s.chars() {
@@ -716,6 +716,30 @@ fn react_attr(name: &str, svg: bool, component: &str, tag: &str) -> Result<Strin
          add it to splice::ATTR_MAP (or SVG_ATTR_MAP) rather than letting it through — React \
          drops an unknown property silently"
     )
+}
+
+/// React property -> the attribute Yew wrote, for a renderer that takes markup
+/// rather than DOM properties (`svelte` writes `class`, not `className`).
+///
+/// The inverse of [`react_attr`], read off the same two tables so the spellings
+/// cannot drift. Not injective in one place: `SVG_ATTR_MAP` maps both `clipPath`
+/// and `clip-path` onto React's `clipPath`, and React itself renders that
+/// property as `clip-path`, so the hyphenated form wins.
+pub fn html_attr(react: &str, svg: bool) -> Result<String> {
+    if react.starts_with("aria-") || react.starts_with("data-") {
+        return Ok(react.to_string());
+    }
+    if svg {
+        let hits: Vec<&str> =
+            SVG_ATTR_MAP.iter().filter(|(_, r)| *r == react).map(|(h, _)| *h).collect();
+        if let Some(h) = hits.iter().find(|h| h.contains('-')).or(hits.first()) {
+            return Ok((*h).to_string());
+        }
+    }
+    if let Some((html, _)) = ATTR_MAP.iter().find(|(_, r)| *r == react) {
+        return Ok((*html).to_string());
+    }
+    bail!("no HTML spelling is registered for the React property `{react}`")
 }
 
 // ---------------------------------------------------------------- parsing

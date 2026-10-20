@@ -1,0 +1,26 @@
+[package]
+name = "eona-ui-toolkit-svelte-wasm-example"
+version = "0.1.0"
+edition = "2021"
+publish = false
+description = "The Rust half of @eona-x/ui-toolkit-svelte/wasm: one `mount` export that puts a Yew component into an element Svelte owns."
+license = "Apache-2.0"
+
+# Its own workspace: this crate targets wasm32 and pulls serde, neither of which
+# belongs in the toolkit's dependency set (`yew` alone, see ../../Cargo.toml).
+[workspace]
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+eona-ui-toolkit = { path = "../..", features = ["csr"] }
+yew = { version = "0.23", features = ["csr"] }
+wasm-bindgen = "0.2"
+web-sys = { version = "0.3", features = ["Element"] }
+serde = { version = "1", features = ["derive"] }
+serde-wasm-bindgen = "0.6"
+
+[profile.release]
+opt-level = "z"
+lto = true

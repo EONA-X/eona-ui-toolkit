@@ -41,7 +41,7 @@ pub const CSS_PACKAGE: &str = "@eona-x/ui-toolkit-css";
 /// step with the root `Cargo.toml` by hand.
 pub const PACKAGE_VERSION: &str = "0.1.0";
 
-const GENERATOR: &str = "cargo xtask bridgegen";
+pub(crate) const GENERATOR: &str = "cargo xtask bridgegen";
 
 /// One component's spliced JSX, as `splice` hands it to `emit`.
 ///
@@ -186,23 +186,23 @@ pub fn render_package(
 
 /// A component that gets a `.tsx`, with the reason it is not re-exported when
 /// that applies.
-struct Emitted<'a> {
-    component: &'a Component,
-    jsx: &'a Jsx,
+pub(crate) struct Emitted<'a> {
+    pub(crate) component: &'a Component,
+    pub(crate) jsx: &'a Jsx,
     /// `None` when the component is exported from `index.ts`.
-    withheld: Option<String>,
+    pub(crate) withheld: Option<String>,
 }
 
-struct Plan<'a> {
-    emitted: Vec<Emitted<'a>>,
+pub(crate) struct Plan<'a> {
+    pub(crate) emitted: Vec<Emitted<'a>>,
     /// Components in scope that produce no file: quarantined, plus anything
     /// `splice` could not hand over. `(component, reason)`.
-    omitted: Vec<(&'a Component, String)>,
+    pub(crate) omitted: Vec<(&'a Component, String)>,
     /// Exclusion rule -> the components it excluded, for the index summary.
-    excluded: BTreeMap<String, Vec<&'a str>>,
+    pub(crate) excluded: BTreeMap<String, Vec<&'a str>>,
 }
 
-fn plan<'a>(
+pub(crate) fn plan<'a>(
     tk: &'a Toolkit,
     jsx: &'a BTreeMap<String, Jsx>,
     warnings: &mut Vec<String>,
@@ -292,7 +292,7 @@ fn plan<'a>(
 /// ports of server-rendered markup, so any of them is a bug in `splice` rather
 /// than something to paper over with a `"use client"` banner — a single one of
 /// those in the package would opt every consumer's tree out of RSC.
-const CLIENT_MARKERS: &[&str] = &[
+pub(crate) const CLIENT_MARKERS: &[&str] = &[
     "use client",
     "useState(",
     "useEffect(",
@@ -400,7 +400,7 @@ fn component_tsx(e: &Emitted<'_>, tk: &Toolkit) -> Result<String> {
 /// Only the head: `props.props[0].default` reads the prop `props`, and what
 /// follows is the business of `types.ts`. `$props` is skipped — that is the raw
 /// parameter `function` introduces, not something `splice` wrote.
-fn props_read(body: &str) -> BTreeSet<String> {
+pub(crate) fn props_read(body: &str) -> BTreeSet<String> {
     let mut out = BTreeSet::new();
     let b = body.as_bytes();
     for (i, _) in body.match_indices("props.") {
@@ -527,7 +527,7 @@ fn reindent(body: &str, indent: usize) -> String {
 
 /// What, if anything, goes after the `=` in the destructuring.
 #[derive(Clone, Debug, PartialEq, Eq)]
-enum Init {
+pub(crate) enum Init {
     /// The prop is required, or its Rust default already *is* `undefined`.
     None,
     Value(String),
@@ -537,7 +537,7 @@ enum Init {
     Unresolved { why: String },
 }
 
-fn initializer(p: &Prop, tk: &Toolkit) -> Init {
+pub(crate) fn initializer(p: &Prop, tk: &Toolkit) -> Init {
     match &p.default {
         PropDefault::Required => Init::None,
         // `Option<T>::default()` is `None`, which *is* JavaScript's `undefined`.
@@ -657,7 +657,7 @@ fn requote(ts: &str) -> String {
     }
 }
 
-fn ts(kind: &PropKind, optional: bool, tk: &Toolkit) -> String {
+pub(crate) fn ts(kind: &PropKind, optional: bool, tk: &Toolkit) -> String {
     requote(&ts_type(kind, optional, tk))
 }
 
@@ -665,7 +665,7 @@ fn ts(kind: &PropKind, optional: bool, tk: &Toolkit) -> String {
 /// (`#[prop_or*]`) *or* when its Rust type is already `Option<T>` — passing
 /// `None` explicitly in Rust is `undefined` in TypeScript, and forcing a caller
 /// to write `href={undefined}` buys nothing.
-fn optional_marker(p: &Prop) -> &'static str {
+pub(crate) fn optional_marker(p: &Prop) -> &'static str {
     if p.optional || !matches!(p.default, PropDefault::Required) {
         "?"
     } else {
@@ -673,7 +673,7 @@ fn optional_marker(p: &Prop) -> &'static str {
     }
 }
 
-fn default_note(p: &Prop) -> String {
+pub(crate) fn default_note(p: &Prop) -> String {
     match &p.default {
         PropDefault::Required => String::new(),
         PropDefault::DefaultTrait if p.optional => "; `#[prop_or_default]`, so `None`".into(),
@@ -693,7 +693,7 @@ const RESERVED: &[&str] = &[
     "typeof", "var", "void", "while", "with", "yield",
 ];
 
-fn reject_reserved(name: &str, at: &Span) -> Result<()> {
+pub(crate) fn reject_reserved(name: &str, at: &Span) -> Result<()> {
     if RESERVED.contains(&name) {
         bail!("the prop `{name}` at {} is a JavaScript reserved word", span(at));
     }
@@ -712,7 +712,7 @@ fn uses_react_node(kind: &PropKind) -> bool {
 }
 
 /// Every plain struct a set of props reaches, transitively.
-fn struct_names<'a>(
+pub(crate) fn struct_names<'a>(
     kinds: impl Iterator<Item = &'a PropKind>,
     tk: &Toolkit,
 ) -> BTreeSet<String> {
@@ -744,7 +744,7 @@ fn collect_structs(kind: &PropKind, tk: &Toolkit, out: &mut BTreeSet<String>) {
     }
 }
 
-fn types_ts(plan: &Plan<'_>, tk: &Toolkit) -> Result<Option<String>> {
+pub(crate) fn types_ts(plan: &Plan<'_>, tk: &Toolkit) -> Result<Option<String>> {
     let names = struct_names(
         plan.emitted.iter().flat_map(|e| e.component.props.iter().map(|p| &p.kind)),
         tk,
@@ -1226,8 +1226,8 @@ fn readme_md(plan: &Plan<'_>, tk: &Toolkit) -> Result<String> {
 
 // ---------------------------------------------------------------- filesystem
 
-/// `src/*.ts[x]` files under the package that this run did not write.
-fn stale_sources(pkg: &Path, files: &BTreeMap<String, String>) -> Result<Vec<String>> {
+/// `src/*.ts[x]` and `src/*.svelte` files under the package that this run did not write.
+pub(crate) fn stale_sources(pkg: &Path, files: &BTreeMap<String, String>) -> Result<Vec<String>> {
     let src = pkg.join("src");
     if !src.is_dir() {
         return Ok(Vec::new());
@@ -1239,7 +1239,9 @@ fn stale_sources(pkg: &Path, files: &BTreeMap<String, String>) -> Result<Vec<Str
             continue;
         }
         let name = entry.file_name().to_string_lossy().into_owned();
-        if !(name.ends_with(".ts") || name.ends_with(".tsx")) {
+        // `.svelte` too: `svelte::write` shares this sweep, and no React package
+        // ever contains one, so the extra extension cannot remove a file here.
+        if !(name.ends_with(".ts") || name.ends_with(".tsx") || name.ends_with(".svelte")) {
             continue;
         }
         let rel = format!("src/{name}");
@@ -1251,7 +1253,7 @@ fn stale_sources(pkg: &Path, files: &BTreeMap<String, String>) -> Result<Vec<Str
     Ok(stale)
 }
 
-fn span(s: &Span) -> String {
+pub(crate) fn span(s: &Span) -> String {
     format!("{}:{}", s.file, s.line)
 }
 
