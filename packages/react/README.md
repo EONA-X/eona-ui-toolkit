@@ -13,17 +13,11 @@ Generated from src_hash `e2f87d37a98628ba1179b6685c343ac908f0107ef8e37da01f0b075
 
 Every file under `src/` is overwritten by the next `cargo xtask bridgegen`, and `cargo xtask check`
 re-runs the generator and diffs the result, so a hand edit is reported rather than
-surviving quietly. (It is a command, not yet a pipeline: the crate has no CI
-configuration — eona-x/backlog#808.)
+surviving quietly; CI runs it on every push.
 To change a component, change the Rust component it came from — the `file:line` is
 in the header of every generated file — and regenerate.
 
 ## Install
-
-**Not published yet.** Packaging and publishing `@eona-x/ui-toolkit-react` is Layer 4 of
-eona-x/backlog#809. Until it lands, copy `packages/react/src/*.tsx` into the app, or
-vendor this repository and run `npm install && npm run build` in `packages/react` first —
-every entry point in `package.json` is under `dist/`, which is generated and not committed.
 
 ```sh
 npm install @eona-x/ui-toolkit-react
@@ -33,21 +27,22 @@ npm install @eona-x/ui-toolkit-react
 (`src/molecules/nav_dropdown.rs:29`), which React only added to its DOM attribute types
 in 19.
 
-The markup carries the design system's class names and is unstyled on its own. There is
-no `@eona-x/ui-toolkit-css` package yet, so this package declares **no runtime dependency**.
-Do not import the Yew crate's `assets/components.css` whole into an app meanwhile: it
-opens with a page-shell reset on `*`, `html`, `body`, `img`, `a`, `h1`-`h4`, `p` and
-`code` (`assets/components.css:13-30`) and sets `html > body { padding-top: 156px }` at
-`:393`, so it resets the host's typography and displaces its layout. The published
-`@eona-x/ui-toolkit-css` drops those rules and scopes the rest under `.eona-ui`, which the markup
-will then need as an ancestor (eona-x/backlog#808 Layer 3). `tokens.css` is safe as-is:
-it declares nothing but `:root` custom properties.
+The markup carries the design system's class names; `@eona-x/ui-toolkit-css`, installed with this
+package at the same version, styles them. Import it once, and render the components inside
+an element with the class `eona-ui` — every rule in it is scoped under that class, so it
+neither resets nor displaces the rest of the page. Its own README lists the entry points,
+including the opt-in `page.css` for an app that *is* an EONA-X page.
 
 ```tsx
+import '@eona-x/ui-toolkit-css';
 import { Button } from '@eona-x/ui-toolkit-react';
 
 export default function Page() {
-  return <Button label="Get started" href="/docs" />;
+  return (
+    <div className="eona-ui">
+      <Button label="Get started" href="/docs" />
+    </div>
+  );
 }
 ```
 
