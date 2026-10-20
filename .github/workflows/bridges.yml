@@ -3,8 +3,9 @@
 # `pages.yml` already runs the drift gate before a deploy, but only on `main`.
 # This runs on every push and pull request, and adds what needs Node: that the
 # Svelte package typechecks and builds, that every generated component renders
-# the same HTML through React and Svelte, and that the opt-in WASM entry mounts
-# a real Yew build.
+# the same HTML through React and Svelte, that the published stylesheet styles
+# them exactly as the crate's own sheets do, and that the opt-in WASM entry
+# mounts a real Yew build.
 name: Bridges
 
 on:
@@ -50,6 +51,12 @@ jobs:
         run: |
           npm ci --no-audit --no-fund
           npm test
+
+      - name: The published stylesheet styles them like the crate's
+        working-directory: tests/bridge-parity
+        run: |
+          npx playwright-core install --with-deps chromium
+          npm run test:css
 
       - name: Build the WASM example
         run: |

@@ -66,6 +66,8 @@
 //!    `abi/overrides.toml` would produce. Recomputed on both paths and never
 //!    replayed: the snippets need no render, and an edit to a `disposition`
 //!    moves neither hash, so hashing would not see it.
+//! 8. `packages/css` is what `assets/` would produce (`css.rs`). Like 7, it is
+//!    recomputed on both paths: an edit to `assets/` moves neither hash.
 //!
 //! 5 and 6 are why this is a gate on the *deliverable* and not only on its
 //! metadata. Without them, rewriting a class name in a shipped `.tsx` by hand
@@ -383,7 +385,7 @@ impl CheckOutcome {
             let _ = writeln!(s, "  semver: this change requires a {bump} bump");
         }
         if self.findings.is_empty() {
-            let _ = writeln!(s, "\nclean: abi/, packages/react and packages/svelte match src/.");
+            let _ = writeln!(s, "\nclean: abi/ and packages/{{react,svelte,css}} match src/ and assets/.");
             return s;
         }
         if self.accepted() {
@@ -673,6 +675,21 @@ pub fn check_with(root: &Path, opts: &Options) -> Result<CheckOutcome> {
                 path: rel.into(),
                 diff: unified_diff(rel, &current, &regen),
             });
+        }
+    }
+
+    // --- invariant 8: the stylesheet package.
+    //
+    // A pure function of `assets/` (`css.rs`), which neither hash covers, so
+    // it is recomputed and diffed on both paths, like the snippets.
+    let css = crate::css::render_package(root).context("deriving the stylesheet package")?;
+    let css_findings = check_css(root, &css)?;
+    if !css_findings.is_empty() {
+        if opts.write {
+            write_css(root, &css)?;
+            written.push(format!("{}/", crate::css::PACKAGE_DIR));
+        } else {
+            findings.extend(css_findings);
         }
     }
 
@@ -1312,6 +1329,49 @@ fn check_target(
         _ => {}
     }
     Ok(findings)
+}
+
+/// Invariant 8: `packages/css` is exactly what `css::render_package` derives.
+fn check_css(root: &Path, regen: &BTreeMap<String, String>) -> Result<Vec<Finding>> {
+    let dir = crate::css::PACKAGE_DIR;
+    let on_disk = scan_package(&root.join(dir))?;
+    let mut findings = Vec::new();
+    for (path, want) in regen {
+        match on_disk.get(path) {
+            None => findings.push(Finding::Missing {
+                path: format!("{dir}/{path}"),
+                hint: "run `cargo xtask bridgegen` (or `cargo xtask check --write`) and commit it".into(),
+            }),
+            Some(have) if have != want => findings.push(Finding::Stale {
+                path: format!("{dir}/{path}"),
+                diff: unified_diff(&format!("{dir}/{path}"), have, want),
+            }),
+            Some(_) => {}
+        }
+    }
+    for path in on_disk.keys().filter(|p| !regen.contains_key(*p)) {
+        findings.push(Finding::PackageExtra {
+            path: format!("{dir}/{path}"),
+            hint: "delete it, or regenerate if the generator is meant to own it".into(),
+        });
+    }
+    Ok(findings)
+}
+
+/// Write `packages/css`, removing any file the generator no longer writes.
+pub fn write_css(root: &Path, files: &BTreeMap<String, String>) -> Result<()> {
+    let dir = root.join(crate::css::PACKAGE_DIR);
+    for stale in scan_package(&dir)?.keys().filter(|p| !files.contains_key(*p)) {
+        std::fs::remove_file(dir.join(stale)).with_context(|| format!("removing {stale}"))?;
+    }
+    for (rel, body) in files {
+        let path = dir.join(rel);
+        if let Some(parent) = path.parent() {
+            std::fs::create_dir_all(parent)?;
+        }
+        std::fs::write(&path, body).with_context(|| format!("writing {}", path.display()))?;
+    }
+    Ok(())
 }
 
 /// The component names `index.ts` re-exports.
@@ -2238,6 +2298,6 @@ mod tests {
             deny_breaking: false,
         };
         assert_eq!(outcome.exit_code(), 0);
-        assert!(outcome.report().contains("clean: abi/, packages/react and packages/svelte match src/."));
+        assert!(outcome.report().contains("clean: abi/ and packages/{react,svelte,css} match src/ and assets/."));
     }
 }

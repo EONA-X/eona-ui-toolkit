@@ -1,0 +1,106 @@
+# Publishes the three npm packages when a version tag is pushed.
+#
+#   @eona-x/ui-toolkit-css     packages/css
+#   @eona-x/ui-toolkit-react   packages/react   (depends on -css at the same version)
+#   @eona-x/ui-toolkit-svelte  packages/svelte  (depends on -css at the same version)
+#
+# Release: bump `version` in Cargo.toml and `PACKAGE_VERSION` in xtask/src/emit.rs
+# (a unit test holds them equal), run `cargo xtask bridgegen`, merge, then
+# `git tag vX.Y.Z && git push origin vX.Y.Z`. A tag that disagrees with either
+# version is refused before anything is built.
+#
+# Authentication is npm trusted publishing (OIDC): no long-lived token, and
+# every release carries a provenance attestation tying it to this workflow
+# run. npm only lets a trusted publisher be configured on a package that
+# already exists, so the FIRST release of each package needs the `NPM_TOKEN`
+# repository secret (a granular token, publish rights on @eona-x, short
+# expiry). Once each package lists this repository and `publish.yml` as its
+# trusted publisher, delete the secret: OIDC is used whenever it is absent.
+name: Publish to npm
+
+on:
+  push:
+    tags: ['v*']
+  # Re-run a release whose publish step failed half-way: already-published
+  # packages are skipped, so this only publishes what is missing.
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Existing tag to publish, e.g. v0.9.0'
+        required: true
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+
+      # Trusted publishing needs npm >= 11.5.1; Node 22 ships 10.x.
+      - name: Update npm
+        run: npm install -g npm@^11.5.1
+
+      - name: The tag, the crate and the packages agree on the version
+        env:
+          TAG: ${{ inputs.tag || github.ref_name }}
+        run: |
+          want="${TAG#v}"
+          crate=$(sed -n '/^\[package\]/,/^\[/s/^version = "\(.*\)"/\1/p' Cargo.toml)
+          echo "tag $want, crate $crate"
+          test "$crate" = "$want" || { echo "::error::Cargo.toml is $crate, tag is $TAG"; exit 1; }
+          for p in css react svelte; do
+            v=$(node -p "require('./packages/$p/package.json').version")
+            d=$(node -p "(require('./packages/$p/package.json').dependencies || {})['@eona-x/ui-toolkit-css'] || '$want'")
+            echo "$p $v (css dependency $d)"
+            test "$v" = "$want" && test "$d" = "$want" || { echo "::error::packages/$p is $v (css $d), tag is $TAG"; exit 1; }
+          done
+
+      # Nothing is published from a tree the gate rejects.
+      - name: Generated output is not stale
+        run: cargo run -p xtask -- check
+
+      - name: Build
+        run: |
+          (cd packages/react && npm install --no-audit --no-fund && npm run build)
+          (cd packages/svelte && npm install --no-audit --no-fund && npm run check && npm run build)
+
+      - name: Bridges render the same HTML, styled the same
+        working-directory: tests/bridge-parity
+        run: |
+          npm ci --no-audit --no-fund
+          npx playwright-core install --with-deps chromium
+          npm test
+          npm run test:css
+
+      # CSS first: the other two depend on it at exactly this version.
+      - name: Publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          for p in css react svelte; do
+            name=$(node -p "require('./packages/$p/package.json').name")
+            version=$(node -p "require('./packages/$p/package.json').version")
+            if npm view "$name@$version" version >/dev/null 2>&1; then
+              echo "$name@$version is already on npm; skipping"
+              continue
+            fi
+            (cd "packages/$p" && npm publish --provenance --access public)
+          done

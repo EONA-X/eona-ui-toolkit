@@ -7,6 +7,7 @@
 mod abi;
 mod check;
 mod classify;
+mod css;
 mod emit;
 mod examples;
 mod harness;
@@ -395,6 +396,8 @@ fn bridgegen() -> Result<()> {
         .with_context(|| format!("writing {}", check::ABI_FILE))?;
     report.write(&root.join(check::QUARANTINE_FILE))?;
     check::write_packages(&root, &tk, &packages).context("writing the packages and their manifests")?;
+    let css = css::render_package(&root).context("deriving the stylesheet package")?;
+    check::write_css(&root, &css).context("writing the stylesheet package")?;
     emit::report_package(&packages.react, &root.join(emit::PACKAGE_DIR));
     svelte::report_package(&packages.svelte, &root.join(svelte::PACKAGE_DIR));
 
@@ -409,6 +412,7 @@ fn bridgegen() -> Result<()> {
     println!("wrote");
     println!("  {}", root.join(emit::PACKAGE_DIR).display());
     println!("  {}", root.join(svelte::PACKAGE_DIR).display());
+    println!("  {}", root.join(css::PACKAGE_DIR).display());
     println!("  {}", root.join(check::ABI_FILE).display());
     println!("  {}", root.join(check::QUARANTINE_FILE).display());
     println!("  {}", root.join(check::PACKAGE_MANIFEST_FILE).display());
