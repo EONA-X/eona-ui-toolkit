@@ -13,6 +13,10 @@ Authored once in Yew; consumed from Yew directly, and from React and Svelte thro
 [`packages/react`](packages/react) and [`packages/svelte`](packages/svelte), which are generated
 from this source rather than written.
 
+**Which stack:** Rust with Yew, or Svelte, are recommended — `npm create @eona-x/app` starts a
+branded Svelte site. React is supported for existing React apps. See
+[Starting a project](#starting-a-project) and the [documentation](https://eona-x.github.io/eona-ui-toolkit/).
+
 Extracted from [`developer.eona-x.eu`](https://gitlab.eona-x.org/eona-x/web/developer.eona-x.eu)
 (`crates/eona-ds`); the git history of that crate is preserved here.
 
@@ -229,6 +233,20 @@ wasm-pack build --target web examples/svelte-wasm && (cd tests/bridge-parity && 
 ```
 
 `npm install @eona-x/ui-toolkit-svelte` — see [The npm packages](#the-npm-packages).
+
+## Starting a project
+
+| Stack | Start from | What you get |
+| --- | --- | --- |
+| Svelte (recommended) | `npm create @eona-x/app my-site` ([`packages/create-app`](packages/create-app)) | SvelteKit + `adapter-static` on Vite: a branded two-page static site, dependencies installed |
+| Rust / Yew (recommended) | [`examples/yew-ssg`](examples/yew-ssg) | a branded two-page static site rendered by Yew at build time, no WebAssembly |
+| Rust / Yew | [`examples/yew-trunk`](examples/yew-trunk) | a branded Yew WebAssembly app with state, built by Trunk |
+| React (supported) | [the React guide](https://eona-x.github.io/eona-ui-toolkit/react/getting-started/) | a Vite static-render recipe |
+
+The generator's `template/` *is* the Svelte sample, and `@eona-x/create-app` is released with the
+toolkit at the same version, so a new site always pins the toolkit it was generated with. CI
+(`.github/workflows/bridges.yml`) builds all three projects on every push — the generated one
+against this commit's packages.
 
 ## Documentation
 

@@ -1,8 +1,9 @@
 [workspace]
 resolver = "2"
 members = [".", "xtask"]
-# Its own workspace: a wasm32 cdylib with serde, kept out of the toolkit's build.
-exclude = ["examples/svelte-wasm"]
+# Their own workspaces: consumers of the crate (a wasm32 cdylib with serde, and two
+# sample sites), kept out of the toolkit's build.
+exclude = ["examples/svelte-wasm", "examples/yew-ssg", "examples/yew-trunk"]
 
 [package]
 name = "eona-ui-toolkit"

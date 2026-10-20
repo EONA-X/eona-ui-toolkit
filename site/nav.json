@@ -3,8 +3,8 @@
   "links": [
     { "label": "Overview", "path": "" },
     { "label": "Yew", "path": "yew/getting-started/", "stack": "yew" },
-    { "label": "React", "path": "react/getting-started/", "stack": "react" },
-    { "label": "Svelte", "path": "svelte/getting-started/", "stack": "svelte" }
+    { "label": "Svelte", "path": "svelte/getting-started/", "stack": "svelte" },
+    { "label": "React", "path": "react/getting-started/", "stack": "react" }
   ],
   "repo": "https://github.com/EONA-X/eona-ui-toolkit"
 }

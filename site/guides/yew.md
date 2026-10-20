@@ -1,3 +1,10 @@
+> **Recommended.** Yew is the toolkit's source: every component is written here in Rust, and the
+> Svelte and React packages are generated from it. Two sample projects to start from:
+> [`examples/yew-ssg`](https://github.com/EONA-X/eona-ui-toolkit/tree/main/examples/yew-ssg) — a
+> static site rendered at build time, no WebAssembly — and
+> [`examples/yew-trunk`](https://github.com/EONA-X/eona-ui-toolkit/tree/main/examples/yew-trunk), a
+> WebAssembly app.
+
 ## Install
 
 The crate is not on crates.io: depend on the release tag. Pick the renderer feature for how the

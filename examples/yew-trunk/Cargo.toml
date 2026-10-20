@@ -1,0 +1,15 @@
+[package]
+name = "eona-yew-trunk-sample"
+version = "0.1.0"
+edition = "2021"
+publish = false
+description = "Sample: a branded Yew WebAssembly app, built by Trunk into a static site."
+license = "Apache-2.0"
+
+[workspace]
+
+[dependencies]
+# Outside this repository, depend on a release instead:
+# eona-ui-toolkit = { git = "https://github.com/EONA-X/eona-ui-toolkit", tag = "v0.9.2", features = ["csr"] }
+eona-ui-toolkit = { path = "../..", features = ["csr"] }
+yew = { version = "0.23", features = ["csr"] }
