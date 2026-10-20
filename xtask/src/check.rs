@@ -56,9 +56,10 @@
 //!    noise, because `Ok` -> `Quarantined` silently empties the React package;
 //! 4. the quarantine set equals `abi/quarantine.json` exactly, so a NEW
 //!    quarantine fails CI;
-//! 5. every file under `packages/react` hashes to what the emitter wrote
-//!    (`abi/package.manifest.json`), none is missing, and none is present that
-//!    no stage wrote;
+//! 5. every file under `packages/react` and `packages/svelte` hashes to what
+//!    the emitter wrote (`abi/package.manifest.json`,
+//!    `abi/package.svelte.manifest.json`), none is missing, and none is present
+//!    that no stage wrote;
 //! 6. the package and the ABI agree about which components exist — derived from
 //!    `Status` on both sides, so it holds even when every hash agrees.
 //! 7. `abi/examples.json` and `bridge/examples.rs` are what the current ABI plus
@@ -103,6 +104,47 @@ pub const PACKAGE_MANIFEST_FILE: &str = "abi/package.manifest.json";
 /// Re-exported so findings can name the directory without depending on `emit`'s
 /// spelling drifting.
 pub use crate::emit::PACKAGE_DIR;
+/// The Svelte package's manifest. Its own file rather than a second section of
+/// `package.manifest.json`, so that adding the Svelte package left the React
+/// manifest's bytes — and every consumer that reads it — exactly as they were.
+pub const SVELTE_MANIFEST_FILE: &str = "abi/package.svelte.manifest.json";
+
+/// One generated npm package the gate owns. Invariants 5 and 6 are the same
+/// statement for every target; only the spelling of a component file and of an
+/// export line differ.
+pub struct Target {
+    pub label: &'static str,
+    pub dir: &'static str,
+    pub manifest: &'static str,
+    /// The extension of a component file under `src/`.
+    pub ext: &'static str,
+    pub expected_files: fn(&Toolkit) -> BTreeSet<String>,
+    pub exported_from_index: fn(&str) -> BTreeSet<String>,
+}
+
+pub const REACT: Target = Target {
+    label: "React",
+    dir: PACKAGE_DIR,
+    manifest: PACKAGE_MANIFEST_FILE,
+    ext: ".tsx",
+    expected_files: crate::emit::expected_files,
+    exported_from_index,
+};
+
+pub const SVELTE: Target = Target {
+    label: "Svelte",
+    dir: crate::svelte::PACKAGE_DIR,
+    manifest: SVELTE_MANIFEST_FILE,
+    ext: crate::svelte::COMPONENT_EXT,
+    expected_files: crate::svelte::expected_files,
+    exported_from_index: crate::svelte::exported_from_index,
+};
+
+/// Both rendered packages, as path -> contents relative to each package root.
+pub struct Packages {
+    pub react: BTreeMap<String, String>,
+    pub svelte: BTreeMap<String, String>,
+}
 // The usage snippets' two paths are not restated here: `check` names them by
 // iterating `examples::files`, so `examples` stays their single spelling.
 
@@ -268,7 +310,7 @@ impl Finding {
                 "{component} ({source}) is quarantined in {QUARANTINE_FILE} but passes now"
             ),
             Finding::PackageExtra { path, hint } => {
-                format!("{path} is under {PACKAGE_DIR} but no stage of the generator wrote it — {hint}")
+                format!("{path} is in a generated package but no stage of the generator wrote it — {hint}")
             }
             Finding::PackageContract { detail } => detail.clone(),
             Finding::Breaking { change } => change.to_string(),
@@ -341,7 +383,7 @@ impl CheckOutcome {
             let _ = writeln!(s, "  semver: this change requires a {bump} bump");
         }
         if self.findings.is_empty() {
-            let _ = writeln!(s, "\nclean: abi/ and packages/react match src/.");
+            let _ = writeln!(s, "\nclean: abi/, packages/react and packages/svelte match src/.");
             return s;
         }
         if self.accepted() {
@@ -555,8 +597,13 @@ pub fn check_with(root: &Path, opts: &Options) -> Result<CheckOutcome> {
     findings.extend(check_overrides(root, &tk)?);
 
     // --- invariants 5 and 6: the deliverable itself.
-    let committed_pkg = read_manifest(&root.join(PACKAGE_MANIFEST_FILE))?;
-    findings.extend(check_package(root, &tk, package.as_ref(), committed_pkg.as_ref())?);
+    for (target, fresh) in [
+        (&REACT, package.as_ref().map(|p| &p.react)),
+        (&SVELTE, package.as_ref().map(|p| &p.svelte)),
+    ] {
+        let committed_pkg = read_manifest(&root.join(target.manifest))?;
+        findings.extend(check_target(target, root, &tk, fresh, committed_pkg.as_ref())?);
+    }
 
     // `--write` publishes a status change only when this run *rendered* it.
     //
@@ -706,7 +753,7 @@ type Replayed = (
     BTreeMap<String, Vec<crate::matrix::Cell>>,
     Mode,
     Option<crate::verify::VerifyReport>,
-    Option<BTreeMap<String, String>>,
+    Option<Packages>,
 );
 
 fn render_or_replay(
@@ -788,7 +835,7 @@ fn rerender(
     tk: &mut Toolkit,
     cells: &BTreeMap<String, Vec<crate::matrix::Cell>>,
     scratch: &Path,
-) -> Result<(crate::verify::VerifyReport, BTreeMap<String, String>)> {
+) -> Result<(crate::verify::VerifyReport, Packages)> {
     std::fs::create_dir_all(scratch)
         .with_context(|| format!("creating {}", scratch.display()))?;
     let harness_dir = scratch.join("harness");
@@ -815,9 +862,8 @@ fn rerender(
             spliced.failures.iter().map(|(n, _)| n.as_str()).collect::<Vec<_>>().join(", ")
         );
     }
-    let jsx = crate::to_emit_jsx(&spliced, &report);
     let (package, _warnings) =
-        crate::emit::render_package(tk, &jsx).context("re-rendering the React package")?;
+        crate::render_packages(tk, &spliced, &report).context("re-rendering the packages")?;
 
     // A surprising quarantine is a finding, not a crash: the gate's job is to
     // report it against the committed set, which `check_with` does.
@@ -873,7 +919,7 @@ fn write_artifacts(
     tk: &Toolkit,
     cells: &BTreeMap<String, Vec<crate::matrix::Cell>>,
     report: Option<&crate::verify::VerifyReport>,
-    package: Option<&BTreeMap<String, String>>,
+    package: Option<&Packages>,
     snippets: &crate::examples::Examples,
 ) -> Result<Vec<String>> {
     let mut written = Vec::new();
@@ -892,23 +938,40 @@ fn write_artifacts(
     // came from bytes the emitter just produced; writing it from whatever was
     // on disk would turn the gate into a rubber stamp for any hand edit.
     if let Some(package) = package {
-        write_package(root, tk, package)?;
-        written.push(format!("{PACKAGE_DIR}/"));
-        written.push(PACKAGE_MANIFEST_FILE.to_string());
+        write_packages(root, tk, package)?;
+        for t in [&REACT, &SVELTE] {
+            written.push(format!("{}/", t.dir));
+            written.push(t.manifest.to_string());
+        }
     }
     Ok(written)
 }
 
-/// Write the regenerated package and its manifest.
+/// Write the regenerated React package and its manifest.
 pub fn write_package(
     root: &Path,
     tk: &Toolkit,
     package: &BTreeMap<String, String>,
 ) -> Result<()> {
-    crate::emit::write_files(package, &root.join(PACKAGE_DIR))?;
-    let manifest = PackageManifest::of(tk, package)?;
+    write_target(&REACT, root, tk, package)
+}
+
+/// Write both regenerated packages and their manifests.
+pub fn write_packages(root: &Path, tk: &Toolkit, packages: &Packages) -> Result<()> {
+    write_target(&REACT, root, tk, &packages.react)?;
+    write_target(&SVELTE, root, tk, &packages.svelte)
+}
+
+fn write_target(
+    target: &Target,
+    root: &Path,
+    tk: &Toolkit,
+    package: &BTreeMap<String, String>,
+) -> Result<()> {
+    crate::emit::write_files(package, &root.join(target.dir))?;
+    let manifest = PackageManifest::of_target(target, tk, package)?;
     std::fs::create_dir_all(root.join(ABI_DIR))?;
-    let path = root.join(PACKAGE_MANIFEST_FILE);
+    let path = root.join(target.manifest);
     std::fs::write(&path, manifest.to_json()?)
         .with_context(|| format!("writing {}", path.display()))
 }
@@ -1005,10 +1068,14 @@ impl PackageManifest {
     /// hashes describe the bytes that were written rather than the bytes that
     /// happened to be on disk afterwards.
     pub fn of(tk: &Toolkit, files: &BTreeMap<String, String>) -> Result<Self> {
+        Self::of_target(&REACT, tk, files)
+    }
+
+    pub fn of_target(target: &Target, tk: &Toolkit, files: &BTreeMap<String, String>) -> Result<Self> {
         Ok(PackageManifest {
             src_hash: tk.src_hash.clone(),
             generator_hash: abi::generator_hash()?,
-            dir: PACKAGE_DIR.to_string(),
+            dir: target.dir.to_string(),
             exported: crate::emit::expected_exports(tk).into_iter().collect(),
             files: files
                 .iter()
@@ -1053,7 +1120,13 @@ fn scan_package(pkg: &Path) -> Result<BTreeMap<String, String>> {
         return Ok(out);
     }
     for entry in walkdir::WalkDir::new(pkg).follow_links(false).into_iter().filter_entry(|e| {
-        !matches!(e.file_name().to_string_lossy().as_ref(), "dist" | "node_modules")
+        // `package-lock.json` and `.svelte-kit` with them: `npm install` writes
+        // the first and `svelte-package` leaves its scratch tree in the second,
+        // and neither is the generator's output.
+        !matches!(
+            e.file_name().to_string_lossy().as_ref(),
+            "dist" | "node_modules" | "package-lock.json" | ".svelte-kit"
+        )
     }) {
         let entry = entry.with_context(|| format!("walking {}", pkg.display()))?;
         if !entry.file_type().is_file() {
@@ -1089,46 +1162,65 @@ fn check_package(
     regenerated: Option<&BTreeMap<String, String>>,
     committed: Option<&PackageManifest>,
 ) -> Result<Vec<Finding>> {
+    check_target(&REACT, root, tk, regenerated, committed)
+}
+
+/// [`check_package`] for any generated package.
+fn check_target(
+    target: &Target,
+    root: &Path,
+    tk: &Toolkit,
+    regenerated: Option<&BTreeMap<String, String>>,
+    committed: Option<&PackageManifest>,
+) -> Result<Vec<Finding>> {
+    let (dir, manifest_file) = (target.dir, target.manifest);
+    let label = target.label;
+    let ext = target.ext;
     let mut findings = Vec::new();
-    let pkg = root.join(PACKAGE_DIR);
+    let pkg = root.join(dir);
     let on_disk = scan_package(&pkg)?;
 
     // --- invariant 6 first: it is derived from `Status` on both sides, so it
     // holds even when every hash agrees, and it is the one an `abi/` tampered
     // into internal consistency cannot satisfy.
-    let want_files = crate::emit::expected_files(tk);
+    let want_files = (target.expected_files)(tk);
     let want_exports = crate::emit::expected_exports(tk);
-    let have_files: BTreeSet<String> =
-        on_disk.keys().filter(|p| p.starts_with("src/") && p.ends_with(".tsx")).cloned().collect();
+    // Top-level `src/` only: the Svelte package's `src/wasm/` is runtime, not a
+    // generated component, and is held to the byte check below instead.
+    let have_files: BTreeSet<String> = on_disk
+        .keys()
+        .filter(|p| p.starts_with("src/") && !p["src/".len()..].contains('/') && p.ends_with(ext))
+        .cloned()
+        .collect();
     for path in want_files.difference(&have_files) {
         findings.push(Finding::PackageContract {
             detail: format!(
-                "{PACKAGE_DIR}/{path} is absent, but the ABI says its component is generated; \
-                 the React package is one component short of what {ABI_FILE} claims"
+                "{dir}/{path} is absent, but the ABI says its component is generated; \
+                 the {label} package is one component short of what {ABI_FILE} claims"
             ),
         });
     }
     for path in have_files.difference(&want_files) {
-        let name = path.trim_start_matches("src/").trim_end_matches(".tsx");
+        let name = path.trim_start_matches("src/").trim_end_matches(ext);
         let status = tk.component(name).map(|c| describe_status(&c.status));
         findings.push(Finding::PackageContract {
             detail: match status {
                 Some(s) => format!(
-                    "{PACKAGE_DIR}/{path} is on disk, but {ABI_FILE} records {name} as {s}; a \
+                    "{dir}/{path} is on disk, but {ABI_FILE} records {name} as {s}; a \
                      component that is not generated must not have a generated file"
                 ),
                 None => format!(
-                    "{PACKAGE_DIR}/{path} is on disk, but src/ defines no component called {name}"
+                    "{dir}/{path} is on disk, but src/ defines no component called {name}"
                 ),
             },
         });
     }
     if let Some(index) = on_disk.get("src/index.ts") {
-        let exported = exported_from_index(index);
+        let exported = (target.exported_from_index)(index);
         for name in want_exports.difference(&exported) {
             findings.push(Finding::PackageContract {
                 detail: format!(
-                    "{PACKAGE_DIR}/src/index.ts does not export {name}, which {ABI_FILE} records \
+                    "{dir}/src/index.ts does not export {name}, which {ABI_FILE} records \
                      as generated"
                 ),
             });
@@ -1138,7 +1230,7 @@ fn check_package(
                 tk.component(name).map(|c| describe_status(&c.status)).unwrap_or_else(|| "unknown to src/".into());
             findings.push(Finding::PackageContract {
                 detail: format!(
-                    "{PACKAGE_DIR}/src/index.ts exports {name}, which {ABI_FILE} records as \
+                    "{dir}/src/index.ts exports {name}, which {ABI_FILE} records as \
                      {status}"
                 ),
             });
@@ -1152,8 +1244,8 @@ fn check_package(
         committed.map(|m| m.files.iter().map(|f| (f.path.clone(), f.sha256.clone())).collect())
     }) else {
         findings.push(Finding::Missing {
-            path: PACKAGE_MANIFEST_FILE.into(),
-            hint: format!("{PACKAGE_DIR} cannot be checked without it; run `cargo xtask bridgegen`"),
+            path: manifest_file.into(),
+            hint: format!("{dir} cannot be checked without it; run `cargo xtask bridgegen`"),
         });
         return Ok(findings);
     };
@@ -1161,12 +1253,12 @@ fn check_package(
     for (path, want) in &reference {
         match on_disk.get(path) {
             None => findings.push(Finding::Missing {
-                path: format!("{PACKAGE_DIR}/{path}"),
+                path: format!("{dir}/{path}"),
                 hint: "the generator wrote it and it is no longer there".into(),
             }),
             Some(body) if &sha256(body) != want => {
                 let diff = match regenerated.and_then(|r| r.get(path)) {
-                    Some(fresh) => unified_diff(&format!("{PACKAGE_DIR}/{path}"), body, fresh),
+                    Some(fresh) => unified_diff(&format!("{dir}/{path}"), body, fresh),
                     // Replay path: no fresh bytes to diff against, so say what
                     // is known — which file, and that its content moved.
                     None => format!(
@@ -1178,14 +1270,14 @@ fn check_package(
                         short(&sha256(body)),
                     ),
                 };
-                findings.push(Finding::Stale { path: format!("{PACKAGE_DIR}/{path}"), diff });
+                findings.push(Finding::Stale { path: format!("{dir}/{path}"), diff });
             }
             Some(_) => {}
         }
     }
     for path in on_disk.keys().filter(|p| !reference.contains_key(*p)) {
         findings.push(Finding::PackageExtra {
-            path: format!("{PACKAGE_DIR}/{path}"),
+            path: format!("{dir}/{path}"),
             hint: "delete it, or regenerate if the generator is meant to own it".into(),
         });
     }
@@ -1196,12 +1288,12 @@ fn check_package(
         // the two — the fast path would then hash `packages/react` against the
         // wrong reference and certify a wrong package clean.
         (Some(m), Some(fresh)) => {
-            let regenerated_manifest = PackageManifest::of(tk, fresh)?;
+            let regenerated_manifest = PackageManifest::of_target(target, tk, fresh)?;
             let (a, b) = (m.to_json()?, regenerated_manifest.to_json()?);
             if a != b {
                 findings.push(Finding::Stale {
-                    path: PACKAGE_MANIFEST_FILE.into(),
-                    diff: unified_diff(PACKAGE_MANIFEST_FILE, &a, &b),
+                    path: manifest_file.into(),
+                    diff: unified_diff(manifest_file, &a, &b),
                 });
             }
         }
@@ -1209,7 +1301,7 @@ fn check_package(
         // about it is whether it describes this src/ at all.
         (Some(m), None) if m.src_hash != tk.src_hash => {
             findings.push(Finding::Stale {
-                path: PACKAGE_MANIFEST_FILE.into(),
+                path: manifest_file.into(),
                 diff: format!(
                     "- \"srcHash\": \"{}\"\n+ \"srcHash\": \"{}\"\n\
                      (the package hashes were produced from a different src/)",
@@ -2146,6 +2238,6 @@ mod tests {
             deny_breaking: false,
         };
         assert_eq!(outcome.exit_code(), 0);
-        assert!(outcome.report().contains("clean: abi/ and packages/react match src/."));
+        assert!(outcome.report().contains("clean: abi/, packages/react and packages/svelte match src/."));
     }
 }

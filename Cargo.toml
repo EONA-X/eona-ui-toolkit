@@ -1,6 +1,8 @@
 [workspace]
 resolver = "2"
 members = [".", "xtask"]
+# Its own workspace: a wasm32 cdylib with serde, kept out of the toolkit's build.
+exclude = ["examples/svelte-wasm"]
 
 [package]
 name = "eona-ui-toolkit"
