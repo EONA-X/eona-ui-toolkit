@@ -1,0 +1,30 @@
+# EONA-X site menu (illustrative content)
+@prefix menu: <https://eona-x.eu/ns/menu#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+PREFIX ex: <https://eona-x.eu/menu/>
+
+ex:main a menu:Menu ;
+  menu:lang "fr" ;
+  menu:ariaLabel "Navigation principale"@fr, "Main navigation"@en ;
+  menu:collapseOffset 200 ;
+  menu:logo [ a menu:Logo ;
+      menu:href "/fr/" ; menu:src "/logo/logo-transparent.svg" ;
+      menu:label "EONA-X" ; menu:width 38 ; menu:height 36 ] ;
+  menu:items (
+    [ menu:label "L'association"@fr, "Association"@en ; menu:href "/fr/association/" ]
+    [ menu:label "Espace de données"@fr, "Data space"@en ;
+      menu:children (
+        [ menu:label "Cas d'étude"@fr, "Case studies"@en ; menu:href "/fr/cas-etude/" ; menu:current true ]
+        [ menu:label "Documentation"@fr, "Docs"@en ; menu:href <https://docs.eona-x.eu/> ; menu:external true ]
+      ) ]
+    [ menu:label "Actualités"@fr, "News"@en ; menu:href "/fr/actualites/" ]
+  ) ;
+  menu:actions (
+    [ a menu:LanguageSwitcher ;
+      menu:alternates (
+        [ menu:lang "fr" ; menu:label "Français"@fr ; menu:href "/fr/" ; menu:current "true"^^xsd:boolean ]
+        [ menu:lang "en" ; menu:label "English"@en ; menu:href "/en/" ]
+      ) ]
+    [ a menu:LinkAction ; menu:label "Connexion"@fr, "Log in"@en ;
+      menu:href "https://portal.eona-x.eu/login" ; menu:variant "glass" ]
+  ) .

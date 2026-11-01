@@ -38,6 +38,12 @@ jobs:
         with:
           node-version: 22
 
+      - name: Menu package tests
+        working-directory: packages/menu
+        run: |
+          npm install --no-audit --no-fund
+          npm test
+
       - name: Generated output is not stale
         run: cargo run -p xtask -- check
 
