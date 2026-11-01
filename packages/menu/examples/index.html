@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EONA-X menu demo</title>
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../../css/components.css">
+<link rel="stylesheet" href="../menu.css">
+<style>
+  body { margin: 0; background: var(--eona-navy-deep, #0b1d3a); color: #fff; font-family: system-ui, sans-serif; }
+  main { max-width: 720px; margin: 0 auto; padding: 160px 16px 80px; }
+  main h1, main h2, main p, main code { color: #fff; }
+  section { min-height: 60vh; }
+</style>
+</head>
+<body class="eona-ui">
+<main>
+  <h1>EONA-X menu</h1>
+  <p>Serve this folder over HTTP (for example <code>npx serve ..</code> from this directory) and run <code>npm run build</code> first. Scroll to collapse the header into the pill. Narrow the window below 1024px for the drawer.</p>
+  <section id="association"><h2>Association</h2><p>Placeholder content.</p></section>
+  <section id="cases"><h2>Case studies</h2><p>Placeholder content.</p></section>
+  <section id="news"><h2>News</h2><p>Placeholder content.</p></section>
+</main>
+<script src="../dist/menu.js" data-src="menu.jsonld"></script>
+</body>
+</html>

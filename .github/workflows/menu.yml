@@ -1,0 +1,24 @@
+name: menu
+
+on:
+  push:
+    paths: ['packages/menu/**', '.github/workflows/menu.yml']
+  pull_request:
+    paths: ['packages/menu/**', '.github/workflows/menu.yml']
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/menu
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: packages/menu/package-lock.json
+      - run: npm ci --no-audit --no-fund
+      - run: npm test
+      - run: npm run build

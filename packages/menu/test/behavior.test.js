@@ -105,6 +105,20 @@ test('hover open, delayed close, re-enter cancels', () => {
   } finally { mock.timers.reset(); }
 });
 
+test('click after hover-open keeps the submenu open', () => {
+  mock.timers.enable({ apis: ['setTimeout'] });
+  try {
+    const s = setup();
+    s.enh();
+    const li = disc(s.root).closest('li');
+    ev(s.win, li, 'mouseenter', { bubbles: false });
+    disc(s.root).click();
+    assert.equal(disc(s.root).getAttribute('aria-expanded'), 'true');
+    disc(s.root).click();
+    assert.equal(disc(s.root).getAttribute('aria-expanded'), 'false');
+  } finally { mock.timers.reset(); }
+});
+
 test('hover ignored on mobile and without hover', () => {
   for (const o of [{ desktop: false }, { hover: false }]) {
     const s = setup(o);
@@ -172,7 +186,7 @@ test('mobile toggle, focus, lock', () => {
   assert.ok(s.root.classList.contains('is-open'));
   assert.ok(s.doc.documentElement.classList.contains('eona-menu-lock'));
   const panel = s.root.querySelector('.eona-menu__panel');
-  assert.equal(s.doc.activeElement, panel.querySelector('a, button'));
+  assert.equal(s.doc.activeElement, panel.querySelector('a:not(.site-header__logo--pill), button'));
   t.click();
   assert.equal(s.root.classList.contains('is-open'), false);
   assert.equal(s.doc.documentElement.classList.contains('eona-menu-lock'), false);

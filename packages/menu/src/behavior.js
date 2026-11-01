@@ -1,7 +1,7 @@
 // Progressive enhancement: scroll collapse, disclosures, mobile drawer.
 const BEH_BOX = '.eona-menu__item--parent, .eona-menu__lang';
 const BEH_DISC = '.eona-menu__disclosure';
-const BEH_FOCUS = 'a[href], button:not([disabled])';
+const BEH_FOCUS = 'a[href]:not(.site-header__logo--pill), button:not([disabled])';
 
 export function enhance(root, opts) {
   const o = opts || {};
@@ -18,6 +18,7 @@ export function enhance(root, opts) {
   const panel = root.querySelector('.eona-menu__panel');
   const undo = [];
   const timers = new Map();
+  const hovered = new Set();
   const on = (t, type, fn, opt) => {
     t.addEventListener(type, fn, opt);
     undo.push(() => t.removeEventListener(type, fn, opt));
@@ -71,6 +72,8 @@ export function enhance(root, opts) {
     const t = e.target;
     const b = t.closest(BEH_DISC);
     if (b) {
+      const box = b.closest(BEH_BOX);
+      if (hovered.delete(box) && isOpen(b)) return;
       const v = !isOpen(b);
       closeAll(b);
       setExp(b, v);
@@ -91,9 +94,13 @@ export function enhance(root, opts) {
       });
     hover('mouseenter', () => {
       closeAll(b);
+      if (!isOpen(b)) hovered.add(box);
       setExp(b, true);
     });
-    hover('mouseleave', () => timers.set(box, setTimeout(() => setExp(b, false), delay)));
+    hover('mouseleave', () => {
+      hovered.delete(box);
+      timers.set(box, setTimeout(() => setExp(b, false), delay));
+    });
   });
 
   const subLinks = (ul) => [...ul.querySelectorAll('.eona-menu__sublink')];
