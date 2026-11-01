@@ -19,7 +19,7 @@ const isObj = (v) => v !== null && typeof v === 'object' && !Array.isArray(v);
 const arr = (v) => (Array.isArray(v) ? v : []);
 const bool = (v) => v === true || v === 'true' || v === 1 || v === '1';
 const num = (v) => (v == null ? null : Number(v));
-const href = (v) => (v == null || String(v).trim() === '' ? null : String(v));
+const href = (v) => (v == null ? null : String(v).trim() || null);
 const orElse = (map, d) => (Object.keys(map).length ? map : d);
 
 function langMap(v) {
@@ -82,24 +82,29 @@ export function validate(model) {
     list.forEach((it, i) => {
       const p = base + '[' + i + ']';
       label(it.label, p + '.label');
-      url(it.href, p + '.href', !it.children.length);
-      if (it.children.length && depth) err(p + '.children', 'too deep');
-      else items(it.children, p + '.children', depth + 1);
+      const kids = arr(it.children);
+      url(it.href, p + '.href', !kids.length);
+      if (kids.length && depth) err(p + '.children', 'too deep');
+      else items(kids, p + '.children', depth + 1);
     });
   if (m.version !== 1) err('version', 'unsupported version');
   const o = m.options || {};
   for (const k of ['breakpoint', 'collapseOffset']) if (!(Number.isInteger(o[k]) && o[k] > 0)) err('options.' + k, 'invalid');
-  if (m.logo) for (const k of ['href', 'src', 'srcCompact']) url(m.logo[k], 'logo.' + k, true);
-  items(m.items || [], 'items', 0);
-  (m.actions || []).forEach((a, i) => {
+  if (m.logo) {
+    for (const k of ['href', 'src', 'srcCompact']) url(m.logo[k], 'logo.' + k, true);
+    for (const k of ['width', 'height']) if (m.logo[k] != null && !(Number.isInteger(m.logo[k]) && m.logo[k] > 0)) err('logo.' + k, 'invalid');
+  }
+  items(arr(m.items), 'items', 0);
+  arr(m.actions).forEach((a, i) => {
     const p = 'actions[' + i + ']';
     if (a.kind === 'link') {
       label(a.label, p + '.label');
       url(a.href, p + '.href', true);
       if (a.variant !== 'glass' && a.variant !== 'solid') err(p + '.variant', 'bad variant');
     } else if (a.kind === 'language') {
-      if (!a.alternates.length) err(p + '.alternates', 'none');
-      a.alternates.forEach((x, j) => {
+      const alts = arr(a.alternates);
+      if (!alts.length) err(p + '.alternates', 'none');
+      alts.forEach((x, j) => {
         label(x.label, p + '.alternates[' + j + '].label');
         url(x.href, p + '.alternates[' + j + '].href', true);
       });

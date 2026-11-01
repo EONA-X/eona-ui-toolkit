@@ -15,7 +15,7 @@ function compact(line) {
   const out = [];
   let code = '';
   const flush = () => {
-    out.push(code.replace(/\s*([{}()[\];,:?=<>&|*!])\s*/g, '$1').replace(/(?<!\+)\s+\+\s+(?!\+)/g, '+').replace(/(?<!-)\s+-\s+(?!-)/g, '-'));
+    out.push(code.replace(/\s*([{}()[\];,:?=<>&|*!])\s*/g, '$1').replace(/(?<!\+)\s+\+\s+(?!\+)/g, '+').replace(/(?<!-)\s+-\s+(?!-)/g, '-').replace(/(?<![\w$])\((\w+)\)=>/g, '$1=>'));
     code = '';
   };
   for (let i = 0; i < line.length; i++) {
@@ -55,7 +55,11 @@ function transform(src) {
     }
     out.push(compact(t.replace(/^export /, '')));
   }
-  return out.join('\n');
+  // Drop the newline where it cannot end a statement: after ; { , ( [ => && || (no ASI there),
+  // or before } ) ] , . : ? else catch finally (the parser continues the same statement or block).
+  const glue = (prev, next) =>
+    /(?:[;{,([]|=>|&&|\|\|)$/.test(prev) || (/^(?:[}\]),:?]|\.(?!\.)|(?:else|catch|finally)\b)/.test(next) && !/[\d+-]$/.test(prev));
+  return out.reduce((acc, l) => acc + (acc === '' || glue(acc, l) ? '' : '\n') + l, '');
 }
 
 function args(argv) {

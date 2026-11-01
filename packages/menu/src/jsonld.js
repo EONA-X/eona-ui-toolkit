@@ -26,7 +26,7 @@ const isNodeObj = (v) => v !== null && typeof v === 'object' && !Array.isArray(v
 const asArr = (v) => (Array.isArray(v) ? v : [v]);
 
 function applyContext(ctx, c) {
-  const next = { terms: { ...ctx.terms }, vocab: ctx.vocab, lang: ctx.lang };
+  const next = { terms: Object.assign(Object.create(null), ctx.terms), vocab: ctx.vocab, lang: ctx.lang };
   for (const part of asArr(c)) {
     if (part === MENU_CONTEXT_URL) Object.assign(next.terms, applyContext(next, MENU_CONTEXT).terms);
     else if (typeof part === 'string') throw new MenuError('remote contexts are not fetched: ' + part);
@@ -63,6 +63,7 @@ export function jsonldToTriples(doc) {
   const iri = (value) => ({ type: 'iri', value });
   const bnode = () => ({ type: 'bnode', value: '_:b' + n++ });
   const nil = iri(RDF + 'nil');
+  const idRef = (id, ctx) => (id.startsWith('_:') ? { type: 'bnode', value: '_:_' + id.slice(2) } : iri(expand(ctx, id, false)));
   const lit = (value, datatype, lang) => (lang ? { type: 'literal', value, datatype: RDF + 'langString', lang: lang.toLowerCase() } : { type: 'literal', value, datatype });
   const typed = (v, dt) => (typeof v === 'number' ? lit(String(v), dt || XSD + (Number.isInteger(v) ? 'integer' : 'double')) : lit(String(v), dt || XSD + 'boolean'));
 
@@ -77,7 +78,7 @@ export function jsonldToTriples(doc) {
 
   const term = (v, ctx, def) => {
     const dt = def && def.type && def.type !== '@id' ? expand(ctx, def.type, true) : null;
-    if (typeof v === 'string') return def && def.type === '@id' ? iri(expand(ctx, v, false)) : lit(v, dt || XSD + 'string', dt ? null : ctx.lang);
+    if (typeof v === 'string') return def && def.type === '@id' ? idRef(v, ctx) : lit(v, dt || XSD + 'string', dt ? null : ctx.lang);
     if (typeof v === 'number' || typeof v === 'boolean') return typed(v, dt);
     if (!isNodeObj(v)) return null;
     if ('@list' in v) return makeList(asArr(v['@list']), ctx, def);
@@ -91,7 +92,7 @@ export function jsonldToTriples(doc) {
   const node = (obj, parent) => {
     const ctx = '@context' in obj ? applyContext(parent, obj['@context']) : parent;
     const id = obj['@id'];
-    const s = typeof id !== 'string' ? bnode() : id.startsWith('_:') ? { type: 'bnode', value: id } : iri(expand(ctx, id, false));
+    const s = typeof id !== 'string' ? bnode() : idRef(id, ctx);
     for (const k of Object.keys(obj)) {
       const def = ctx.terms[k];
       const kw = k.startsWith('@') ? k : def && def.id.startsWith('@') ? def.id : null;
@@ -125,7 +126,7 @@ export function jsonldToTriples(doc) {
     }
   };
 
-  top(doc, { terms: {}, vocab: undefined, lang: undefined });
+  top(doc, { terms: Object.create(null), vocab: undefined, lang: undefined });
   return triples;
 }
 

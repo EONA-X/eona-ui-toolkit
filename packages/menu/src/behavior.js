@@ -32,16 +32,14 @@ export function enhance(root, opts) {
   const closeAll = (except) => discs().forEach((b) => b !== except && isOpen(b) && setExp(b, false));
   const drawerOpen = () => root.classList.contains('is-open');
 
-  let frame = false;
+  let frame = 0;
   const update = () => {
     root.classList.toggle('is-scrolled', Boolean(mq.matches) && (win.scrollY || 0) > offset);
   };
   const onScroll = () => {
     if (!win.requestAnimationFrame) return update();
-    if (frame) return;
-    frame = true;
-    win.requestAnimationFrame(() => {
-      frame = false;
+    frame ||= win.requestAnimationFrame(() => {
+      frame = 0;
       update();
     });
   };
@@ -134,9 +132,8 @@ export function enhance(root, opts) {
       const to = { ArrowDown: list[(i + 1) % list.length], ArrowUp: list[(i - 1 + list.length) % list.length], Home: list[0], End: list[list.length - 1] }[k];
       if (to) {
         e.preventDefault();
-        to.focus();
+        return to.focus();
       }
-      return;
     }
     if (k === 'Tab' && drawerOpen() && !mq.matches && toggle) {
       const f = focusables();
@@ -165,6 +162,7 @@ export function enhance(root, opts) {
   return {
     destroy() {
       undo.splice(0).forEach((f) => f());
+      if (frame) win.cancelAnimationFrame(frame);
       timers.forEach((id) => clearTimeout(id));
       timers.clear();
       discs().forEach((b) => setExp(b, false));

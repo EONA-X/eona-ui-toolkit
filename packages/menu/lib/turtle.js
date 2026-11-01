@@ -30,9 +30,10 @@ function tokenize(src, fail) {
 
   const hex = (len, at) => {
     const h = src.slice(i, i + len);
-    if (h.length !== len || ![...h].every(isHex)) fail('invalid unicode escape', at);
+    const cp = parseInt(h, 16);
+    if (h.length !== len || ![...h].every(isHex) || cp > 0x10ffff) fail('invalid unicode escape', at);
     i += len;
-    return String.fromCodePoint(parseInt(h, 16));
+    return String.fromCodePoint(cp);
   };
 
   const readIri = () => {
@@ -240,7 +241,13 @@ export function parseTurtle(text, opts = {}) {
   };
   const termIri = (t) => (t.t === 'iri' ? iriOf(t) : pnameOf(t));
   const emit = (s, pr, o) => triples.push({ s, p: pr, o });
-  const newB = () => ({ type: 'bnode', value: '_:b' + bn++ });
+  // Anonymous nodes are _:b0, _:b1, ...; skip any number the document already uses as a label.
+  const labels = new Set(toks.filter((t) => t.t === 'bnode').map((t) => t.v));
+  const newB = () => {
+    let v;
+    do v = '_:b' + bn++; while (labels.has(v));
+    return { type: 'bnode', value: v };
+  };
 
   const directive = () => {
     const d = next();

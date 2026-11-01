@@ -10,6 +10,8 @@ Styling comes from `@eona-x/ui-toolkit-css` (`.site-header*`, `.pill-btn*`) plus
 <link rel="stylesheet" href="@eona-x/ui-toolkit-menu/menu.css">
 ```
 
+`components.css` scopes every rule under `.eona-ui`, so the menu must sit inside an element with that class. The simplest way is `<body class="eona-ui">`, which also covers the `div` that auto-mount inserts at the top of `body`.
+
 ## Runtime: JSON-LD
 
 ```html
@@ -23,7 +25,7 @@ Styling comes from `@eona-x/ui-toolkit-css` (`.site-header*`, `.pill-btn*`) plus
 | `data-src` | URL of the JSON or JSON-LD |
 | `data-target` | CSS selector of the mount point. Default `[data-eona-menu-root]`, else a `div` is inserted first in `body` |
 | `data-lang` | label language. Default `<html lang>`, then the menu's `lang` |
-| `data-current="auto"` | mark the link matching `location.pathname` as current |
+| `data-current="auto"` | mark the link matching `location.pathname` as current (origin, query and hash are ignored; items marked `external` never match) |
 | `data-manual` | do not auto-mount, use `window.EonaMenu` |
 
 Without `data-src`, the first `<script type="application/ld+json" data-eona-menu>` in the page is used, then an inlined config, then existing `[data-eona-menu]` markup (enhance only, for server-rendered output).

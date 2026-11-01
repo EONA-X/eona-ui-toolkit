@@ -48,8 +48,9 @@ test('enhanced + destroy', () => {
   b.setAttribute('aria-expanded', 'false');
   b.click();
   assert.equal(b.getAttribute('aria-expanded'), 'false');
-  s.win.scrollY = 0;
+  s.win.scrollY = 500;
   ev(s.win, s.win, 'scroll');
+  assert.equal(s.root.classList.contains('is-scrolled'), false);
 });
 
 test('scroll collapse', () => {

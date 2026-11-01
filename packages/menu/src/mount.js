@@ -6,6 +6,7 @@ import { renderMenuHtml } from './render.js';
 import { enhance } from './behavior.js';
 
 const MOUNT_SERVER = '[data-eona-menu]:not(script)';
+const mounted = new WeakMap();
 
 function mountToModel(body) {
   return Array.isArray(body) || '@context' in Object(body) || '@graph' in Object(body) ? fromJsonLd(body) : normalize(body);
@@ -29,11 +30,14 @@ export const mountMenu = async (target, source, opts) => {
     if (source === undefined) {
       const existing = el.matches(MOUNT_SERVER) ? el : el.querySelector(MOUNT_SERVER);
       if (!existing) throw new MenuError('No menu source and no server-rendered menu in target');
-      return enhance(existing, { ...o, window: win });
+      mounted.get(el)?.destroy();
+      return mounted.set(el, enhance(existing, { ...o, window: win })).get(el);
     }
     const model = typeof source === 'string' ? await loadMenu(source, o) : mountToModel(source);
-    el.innerHTML = renderMenuHtml(model, o);
-    return enhance(el.querySelector(MOUNT_SERVER), { ...o, window: win });
+    const html = renderMenuHtml(model, o);
+    mounted.get(el)?.destroy();
+    el.innerHTML = html;
+    return mounted.set(el, enhance(el.querySelector(MOUNT_SERVER), { ...o, window: win })).get(el);
   } catch (e) {
     console.error(e);
     throw e instanceof MenuError ? e : new MenuError(String(e?.message ?? e));

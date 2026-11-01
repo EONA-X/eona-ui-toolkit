@@ -22,7 +22,7 @@ export function renderMenuHtml(model, opts) {
   const lb = o.labels || {};
   const pick = (map) => pickLabel(map, lang, model.lang);
   const here = o.currentUrl ? urlPath(o.currentUrl) : null;
-  const isCurrent = (it) => it.current || (here !== null && it.href !== null && !/^[a-z][a-z0-9+.-]*:/i.test(it.href) && urlPath(it.href) === here);
+  const isCurrent = (it) => it.current || (here !== null && it.href !== null && !it.external && urlPath(it.href) === here);
   const ext = (x) => (x ? { target: '_blank', rel: 'noopener noreferrer' } : {});
   const link = (cls, it, current) => tag('a', { class: cls, href: it.href, ...ext(it.external), 'aria-current': current ? 'page' : null }, escapeHtml(pick(it.label)));
   const chevron = tag('span', { class: 'eona-menu__chevron', 'aria-hidden': 'true' }, '');
