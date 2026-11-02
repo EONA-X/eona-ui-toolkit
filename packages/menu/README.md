@@ -83,3 +83,7 @@ A plain JSON object in the normalized shape (`version: 1`) is accepted too.
 ## Security
 
 Every text node and attribute is HTML-escaped. Hrefs are limited to `http`, `https`, `mailto`, `tel` and scheme-less values; anything else (`javascript:`, `data:`, ...) fails validation. Remote JSON-LD contexts are never fetched.
+
+## Background
+
+At the top of a page on desktop the menu sits on a fixed navy strip. Once scrolled, and on mobile, the pill, language chip and hamburger use an opaque-ish navy glass so they stay legible over any page background. Override it with `--eona-menu-chip` (default `rgba(9,27,59,.82)`).
