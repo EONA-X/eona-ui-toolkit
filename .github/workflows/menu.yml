@@ -19,6 +19,7 @@ jobs:
           node-version: 22
           cache: npm
           cache-dependency-path: packages/menu/package-lock.json
-      - run: npm ci --no-audit --no-fund
+      # css is linked from the repo: a release bumps its version before it is on npm.
+      - run: npm install --no-save --no-audit --no-fund ../css
       - run: npm test
       - run: npm run build

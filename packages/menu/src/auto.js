@@ -4,7 +4,7 @@ import { renderMenuHtml } from './render.js';
 import { normalize } from './model.js';
 import { fromJsonLd } from './jsonld.js';
 import { enhance } from './behavior.js';
-const AUTO_VERSION = '0.9.2';
+const AUTO_VERSION = '0.10.0';
 const autoScript = typeof document !== 'undefined' ? document.currentScript : null;
 
 const autoAttr = (name) => autoScript && autoScript.getAttribute(name);
