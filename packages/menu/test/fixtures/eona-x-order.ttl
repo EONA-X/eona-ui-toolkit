@@ -1,0 +1,30 @@
+# Same menu as eona-x.ttl, using menu:order instead of lists.
+@prefix menu: <https://eona-x.eu/ns/menu#> .
+@prefix ex:   <https://eona-x.eu/menu/> .
+
+ex:main a menu:Menu ;
+  menu:lang "fr" ;
+  menu:ariaLabel "Navigation principale"@fr, "Main navigation"@en ;
+  menu:collapseOffset 200 ;
+  menu:logo ex:logo ;
+  menu:item ex:c, ex:a, ex:b ;
+  menu:action ex:lang, ex:login .
+
+ex:logo a menu:Logo ;
+  menu:href "/fr/" ; menu:src "/logo/logo-transparent.svg" ;
+  menu:label "EONA-X" ; menu:width 38 ; menu:height 36 .
+
+ex:a menu:order 1 ; menu:label "L'association"@fr, "Association"@en ; menu:href "/fr/association/" .
+ex:b menu:order 2 ; menu:label "Espace de données"@fr, "Data space"@en ;
+  menu:child ex:b2, ex:b1 .
+ex:b1 menu:order 1 ; menu:label "Cas d'étude"@fr, "Case studies"@en ; menu:href "/fr/cas-etude/" ; menu:current true .
+ex:b2 menu:order 2 ; menu:label "Documentation"@fr, "Docs"@en ; menu:href <https://docs.eona-x.eu/> ; menu:external true .
+ex:c menu:order 3 ; menu:label "Actualités"@fr, "News"@en ; menu:href "/fr/actualites/" .
+
+ex:lang a menu:LanguageSwitcher ; menu:order 1 ;
+  menu:alternate ex:l-en, ex:l-fr .
+ex:l-fr menu:order 1 ; menu:lang "fr" ; menu:label "Français"@fr ; menu:href "/fr/" ; menu:current true .
+ex:l-en menu:order 2 ; menu:lang "en" ; menu:label "English"@en ; menu:href "/en/" .
+
+ex:login a menu:LinkAction ; menu:order 2 ; menu:label "Connexion"@fr, "Log in"@en ;
+  menu:href "https://portal.eona-x.eu/login" ; menu:variant "glass" .

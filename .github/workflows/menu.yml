@@ -1,0 +1,25 @@
+name: menu
+
+on:
+  push:
+    paths: ['packages/menu/**', '.github/workflows/menu.yml']
+  pull_request:
+    paths: ['packages/menu/**', '.github/workflows/menu.yml']
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/menu
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: packages/menu/package-lock.json
+      # css is linked from the repo: a release bumps its version before it is on npm.
+      - run: npm install --no-save --no-audit --no-fund ../css
+      - run: npm test
+      - run: npm run build

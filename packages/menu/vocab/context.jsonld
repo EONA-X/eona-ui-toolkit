@@ -1,0 +1,76 @@
+{
+  "@context": {
+    "menu": "https://eona-x.eu/ns/menu#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "Menu": "menu:Menu",
+    "Item": "menu:Item",
+    "Logo": "menu:Logo",
+    "LinkAction": "menu:LinkAction",
+    "LanguageSwitcher": "menu:LanguageSwitcher",
+    "Alternate": "menu:Alternate",
+    "id": "@id",
+    "type": "@type",
+    "lang": "menu:lang",
+    "variant": "menu:variant",
+    "src": "menu:src",
+    "srcCompact": "menu:srcCompact",
+    "href": "menu:href",
+    "label": {
+      "@id": "menu:label",
+      "@container": "@language"
+    },
+    "ariaLabel": {
+      "@id": "menu:ariaLabel",
+      "@container": "@language"
+    },
+    "logo": "menu:logo",
+    "items": {
+      "@id": "menu:items",
+      "@container": "@list"
+    },
+    "children": {
+      "@id": "menu:children",
+      "@container": "@list"
+    },
+    "actions": {
+      "@id": "menu:actions",
+      "@container": "@list"
+    },
+    "alternates": {
+      "@id": "menu:alternates",
+      "@container": "@list"
+    },
+    "item": "menu:item",
+    "child": "menu:child",
+    "action": "menu:action",
+    "alternate": "menu:alternate",
+    "order": {
+      "@id": "menu:order",
+      "@type": "xsd:integer"
+    },
+    "current": {
+      "@id": "menu:current",
+      "@type": "xsd:boolean"
+    },
+    "external": {
+      "@id": "menu:external",
+      "@type": "xsd:boolean"
+    },
+    "width": {
+      "@id": "menu:width",
+      "@type": "xsd:integer"
+    },
+    "height": {
+      "@id": "menu:height",
+      "@type": "xsd:integer"
+    },
+    "breakpoint": {
+      "@id": "menu:breakpoint",
+      "@type": "xsd:integer"
+    },
+    "collapseOffset": {
+      "@id": "menu:collapseOffset",
+      "@type": "xsd:integer"
+    }
+  }
+}

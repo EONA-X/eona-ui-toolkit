@@ -293,6 +293,11 @@ import { Button } from '@eona-x/ui-toolkit-react'; // or -svelte
 // <div class="eona-ui"> <Button label="Go" /> </div>
 ```
 
+**Fixed top menu.** [`packages/menu`](packages/menu) (`@eona-x/ui-toolkit-menu`) is a hand-written,
+dependency-free vanilla-JS header (logo, glass pill with dropdowns, actions, off-canvas below
+1024px) configured from Turtle at build time or JSON-LD at runtime. It is not generated, and
+`cargo xtask check` does not touch it.
+
 **Releasing.** Bump `version` in `Cargo.toml` and `PACKAGE_VERSION` in `xtask/src/emit.rs` (a
 test holds them equal), run `cargo xtask bridgegen`, merge, then push a `vX.Y.Z` tag.
 `.github/workflows/publish.yml` refuses a tag that disagrees with either, re-runs the gate and the

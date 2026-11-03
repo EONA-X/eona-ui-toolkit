@@ -38,6 +38,13 @@ jobs:
         with:
           node-version: 22
 
+      - name: Menu package tests
+        working-directory: packages/menu
+        # css is linked from the repo: a release bumps its version before it is on npm.
+        run: |
+          npm install --no-save --no-audit --no-fund ../css
+          npm test
+
       - name: Generated output is not stale
         run: cargo run -p xtask -- check
 

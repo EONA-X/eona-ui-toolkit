@@ -1,0 +1,24 @@
+{
+  "@context": "https://eona-x.eu/ns/menu/context.jsonld",
+  "@id": "https://eona-x.eu/menu/main",
+  "@type": "Menu",
+  "lang": "fr",
+  "ariaLabel": {"fr": "Navigation principale", "en": "Main navigation"},
+  "collapseOffset": 200,
+  "logo": {"@type": "Logo", "href": "/fr/", "src": "/logo/logo-transparent.svg", "label": {"@none": "EONA-X"}, "width": 38, "height": 36},
+  "items": [
+    {"label": {"fr": "L'association", "en": "Association"}, "href": "/fr/association/"},
+    {"label": {"fr": "Espace de données", "en": "Data space"}, "children": [
+      {"label": {"fr": "Cas d'étude", "en": "Case studies"}, "href": "/fr/cas-etude/", "current": true},
+      {"label": {"fr": "Documentation", "en": "Docs"}, "href": "https://docs.eona-x.eu/", "external": true}
+    ]},
+    {"label": {"fr": "Actualités", "en": "News"}, "href": "/fr/actualites/"}
+  ],
+  "actions": [
+    {"@type": "LanguageSwitcher", "alternates": [
+      {"lang": "fr", "label": {"fr": "Français"}, "href": "/fr/", "current": true},
+      {"lang": "en", "label": {"en": "English"}, "href": "/en/"}
+    ]},
+    {"@type": "LinkAction", "label": {"fr": "Connexion", "en": "Log in"}, "href": "https://portal.eona-x.eu/login", "variant": "glass"}
+  ]
+}
