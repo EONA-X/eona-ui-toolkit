@@ -40,8 +40,9 @@ jobs:
 
       - name: Menu package tests
         working-directory: packages/menu
+        # css is linked from the repo: a release bumps its version before it is on npm.
         run: |
-          npm install --no-audit --no-fund
+          npm install --no-save --no-audit --no-fund ../css
           npm test
 
       - name: Generated output is not stale
