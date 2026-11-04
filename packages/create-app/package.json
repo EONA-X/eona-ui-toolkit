@@ -1,6 +1,6 @@
 {
   "name": "@eona-x/create-app",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "description": "npm create @eona-x/app — a SvelteKit static site on the EONA-X design system, with @eona-x/ui-toolkit-svelte and -css.",
   "license": "Apache-2.0",
   "repository": {

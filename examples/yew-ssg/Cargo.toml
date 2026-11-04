@@ -11,7 +11,7 @@ license = "Apache-2.0"
 
 [dependencies]
 # Outside this repository, depend on a release instead:
-# eona-ui-toolkit = { git = "https://github.com/EONA-X/eona-ui-toolkit", tag = "v0.10.0", features = ["ssr"] }
+# eona-ui-toolkit = { git = "https://github.com/EONA-X/eona-ui-toolkit", tag = "v0.10.1", features = ["ssr"] }
 eona-ui-toolkit = { path = "../..", features = ["ssr"] }
 yew = { version = "0.23", features = ["ssr"] }
 tokio = { version = "1", features = ["macros", "rt"] }
