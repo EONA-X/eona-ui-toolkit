@@ -11,6 +11,7 @@ import {
   Callout,
   CaseCard,
   CodeBlock,
+  CodeTabs,
   DatasetCard,
   DeclCard,
   EvolutionBadge,
@@ -117,6 +118,21 @@ export const entries: Entry[] = [
     code: "import { CodeBlock } from '@eona-x/ui-toolkit-react';\n\n<CodeBlock code={\"let label = \\\"Go\\\";\"} copyable={false} language=\"rust\" />",
     element: (
       <CodeBlock code={"let label = \"Go\";"} copyable={false} language="rust" />
+    ),
+  },
+  {
+    name: "CodeTabs",
+    source: "src/molecules/code_tabs.rs:38",
+    code: "import { CodeTabs } from '@eona-x/ui-toolkit-react';\n\n<CodeTabs\n  id=\"example\"\n  react=\"React\"\n  reactAbsent=\"React Absent\"\n  svelte=\"Svelte\"\n  svelteAbsent=\"Svelte Absent\"\n  yew=\"Yew\"\n/>",
+    element: (
+      <CodeTabs
+        id="example"
+        react="React"
+        reactAbsent="React Absent"
+        svelte="Svelte"
+        svelteAbsent="Svelte Absent"
+        yew="Yew"
+      />
     ),
   },
   {
@@ -474,10 +490,18 @@ export const entries: Entry[] = [
   },
   {
     name: "UsageExample",
-    source: "src/molecules/usage_example.rs:24",
-    code: "import { UsageExample } from '@eona-x/ui-toolkit-react';\n\n<UsageExample onDark source={\"<Button label=\\\"Go\\\" />\"}>\n  Children go here.\n</UsageExample>",
+    source: "src/molecules/usage_example.rs:41",
+    code: "import { UsageExample } from '@eona-x/ui-toolkit-react';\n\n<UsageExample\n  id=\"example\"\n  onDark\n  react=\"React\"\n  reactAbsent=\"React Absent\"\n  source={\"<Button label=\\\"Go\\\" />\"}\n  svelte=\"Svelte\"\n  svelteAbsent=\"Svelte Absent\"\n>\n  Children go here.\n</UsageExample>",
     element: (
-      <UsageExample onDark source={"<Button label=\"Go\" />"}>
+      <UsageExample
+        id="example"
+        onDark
+        react="React"
+        reactAbsent="React Absent"
+        source={"<Button label=\"Go\" />"}
+        svelte="Svelte"
+        svelteAbsent="Svelte Absent"
+      >
         Children go here.
       </UsageExample>
     ),

@@ -1,10 +1,10 @@
 use yew::prelude::*;
 
-use crate::atoms::{CodeBlock, EvolutionBadge, PillButton, PillButtonKind, TagLabel, TagLabelTone};
+use crate::atoms::{EvolutionBadge, PillButton, PillButtonKind, TagLabel, TagLabelTone};
 use crate::chart::{donut_arc, trend_of};
 use crate::examples::{Snippet, StackSnippet, SNIPPETS};
 use crate::molecules::{
-    AccordionItem, CaseCard, MemberCard, MemberFilterCard, MetricTile, Modal, NavDropdown,
+    AccordionItem, CaseCard, MemberCard, MemberFilterCard, CodeTabs, MetricTile, Modal, NavDropdown,
     NewsCard, PropSpec, PropsTable, ScoreDonut, SectionHead, TextField, TextFieldKind, UsageExample,
 };
 
@@ -35,9 +35,9 @@ pub fn components_gallery() -> Html {
                         { "Three treatments, all fully-rounded pills: a solid brand-blue call to action, and \
                            two \"glass\" outlines for placing a button over a dark or a light surface." }
                     </p>
-                    <UsageExample source={r##"<PillButton label="Solid" kind={PillButtonKind::Solid} />
+                    { usage_example("usage-buttons", &["PillButton"], r##"<PillButton label="Solid" kind={PillButtonKind::Solid} />
 <PillButton label="Glass (on dark)" kind={PillButtonKind::GlassLight} />
-<PillButton label="Glass (on light)" kind={PillButtonKind::GlassDark} />"##}>
+<PillButton label="Glass (on light)" kind={PillButtonKind::GlassDark} />"##, html! { <>
                         <div class="gallery-row">
                             <PillButton label="Solid" kind={PillButtonKind::Solid} />
                             <div style="background:var(--eona-navy-deep);padding:18px 22px;border-radius:12px;">
@@ -47,7 +47,7 @@ pub fn components_gallery() -> Html {
                                 <PillButton label="Glass (on light)" kind={PillButtonKind::GlassDark} />
                             </div>
                         </div>
-                    </UsageExample>
+                    </> }) }
                     <PropsTable
                         component="PillButton"
                         props={vec![
@@ -66,13 +66,13 @@ pub fn components_gallery() -> Html {
                     <p class="section-intro">
                         { "A small dot-and-label pill used to categorize news and case-study cards." }
                     </p>
-                    <UsageExample source={r##"<TagLabel text="Actualité" />
-<TagLabel text="Transport" tone={TagLabelTone::Blue} />"##}>
+                    { usage_example("usage-tags", &["TagLabel"], r##"<TagLabel text="Actualité" />
+<TagLabel text="Transport" tone={TagLabelTone::Blue} />"##, html! { <>
                         <div class="gallery-row">
                             <TagLabel text="Actualité" />
                             <TagLabel text="Transport" tone={TagLabelTone::Blue} />
                         </div>
-                    </UsageExample>
+                    </> }) }
                 </div>
             </section>
 
@@ -83,18 +83,18 @@ pub fn components_gallery() -> Html {
                         { "Floating-label inputs, the shape used by the site's Gravity Forms contact form: \
                            a small label sits inside the field's own top padding rather than above it." }
                     </p>
-                    <UsageExample source={r##"<TextField id="gallery-name" label="Name" placeholder="Ada Lovelace" />
+                    { usage_example("usage-fields", &["TextField"], r##"<TextField id="gallery-name" label="Name" placeholder="Ada Lovelace" />
 <TextField
     id="gallery-message"
     label="Message"
     kind={TextFieldKind::Textarea}
     placeholder="Tell us about your project…"
-/>"##}>
+/>"##, html! { <>
                         <div class="gallery-field-grid">
                             <TextField id="gallery-name" label="Name" placeholder="Ada Lovelace" />
                             <TextField id="gallery-message" label="Message" kind={TextFieldKind::Textarea} placeholder="Tell us about your project…" />
                         </div>
-                    </UsageExample>
+                    </> }) }
                     <PropsTable
                         component="TextField"
                         props={vec![
@@ -114,7 +114,7 @@ pub fn components_gallery() -> Html {
                         { "News cards, case-study cards (a darker variant for a more editorial feel), and \
                            small frosted-glass member/partner logo tiles." }
                     </p>
-                    <UsageExample source={r##"<NewsCard
+                    { usage_example("usage-cards", &["NewsCard", "CaseCard"], r##"<NewsCard
     href="#"
     tag="Actualité"
     title="Position Paper — EONA-X on Article 12 of the Data Governance Act"
@@ -123,7 +123,7 @@ pub fn components_gallery() -> Html {
     href="#"
     tag="Transport"
     title="Coordinating Paris 2024 without disrupting everyday travel"
-/>"##}>
+/>"##, html! { <>
                         <div class="gallery-grid">
                             <NewsCard
                                 href="#"
@@ -136,23 +136,23 @@ pub fn components_gallery() -> Html {
                                 title="Coordinating Paris 2024 without disrupting everyday travel"
                             />
                         </div>
-                    </UsageExample>
+                    </> }) }
                     <h3 style="font-size:16px;margin-bottom:12px;">{ "Member tiles" }</h3>
                     <p class="section-intro">
                         { "The homepage scrolls this row continuously via requestAnimationFrame — its CSS \
                            (\".marquee\"/\".marquee-wrapper\") has no keyframes of its own, the motion is all \
                            JS. Shown here as a static row instead of re-deriving that animation loop." }
                     </p>
-                    <UsageExample source={r##"<MemberCard name="AllTheWay" />
+                    { usage_example("usage-members", &["MemberCard"], r##"<MemberCard name="AllTheWay" />
 <MemberCard name="AnySolution" />
-<MemberCard name="Partner Co." />"##}>
+<MemberCard name="Partner Co." />"##, html! { <>
                         <div class="marquee-row">
                             <MemberCard name="AllTheWay" />
                             <MemberCard name="AnySolution" />
                             <MemberCard name="Partner Co." />
                             <MemberCard name="Partner Co." />
                         </div>
-                    </UsageExample>
+                    </> }) }
                 </div>
             </section>
 
@@ -167,12 +167,12 @@ pub fn components_gallery() -> Html {
                         <code>{ "DEMO_JS" }</code>
                         { " rather than in a component." }
                     </p>
-                    <UsageExample source={r##"<NavDropdown
+                    { usage_example("usage-dropdown", &["NavDropdown"], r##"<NavDropdown
     id="gallery-dropdown-eonax"
     label="EONA-X"
     links={vec![("#", "About"), ("#", "Our ecosystem"), ("#", "Dataspace")]}
 />
-<NavDropdown id="gallery-dropdown-lang" label="EN" links={vec![("#", "Français")]} />"##}>
+<NavDropdown id="gallery-dropdown-lang" label="EN" links={vec![("#", "Français")]} />"##, html! { <>
                         <div class="gallery-row">
                             <NavDropdown
                                 id="gallery-dropdown-eonax"
@@ -185,7 +185,7 @@ pub fn components_gallery() -> Html {
                                 links={vec![("#", "Français")]}
                             />
                         </div>
-                    </UsageExample>
+                    </> }) }
                 </div>
             </section>
 
@@ -197,12 +197,12 @@ pub fn components_gallery() -> Html {
                         { " — the only one of these four with no JS at all; the browser handles open/close \
                            on its own." }
                     </p>
-                    <UsageExample source={r##"<AccordionItem title="Mobility" open={true}>
+                    { usage_example("usage-accordion", &["AccordionItem"], r##"<AccordionItem title="Mobility" open={true}>
     <p>{ "EONA-X facilitates the sharing of data between public and private operators…" }</p>
 </AccordionItem>
 <AccordionItem title="Logistics">
     <p>{ "Connecting freight, port, and carrier data…" }</p>
-</AccordionItem>"##}>
+</AccordionItem>"##, html! { <>
                         <div>
                             <AccordionItem title="Mobility" open={true}>
                                 <p>
@@ -224,7 +224,7 @@ pub fn components_gallery() -> Html {
                                 </p>
                             </AccordionItem>
                         </div>
-                    </UsageExample>
+                    </> }) }
                 </div>
             </section>
 
@@ -238,14 +238,14 @@ pub fn components_gallery() -> Html {
                            mechanics are real, sourced from eona-x.eu's own stylesheet; the content below is \
                            this crate's own minimal demo." }
                     </p>
-                    <UsageExample source={r##"// The trigger is plain markup: the toolkit ships no event handlers,
+                    { usage_example("usage-modal", &["Modal"], r##"// The trigger is plain markup: the toolkit ships no event handlers,
 // demo-page.js clears `inert` on the element named by data-open-modal.
 <button type="button" data-open-modal="gallery-modal" class="pill-btn pill-btn-solid">
     { "Open modal" }
 </button>
 <Modal id="gallery-modal" title="About this component">
     <p>{ "…" }</p>
-</Modal>"##}>
+</Modal>"##, html! { <>
                         <div>
                             <button type="button" data-open-modal="gallery-modal" class="pill-btn pill-btn-solid">
                                 { "Open modal" }
@@ -258,7 +258,7 @@ pub fn components_gallery() -> Html {
                                 </p>
                             </Modal>
                         </div>
-                    </UsageExample>
+                    </> }) }
                 </div>
             </section>
 
@@ -272,12 +272,12 @@ pub fn components_gallery() -> Html {
                            server-side) isn't ported — there's no backend here to filter against — only \
                            the card shape." }
                     </p>
-                    <UsageExample source={r##"<MemberFilterCard
+                    { usage_example("usage-filter", &["MemberFilterCard"], r##"<MemberFilterCard
     name="Carbookr"
     member_type="SME"
     country="France"
     sectors={vec!["Mobility"]}
-/>"##}>
+/>"##, html! { <>
                         <div class="gallery-grid">
                             <MemberFilterCard
                                 name="Carbookr"
@@ -292,7 +292,7 @@ pub fn components_gallery() -> Html {
                                 sectors={vec!["Tourism", "Data collaboration"]}
                             />
                         </div>
-                    </UsageExample>
+                    </> }) }
                     <PropsTable
                         component="MemberFilterCard"
                         props={vec![
@@ -315,9 +315,9 @@ pub fn components_gallery() -> Html {
                            arithmetic, which is what keeps them in the React package instead of \
                            its quarantine list." }
                     </p>
-                    <UsageExample source={r##"let score = donut_arc(0.842);
+                    { usage_example("usage-donut", &["ScoreDonut"], r##"let score = donut_arc(0.842);
 <ScoreDonut dash_array={score.dash_array} band={score.band}
-            label={score.label} caption="Completeness" />"##}>
+            label={score.label} caption="Completeness" />"##, html! { <>
                         <div class="gallery-row">
                             { for [(0.842, "Completeness"), (0.63, "Validity"), (0.31, "Freshness")]
                                 .into_iter()
@@ -329,11 +329,11 @@ pub fn components_gallery() -> Html {
                                     }
                                 }) }
                         </div>
-                    </UsageExample>
-                    <UsageExample source={r##"<MetricTile label="Records analysed" value="128 430"
+                    </> }) }
+                    { usage_example("usage-metric", &["MetricTile", "EvolutionBadge"], r##"<MetricTile label="Records analysed" value="128 430"
             help="Across 12 datasets">
     <EvolutionBadge value="+3.2 pts" trend={trend_of(3.2)} />
-</MetricTile>"##}>
+</MetricTile>"##, html! { <>
                         <div class="gallery-row">
                             <MetricTile label="Records analysed" value="128 430"
                                         help="Across 12 datasets">
@@ -347,7 +347,7 @@ pub fn components_gallery() -> Html {
                                 <EvolutionBadge value="0" trend={trend_of(0.0)} />
                             </MetricTile>
                         </div>
-                    </UsageExample>
+                    </> }) }
                 </div>
             </section>
 
@@ -416,7 +416,8 @@ fn react_available() -> usize {
         .count()
 }
 
-/// One component's row in section 09.
+/// One component's row in section 10: its canonical call in the three stacks,
+/// as one tabbed block.
 ///
 /// A plain `fn`, not a `#[function_component]`: the generator's parser counts
 /// components by that attribute (`xtask/src/parse.rs`), and a helper that only
@@ -426,62 +427,237 @@ fn snippet_entry(s: &'static Snippet) -> Html {
     // `yew_uses` is what the snippet will not compile without; joined into the
     // same block so one Copy gets both, the way the reader will paste them.
     let yew = format!("{}\n\n{}", s.yew_uses, s.yew);
+    let (svelte, svelte_absent) = split(stack_text(&s.svelte, Stack::Svelte));
+    let (react, react_absent) = split(stack_text(&s.react, Stack::React));
 
     html! {
         <article class="snippet-entry" id={format!("snippet-{}", s.component)}>
             <h3 class="snippet-name">{ s.component }</h3>
             <p class="snippet-source"><code>{ s.source }</code></p>
-            <div class="snippet-pair">
-                <div class="snippet-pane">
-                    <span class="snippet-pane-label">{ "Yew" }</span>
-                    <CodeBlock code={yew} language="rust" />
-                </div>
-                { stack_pane("React", "tsx", &s.react, |import, code| format!("{import}\n\n{code}")) }
-                { stack_pane("Svelte", "svelte", &s.svelte, |import, code| {
-                    format!("<script>\n  {import}\n</script>\n\n{code}")
-                }) }
-            </div>
+            <CodeTabs
+                id={format!("tabs-snippet-{}", s.component)}
+                yew={yew}
+                svelte={svelte}
+                react={react}
+                svelte_absent={svelte_absent}
+                react_absent={react_absent}
+            />
         </article>
     }
 }
 
-/// One stack's pane: the call, or a note for why there is none.
+/// The two stacks that sit behind the YEW tab.
+#[derive(Clone, Copy, PartialEq, Debug)]
+enum Stack {
+    Svelte,
+    React,
+}
+
+impl Stack {
+    /// One call preceded by its import line(s), in the stack's own file shape.
+    fn wrap(self, imports: &str, calls: &str) -> String {
+        match self {
+            Stack::Svelte => format!("<script>\n{imports}\n</script>\n\n{calls}"),
+            Stack::React => format!("{imports}\n\n{calls}"),
+        }
+    }
+}
+
+/// `Ok(code)` or `Err(note)`, the two things a CodeTabs panel can hold.
+fn split(text: Result<String, String>) -> (AttrValue, Option<AttrValue>) {
+    match text {
+        Ok(code) => (code.into(), None),
+        Err(note) => (AttrValue::default(), Some(note.into())),
+    }
+}
+
+/// One stack's tab for one component: the call, or the note for why there is none.
 ///
-/// The note is the generator's own words — `why` is the machine's rule, read
-/// off `Status`, and `disposition` is the human's answer from
-/// `abi/overrides.toml`. Neither is restated here, because a component missing
-/// on purpose and one missing by accident look identical from the outside and
-/// only these two strings tell them apart.
-fn stack_pane(
-    label: &'static str,
-    language: &'static str,
-    stack: &'static StackSnippet,
-    source: fn(&'static str, &'static str) -> String,
-) -> Html {
+/// The note is the generator's own words: `why` is the machine's rule, read off
+/// `Status`, and `disposition` is the human's answer from `abi/overrides.toml`.
+/// Neither is restated here, because a component missing on purpose and one
+/// missing by accident look identical from the outside and only these two
+/// strings tell them apart.
+fn stack_text(stack: &'static StackSnippet, which: Stack) -> Result<String, String> {
     match stack {
-        StackSnippet::Available { import, code } => html! {
-            <div class="snippet-pane">
-                <span class="snippet-pane-label">{ label }</span>
-                <CodeBlock code={source(import, code)} language={language} />
-            </div>
-        },
-        StackSnippet::Unavailable {
-            why,
-            disposition,
-            tracked_by,
-        } => html! {
-            <div class="snippet-pane snippet-pane-absent">
-                <span class="snippet-pane-label">{ format!("{label} — not shipped") }</span>
-                <div class="snippet-absent">
-                    <p>{ *why }</p>
-                    if !disposition.is_empty() {
-                        <p><b>{ "What to do: " }</b>{ *disposition }</p>
-                    }
-                    if !tracked_by.is_empty() {
-                        <p class="snippet-absent-track">{ format!("Tracked by {tracked_by}.") }</p>
-                    }
-                </div>
-            </div>
-        },
+        StackSnippet::Available { import, code } => Ok(which.wrap(import, code)),
+        StackSnippet::Unavailable { why, disposition, tracked_by } => Err(absent_note(why, disposition, tracked_by)),
+    }
+}
+
+fn absent_note(why: &str, disposition: &str, tracked_by: &str) -> String {
+    let mut note = why.to_string();
+    if !disposition.is_empty() {
+        note.push_str(&format!(" What to do: {disposition}"));
+    }
+    if !tracked_by.is_empty() {
+        note.push_str(&format!(" Tracked by {tracked_by}."));
+    }
+    note
+}
+
+/// The generated canonical calls of `uses`, one after the other, under one
+/// import line per package. A component with no version in `stack` gets a
+/// comment line with its reason after the calls of the others; `Err` is the
+/// reasons alone when none of them has a version.
+///
+/// `uses` is written next to the example it belongs to, so a reviewer reads the
+/// two together. A name that is not in [`SNIPPETS`] panics: a typo would
+/// otherwise leave an empty tab on the page.
+fn stack_calls(uses: &[&str], stack: Stack) -> Result<String, String> {
+    let entries: Vec<&'static Snippet> = uses
+        .iter()
+        .map(|name| {
+            SNIPPETS
+                .iter()
+                .find(|s| s.component == *name)
+                .unwrap_or_else(|| panic!("`{name}` is listed as used by an example but is not a component"))
+        })
+        .collect();
+
+    let missing: Vec<(&str, String)> = entries
+        .iter()
+        .filter_map(|s| {
+            let which = if stack == Stack::Svelte { &s.svelte } else { &s.react };
+            match which {
+                StackSnippet::Unavailable { why, disposition, tracked_by } => {
+                    Some((s.component, absent_note(why, disposition, tracked_by)))
+                }
+                StackSnippet::Available { .. } => None,
+            }
+        })
+        .collect();
+    // Nothing to show but the reasons: the tab becomes the note panel.
+    if missing.len() == entries.len() {
+        let notes: Vec<String> = missing.iter().map(|(c, n)| format!("{c}: {n}")).collect();
+        return Err(notes.join(" "));
+    }
+
+    // `import { A } from 'pkg';` lines, merged per package in first-seen order.
+    let mut packages: Vec<(&str, Vec<&str>)> = Vec::new();
+    let mut calls: Vec<&str> = Vec::new();
+    for s in &entries {
+        let which = if stack == Stack::Svelte { &s.svelte } else { &s.react };
+        let StackSnippet::Available { import, code } = which else { continue };
+        calls.push(code);
+        let Some((names, pkg)) = import
+            .strip_prefix("import { ")
+            .and_then(|r| r.split_once(" } from '"))
+            .and_then(|(names, r)| Some((names, r.strip_suffix("';")?)))
+        else {
+            panic!("unexpected import line shape: {import}")
+        };
+        let at = match packages.iter().position(|(p, _)| *p == pkg) {
+            Some(at) => at,
+            None => {
+                packages.push((pkg, Vec::new()));
+                packages.len() - 1
+            }
+        };
+        for name in names.split(", ") {
+            if !packages[at].1.contains(&name) {
+                packages[at].1.push(name);
+            }
+        }
+    }
+    let imports = packages
+        .iter()
+        .map(|(pkg, names)| format!("import {{ {} }} from '{pkg}';", names.join(", ")))
+        .collect::<Vec<_>>()
+        .join("\n");
+    // A component without a version is named after the calls that exist, in the
+    // stack's own comment syntax, one line each, so Copy still gets valid code.
+    let mut body = calls.join("\n\n");
+    if !missing.is_empty() {
+        body.push_str("\n\n");
+        let notes: Vec<String> = missing
+            .iter()
+            .map(|(c, n)| match stack {
+                Stack::Svelte => format!("<!-- {c}: {} -->", n.replace("-->", "--&gt;")),
+                Stack::React => format!("// {c}: {n}"),
+            })
+            .collect();
+        body.push_str(&notes.join("\n"));
+    }
+    Ok(stack.wrap(&indent(&imports, stack), &body))
+}
+
+/// Svelte's imports sit inside `<script>`, indented like the generated ones.
+fn indent(imports: &str, stack: Stack) -> String {
+    match stack {
+        Stack::Svelte => imports.lines().map(|l| format!("  {l}")).collect::<Vec<_>>().join("\n"),
+        Stack::React => imports.to_string(),
+    }
+}
+
+/// A [`UsageExample`] for the hand-arranged `source` (the YEW tab), with the
+/// generated calls of `uses` behind SVELTE and REACT.
+///
+/// `uses` names every component the example renders, in the order the source
+/// first uses them. It sits next to `source` so the two are reviewed together.
+pub(crate) fn usage_example(id: &'static str, uses: &[&str], source: &'static str, children: Html) -> Html {
+    let (svelte, svelte_absent) = split(stack_calls(uses, Stack::Svelte));
+    let (react, react_absent) = split(stack_calls(uses, Stack::React));
+    html! {
+        <UsageExample id={id} source={source} svelte={svelte} react={react}
+                      svelte_absent={svelte_absent} react_absent={react_absent}>
+            { children }
+        </UsageExample>
+    }
+}
+
+/// A bare [`CodeTabs`] for `source` (the YEW tab), with the generated calls of
+/// `uses` behind SVELTE and REACT. For code bars that have no preview of their own.
+pub(crate) fn code_tabs(id: &'static str, uses: &[&str], source: &'static str) -> Html {
+    let (svelte, svelte_absent) = split(stack_calls(uses, Stack::Svelte));
+    let (react, react_absent) = split(stack_calls(uses, Stack::React));
+    html! {
+        <CodeTabs id={id} yew={source} svelte={svelte} react={react}
+                  svelte_absent={svelte_absent} react_absent={react_absent} />
+    }
+}
+
+/// A [`CodeTabs`] whose three tabs are the same text: markup that is not
+/// framework code (an HTML attribute to set), so every stack writes it alike.
+pub(crate) fn code_tabs_same(id: &'static str, source: &'static str) -> Html {
+    html! { <CodeTabs id={id} yew={source} svelte={source} react={source} /> }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn calls_of_several_components_share_one_import_line() {
+        let svelte = stack_calls(&["PillButton", "TagLabel"], Stack::Svelte).unwrap();
+        assert_eq!(svelte.matches("import {").count(), 1, "{svelte}");
+        assert!(svelte.starts_with("<script>\n  import { PillButton, TagLabel } from '@eona-x/ui-toolkit-svelte';\n</script>\n\n"), "{svelte}");
+        assert!(svelte.contains("<PillButton") && svelte.contains("<TagLabel"));
+        let react = stack_calls(&["PillButton", "TagLabel"], Stack::React).unwrap();
+        assert!(react.starts_with("import { PillButton, TagLabel } from '@eona-x/ui-toolkit-react';\n\n"), "{react}");
+    }
+
+    #[test]
+    fn a_component_without_the_stack_turns_the_tab_into_its_reason() {
+        let note = stack_calls(&["BarChart"], Stack::React).unwrap_err();
+        assert!(note.contains("not planned"), "{note}");
+        assert!(note.contains("eona-x/backlog#1219"), "{note}");
+    }
+
+    #[test]
+    fn a_partial_stack_keeps_the_calls_it_has_and_notes_each_component_it_lacks() {
+        let react = stack_calls(&["PillButton", "BarChart", "TagLabel"], Stack::React).unwrap();
+        assert!(react.contains("<PillButton") && react.contains("<TagLabel"), "{react}");
+        assert!(react.contains("import { PillButton, TagLabel } from '@eona-x/ui-toolkit-react';"), "{react}");
+        assert!(!react.contains("<BarChart"), "{react}");
+        let note: Vec<&str> = react.lines().filter(|l| l.starts_with("// BarChart: ")).collect();
+        assert_eq!(note.len(), 1, "one note line for the missing component: {react}");
+        assert!(note[0].contains("not planned"), "{react}");
+    }
+
+    #[test]
+    #[should_panic(expected = "NoSuchComponent")]
+    fn a_misspelt_component_name_is_a_build_error_not_an_empty_tab() {
+        let _ = stack_calls(&["NoSuchComponent"], Stack::Svelte);
     }
 }

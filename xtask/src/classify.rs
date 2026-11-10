@@ -675,6 +675,14 @@ mod tests {
             ("tag", "AttrValue", 10),
             ("title", "AttrValue", 11),
         ]),
+        ("CodeTabs", "src/molecules/code_tabs.rs", 37, false, &[
+            ("id", "AttrValue", 20),
+            ("yew", "AttrValue", 22),
+            ("svelte", "AttrValue", 25),
+            ("react", "AttrValue", 28),
+            ("svelte_absent", "Option<AttrValue>", 31),
+            ("react_absent", "Option<AttrValue>", 34),
+        ]),
         ("DatasetCard", "src/molecules/dataset_card.rs", 41, false, &[
             ("title", "AttrValue", 17),
             ("href", "AttrValue", 19),
@@ -796,9 +804,14 @@ mod tests {
             ("spec", "AttrValue", 10),
         ]),
         ("UsageExample", "src/molecules/usage_example.rs", 23, false, &[
-            ("source", "AttrValue", 14),
-            ("on_dark", "bool", 18),
-            ("children", "Html", 20),
+            ("id", "AttrValue", 17),
+            ("source", "AttrValue", 19),
+            ("on_dark", "bool", 23),
+            ("svelte", "AttrValue", 26),
+            ("react", "AttrValue", 29),
+            ("svelte_absent", "Option<AttrValue>", 32),
+            ("react_absent", "Option<AttrValue>", 35),
+            ("children", "Html", 37),
         ]),
         // ---- organisms with props ----
         ("Hero", "src/organisms/hero.rs", 34, false, &[
@@ -898,7 +911,7 @@ mod tests {
     /// The 41 components #809 scopes in (38, plus the three charts of #822): presentational, and taking props.
     const IN_SCOPE: &[&str] = &[
         "AccordionItem", "BadgeNum", "BgCheckItem", "Button", "Callout", "CaseCard", "CodeBlock",
-        "DatasetCard", "DeclCard", "EvolutionBadge", "Hero", "HeroFilter", "LogoDownloadCard",
+        "CodeTabs", "DatasetCard", "DeclCard", "EvolutionBadge", "Hero", "HeroFilter", "LogoDownloadCard",
         "MainNav",
         "MemberCard", "MemberFilterCard", "MetricTile", "Modal", "MvoCard", "NavDropdown", "NewsCard",
         "OntoAnnotation", "OntoBadge", "PaletteGroup", "PersonalityCard", "Pill", "PillButton",
@@ -962,11 +975,11 @@ mod tests {
 
     #[test]
     fn the_fixture_is_the_whole_crate() {
-        assert_eq!(COMPONENTS.len(), 45, "the crate has 45 function components");
+        assert_eq!(COMPONENTS.len(), 46, "the fixture holds 46 function components: the 50 minus the five charts, plus CodeTabs");
         assert_eq!(
             COMPONENTS.iter().filter(|c| !c.4.is_empty()).count(),
-            42,
-            "42 of them take props"
+            43,
+            "43 of them take props"
         );
     }
 
@@ -981,7 +994,7 @@ mod tests {
             .collect();
         generated.sort_unstable();
         assert_eq!(generated, IN_SCOPE, "in-scope set must be exactly #809's 38 plus #822's three");
-        assert_eq!(generated.len(), 41);
+        assert_eq!(generated.len(), 42);
     }
 
     #[test]
@@ -1002,7 +1015,7 @@ mod tests {
         // 41 in scope, one of which cannot be pre-rendered yet. `Swatch` and
         // `DatasetCard` leave this stage `Ok` on purpose: only `verify` can see
         // that they panic on / transform the sentinel.
-        assert_eq!(tk.generated().count(), 41);
+        assert_eq!(tk.generated().count(), 42);
     }
 
     #[test]
@@ -1026,7 +1039,7 @@ mod tests {
         assert_eq!(
             tk.components.iter().filter(|c| matches!(c.status, Status::Excluded { .. })).count()
                 + tk.components.iter().filter(|c| !matches!(c.status, Status::Excluded { .. })).count(),
-            45
+            46
         );
     }
 
@@ -1390,11 +1403,11 @@ mod tests {
             .filter(|c| !matches!(c.status, Status::Excluded { .. } | Status::WasmOnly { .. }))
             .map(|c| c.name.as_str())
             .collect();
-        assert_eq!(scope.len(), 41, "#809's list plus #822's charts: {scope:?}");
+        assert_eq!(scope.len(), 42, "#809's list plus #822's charts and #1219's CodeTabs: {scope:?}");
         assert_eq!(
             tk.components.iter().filter(|c| matches!(c.status, Status::Ok)).count(),
-            41,
-            "all 41 in scope now generate"
+            42,
+            "all 42 in scope now generate"
         );
 
         // No prop anywhere may reach the emitter as an unmappable type.

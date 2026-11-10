@@ -7,7 +7,7 @@ of truth is the Yew crate in this repository (`src/`): each component here was p
 rendering the Rust component with Yew's own server renderer and splicing the props back
 into the resulting markup, so the React and Yew renders are the same HTML by construction.
 
-Generated from src_hash `786c63f1553dc01864b774e3bece18806b892393d12257a29b7916c01a3bc079`.
+Generated from src_hash `c4fd4939fd57cb211932b205421ce30309546eef866b44759bee5de1f4284ffc`.
 
 ## Documentation
 
@@ -83,7 +83,7 @@ snapshot test that diffs this package's SSR bytes against the Yew portal's:
    every `<img src>` it renders, and omits `src=""` entirely (with a warning) where Yew
    emits it.
 
-## Components (41)
+## Components (42)
 
 - `AccordionItem` — `src/molecules/accordion_item.rs:17`
 - `BadgeNum` — `src/atoms/badge_num.rs:11`
@@ -92,6 +92,7 @@ snapshot test that diffs this package's SSR bytes against the Yew portal's:
 - `Callout` — `src/molecules/callout.rs:13`
 - `CaseCard` — `src/molecules/case_card.rs:15`
 - `CodeBlock` — `src/atoms/code_block.rs:27`
+- `CodeTabs` — `src/molecules/code_tabs.rs:38`
 - `DatasetCard` — `src/molecules/dataset_card.rs:57`
 - `DeclCard` — `src/molecules/decl_card.rs:17`
 - `EvolutionBadge` — `src/atoms/evolution_badge.rs:23`
@@ -125,7 +126,7 @@ snapshot test that diffs this package's SSR bytes against the Yew portal's:
 - `TagLabel` — `src/atoms/tag_label.rs:27`
 - `TextField` — `src/molecules/text_field.rs:22`
 - `TypeScaleRow` — `src/molecules/type_scale_row.rs:14`
-- `UsageExample` — `src/molecules/usage_example.rs:24`
+- `UsageExample` — `src/molecules/usage_example.rs:41`
 
 ## Not exported (5)
 

@@ -38,3 +38,6 @@ Cargo.lock
 /examples/yew-ssg/dist/
 /examples/yew-trunk/target/
 /examples/yew-trunk/dist/
+
+# The demo page's jsdom tests (npm install --prefix tests/demo-page).
+/tests/demo-page/node_modules/

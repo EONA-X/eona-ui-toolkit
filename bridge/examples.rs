@@ -9,7 +9,7 @@
 //! (xtask/src/parse.rs), and a generated file inside `src/` would be an input
 //! to the hash of the document that describes it.
 //!
-//! src_hash 786c63f1553dc01864b774e3bece18806b892393d12257a29b7916c01a3bc079
+//! src_hash c4fd4939fd57cb211932b205421ce30309546eef866b44759bee5de1f4284ffc
 
 /// One stack's half of a component's snippet.
 ///
@@ -171,6 +171,41 @@ pub static SNIPPETS: &[Snippet] = &[
         react: StackSnippet::Available {
             import: r#"import { CodeBlock } from '@eona-x/ui-toolkit-react';"#,
             code: r#"<CodeBlock code={"let label = \"Go\";"} copyable={false} language="rust" />"#,
+        },
+    },
+    Snippet {
+        component: r#"CodeTabs"#,
+        source: r#"src/molecules/code_tabs.rs:38"#,
+        yew_uses: r#"use eona_ui_toolkit::CodeTabs;"#,
+        yew: r#"<CodeTabs
+    id="example"
+    react="React"
+    react_absent="React Absent"
+    svelte="Svelte"
+    svelte_absent="Svelte Absent"
+    yew="Yew"
+/>"#,
+        svelte: StackSnippet::Available {
+            import: r#"import { CodeTabs } from '@eona-x/ui-toolkit-svelte';"#,
+            code: r#"<CodeTabs
+  id="example"
+  react="React"
+  reactAbsent="React Absent"
+  svelte="Svelte"
+  svelteAbsent="Svelte Absent"
+  yew="Yew"
+/>"#,
+        },
+        react: StackSnippet::Available {
+            import: r#"import { CodeTabs } from '@eona-x/ui-toolkit-react';"#,
+            code: r#"<CodeTabs
+  id="example"
+  react="React"
+  reactAbsent="React Absent"
+  svelte="Svelte"
+  svelteAbsent="Svelte Absent"
+  yew="Yew"
+/>"#,
         },
     },
     Snippet {
@@ -647,7 +682,7 @@ use eona_ui_toolkit::ontology::LiteralValue;"#,
     },
     Snippet {
         component: r#"OntologySection"#,
-        source: r#"src/organisms/ontology_section.rs:28"#,
+        source: r#"src/organisms/ontology_section.rs:29"#,
         yew_uses: r#"use eona_ui_toolkit::OntologySection;"#,
         yew: r#"<OntologySection />"#,
         svelte: StackSnippet::Unavailable {
@@ -1063,20 +1098,44 @@ use yew::prelude::*;"#,
     },
     Snippet {
         component: r#"UsageExample"#,
-        source: r#"src/molecules/usage_example.rs:24"#,
+        source: r#"src/molecules/usage_example.rs:41"#,
         yew_uses: r#"use eona_ui_toolkit::UsageExample;"#,
-        yew: r##"<UsageExample on_dark={true} source={r#"<Button label="Go" />"#}>
+        yew: r##"<UsageExample
+    id="example"
+    on_dark={true}
+    react="React"
+    react_absent="React Absent"
+    source={r#"<Button label="Go" />"#}
+    svelte="Svelte"
+    svelte_absent="Svelte Absent"
+>
     { "Children go here." }
 </UsageExample>"##,
         svelte: StackSnippet::Available {
             import: r#"import { UsageExample } from '@eona-x/ui-toolkit-svelte';"#,
-            code: r#"<UsageExample onDark source={"<Button label=\"Go\" />"}>
+            code: r#"<UsageExample
+  id="example"
+  onDark
+  react="React"
+  reactAbsent="React Absent"
+  source={"<Button label=\"Go\" />"}
+  svelte="Svelte"
+  svelteAbsent="Svelte Absent"
+>
   Children go here.
 </UsageExample>"#,
         },
         react: StackSnippet::Available {
             import: r#"import { UsageExample } from '@eona-x/ui-toolkit-react';"#,
-            code: r#"<UsageExample onDark source={"<Button label=\"Go\" />"}>
+            code: r#"<UsageExample
+  id="example"
+  onDark
+  react="React"
+  reactAbsent="React Absent"
+  source={"<Button label=\"Go\" />"}
+  svelte="Svelte"
+  svelteAbsent="Svelte Absent"
+>
   Children go here.
 </UsageExample>"#,
         },

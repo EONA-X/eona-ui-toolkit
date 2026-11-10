@@ -1392,7 +1392,7 @@ mod tests {
             .iter()
             .filter(|c| !matches!(c.status, Status::Excluded { .. } | Status::WasmOnly { .. }))
             .count();
-        assert_eq!(in_scope, 41, "#809 scopes 38 components, plus #822's three charts");
+        assert_eq!(in_scope, 42, "#809 scopes 38 components, plus #822's three charts, plus CodeTabs (#1219)");
 
         // Every in-scope component must have rendered at least one cell; a zero
         // there is an axis the matrix dropped, not a component with no props.

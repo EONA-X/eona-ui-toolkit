@@ -666,6 +666,23 @@
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 .eona-ui .code-block-pre code { font: inherit; color: inherit; background: none; padding: 0; }
+.eona-ui .code-tabs-list { display: flex; gap: 2px; }
+.eona-ui .code-tabs-list[hidden] { display: none; }
+.eona-ui .code-tabs-list:not([hidden]) ~ .code-tabs-lang { display: none; }
+.eona-ui .code-tabs-list:not([hidden]) ~ .code-block-copy { margin-left: auto; }
+.eona-ui .code-tabs-tab {
+  font-family: inherit; font-size: 11px; letter-spacing: .08em;
+  font-weight: var(--eona-weight-medium); color: var(--eona-lavender);
+  background: none; border: 0; border-bottom: 2px solid transparent;
+  padding: 4px 10px; cursor: pointer;
+}
+.eona-ui .code-tabs-tab:hover { color: var(--eona-white); }
+.eona-ui .code-tabs-tab[aria-selected="true"] { color: var(--eona-white); border-bottom-color: var(--eona-lavender); }
+.eona-ui .code-tabs-tab:focus-visible,
+.eona-ui .code-block-copy:focus-visible { outline: 2px solid var(--eona-lavender); outline-offset: 2px; }
+.eona-ui .code-block-copy[aria-disabled="true"] { opacity: .4; cursor: not-allowed; }
+.eona-ui .code-block-copy[aria-disabled="true"]:hover { background: rgba(255,255,255,.12); }
+.eona-ui .code-tabs [role="tabpanel"][hidden] { display: none; }
 .eona-ui .usage-example { margin: 20px 0 36px; }
 .eona-ui .usage-preview {
   border: 1px solid rgba(4,5,83,.1);
@@ -758,7 +775,7 @@
 .eona-ui .snippet-pane .code-block { margin-top: 6px; }
 .eona-ui .snippet-pane-absent .snippet-pane-label { color: #5a5d86; }
 .eona-ui .snippet-absent {
-  margin-top: 6px; padding: 14px 16px;
+  margin: 0; padding: 14px 16px;
   border: 1px dashed rgba(4,5,83,.2); border-radius: var(--eona-radius-sm);
   background: var(--eona-gray-bg);
   font-size: 14px; color: #33355f;
