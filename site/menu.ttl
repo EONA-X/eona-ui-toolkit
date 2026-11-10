@@ -1,0 +1,30 @@
+# The documentation site's top menu: the only copy of the navigation.
+# Rendered at build time by site/scripts/inject-menu.mjs with packages/menu, into
+# every page (Yew-rendered and Vite-built). Hrefs are literals relative to the site
+# root; the build prefixes them with `../` once per directory level, so they
+# resolve from any page depth and under any base path (/eona-ui-toolkit/ on Pages).
+@prefix menu: <https://eona-x.eu/ns/menu#> .
+@prefix ex:   <https://eona-x.eu/ns/menu/example/> .
+
+ex:docs a menu:Menu ;
+  menu:lang "en" ;
+  menu:ariaLabel "Documentation"@en ;
+  menu:logo [ a menu:Logo ;
+      menu:href "./" ; menu:src "logo/logo-transparent.svg" ;
+      menu:label "eona-ui-toolkit"@en ; menu:width 38 ; menu:height 36 ] ;
+  menu:items (
+    [ menu:label "Overview"@en ; menu:href "./" ]
+    [ menu:label "Get started"@en ;
+      menu:children (
+        [ menu:label "Yew"@en ; menu:href "yew/getting-started/" ]
+        [ menu:label "Svelte"@en ; menu:href "svelte/getting-started/" ]
+        [ menu:label "React"@en ; menu:href "react/getting-started/" ]
+        [ menu:label "Create app"@en ; menu:href "create-app/" ]
+      ) ]
+    [ menu:label "Packages"@en ;
+      menu:children (
+        [ menu:label "Components"@en ; menu:href "yew/" ]
+        [ menu:label "Menu"@en ; menu:href "menu/" ]
+      ) ]
+    [ menu:label "GitHub"@en ; menu:href "https://github.com/EONA-X/eona-ui-toolkit" ; menu:external true ]
+  ) .

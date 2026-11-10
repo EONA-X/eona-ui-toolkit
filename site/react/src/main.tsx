@@ -4,13 +4,12 @@ import '../../site.css';
 
 import { StrictMode, useState, type ReactNode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { HeroFilter, PillButton, SimpleFooter, SiteHeader } from '@eona-x/ui-toolkit-react';
+import { HeroFilter, PillButton, SimpleFooter } from '@eona-x/ui-toolkit-react';
 
-import nav from '../../nav.json';
 import { entries } from './gallery';
 
-// This page is /react/: one level below the site root.
-const links = nav.links.map((l) => ({ href: `../${l.path}`, label: l.label, current: l.stack === 'react' }));
+// The menu is not part of this app: pages.yml renders site/menu.ttl into index.html.
+const repo = 'https://github.com/EONA-X/eona-ui-toolkit';
 
 function Stage({ children }: { children: ReactNode }) {
   const [dark, setDark] = useState(false);
@@ -27,7 +26,6 @@ function Stage({ children }: { children: ReactNode }) {
 function App() {
   return (
     <div className="eona-ui">
-      <SiteHeader links={links} />
       <HeroFilter
         title="Components"
         description="Every component @eona-x/ui-toolkit-react exports, rendered live by React from the call the gallery prints, styled by @eona-x/ui-toolkit-css."
@@ -52,7 +50,7 @@ function App() {
       </main>
       <SimpleFooter
         text="eona-ui-toolkit — one design system, generated for Yew, React and Svelte"
-        link={{ href: nav.repo, label: 'Source on GitHub' }}
+        link={{ href: repo, label: 'Source on GitHub' }}
       />
     </div>
   );

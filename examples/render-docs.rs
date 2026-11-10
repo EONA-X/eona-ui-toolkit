@@ -6,26 +6,31 @@
 //! /yew/getting-started/      site/guides/yew.md
 //! /react/getting-started/    site/guides/react.md
 //! /svelte/getting-started/   site/guides/svelte.md
+//! /menu/                     site/guides/menu.md
+//! /create-app/               site/guides/create-app.md
 //! ```
 //!
 //! `/react/` and `/svelte/` — the live component pages — are built by Vite from
 //! `site/react` and `site/svelte` and copied in by `.github/workflows/pages.yml`.
-//! Every page, theirs included, carries the same navigation: the toolkit's own
-//! `SiteHeader`, and a `HeroFilter` whose two pills switch between a stack's
-//! getting started and its components.
+//! Every page, theirs included, carries the same navigation: the menu from
+//! `site/menu.ttl`. This binary leaves `<!--eona-menu-->` where it goes;
+//! `site/scripts/inject-menu.mjs` renders it with `packages/menu` into the finished
+//! `dist/`. A stack's pages also carry a `HeroFilter` whose two pills switch between
+//! its getting started and its components.
 //!
 //! The portal (`developer.eona-x.eu`) publishes the gallery as `components.html`
 //! inside a larger site; this renders it standalone so the crate's own repository
 //! can serve it without the portal.
 //!
-//! Usage: `cargo run --example render-docs --features ssr -- <out-dir>`
+//! Usage: `cargo run --example render-docs --features ssr -- <out-dir>`, then
+//! `node site/scripts/inject-menu.mjs <out-dir>`.
 
 use std::{env, fs, path::Path, path::PathBuf};
 
 use eona_ui_toolkit::{
     demo::{DEMO_JS, DEMO_SHELL},
     ComponentsGallery, HeroFilter, IntegrationSection, NavLink, OntologySection, PillButton,
-    PillButtonKind, PillarCard, SimpleFooter, SiteHeader, SiteNavLink, COMPONENTS_CSS, LOGO_SVG,
+    PillButtonKind, PillarCard, SimpleFooter, COMPONENTS_CSS, LOGO_SVG,
     ONTOLOGY_CSS, TOKENS_CSS,
 };
 use yew::prelude::*;
@@ -33,6 +38,8 @@ use yew::ServerRenderer;
 
 /// The release the guides install, so a copied snippet names a tag that exists.
 const VERSION: &str = env!("CARGO_PKG_VERSION");
+/// Where the menu goes; `site/scripts/inject-menu.mjs` replaces it in the built pages.
+const MENU_PLACEHOLDER: &str = "<!--eona-menu-->";
 const REPO: &str = "https://github.com/EONA-X/eona-ui-toolkit";
 
 /// A documented stack, in navigation order.
@@ -83,6 +90,10 @@ enum Page {
     Overview,
     Components(Stack),
     Guide(Stack),
+    /// The `@eona-x/ui-toolkit-menu` guide.
+    Menu,
+    /// The `npm create @eona-x/app` guide.
+    CreateApp,
 }
 
 impl Page {
@@ -91,6 +102,8 @@ impl Page {
             Page::Overview => String::new(),
             Page::Components(s) => format!("{}/", s.slug()),
             Page::Guide(s) => format!("{}/getting-started/", s.slug()),
+            Page::Menu => "menu/".into(),
+            Page::CreateApp => "create-app/".into(),
         }
     }
 
@@ -102,28 +115,10 @@ impl Page {
 
     fn stack(self) -> Option<Stack> {
         match self {
-            Page::Overview => None,
+            Page::Overview | Page::Menu | Page::CreateApp => None,
             Page::Components(s) | Page::Guide(s) => Some(s),
         }
     }
-}
-
-/// The site navigation, as `SiteHeader` links. Each stack links to its getting
-/// started; the hero's pills reach its components. Kept in step with the live
-/// pages' copy (`site/nav.json`), which the Vite builds read.
-fn nav(page: Page) -> Vec<SiteNavLink> {
-    let root = page.root();
-    let mut links = vec![SiteNavLink {
-        href: format!("{root}").into(),
-        label: "Overview".into(),
-        current: page == Page::Overview,
-    }];
-    links.extend(Stack::ALL.map(|s| SiteNavLink {
-        href: format!("{root}{}/getting-started/", s.slug()).into(),
-        label: s.name().into(),
-        current: page.stack() == Some(s),
-    }));
-    links
 }
 
 #[derive(Properties, PartialEq)]
@@ -134,7 +129,7 @@ struct ShellProps {
     children: Children,
 }
 
-/// Header, hero with the stack switch, content, footer — every Yew-rendered page.
+/// Menu placeholder, hero with the stack switch, content, footer — every Yew-rendered page.
 #[function_component(Shell)]
 fn shell(props: &ShellProps) -> Html {
     let page = props.page;
@@ -154,12 +149,18 @@ fn shell(props: &ShellProps) -> Html {
             }
         }
         None => html! {
-            <PillButton label="View on GitHub" kind={PillButtonKind::GlassLight} href={REPO} />
+            <PillButton label={if page == Page::Overview { "View on GitHub" } else { "Package source" }}
+                kind={PillButtonKind::GlassLight}
+                href={match page {
+                    Page::Menu => format!("{REPO}/tree/main/packages/menu"),
+                    Page::CreateApp => format!("{REPO}/tree/main/packages/create-app"),
+                    _ => REPO.to_string(),
+                }} />
         },
     };
     html! {
         <>
-            <SiteHeader links={nav(page)} />
+            { Html::from_html_unchecked(MENU_PLACEHOLDER.into()) }
             <HeroFilter title={props.title.clone()} description={props.description.clone()} with_backdrop=true>
                 { pills }
             </HeroFilter>
@@ -234,17 +235,16 @@ fn yew_components() -> Html {
 
 #[derive(Properties, PartialEq)]
 struct GuideProps {
-    stack: Stack,
+    page: Page,
+    title: AttrValue,
+    description: AttrValue,
     body: AttrValue,
 }
 
 #[function_component(Guide)]
 fn guide(props: &GuideProps) -> Html {
-    let s = props.stack;
     html! {
-        <Shell page={Page::Guide(s)}
-            title={format!("Getting started with {}", s.name())}
-            description={format!("Install {}, render a first component, build a static site, theme it.", s.package())}>
+        <Shell page={props.page} title={props.title.clone()} description={props.description.clone()}>
             <section class="block">
                 <div class="wrap docs-guide">
                     { Html::from_html_unchecked(props.body.clone()) }
@@ -252,6 +252,28 @@ fn guide(props: &GuideProps) -> Html {
             </section>
         </Shell>
     }
+}
+
+/// Render one guide page from `site/guides/<file>.md`.
+async fn write_guide(
+    out: &Path,
+    guides: &Path,
+    file: &str,
+    page: Page,
+    title: String,
+    description: String,
+) -> Result<usize, Box<dyn std::error::Error>> {
+    let body = markdown(&guides.join(format!("{file}.md")))?;
+    let t = title.clone();
+    let html = ServerRenderer::<Guide>::with_props(move || GuideProps {
+        page,
+        title: t.into(),
+        description: description.into(),
+        body: body.into(),
+    })
+    .render()
+    .await;
+    write_page(out, page, &format!("{title} — eona-ui-toolkit"), &html)
 }
 
 /// Markdown -> HTML, with `{{version}}` filled in.
@@ -383,12 +405,34 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let body = ServerRenderer::<YewComponents>::new().render().await;
     bytes += write_page(&out, Page::Components(Stack::Yew), "Components — Yew — eona-ui-toolkit", &body)?;
     for s in Stack::ALL {
-        let html = markdown(&guides.join(format!("{}.md", s.slug())))?;
-        let body = ServerRenderer::<Guide>::with_props(move || GuideProps { stack: s, body: html.into() })
-            .render()
-            .await;
-        bytes += write_page(&out, Page::Guide(s), &format!("Getting started with {} — eona-ui-toolkit", s.name()), &body)?;
+        bytes += write_guide(
+            &out,
+            &guides,
+            s.slug(),
+            Page::Guide(s),
+            format!("Getting started with {}", s.name()),
+            format!("Install {}, render a first component, build a static site, theme it.", s.package()),
+        )
+        .await?;
     }
+    bytes += write_guide(
+        &out,
+        &guides,
+        "menu",
+        Page::Menu,
+        "Menu".into(),
+        "@eona-x/ui-toolkit-menu: install, configure in Turtle or JSON-LD, render at build time, mount at runtime, behaviour without JavaScript.".into(),
+    )
+    .await?;
+    bytes += write_guide(
+        &out,
+        &guides,
+        "create-app",
+        Page::CreateApp,
+        "Create app".into(),
+        "npm create @eona-x/app: what it generates, its options, package-manager detection, version pinning.".into(),
+    )
+    .await?;
 
     // Order matters at load time, not on disk: `tokens.css` declares the custom
     // properties the other two consume.
@@ -403,6 +447,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // guard against a future asset that does.
     fs::write(out.join(".nojekyll"), "")?;
 
-    println!("wrote 5 pages ({} KB of HTML) to {}", bytes / 1024, out.display());
+    println!("wrote 7 pages ({} KB of HTML) to {}", bytes / 1024, out.display());
     Ok(())
 }
