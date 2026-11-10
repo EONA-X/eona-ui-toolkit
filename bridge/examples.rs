@@ -9,7 +9,7 @@
 //! (xtask/src/parse.rs), and a generated file inside `src/` would be an input
 //! to the hash of the document that describes it.
 //!
-//! src_hash c4fd4939fd57cb211932b205421ce30309546eef866b44759bee5de1f4284ffc
+//! src_hash 322fbbacaa320346dec85302f8099332033211b18edaa586e265597e824b9625
 
 /// One stack's half of a component's snippet.
 ///
@@ -348,7 +348,7 @@ pub static SNIPPETS: &[Snippet] = &[
     },
     Snippet {
         component: r#"DemoPage"#,
-        source: r#"src/demo.rs:62"#,
+        source: r#"src/demo.rs:83"#,
         yew_uses: r#"use eona_ui_toolkit::{NavLink, SiteNavLink};
 use eona_ui_toolkit::demo::DemoPage;"#,
         yew: r##"<DemoPage

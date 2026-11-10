@@ -1,0 +1,55 @@
+{
+  "@context": {
+    "qb": "http://purl.org/linked-data/cube#",
+    "chart": "https://eona-x.eu/shape/chart-profile#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "urn:example:ds",
+      "@type": "qb:DataSet",
+      "rdfs:label": "Sample"
+    },
+    {
+      "@id": "urn:example:o1",
+      "@type": "qb:Observation",
+      "qb:dataSet": {
+        "@id": "urn:example:ds"
+      },
+      "chart:category": "A",
+      "chart:value": 1,
+      "chart:series": "x"
+    },
+    {
+      "@id": "urn:example:o2",
+      "@type": "qb:Observation",
+      "qb:dataSet": {
+        "@id": "urn:example:ds"
+      },
+      "chart:category": "A",
+      "chart:value": 2,
+      "chart:series": "y"
+    },
+    {
+      "@id": "urn:example:o3",
+      "@type": "qb:Observation",
+      "qb:dataSet": {
+        "@id": "urn:example:ds"
+      },
+      "chart:category": "B",
+      "chart:value": 3,
+      "chart:series": "x"
+    },
+    {
+      "@id": "urn:example:o4",
+      "@type": "qb:Observation",
+      "qb:dataSet": {
+        "@id": "urn:example:ds"
+      },
+      "chart:category": "B",
+      "chart:value": 4,
+      "chart:series": "y"
+    }
+  ]
+}

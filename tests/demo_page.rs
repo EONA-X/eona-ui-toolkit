@@ -392,3 +392,122 @@ async fn usage_examples_carry_the_generated_calls_of_the_components_they_use() {
     assert_eq!(two.matches("import {").count(), 1, "{two}");
     assert!(two.contains("CaseCard, NewsCard") || two.contains("NewsCard, CaseCard"), "{two}");
 }
+
+// ---- live charts (section 09b) ---------------------------------------------
+
+/// With the `charts` feature the gallery has a section of data-driven charts. Each
+/// one is an empty container with a reserved height: no server-rendered chart, so
+/// without JavaScript or WebAssembly it stays empty. `assets/charts-page.js` fills it.
+#[cfg(feature = "charts")]
+mod live_charts {
+    use super::*;
+    use eona_ui_toolkit::cube::from_jsonld;
+    use eona_ui_toolkit::demo::{CHARTS_JS, CHART_SAMPLES};
+
+    const NAMES: [&str; 5] = ["BarChart", "StackedBarChart", "LineChart", "CubeScoreDonut", "CubeMetricTile"];
+
+    fn section(html: &str) -> &str {
+        let start = html.find(r#"id="live-charts""#).expect("the live charts section is missing");
+        let end = start + html[start..].find("</section>").unwrap();
+        &html[start..end]
+    }
+
+    /// The containers, as (opening tag, inner HTML up to the closing `</div>`).
+    fn containers(section: &str) -> Vec<(&str, &str)> {
+        let mut out = Vec::new();
+        let mut rest = section;
+        while let Some(at) = rest.find("data-cube-chart=") {
+            let open = rest[..at].rfind('<').unwrap();
+            let tag_end = at + rest[at..].find('>').unwrap() + 1;
+            let inner_end = tag_end + rest[tag_end..].find("</div>").unwrap();
+            out.push((&rest[open..tag_end], &rest[tag_end..inner_end]));
+            rest = &rest[inner_end..];
+        }
+        out
+    }
+
+    #[tokio::test]
+    async fn one_empty_container_per_chart_with_a_sample_to_load() {
+        let html = page_html().await;
+        let found = containers(section(&html));
+        let names: Vec<&str> = found.iter().map(|(t, _)| attr(t, "data-cube-chart").unwrap()).collect();
+        assert_eq!(names, NAMES, "one container per chart, in the order of the five components");
+        for (tag, inner) in found {
+            let src = attr(tag, "data-src").expect("data-src");
+            let file = src.strip_prefix("samples/").unwrap_or_else(|| panic!("{src} is not under samples/"));
+            assert!(CHART_SAMPLES.iter().any(|(n, _)| *n == file), "{file} is not an embedded sample");
+            assert!(inner.is_empty(), "no server-rendered chart: {inner}");
+            assert!(attr(tag, "style").unwrap_or("").contains("min-height"), "reserved height: {tag}");
+            assert!(attr(tag, "id").is_some(), "an id for the switcher to point at: {tag}");
+        }
+    }
+
+    #[tokio::test]
+    async fn each_chart_has_stack_tabs_with_a_cubechart_svelte_call_and_no_react_version() {
+        let html = page_html().await;
+        let section = section(&html);
+        let tabs = blocks(section);
+        assert_eq!(tabs.len(), NAMES.len());
+        for (block, name) in tabs.iter().zip(NAMES) {
+            assert!(unescape(panel(block, "yew")).contains(name), "{name}: the Yew tab names the component");
+            let svelte = unescape(panel(block, "svelte"));
+            assert!(svelte.contains("import { CubeChart } from '@eona-x/ui-toolkit-svelte/wasm';"), "{svelte}");
+            assert!(svelte.contains(&format!(r#"component="{name}""#)), "{svelte}");
+            assert!(svelte.contains(r#"src="samples/"#), "the call names the sample it loads: {svelte}");
+            assert!(!svelte.contains("/data/cube.jsonld"), "{svelte}");
+            let react = unescape(panel(block, "react"));
+            assert!(react.contains("snippet-absent") && react.contains("eona-x/backlog#1219"), "{react}");
+        }
+    }
+
+    #[tokio::test]
+    async fn the_bar_chart_has_a_dataset_switcher_pointing_at_its_container() {
+        let html = page_html().await;
+        let section = section(&html);
+        let (bar, _) = containers(section)[0];
+        let id = attr(bar, "id").unwrap();
+        let buttons = tags_with(section, "data-chart-src=");
+        assert_eq!(buttons.len(), 2, "two datasets: {buttons:?}");
+        for b in &buttons {
+            assert_eq!(attr(b, "data-chart-for"), Some(id), "{b}");
+            assert!(attr(b, "data-chart-src").unwrap().starts_with("samples/"), "{b}");
+        }
+        assert_ne!(attr(buttons[0], "data-chart-src"), attr(buttons[1], "data-chart-src"));
+        assert_eq!(attr(bar, "data-src"), attr(buttons[0], "data-chart-src"), "the first one is the initial load");
+        let group = tags_with(section, "chart-switch").into_iter().next().expect("the switcher group");
+        assert!(is_hidden(group), "without JavaScript there is nothing to switch: {group}");
+    }
+
+    #[test]
+    fn every_embedded_sample_is_a_sample_the_reader_accepts() {
+        assert!(CHART_SAMPLES.len() >= 6);
+        for (name, text) in CHART_SAMPLES {
+            let cube = from_jsonld(text).unwrap_or_else(|e| panic!("{name}: {e}"));
+            assert_eq!(cube.description.as_ref().and_then(|d| d.get(None)), Some("Sample data"), "{name}");
+            let on_disk = std::fs::read_to_string(
+                std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("assets/samples").join(name),
+            )
+            .unwrap();
+            assert_eq!(on_disk, *text, "{name}");
+        }
+        let on_disk = std::fs::read_dir(std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("assets/samples"))
+            .unwrap()
+            .count();
+        assert_eq!(on_disk, CHART_SAMPLES.len(), "a sample on disk that no page can write out");
+    }
+
+    #[test]
+    fn the_page_script_is_exported_for_hosts() {
+        assert!(CHARTS_JS.contains("data-cube-chart") && CHARTS_JS.contains("IntersectionObserver"));
+    }
+}
+
+/// The portal builds the gallery without `charts`: no section, and nothing to load.
+#[cfg(not(feature = "charts"))]
+#[tokio::test]
+async fn without_the_charts_feature_the_gallery_has_no_live_charts() {
+    let html = page_html().await;
+    assert!(!html.contains(r#"id="live-charts""#));
+    assert!(!html.contains("data-cube-chart"));
+    assert!(html.contains(r#"id="snippets""#), "the rest of the page is unchanged");
+}

@@ -1,0 +1,24 @@
+{
+  "@context": {
+    "qb": "http://purl.org/linked-data/cube#",
+    "chart": "https://eona-x.eu/shape/chart-profile#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "urn:example:ds",
+      "@type": "qb:DataSet",
+      "rdfs:label": "Sample"
+    },
+    {
+      "@id": "urn:example:o1",
+      "@type": "qb:Observation",
+      "qb:dataSet": {
+        "@id": "urn:example:nowhere"
+      },
+      "chart:category": "A",
+      "chart:value": 1
+    }
+  ]
+}

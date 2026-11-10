@@ -1,0 +1,105 @@
+{
+  "@context": {
+    "qb": "http://purl.org/linked-data/cube#",
+    "chart": "https://eona-x.eu/shape/chart-profile#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "urn:example:ds",
+      "@type": "qb:DataSet",
+      "rdfs:label": "Sample"
+    },
+    {
+      "@id": "urn:example:o1",
+      "@type": "qb:Observation",
+      "qb:dataSet": {
+        "@id": "urn:example:ds"
+      },
+      "chart:category": "A",
+      "chart:value": 1,
+      "chart:series": "s1"
+    },
+    {
+      "@id": "urn:example:o2",
+      "@type": "qb:Observation",
+      "qb:dataSet": {
+        "@id": "urn:example:ds"
+      },
+      "chart:category": "A",
+      "chart:value": 2,
+      "chart:series": "s2"
+    },
+    {
+      "@id": "urn:example:o3",
+      "@type": "qb:Observation",
+      "qb:dataSet": {
+        "@id": "urn:example:ds"
+      },
+      "chart:category": "A",
+      "chart:value": 3,
+      "chart:series": "s3"
+    },
+    {
+      "@id": "urn:example:o4",
+      "@type": "qb:Observation",
+      "qb:dataSet": {
+        "@id": "urn:example:ds"
+      },
+      "chart:category": "A",
+      "chart:value": 4,
+      "chart:series": "s4"
+    },
+    {
+      "@id": "urn:example:o5",
+      "@type": "qb:Observation",
+      "qb:dataSet": {
+        "@id": "urn:example:ds"
+      },
+      "chart:category": "A",
+      "chart:value": 5,
+      "chart:series": "s5"
+    },
+    {
+      "@id": "urn:example:o6",
+      "@type": "qb:Observation",
+      "qb:dataSet": {
+        "@id": "urn:example:ds"
+      },
+      "chart:category": "A",
+      "chart:value": 6,
+      "chart:series": "s6"
+    },
+    {
+      "@id": "urn:example:o7",
+      "@type": "qb:Observation",
+      "qb:dataSet": {
+        "@id": "urn:example:ds"
+      },
+      "chart:category": "A",
+      "chart:value": 7,
+      "chart:series": "s7"
+    },
+    {
+      "@id": "urn:example:o8",
+      "@type": "qb:Observation",
+      "qb:dataSet": {
+        "@id": "urn:example:ds"
+      },
+      "chart:category": "A",
+      "chart:value": 8,
+      "chart:series": "s8"
+    },
+    {
+      "@id": "urn:example:o9",
+      "@type": "qb:Observation",
+      "qb:dataSet": {
+        "@id": "urn:example:ds"
+      },
+      "chart:category": "A",
+      "chart:value": 9,
+      "chart:series": "s9"
+    }
+  ]
+}

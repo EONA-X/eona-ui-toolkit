@@ -1,0 +1,20 @@
+{
+  "@context": "context.jsonld",
+  "@id": "urn:example:ds",
+  "@type": "DataSet",
+  "label": "Sample",
+  "observations": [
+    {
+      "@id": "urn:example:o1",
+      "@type": "Observation",
+      "category": "A",
+      "value": 3
+    },
+    {
+      "@id": "urn:example:o2",
+      "@type": "Observation",
+      "category": "B",
+      "value": 5
+    }
+  ]
+}

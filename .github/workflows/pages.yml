@@ -5,7 +5,10 @@
 #                              (site/guides/<stack>.md), for yew, react, svelte
 #   /menu/, /create-app/       guides for the two packages (site/guides/*.md)
 #   /yew/                      the gallery: every component's Yew, React and
-#                              Svelte call side by side, and the design sections
+#                              Svelte call side by side, and the design sections;
+#                              plus the live charts: /yew/samples/*.jsonld,
+#                              /yew/charts-page.js and the charts WebAssembly in
+#                              /yew/wasm/ (built from wasm/charts)
 #   /react/, /svelte/          every call, rendered live by React / Svelte
 #
 # The Yew pages are rendered server-side by `examples/render-docs.rs`; every
@@ -31,6 +34,7 @@ on:
       - 'examples/**'
       - 'packages/**'
       - 'site/**'
+      - 'wasm/**'
       - 'Cargo.toml'
       - '.github/workflows/pages.yml'
   workflow_dispatch:
@@ -68,7 +72,7 @@ jobs:
       # gallery's own structure. Publishing a page the crate's own tests reject
       # would be worse than not publishing.
       - name: Test
-        run: cargo test --features ssr
+        run: cargo test --features ssr,charts
 
       - uses: actions/setup-node@v4
         with:
@@ -88,14 +92,32 @@ jobs:
       - name: Check generated output is not stale
         run: cargo run -p xtask -- check
 
+      # `charts` adds the live charts section, and writes its samples and
+      # charts-page.js beside the page.
       - name: Render the gallery
-        run: cargo run --example render-docs --features ssr -- dist
+        run: cargo run --example render-docs --features ssr,charts -- dist
 
       # The Svelte package's `postbuild` copies this build into its `dist`.
       - name: Build the charts WASM
         run: |
           npm install -g wasm-pack
           wasm-pack build --target web --release wasm/charts
+
+      # The same budget bridges.yml enforces: a size regression fails before a deploy.
+      - name: The charts WASM is within its size budget
+        run: |
+          size=$(gzip -9 -c wasm/charts/pkg/eona_ui_toolkit_charts_bg.wasm | wc -c)
+          echo "charts wasm: $size bytes gzip (budget 200000)"
+          test "$size" -le 200000 || { echo "::error::charts wasm is $size bytes gzip, over the 200000 budget"; exit 1; }
+
+      # Beside charts-page.js, which imports wasm/eona_ui_toolkit_charts.js.
+      - name: Add the charts WASM to the gallery
+        run: |
+          mkdir -p dist/yew/wasm
+          cp wasm/charts/pkg/eona_ui_toolkit_charts.js wasm/charts/pkg/eona_ui_toolkit_charts_bg.wasm dist/yew/wasm/
+          ls dist/yew/charts-page.js dist/yew/samples/*.jsonld dist/yew/wasm/eona_ui_toolkit_charts_bg.wasm
+          grep -q 'data-cube-chart' dist/yew/index.html
+          grep -q 'charts-page.js' dist/yew/index.html
 
       # Against the local stylesheet: this commit's version may not be on npm yet.
       - name: Build the packages

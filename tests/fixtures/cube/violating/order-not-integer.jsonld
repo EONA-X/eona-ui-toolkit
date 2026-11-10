@@ -7,7 +7,7 @@
     {
       "@type": "Observation",
       "category": "a",
-      "order": "1",
+      "order": "first",
       "value": 1
     }
   ]

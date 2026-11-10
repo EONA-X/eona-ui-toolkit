@@ -1,0 +1,36 @@
+{
+  "@graph": [
+    {
+      "@id": "urn:example:ds",
+      "@type": [
+        "http://purl.org/linked-data/cube#DataSet"
+      ],
+      "http://www.w3.org/2000/01/rdf-schema#label": [
+        {
+          "@value": "Expanded"
+        }
+      ]
+    },
+    {
+      "@id": "urn:example:o1",
+      "@type": [
+        "http://purl.org/linked-data/cube#Observation"
+      ],
+      "http://purl.org/linked-data/cube#dataSet": [
+        {
+          "@id": "urn:example:ds"
+        }
+      ],
+      "https://eona-x.eu/shape/chart-profile#category": [
+        {
+          "@value": "A"
+        }
+      ],
+      "https://eona-x.eu/shape/chart-profile#value": [
+        {
+          "@value": 4
+        }
+      ]
+    }
+  ]
+}

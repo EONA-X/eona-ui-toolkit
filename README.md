@@ -47,6 +47,15 @@ bought is measurable: `oxttl`, `oxrdf`, `serde`, `serde_json`, `gloo-timers`, `j
 Pick a renderer — the components are renderer-agnostic, so neither feature is on by default:
 `ssr` renders to HTML strings at build time, `csr` mounts them in a browser.
 
+The `charts` feature adds `BarChart`, `StackedBarChart`, `LineChart`, `CubeScoreDonut` and
+`CubeMetricTile`, which draw a JSON-LD dataset in the chart profile
+(`https://eona-x.eu/shape/chart-profile#`, `eonax-chart-profile` in eona-vocabularies-reference).
+Props are `jsonld`, `fetch_error` and `lang`, plus `select` on the donut and `help` on the tile. They
+are classified `wasm-only`: Svelte mounts them with `CubeChart` from `@eona-x/ui-toolkit-svelte/wasm`
+and the module `wasm/charts`, React has no version. `serde_json` is the only dependency the feature
+adds. The components page runs them on sample data (`assets/samples/`), loaded lazily by
+`assets/charts-page.js`.
+
 **An app that just needs the components** wants an ordinary git dependency. Cargo resolves
 it, `Cargo.lock` pins the revision, and there is no submodule to forget to initialise:
 
@@ -207,7 +216,8 @@ to WebAssembly for the ones the generator cannot reach.
 | Import | What | WebAssembly |
 | --- | --- | --- |
 | `@eona-x/ui-toolkit-svelte` | the generated components | none |
-| `@eona-x/ui-toolkit-svelte/wasm` | `<YewMount>` and `use:yew` | the module you pass it, loaded on demand |
+| `@eona-x/ui-toolkit-svelte/wasm` | `<YewMount>`, `use:yew` and `<CubeChart>` | the module you pass it, loaded on demand |
+| `@eona-x/ui-toolkit-svelte/wasm/charts` | the five data-driven charts, built from `wasm/charts` | about 200 KB gzip at most (CI budget) |
 
 The first is written by the same `cargo xtask bridgegen` run, from the same `splice` tree the
 React package is written from (`xtask/src/svelte.rs`), so the two cannot disagree about markup
@@ -346,7 +356,9 @@ component for a React app, a Svelte component or `@eona-x/ui-toolkit-svelte/wasm
 ## Development
 
 ```sh
-cargo test --features ssr                               # SSR parity + demo-page contracts
+cargo test --features ssr,charts                        # SSR parity + demo-page contracts + the chart reader
+tests/differential.sh <eona-vocabularies-reference>     # reader and SHACL shapes agree (needs pyshacl)
+(cd tests/demo-page && npm ci && npm test)              # page glue: stack tabs, Copy, live charts
 cargo check --target wasm32-unknown-unknown --features csr
 cargo clippy --all-targets --features ssr
 cargo test -p xtask                                     # the generator's own suite

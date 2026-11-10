@@ -136,6 +136,48 @@ async fn main() -> std::io::Result<()> {
 
 `cargo run` writes `dist/`; serve it from anywhere.
 
+## Data-driven charts
+
+The `charts` feature adds five components that draw a JSON-LD dataset. It pulls in `serde_json`; a
+build without it stays `yew`-only.
+
+```toml
+eona-ui-toolkit = { git = "https://github.com/EONA-X/eona-ui-toolkit", tag = "v{{version}}", features = ["csr", "charts"] }
+```
+
+| Component | Draws |
+| --- | --- |
+| `BarChart` | one bar per category |
+| `StackedBarChart` | categories, one segment per series |
+| `LineChart` | dates, one line per series |
+| `CubeScoreDonut` | one observation as a fraction of 1 |
+| `CubeMetricTile` | the latest value and the change from the date before |
+
+They take the text of one dataset in the chart profile, `https://eona-x.eu/shape/chart-profile#`
+(terms and SHACL shapes: `eonax-chart-profile` in
+[eona-vocabularies-reference](https://github.com/Eona-X/eona-vocabularies-reference)). A dataset is one
+`qb:DataSet` with a label and 0 to 10 000 `qb:Observation`s, each with a `chart:category` or a
+`chart:date`, a `chart:value` and optionally a `chart:series` (at most 8). The `@context` may be the
+built-in `https://eona-x.eu/shape/chart-profile/context.jsonld`, which is never fetched, an inline
+object, or absent with full IRIs; any other URL is an error.
+
+| Prop | On | |
+| --- | --- | --- |
+| `jsonld: AttrValue` | all | the document text |
+| `fetch_error: Option<AttrValue>` | all | set by a host whose fetch failed; shown in place of the chart |
+| `lang: Option<AttrValue>` | all | language tag for the label and the comment |
+| `select: Option<AttrValue>` | `CubeScoreDonut` | the category or date to draw; default the latest |
+| `help: Option<AttrValue>` | `CubeMetricTile` | small print under the value |
+
+```rust
+<BarChart jsonld={include_str!("airports.jsonld")} />
+```
+
+An invalid document renders `.chart--error` (`role="alert"`) with the parser's message, an empty one
+`.chart--empty`. Colours come from the classes `.chart__series--1` to `--8`, which read the tokens
+`--eona-chart-series-1` to `-8`. React has no version of these: the parse runs in Rust, so the
+browser loads them as WebAssembly. [The components page](../) runs all five on sample data.
+
 ## Theming
 
 `TOKENS_CSS` has a semantic layer named after the job rather than the ink —

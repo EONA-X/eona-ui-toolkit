@@ -1439,3 +1439,8 @@ section.block-alt { background: var(--eona-gray-bg); }
 .chart--empty { color: var(--eona-text-muted); }
 /* Lets a chart shrink inside a grid or flex parent; the kind is also a hook for hosts. */
 .chart--bar, .chart--stacked, .chart--line { min-width: 0; }
+
+/* Dataset switcher above a live chart (components page). Hidden until the page script runs. */
+.chart-switch { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 12px; }
+.chart-switch[hidden] { display: none; }
+.chart-switch .pill-btn[aria-pressed="true"] { background: var(--eona-navy); color: #fff; }

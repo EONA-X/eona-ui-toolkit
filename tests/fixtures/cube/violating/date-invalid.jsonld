@@ -6,7 +6,10 @@
   "observations": [
     {
       "@type": "Observation",
-      "date": "2025-02-30",
+      "date": {
+        "@value": "2025-02-30",
+        "@type": "xsd:date"
+      },
       "value": 1
     }
   ]

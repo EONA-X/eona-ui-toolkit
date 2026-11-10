@@ -1,0 +1,39 @@
+{
+  "@context": {
+    "qb": "http://purl.org/linked-data/cube#",
+    "chart": "https://eona-x.eu/shape/chart-profile#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "urn:example:ds",
+      "@type": "qb:DataSet",
+      "rdfs:label": "Sample"
+    },
+    {
+      "@id": "urn:example:o1",
+      "@type": "qb:Observation",
+      "qb:dataSet": {
+        "@id": "urn:example:ds"
+      },
+      "chart:date": {
+        "@value": "2023",
+        "@type": "xsd:gYear"
+      },
+      "chart:value": 10
+    },
+    {
+      "@id": "urn:example:o2",
+      "@type": "qb:Observation",
+      "qb:dataSet": {
+        "@id": "urn:example:ds"
+      },
+      "chart:date": {
+        "@value": "2024",
+        "@type": "xsd:gYear"
+      },
+      "chart:value": 12
+    }
+  ]
+}

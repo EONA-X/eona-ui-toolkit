@@ -1,0 +1,14 @@
+{
+  "@context": "https://eona-x.eu/shape/chart-profile/context.jsonld",
+  "@id": "https://eona-x.eu/sample/donut-completeness",
+  "@type": "DataSet",
+  "label": "Metadata completeness",
+  "comment": "Sample data",
+  "observations": [
+    {
+      "@type": "Observation",
+      "category": "Completeness",
+      "value": 0.84
+    }
+  ]
+}

@@ -351,6 +351,8 @@ pub fn components_gallery() -> Html {
                 </div>
             </section>
 
+            { live_charts() }
+
             <section class="block" id="snippets">
                 <div class="wrap">
                     <SectionHead number="10" kicker="three stacks" title="Every component, in every stack" />
@@ -396,6 +398,151 @@ pub fn components_gallery() -> Html {
                 </div>
             </section>
         </main>
+    }
+}
+
+/// One live chart of the data-driven charts section.
+#[cfg(feature = "charts")]
+struct LiveChart {
+    /// The component, as `CubeChart`'s `component` and `data-cube-chart` name it.
+    name: &'static str,
+    /// The sample it loads at first, relative to the page.
+    sample: &'static str,
+    /// Extra attribute the Svelte call and the container carry: `(name, value)`.
+    option: Option<(&'static str, &'static str)>,
+    /// What the chart shows.
+    caption: &'static str,
+    /// The Yew call, hand-arranged: the document text comes from the host.
+    yew: &'static str,
+    /// The space reserved before the chart arrives, so the page does not jump.
+    min_height: &'static str,
+}
+
+#[cfg(feature = "charts")]
+const LIVE_CHARTS: [LiveChart; 5] = [
+    LiveChart {
+        name: "BarChart",
+        sample: "bar-airports.jsonld",
+        option: None,
+        caption: "One bar per category. The buttons load a second dataset into the same chart.",
+        yew: r#"<BarChart jsonld={jsonld} />"#,
+        min_height: "320px",
+    },
+    LiveChart {
+        name: "StackedBarChart",
+        sample: "stacked-modes.jsonld",
+        option: None,
+        caption: "Categories on the axis, one stack segment per series.",
+        yew: r#"<StackedBarChart jsonld={jsonld} />"#,
+        min_height: "320px",
+    },
+    LiveChart {
+        name: "LineChart",
+        sample: "line-traffic.jsonld",
+        option: None,
+        caption: "Dates on the axis, one line per series.",
+        yew: r#"<LineChart jsonld={jsonld} />"#,
+        min_height: "320px",
+    },
+    LiveChart {
+        name: "CubeScoreDonut",
+        sample: "donut-completeness.jsonld",
+        option: Some(("select", "Completeness")),
+        caption: "One observation as a fraction of 1; select names the category to draw.",
+        yew: r#"<CubeScoreDonut jsonld={jsonld} select="Completeness" />"#,
+        min_height: "200px",
+    },
+    LiveChart {
+        name: "CubeMetricTile",
+        sample: "metric-records.jsonld",
+        option: Some(("help", "per month")),
+        caption: "The latest value, and the change from the date before.",
+        yew: r#"<CubeMetricTile jsonld={jsonld} help="per month" />"#,
+        min_height: "140px",
+    },
+];
+
+/// The second dataset of the bar chart, for the switcher: (file, button label).
+#[cfg(feature = "charts")]
+const BAR_DATASETS: [(&str, &str); 2] =
+    [("bar-airports.jsonld", "Airports"), ("bar-stations.jsonld", "Stations")];
+
+/// Section "09b": the data-driven charts, mounted live.
+///
+/// Each chart is an empty container; `assets/charts-page.js` loads the WebAssembly
+/// module when it nears the viewport, fetches its sample and mounts the component.
+/// Nothing is rendered on the server. Without the `charts` feature the section
+/// does not exist, which is how the portal builds this page.
+#[cfg(feature = "charts")]
+fn live_charts() -> Html {
+    html! {
+        <section class="block" id="live-charts">
+            <div class="wrap">
+                <SectionHead number="09b" kicker="data" title="Data-driven charts" />
+                <p class="section-intro">
+                    { "Each chart takes the text of one JSON-LD dataset in the chart profile, " }
+                    <code>{ "https://eona-x.eu/shape/chart-profile#" }</code>
+                    { ", and parses it in Rust. They run as WebAssembly: this page loads the module \
+                       when a chart nears the viewport, fetches the sample beside it and mounts the \
+                       component, so nothing here is rendered on the server and the boxes stay empty \
+                       without JavaScript. Svelte mounts them with " }
+                    <code>{ "CubeChart" }</code>{ " from " }
+                    <code>{ "@eona-x/ui-toolkit-svelte/wasm" }</code>
+                    { "; there is no React version." }
+                </p>
+                { for LIVE_CHARTS.iter().map(live_chart) }
+            </div>
+        </section>
+    }
+}
+
+#[cfg(not(feature = "charts"))]
+fn live_charts() -> Html {
+    html! {}
+}
+
+/// One live chart: its title, the preview container, and the three-stack code bar.
+#[cfg(feature = "charts")]
+fn live_chart(c: &'static LiveChart) -> Html {
+    let src = format!("samples/{}", c.sample);
+    let id = format!("live-{}", c.name);
+    let option_attr = |name: &str| c.option.filter(|(n, _)| *n == name).map(|(_, v)| AttrValue::from(v));
+    let tail = c.option.map(|(n, v)| format!(r#" {n}="{v}""#)).unwrap_or_default();
+    // The generated call names a placeholder file; the page's own is the one worth copying.
+    let svelte = stack_calls(&[c.name], Stack::Svelte).map(|code| {
+        code.replace(r#"src="/data/cube.jsonld""#, &format!(r#"src="{src}"{tail}"#))
+    });
+    let (svelte, svelte_absent) = split(svelte);
+    let (react, react_absent) = split(stack_calls(&[c.name], Stack::React));
+    let switcher = (c.name == "BarChart").then(|| html! {
+        <div class="chart-switch" role="group" aria-label="Dataset" hidden=true>
+            { for BAR_DATASETS.iter().map(|(file, label)| html! {
+                <button type="button" class="pill-btn pill-btn-glass-dark"
+                    data-chart-for={id.clone()}
+                    data-chart-src={format!("samples/{file}")}
+                    aria-pressed={if *file == c.sample { "true" } else { "false" }}>
+                    { *label }
+                </button>
+            }) }
+        </div>
+    });
+    html! {
+        <article class="snippet-entry" id={format!("live-chart-{}", c.name)}>
+            <h3 class="snippet-name">{ c.name }</h3>
+            <p class="section-intro">{ c.caption }</p>
+            { for switcher }
+            <UsageExample id={format!("tabs-live-{}", c.name)}
+                source={c.yew}
+                svelte={svelte} react={react}
+                svelte_absent={svelte_absent} react_absent={react_absent}>
+                <div id={id}
+                    data-cube-chart={c.name}
+                    data-src={src}
+                    data-select={option_attr("select")}
+                    data-help={option_attr("help")}
+                    style={format!("min-height:{}", c.min_height)}></div>
+            </UsageExample>
+        </article>
     }
 }
 
