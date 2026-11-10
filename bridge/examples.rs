@@ -9,21 +9,14 @@
 //! (xtask/src/parse.rs), and a generated file inside `src/` would be an input
 //! to the hash of the document that describes it.
 //!
-//! src_hash 49344e57d95e368436041673951a203aca7916775fff19c65ea5c9cb985d106f
+//! src_hash 786c63f1553dc01864b774e3bece18806b892393d12257a29b7916c01a3bc079
 
-/// Whether a component ships in `@eona-x/ui-toolkit-react` — and so in
-/// `@eona-x/ui-toolkit-svelte`, which is written from the same plan.
+/// One stack's half of a component's snippet.
 ///
-/// A page that showed a component's JSX anyway would hand a reader an import
-/// that does not resolve. `abi/overrides.toml` is where the disposition comes
-/// from.
-pub enum ReactSnippet {
-    Available {
-        import: &'static str,
-        jsx: &'static str,
-        svelte_import: &'static str,
-        svelte: &'static str,
-    },
+/// A page that showed a call anyway would hand a reader an import that does not
+/// resolve. `abi/overrides.toml` is where the disposition comes from.
+pub enum StackSnippet {
+    Available { import: &'static str, code: &'static str },
     Unavailable { why: &'static str, disposition: &'static str, tracked_by: &'static str },
 }
 
@@ -35,7 +28,8 @@ pub struct Snippet {
     /// The `use` lines the Yew snippet needs, newline-separated.
     pub yew_uses: &'static str,
     pub yew: &'static str,
-    pub react: ReactSnippet,
+    pub svelte: StackSnippet,
+    pub react: StackSnippet,
 }
 
 /// Every component the crate defines, sorted by name — excluded ones
@@ -49,13 +43,15 @@ pub static SNIPPETS: &[Snippet] = &[
         yew: r#"<AccordionItem open={true} title="Title">
     { "Children go here." }
 </AccordionItem>"#,
-        react: ReactSnippet::Available {
-            import: r#"import { AccordionItem } from '@eona-x/ui-toolkit-react';"#,
-            jsx: r#"<AccordionItem open title="Title">
+        svelte: StackSnippet::Available {
+            import: r#"import { AccordionItem } from '@eona-x/ui-toolkit-svelte';"#,
+            code: r#"<AccordionItem open title="Title">
   Children go here.
 </AccordionItem>"#,
-            svelte_import: r#"import { AccordionItem } from '@eona-x/ui-toolkit-svelte';"#,
-            svelte: r#"<AccordionItem open title="Title">
+        },
+        react: StackSnippet::Available {
+            import: r#"import { AccordionItem } from '@eona-x/ui-toolkit-react';"#,
+            code: r#"<AccordionItem open title="Title">
   Children go here.
 </AccordionItem>"#,
         },
@@ -65,11 +61,13 @@ pub static SNIPPETS: &[Snippet] = &[
         source: r#"src/atoms/badge_num.rs:11"#,
         yew_uses: r#"use eona_ui_toolkit::BadgeNum;"#,
         yew: r#"<BadgeNum number="01" />"#,
-        react: ReactSnippet::Available {
+        svelte: StackSnippet::Available {
+            import: r#"import { BadgeNum } from '@eona-x/ui-toolkit-svelte';"#,
+            code: r#"<BadgeNum number="01" />"#,
+        },
+        react: StackSnippet::Available {
             import: r#"import { BadgeNum } from '@eona-x/ui-toolkit-react';"#,
-            jsx: r#"<BadgeNum number="01" />"#,
-            svelte_import: r#"import { BadgeNum } from '@eona-x/ui-toolkit-svelte';"#,
-            svelte: r#"<BadgeNum number="01" />"#,
+            code: r#"<BadgeNum number="01" />"#,
         },
     },
     Snippet {
@@ -77,7 +75,11 @@ pub static SNIPPETS: &[Snippet] = &[
         source: r#"src/charts/bar.rs:35"#,
         yew_uses: r#"use eona_ui_toolkit::charts::bar::BarChart;"#,
         yew: r#"<BarChart fetch_error="Fetch Error" jsonld="Jsonld" lang="Lang" />"#,
-        react: ReactSnippet::Unavailable {
+        svelte: StackSnippet::Available {
+            import: r#"import { CubeChart } from '@eona-x/ui-toolkit-svelte/wasm';"#,
+            code: r#"<CubeChart component="BarChart" src="/data/cube.jsonld" module={() => import('@eona-x/ui-toolkit-svelte/wasm/charts')} />"#,
+        },
+        react: StackSnippet::Unavailable {
             why: r#"not in the React package — data-driven chart: parses JSON-LD and renders in the browser via WebAssembly"#,
             disposition: r#"Svelte: CubeChart from @eona-x/ui-toolkit-svelte/wasm; React: not planned (eona-x/backlog#1219)"#,
             tracked_by: r#"eona-x/backlog#1219"#,
@@ -94,17 +96,19 @@ pub static SNIPPETS: &[Snippet] = &[
     icon="✓"
     label="Label"
 />"##,
-        react: ReactSnippet::Available {
-            import: r#"import { BgCheckItem } from '@eona-x/ui-toolkit-react';"#,
-            jsx: r##"<BgCheckItem
+        svelte: StackSnippet::Available {
+            import: r#"import { BgCheckItem } from '@eona-x/ui-toolkit-svelte';"#,
+            code: r##"<BgCheckItem
   background="#fff"
   border="1px solid rgba(4,5,83,.12)"
   color="var(--eona-navy)"
   icon="✓"
   label="Label"
 />"##,
-            svelte_import: r#"import { BgCheckItem } from '@eona-x/ui-toolkit-svelte';"#,
-            svelte: r##"<BgCheckItem
+        },
+        react: StackSnippet::Available {
+            import: r#"import { BgCheckItem } from '@eona-x/ui-toolkit-react';"#,
+            code: r##"<BgCheckItem
   background="#fff"
   border="1px solid rgba(4,5,83,.12)"
   color="var(--eona-navy)"
@@ -118,11 +122,13 @@ pub static SNIPPETS: &[Snippet] = &[
         source: r#"src/atoms/button.rs:30"#,
         yew_uses: r#"use eona_ui_toolkit::{Button, ButtonVariant};"#,
         yew: r##"<Button href="#" label="Label" variant={ButtonVariant::Ghost} />"##,
-        react: ReactSnippet::Available {
+        svelte: StackSnippet::Available {
+            import: r#"import { Button } from '@eona-x/ui-toolkit-svelte';"#,
+            code: r##"<Button href="#" label="Label" variant="ghost" />"##,
+        },
+        react: StackSnippet::Available {
             import: r#"import { Button } from '@eona-x/ui-toolkit-react';"#,
-            jsx: r##"<Button href="#" label="Label" variant="ghost" />"##,
-            svelte_import: r#"import { Button } from '@eona-x/ui-toolkit-svelte';"#,
-            svelte: r##"<Button href="#" label="Label" variant="ghost" />"##,
+            code: r##"<Button href="#" label="Label" variant="ghost" />"##,
         },
     },
     Snippet {
@@ -130,11 +136,13 @@ pub static SNIPPETS: &[Snippet] = &[
         source: r#"src/molecules/callout.rs:13"#,
         yew_uses: r#"use eona_ui_toolkit::Callout;"#,
         yew: r#"<Callout english="English" french="French" label="Label" />"#,
-        react: ReactSnippet::Available {
+        svelte: StackSnippet::Available {
+            import: r#"import { Callout } from '@eona-x/ui-toolkit-svelte';"#,
+            code: r#"<Callout english="English" french="French" label="Label" />"#,
+        },
+        react: StackSnippet::Available {
             import: r#"import { Callout } from '@eona-x/ui-toolkit-react';"#,
-            jsx: r#"<Callout english="English" french="French" label="Label" />"#,
-            svelte_import: r#"import { Callout } from '@eona-x/ui-toolkit-svelte';"#,
-            svelte: r#"<Callout english="English" french="French" label="Label" />"#,
+            code: r#"<Callout english="English" french="French" label="Label" />"#,
         },
     },
     Snippet {
@@ -142,11 +150,13 @@ pub static SNIPPETS: &[Snippet] = &[
         source: r#"src/molecules/case_card.rs:15"#,
         yew_uses: r#"use eona_ui_toolkit::CaseCard;"#,
         yew: r##"<CaseCard href="#" tag="Tag" title="Title" />"##,
-        react: ReactSnippet::Available {
+        svelte: StackSnippet::Available {
+            import: r#"import { CaseCard } from '@eona-x/ui-toolkit-svelte';"#,
+            code: r##"<CaseCard href="#" tag="Tag" title="Title" />"##,
+        },
+        react: StackSnippet::Available {
             import: r#"import { CaseCard } from '@eona-x/ui-toolkit-react';"#,
-            jsx: r##"<CaseCard href="#" tag="Tag" title="Title" />"##,
-            svelte_import: r#"import { CaseCard } from '@eona-x/ui-toolkit-svelte';"#,
-            svelte: r##"<CaseCard href="#" tag="Tag" title="Title" />"##,
+            code: r##"<CaseCard href="#" tag="Tag" title="Title" />"##,
         },
     },
     Snippet {
@@ -154,11 +164,13 @@ pub static SNIPPETS: &[Snippet] = &[
         source: r#"src/atoms/code_block.rs:27"#,
         yew_uses: r#"use eona_ui_toolkit::CodeBlock;"#,
         yew: r##"<CodeBlock code={r#"let label = "Go";"#} copyable={false} language="rust" />"##,
-        react: ReactSnippet::Available {
+        svelte: StackSnippet::Available {
+            import: r#"import { CodeBlock } from '@eona-x/ui-toolkit-svelte';"#,
+            code: r#"<CodeBlock code={"let label = \"Go\";"} copyable={false} language="rust" />"#,
+        },
+        react: StackSnippet::Available {
             import: r#"import { CodeBlock } from '@eona-x/ui-toolkit-react';"#,
-            jsx: r#"<CodeBlock code={"let label = \"Go\";"} copyable={false} language="rust" />"#,
-            svelte_import: r#"import { CodeBlock } from '@eona-x/ui-toolkit-svelte';"#,
-            svelte: r#"<CodeBlock code={"let label = \"Go\";"} copyable={false} language="rust" />"#,
+            code: r#"<CodeBlock code={"let label = \"Go\";"} copyable={false} language="rust" />"#,
         },
     },
     Snippet {
@@ -166,7 +178,12 @@ pub static SNIPPETS: &[Snippet] = &[
         source: r#"src/organisms/components_gallery.rs:28"#,
         yew_uses: r#"use eona_ui_toolkit::ComponentsGallery;"#,
         yew: r#"<ComponentsGallery />"#,
-        react: ReactSnippet::Unavailable {
+        svelte: StackSnippet::Unavailable {
+            why: r#"never generated — out of scope by rule: zero-prop demo section"#,
+            disposition: "",
+            tracked_by: "",
+        },
+        react: StackSnippet::Unavailable {
             why: r#"never generated — out of scope by rule: zero-prop demo section"#,
             disposition: "",
             tracked_by: "",
@@ -182,7 +199,11 @@ pub static SNIPPETS: &[Snippet] = &[
     jsonld="Jsonld"
     lang="Lang"
 />"#,
-        react: ReactSnippet::Unavailable {
+        svelte: StackSnippet::Available {
+            import: r#"import { CubeChart } from '@eona-x/ui-toolkit-svelte/wasm';"#,
+            code: r#"<CubeChart component="CubeMetricTile" src="/data/cube.jsonld" module={() => import('@eona-x/ui-toolkit-svelte/wasm/charts')} />"#,
+        },
+        react: StackSnippet::Unavailable {
             why: r#"not in the React package — data-driven chart: parses JSON-LD and renders in the browser via WebAssembly"#,
             disposition: r#"Svelte: CubeChart from @eona-x/ui-toolkit-svelte/wasm; React: not planned (eona-x/backlog#1219)"#,
             tracked_by: r#"eona-x/backlog#1219"#,
@@ -198,7 +219,11 @@ pub static SNIPPETS: &[Snippet] = &[
     lang="Lang"
     select="Select"
 />"#,
-        react: ReactSnippet::Unavailable {
+        svelte: StackSnippet::Available {
+            import: r#"import { CubeChart } from '@eona-x/ui-toolkit-svelte/wasm';"#,
+            code: r#"<CubeChart component="CubeScoreDonut" src="/data/cube.jsonld" module={() => import('@eona-x/ui-toolkit-svelte/wasm/charts')} />"#,
+        },
+        react: StackSnippet::Unavailable {
             why: r#"not in the React package — data-driven chart: parses JSON-LD and renders in the browser via WebAssembly"#,
             disposition: r#"Svelte: CubeChart from @eona-x/ui-toolkit-svelte/wasm; React: not planned (eona-x/backlog#1219)"#,
             tracked_by: r#"eona-x/backlog#1219"#,
@@ -220,9 +245,9 @@ pub static SNIPPETS: &[Snippet] = &[
     title="Title"
     version="Version"
 />"##,
-        react: ReactSnippet::Available {
-            import: r#"import { DatasetCard } from '@eona-x/ui-toolkit-react';"#,
-            jsx: r##"<DatasetCard
+        svelte: StackSnippet::Available {
+            import: r#"import { DatasetCard } from '@eona-x/ui-toolkit-svelte';"#,
+            code: r##"<DatasetCard
   actionLabel="View documentation"
   badge="Badge"
   badgeClass="Badge Class"
@@ -234,8 +259,10 @@ pub static SNIPPETS: &[Snippet] = &[
   title="Title"
   version="Version"
 />"##,
-            svelte_import: r#"import { DatasetCard } from '@eona-x/ui-toolkit-svelte';"#,
-            svelte: r##"<DatasetCard
+        },
+        react: StackSnippet::Available {
+            import: r#"import { DatasetCard } from '@eona-x/ui-toolkit-react';"#,
+            code: r##"<DatasetCard
   actionLabel="View documentation"
   badge="Badge"
   badgeClass="Badge Class"
@@ -261,9 +288,9 @@ pub static SNIPPETS: &[Snippet] = &[
     src="logo/logo-transparent.svg"
     title="Title"
 />"#,
-        react: ReactSnippet::Available {
-            import: r#"import { DeclCard } from '@eona-x/ui-toolkit-react';"#,
-            jsx: r#"<DeclCard
+        svelte: StackSnippet::Available {
+            import: r#"import { DeclCard } from '@eona-x/ui-toolkit-svelte';"#,
+            code: r#"<DeclCard
   alt="EONA-X logo"
   category="Category"
   declType="Decl Type"
@@ -271,8 +298,10 @@ pub static SNIPPETS: &[Snippet] = &[
   src="logo/logo-transparent.svg"
   title="Title"
 />"#,
-            svelte_import: r#"import { DeclCard } from '@eona-x/ui-toolkit-svelte';"#,
-            svelte: r#"<DeclCard
+        },
+        react: StackSnippet::Available {
+            import: r#"import { DeclCard } from '@eona-x/ui-toolkit-react';"#,
+            code: r#"<DeclCard
   alt="EONA-X logo"
   category="Category"
   declType="Decl Type"
@@ -292,7 +321,12 @@ use eona_ui_toolkit::demo::DemoPage;"#,
     footer_text="Footer Text"
     nav={vec![SiteNavLink { href: "#".into(), label: "Label".into(), current: false }]}
 />"##,
-        react: ReactSnippet::Unavailable {
+        svelte: StackSnippet::Unavailable {
+            why: r#"never generated — out of scope by rule: crate showcase page"#,
+            disposition: "",
+            tracked_by: "",
+        },
+        react: StackSnippet::Unavailable {
             why: r#"never generated — out of scope by rule: crate showcase page"#,
             disposition: "",
             tracked_by: "",
@@ -304,11 +338,13 @@ use eona_ui_toolkit::demo::DemoPage;"#,
         yew_uses: r#"use eona_ui_toolkit::EvolutionBadge;
 use eona_ui_toolkit::chart::Trend;"#,
         yew: r#"<EvolutionBadge trend={Trend::Up} value="An annotation value" />"#,
-        react: ReactSnippet::Available {
+        svelte: StackSnippet::Available {
+            import: r#"import { EvolutionBadge } from '@eona-x/ui-toolkit-svelte';"#,
+            code: r#"<EvolutionBadge trend="up" value="An annotation value" />"#,
+        },
+        react: StackSnippet::Available {
             import: r#"import { EvolutionBadge } from '@eona-x/ui-toolkit-react';"#,
-            jsx: r#"<EvolutionBadge trend="up" value="An annotation value" />"#,
-            svelte_import: r#"import { EvolutionBadge } from '@eona-x/ui-toolkit-svelte';"#,
-            svelte: r#"<EvolutionBadge trend="up" value="An annotation value" />"#,
+            code: r#"<EvolutionBadge trend="up" value="An annotation value" />"#,
         },
     },
     Snippet {
@@ -323,9 +359,9 @@ use eona_ui_toolkit::chart::Trend;"#,
 >
     { "Children go here." }
 </Hero>"#,
-        react: ReactSnippet::Available {
-            import: r#"import { Hero } from '@eona-x/ui-toolkit-react';"#,
-            jsx: r#"<Hero
+        svelte: StackSnippet::Available {
+            import: r#"import { Hero } from '@eona-x/ui-toolkit-svelte';"#,
+            code: r#"<Hero
   eyebrow="Eyebrow"
   lede="Lede"
   titleSuffix="Title Suffix"
@@ -333,8 +369,10 @@ use eona_ui_toolkit::chart::Trend;"#,
 >
   Children go here.
 </Hero>"#,
-            svelte_import: r#"import { Hero } from '@eona-x/ui-toolkit-svelte';"#,
-            svelte: r#"<Hero
+        },
+        react: StackSnippet::Available {
+            import: r#"import { Hero } from '@eona-x/ui-toolkit-react';"#,
+            code: r#"<Hero
   eyebrow="Eyebrow"
   lede="Lede"
   titleSuffix="Title Suffix"
@@ -351,13 +389,15 @@ use eona_ui_toolkit::chart::Trend;"#,
         yew: r#"<HeroFilter description="Description" title="Title" with_backdrop={true}>
     { "Children go here." }
 </HeroFilter>"#,
-        react: ReactSnippet::Available {
-            import: r#"import { HeroFilter } from '@eona-x/ui-toolkit-react';"#,
-            jsx: r#"<HeroFilter description="Description" title="Title" withBackdrop>
+        svelte: StackSnippet::Available {
+            import: r#"import { HeroFilter } from '@eona-x/ui-toolkit-svelte';"#,
+            code: r#"<HeroFilter description="Description" title="Title" withBackdrop>
   Children go here.
 </HeroFilter>"#,
-            svelte_import: r#"import { HeroFilter } from '@eona-x/ui-toolkit-svelte';"#,
-            svelte: r#"<HeroFilter description="Description" title="Title" withBackdrop>
+        },
+        react: StackSnippet::Available {
+            import: r#"import { HeroFilter } from '@eona-x/ui-toolkit-react';"#,
+            code: r#"<HeroFilter description="Description" title="Title" withBackdrop>
   Children go here.
 </HeroFilter>"#,
         },
@@ -367,7 +407,12 @@ use eona_ui_toolkit::chart::Trend;"#,
         source: r#"src/organisms/integration_section.rs:33"#,
         yew_uses: r#"use eona_ui_toolkit::IntegrationSection;"#,
         yew: r#"<IntegrationSection />"#,
-        react: ReactSnippet::Unavailable {
+        svelte: StackSnippet::Unavailable {
+            why: r#"never generated — out of scope by rule: zero-prop demo section"#,
+            disposition: "",
+            tracked_by: "",
+        },
+        react: StackSnippet::Unavailable {
             why: r#"never generated — out of scope by rule: zero-prop demo section"#,
             disposition: "",
             tracked_by: "",
@@ -378,7 +423,11 @@ use eona_ui_toolkit::chart::Trend;"#,
         source: r#"src/charts/line.rs:21"#,
         yew_uses: r#"use eona_ui_toolkit::charts::line::LineChart;"#,
         yew: r#"<LineChart fetch_error="Fetch Error" jsonld="Jsonld" lang="Lang" />"#,
-        react: ReactSnippet::Unavailable {
+        svelte: StackSnippet::Available {
+            import: r#"import { CubeChart } from '@eona-x/ui-toolkit-svelte/wasm';"#,
+            code: r#"<CubeChart component="LineChart" src="/data/cube.jsonld" module={() => import('@eona-x/ui-toolkit-svelte/wasm/charts')} />"#,
+        },
+        react: StackSnippet::Unavailable {
             why: r#"not in the React package — data-driven chart: parses JSON-LD and renders in the browser via WebAssembly"#,
             disposition: r#"Svelte: CubeChart from @eona-x/ui-toolkit-svelte/wasm; React: not planned (eona-x/backlog#1219)"#,
             tracked_by: r#"eona-x/backlog#1219"#,
@@ -395,17 +444,19 @@ use eona_ui_toolkit::chart::Trend;"#,
     label="Label"
     preview_style="background:var(--eona-navy);padding:24px;"
 />"#,
-        react: ReactSnippet::Available {
-            import: r#"import { LogoDownloadCard } from '@eona-x/ui-toolkit-react';"#,
-            jsx: r#"<LogoDownloadCard
+        svelte: StackSnippet::Available {
+            import: r#"import { LogoDownloadCard } from '@eona-x/ui-toolkit-svelte';"#,
+            code: r#"<LogoDownloadCard
   downloadName="Download Name"
   file="logo/logo-transparent.svg"
   isTransparent
   label="Label"
   previewStyle="background:var(--eona-navy);padding:24px;"
 />"#,
-            svelte_import: r#"import { LogoDownloadCard } from '@eona-x/ui-toolkit-svelte';"#,
-            svelte: r#"<LogoDownloadCard
+        },
+        react: StackSnippet::Available {
+            import: r#"import { LogoDownloadCard } from '@eona-x/ui-toolkit-react';"#,
+            code: r#"<LogoDownloadCard
   downloadName="Download Name"
   file="logo/logo-transparent.svg"
   isTransparent
@@ -422,14 +473,16 @@ use eona_ui_toolkit::chart::Trend;"#,
     back={NavLink { href: "#".into(), label: "Label".into() }}
     links={vec![NavLink { href: "#".into(), label: "Label".into() }]}
 />"##,
-        react: ReactSnippet::Available {
-            import: r#"import { MainNav } from '@eona-x/ui-toolkit-react';"#,
-            jsx: r##"<MainNav
+        svelte: StackSnippet::Available {
+            import: r#"import { MainNav } from '@eona-x/ui-toolkit-svelte';"#,
+            code: r##"<MainNav
   back={{ href: "#", label: "Label" }}
   links={[{ href: "#", label: "Label" }]}
 />"##,
-            svelte_import: r#"import { MainNav } from '@eona-x/ui-toolkit-svelte';"#,
-            svelte: r##"<MainNav
+        },
+        react: StackSnippet::Available {
+            import: r#"import { MainNav } from '@eona-x/ui-toolkit-react';"#,
+            code: r##"<MainNav
   back={{ href: "#", label: "Label" }}
   links={[{ href: "#", label: "Label" }]}
 />"##,
@@ -440,11 +493,13 @@ use eona_ui_toolkit::chart::Trend;"#,
         source: r#"src/molecules/member_card.rs:11"#,
         yew_uses: r#"use eona_ui_toolkit::MemberCard;"#,
         yew: r#"<MemberCard name="Name" />"#,
-        react: ReactSnippet::Available {
+        svelte: StackSnippet::Available {
+            import: r#"import { MemberCard } from '@eona-x/ui-toolkit-svelte';"#,
+            code: r#"<MemberCard name="Name" />"#,
+        },
+        react: StackSnippet::Available {
             import: r#"import { MemberCard } from '@eona-x/ui-toolkit-react';"#,
-            jsx: r#"<MemberCard name="Name" />"#,
-            svelte_import: r#"import { MemberCard } from '@eona-x/ui-toolkit-svelte';"#,
-            svelte: r#"<MemberCard name="Name" />"#,
+            code: r#"<MemberCard name="Name" />"#,
         },
     },
     Snippet {
@@ -457,16 +512,18 @@ use eona_ui_toolkit::chart::Trend;"#,
     name="Name"
     sectors={vec!["Mobility"]}
 />"#,
-        react: ReactSnippet::Available {
-            import: r#"import { MemberFilterCard } from '@eona-x/ui-toolkit-react';"#,
-            jsx: r#"<MemberFilterCard
+        svelte: StackSnippet::Available {
+            import: r#"import { MemberFilterCard } from '@eona-x/ui-toolkit-svelte';"#,
+            code: r#"<MemberFilterCard
   country="Country"
   memberType="Member Type"
   name="Name"
   sectors={["Mobility"]}
 />"#,
-            svelte_import: r#"import { MemberFilterCard } from '@eona-x/ui-toolkit-svelte';"#,
-            svelte: r#"<MemberFilterCard
+        },
+        react: StackSnippet::Available {
+            import: r#"import { MemberFilterCard } from '@eona-x/ui-toolkit-react';"#,
+            code: r#"<MemberFilterCard
   country="Country"
   memberType="Member Type"
   name="Name"
@@ -481,13 +538,15 @@ use eona_ui_toolkit::chart::Trend;"#,
         yew: r#"<MetricTile help="Help" label="Label" value="An annotation value">
     { "Children go here." }
 </MetricTile>"#,
-        react: ReactSnippet::Available {
-            import: r#"import { MetricTile } from '@eona-x/ui-toolkit-react';"#,
-            jsx: r#"<MetricTile help="Help" label="Label" value="An annotation value">
+        svelte: StackSnippet::Available {
+            import: r#"import { MetricTile } from '@eona-x/ui-toolkit-svelte';"#,
+            code: r#"<MetricTile help="Help" label="Label" value="An annotation value">
   Children go here.
 </MetricTile>"#,
-            svelte_import: r#"import { MetricTile } from '@eona-x/ui-toolkit-svelte';"#,
-            svelte: r#"<MetricTile help="Help" label="Label" value="An annotation value">
+        },
+        react: StackSnippet::Available {
+            import: r#"import { MetricTile } from '@eona-x/ui-toolkit-react';"#,
+            code: r#"<MetricTile help="Help" label="Label" value="An annotation value">
   Children go here.
 </MetricTile>"#,
         },
@@ -499,13 +558,15 @@ use eona_ui_toolkit::chart::Trend;"#,
         yew: r#"<Modal id="example" open={true} title="Title">
     { "Children go here." }
 </Modal>"#,
-        react: ReactSnippet::Available {
-            import: r#"import { Modal } from '@eona-x/ui-toolkit-react';"#,
-            jsx: r#"<Modal id="example" open title="Title">
+        svelte: StackSnippet::Available {
+            import: r#"import { Modal } from '@eona-x/ui-toolkit-svelte';"#,
+            code: r#"<Modal id="example" open title="Title">
   Children go here.
 </Modal>"#,
-            svelte_import: r#"import { Modal } from '@eona-x/ui-toolkit-svelte';"#,
-            svelte: r#"<Modal id="example" open title="Title">
+        },
+        react: StackSnippet::Available {
+            import: r#"import { Modal } from '@eona-x/ui-toolkit-react';"#,
+            code: r#"<Modal id="example" open title="Title">
   Children go here.
 </Modal>"#,
         },
@@ -515,11 +576,13 @@ use eona_ui_toolkit::chart::Trend;"#,
         source: r#"src/molecules/mvo_card.rs:11"#,
         yew_uses: r#"use eona_ui_toolkit::MvoCard;"#,
         yew: r#"<MvoCard description="Description" tag="Tag" />"#,
-        react: ReactSnippet::Available {
+        svelte: StackSnippet::Available {
+            import: r#"import { MvoCard } from '@eona-x/ui-toolkit-svelte';"#,
+            code: r#"<MvoCard description="Description" tag="Tag" />"#,
+        },
+        react: StackSnippet::Available {
             import: r#"import { MvoCard } from '@eona-x/ui-toolkit-react';"#,
-            jsx: r#"<MvoCard description="Description" tag="Tag" />"#,
-            svelte_import: r#"import { MvoCard } from '@eona-x/ui-toolkit-svelte';"#,
-            svelte: r#"<MvoCard description="Description" tag="Tag" />"#,
+            code: r#"<MvoCard description="Description" tag="Tag" />"#,
         },
     },
     Snippet {
@@ -527,11 +590,13 @@ use eona_ui_toolkit::chart::Trend;"#,
         source: r#"src/molecules/nav_dropdown.rs:22"#,
         yew_uses: r#"use eona_ui_toolkit::NavDropdown;"#,
         yew: r##"<NavDropdown id="example" label="Label" links={vec![("#", "About")]} />"##,
-        react: ReactSnippet::Available {
+        svelte: StackSnippet::Available {
+            import: r#"import { NavDropdown } from '@eona-x/ui-toolkit-svelte';"#,
+            code: r##"<NavDropdown id="example" label="Label" links={[["#", "About"]]} />"##,
+        },
+        react: StackSnippet::Available {
             import: r#"import { NavDropdown } from '@eona-x/ui-toolkit-react';"#,
-            jsx: r##"<NavDropdown id="example" label="Label" links={[["#", "About"]]} />"##,
-            svelte_import: r#"import { NavDropdown } from '@eona-x/ui-toolkit-svelte';"#,
-            svelte: r##"<NavDropdown id="example" label="Label" links={[["#", "About"]]} />"##,
+            code: r##"<NavDropdown id="example" label="Label" links={[["#", "About"]]} />"##,
         },
     },
     Snippet {
@@ -539,11 +604,13 @@ use eona_ui_toolkit::chart::Trend;"#,
         source: r#"src/molecules/news_card.rs:16"#,
         yew_uses: r#"use eona_ui_toolkit::NewsCard;"#,
         yew: r##"<NewsCard href="#" tag="Tag" title="Title" />"##,
-        react: ReactSnippet::Available {
+        svelte: StackSnippet::Available {
+            import: r#"import { NewsCard } from '@eona-x/ui-toolkit-svelte';"#,
+            code: r##"<NewsCard href="#" tag="Tag" title="Title" />"##,
+        },
+        react: StackSnippet::Available {
             import: r#"import { NewsCard } from '@eona-x/ui-toolkit-react';"#,
-            jsx: r##"<NewsCard href="#" tag="Tag" title="Title" />"##,
-            svelte_import: r#"import { NewsCard } from '@eona-x/ui-toolkit-svelte';"#,
-            svelte: r##"<NewsCard href="#" tag="Tag" title="Title" />"##,
+            code: r##"<NewsCard href="#" tag="Tag" title="Title" />"##,
         },
     },
     Snippet {
@@ -555,11 +622,13 @@ use eona_ui_toolkit::ontology::LiteralValue;"#,
     label="Label"
     values={vec![LiteralValue { value: "An annotation value".into(), language: None, datatype: None, datatype_label: None }]}
 />"#,
-        react: ReactSnippet::Available {
+        svelte: StackSnippet::Available {
+            import: r#"import { OntoAnnotation } from '@eona-x/ui-toolkit-svelte';"#,
+            code: r#"<OntoAnnotation label="Label" values={[{ value: "An annotation value" }]} />"#,
+        },
+        react: StackSnippet::Available {
             import: r#"import { OntoAnnotation } from '@eona-x/ui-toolkit-react';"#,
-            jsx: r#"<OntoAnnotation label="Label" values={[{ value: "An annotation value" }]} />"#,
-            svelte_import: r#"import { OntoAnnotation } from '@eona-x/ui-toolkit-svelte';"#,
-            svelte: r#"<OntoAnnotation label="Label" values={[{ value: "An annotation value" }]} />"#,
+            code: r#"<OntoAnnotation label="Label" values={[{ value: "An annotation value" }]} />"#,
         },
     },
     Snippet {
@@ -567,11 +636,13 @@ use eona_ui_toolkit::ontology::LiteralValue;"#,
         source: r#"src/atoms/onto_badge.rs:66"#,
         yew_uses: r#"use eona_ui_toolkit::{BadgeVariant, OntoBadge};"#,
         yew: r#"<OntoBadge label="Label" title="Title" variant={BadgeVariant::Lang} />"#,
-        react: ReactSnippet::Available {
+        svelte: StackSnippet::Available {
+            import: r#"import { OntoBadge } from '@eona-x/ui-toolkit-svelte';"#,
+            code: r#"<OntoBadge label="Label" title="Title" variant="lang" />"#,
+        },
+        react: StackSnippet::Available {
             import: r#"import { OntoBadge } from '@eona-x/ui-toolkit-react';"#,
-            jsx: r#"<OntoBadge label="Label" title="Title" variant="lang" />"#,
-            svelte_import: r#"import { OntoBadge } from '@eona-x/ui-toolkit-svelte';"#,
-            svelte: r#"<OntoBadge label="Label" title="Title" variant="lang" />"#,
+            code: r#"<OntoBadge label="Label" title="Title" variant="lang" />"#,
         },
     },
     Snippet {
@@ -579,7 +650,12 @@ use eona_ui_toolkit::ontology::LiteralValue;"#,
         source: r#"src/organisms/ontology_section.rs:28"#,
         yew_uses: r#"use eona_ui_toolkit::OntologySection;"#,
         yew: r#"<OntologySection />"#,
-        react: ReactSnippet::Unavailable {
+        svelte: StackSnippet::Unavailable {
+            why: r#"never generated — out of scope by rule: zero-prop demo section"#,
+            disposition: "",
+            tracked_by: "",
+        },
+        react: StackSnippet::Unavailable {
             why: r#"never generated — out of scope by rule: zero-prop demo section"#,
             disposition: "",
             tracked_by: "",
@@ -595,16 +671,18 @@ use eona_ui_toolkit::ontology::LiteralValue;"#,
     note="Note"
     title="Title"
 />"##,
-        react: ReactSnippet::Available {
-            import: r#"import { PaletteGroup } from '@eona-x/ui-toolkit-react';"#,
-            jsx: r##"<PaletteGroup
+        svelte: StackSnippet::Available {
+            import: r#"import { PaletteGroup } from '@eona-x/ui-toolkit-svelte';"#,
+            code: r##"<PaletteGroup
   colors={[{ name: "Name", hex: "#040553", usage: "Primary brand colour", ink: "Ink" }]}
   description="Description"
   note="Note"
   title="Title"
 />"##,
-            svelte_import: r#"import { PaletteGroup } from '@eona-x/ui-toolkit-svelte';"#,
-            svelte: r##"<PaletteGroup
+        },
+        react: StackSnippet::Available {
+            import: r#"import { PaletteGroup } from '@eona-x/ui-toolkit-react';"#,
+            code: r##"<PaletteGroup
   colors={[{ name: "Name", hex: "#040553", usage: "Primary brand colour", ink: "Ink" }]}
   description="Description"
   note="Note"
@@ -617,11 +695,13 @@ use eona_ui_toolkit::ontology::LiteralValue;"#,
         source: r#"src/molecules/personality_card.rs:11"#,
         yew_uses: r#"use eona_ui_toolkit::PersonalityCard;"#,
         yew: r#"<PersonalityCard description="Description" tag="Tag" />"#,
-        react: ReactSnippet::Available {
+        svelte: StackSnippet::Available {
+            import: r#"import { PersonalityCard } from '@eona-x/ui-toolkit-svelte';"#,
+            code: r#"<PersonalityCard description="Description" tag="Tag" />"#,
+        },
+        react: StackSnippet::Available {
             import: r#"import { PersonalityCard } from '@eona-x/ui-toolkit-react';"#,
-            jsx: r#"<PersonalityCard description="Description" tag="Tag" />"#,
-            svelte_import: r#"import { PersonalityCard } from '@eona-x/ui-toolkit-svelte';"#,
-            svelte: r#"<PersonalityCard description="Description" tag="Tag" />"#,
+            code: r#"<PersonalityCard description="Description" tag="Tag" />"#,
         },
     },
     Snippet {
@@ -631,13 +711,15 @@ use eona_ui_toolkit::ontology::LiteralValue;"#,
         yew: r#"<Pill tone={PillTone::Bad}>
     { "Children go here." }
 </Pill>"#,
-        react: ReactSnippet::Available {
-            import: r#"import { Pill } from '@eona-x/ui-toolkit-react';"#,
-            jsx: r#"<Pill tone="bad">
+        svelte: StackSnippet::Available {
+            import: r#"import { Pill } from '@eona-x/ui-toolkit-svelte';"#,
+            code: r#"<Pill tone="bad">
   Children go here.
 </Pill>"#,
-            svelte_import: r#"import { Pill } from '@eona-x/ui-toolkit-svelte';"#,
-            svelte: r#"<Pill tone="bad">
+        },
+        react: StackSnippet::Available {
+            import: r#"import { Pill } from '@eona-x/ui-toolkit-react';"#,
+            code: r#"<Pill tone="bad">
   Children go here.
 </Pill>"#,
         },
@@ -652,11 +734,13 @@ use eona_ui_toolkit::ontology::LiteralValue;"#,
     kind={PillButtonKind::GlassLight}
     label="Label"
 />"##,
-        react: ReactSnippet::Available {
+        svelte: StackSnippet::Available {
+            import: r#"import { PillButton } from '@eona-x/ui-toolkit-svelte';"#,
+            code: r##"<PillButton disabled href="#" kind="glass-light" label="Label" />"##,
+        },
+        react: StackSnippet::Available {
             import: r#"import { PillButton } from '@eona-x/ui-toolkit-react';"#,
-            jsx: r##"<PillButton disabled href="#" kind="glass-light" label="Label" />"##,
-            svelte_import: r#"import { PillButton } from '@eona-x/ui-toolkit-svelte';"#,
-            svelte: r##"<PillButton disabled href="#" kind="glass-light" label="Label" />"##,
+            code: r##"<PillButton disabled href="#" kind="glass-light" label="Label" />"##,
         },
     },
     Snippet {
@@ -668,15 +752,17 @@ use eona_ui_toolkit::ontology::LiteralValue;"#,
     points={vec![("Open", "by default, not by exception")]}
     title="Title"
 />"#,
-        react: ReactSnippet::Available {
-            import: r#"import { PillarCard } from '@eona-x/ui-toolkit-react';"#,
-            jsx: r#"<PillarCard
+        svelte: StackSnippet::Available {
+            import: r#"import { PillarCard } from '@eona-x/ui-toolkit-svelte';"#,
+            code: r#"<PillarCard
   num="01"
   points={[["Open", "by default, not by exception"]]}
   title="Title"
 />"#,
-            svelte_import: r#"import { PillarCard } from '@eona-x/ui-toolkit-svelte';"#,
-            svelte: r#"<PillarCard
+        },
+        react: StackSnippet::Available {
+            import: r#"import { PillarCard } from '@eona-x/ui-toolkit-react';"#,
+            code: r#"<PillarCard
   num="01"
   points={[["Open", "by default, not by exception"]]}
   title="Title"
@@ -691,14 +777,16 @@ use eona_ui_toolkit::ontology::LiteralValue;"#,
     component="Button"
     props={vec![PropSpec { name: "Name".into(), ty: "AttrValue".into(), default: None, doc: "What the prop does.".into() }]}
 />"#,
-        react: ReactSnippet::Available {
-            import: r#"import { PropsTable } from '@eona-x/ui-toolkit-react';"#,
-            jsx: r#"<PropsTable
+        svelte: StackSnippet::Available {
+            import: r#"import { PropsTable } from '@eona-x/ui-toolkit-svelte';"#,
+            code: r#"<PropsTable
   component="Button"
   props={[{ name: "Name", ty: "AttrValue", doc: "What the prop does." }]}
 />"#,
-            svelte_import: r#"import { PropsTable } from '@eona-x/ui-toolkit-svelte';"#,
-            svelte: r#"<PropsTable
+        },
+        react: StackSnippet::Available {
+            import: r#"import { PropsTable } from '@eona-x/ui-toolkit-react';"#,
+            code: r#"<PropsTable
   component="Button"
   props={[{ name: "Name", ty: "AttrValue", doc: "What the prop does." }]}
 />"#,
@@ -714,16 +802,18 @@ use eona_ui_toolkit::ontology::LiteralValue;"#,
     src="logo/logo-transparent.svg"
     title="Title"
 />"#,
-        react: ReactSnippet::Available {
-            import: r#"import { RefCard } from '@eona-x/ui-toolkit-react';"#,
-            jsx: r#"<RefCard
+        svelte: StackSnippet::Available {
+            import: r#"import { RefCard } from '@eona-x/ui-toolkit-svelte';"#,
+            code: r#"<RefCard
   alt="EONA-X logo"
   description="Description"
   src="logo/logo-transparent.svg"
   title="Title"
 />"#,
-            svelte_import: r#"import { RefCard } from '@eona-x/ui-toolkit-svelte';"#,
-            svelte: r#"<RefCard
+        },
+        react: StackSnippet::Available {
+            import: r#"import { RefCard } from '@eona-x/ui-toolkit-react';"#,
+            code: r#"<RefCard
   alt="EONA-X logo"
   description="Description"
   src="logo/logo-transparent.svg"
@@ -738,13 +828,15 @@ use eona_ui_toolkit::ontology::LiteralValue;"#,
         yew: r#"<RuleListItem kind={RuleKind::Do}>
     { "Children go here." }
 </RuleListItem>"#,
-        react: ReactSnippet::Available {
-            import: r#"import { RuleListItem } from '@eona-x/ui-toolkit-react';"#,
-            jsx: r#"<RuleListItem kind="do">
+        svelte: StackSnippet::Available {
+            import: r#"import { RuleListItem } from '@eona-x/ui-toolkit-svelte';"#,
+            code: r#"<RuleListItem kind="do">
   Children go here.
 </RuleListItem>"#,
-            svelte_import: r#"import { RuleListItem } from '@eona-x/ui-toolkit-svelte';"#,
-            svelte: r#"<RuleListItem kind="do">
+        },
+        react: StackSnippet::Available {
+            import: r#"import { RuleListItem } from '@eona-x/ui-toolkit-react';"#,
+            code: r#"<RuleListItem kind="do">
   Children go here.
 </RuleListItem>"#,
         },
@@ -760,16 +852,18 @@ use eona_ui_toolkit::chart::ScoreBand;"#,
     dash_array="Dash Array"
     label="Label"
 />"#,
-        react: ReactSnippet::Available {
-            import: r#"import { ScoreDonut } from '@eona-x/ui-toolkit-react';"#,
-            jsx: r#"<ScoreDonut
+        svelte: StackSnippet::Available {
+            import: r#"import { ScoreDonut } from '@eona-x/ui-toolkit-svelte';"#,
+            code: r#"<ScoreDonut
   band="good"
   caption="Caption"
   dashArray="Dash Array"
   label="Label"
 />"#,
-            svelte_import: r#"import { ScoreDonut } from '@eona-x/ui-toolkit-svelte';"#,
-            svelte: r#"<ScoreDonut
+        },
+        react: StackSnippet::Available {
+            import: r#"import { ScoreDonut } from '@eona-x/ui-toolkit-react';"#,
+            code: r#"<ScoreDonut
   band="good"
   caption="Caption"
   dashArray="Dash Array"
@@ -782,11 +876,13 @@ use eona_ui_toolkit::chart::ScoreBand;"#,
         source: r#"src/molecules/section_head.rs:15"#,
         yew_uses: r#"use eona_ui_toolkit::SectionHead;"#,
         yew: r#"<SectionHead kicker="Kicker" number="01" title="Title" />"#,
-        react: ReactSnippet::Available {
+        svelte: StackSnippet::Available {
+            import: r#"import { SectionHead } from '@eona-x/ui-toolkit-svelte';"#,
+            code: r#"<SectionHead kicker="Kicker" number="01" title="Title" />"#,
+        },
+        react: StackSnippet::Available {
             import: r#"import { SectionHead } from '@eona-x/ui-toolkit-react';"#,
-            jsx: r#"<SectionHead kicker="Kicker" number="01" title="Title" />"#,
-            svelte_import: r#"import { SectionHead } from '@eona-x/ui-toolkit-svelte';"#,
-            svelte: r#"<SectionHead kicker="Kicker" number="01" title="Title" />"#,
+            code: r#"<SectionHead kicker="Kicker" number="01" title="Title" />"#,
         },
     },
     Snippet {
@@ -799,17 +895,19 @@ use yew::prelude::*;"#,
     description="Description"
     title="Title"
 />"#,
-        react: ReactSnippet::Available {
+        svelte: StackSnippet::Available {
+            import: r#"import { ShapeCard } from '@eona-x/ui-toolkit-svelte';"#,
+            code: r#"<ShapeCard description="Description" title="Title">
+  {#snippet demo()}<span>Slot content.</span>{/snippet}
+</ShapeCard>"#,
+        },
+        react: StackSnippet::Available {
             import: r#"import { ShapeCard } from '@eona-x/ui-toolkit-react';"#,
-            jsx: r#"<ShapeCard
+            code: r#"<ShapeCard
   demo={<span>Slot content.</span>}
   description="Description"
   title="Title"
 />"#,
-            svelte_import: r#"import { ShapeCard } from '@eona-x/ui-toolkit-svelte';"#,
-            svelte: r#"<ShapeCard description="Description" title="Title">
-  {#snippet demo()}<span>Slot content.</span>{/snippet}
-</ShapeCard>"#,
         },
     },
     Snippet {
@@ -820,11 +918,13 @@ use yew::prelude::*;"#,
     link={NavLink { href: "#".into(), label: "Label".into() }}
     text="Text"
 />"##,
-        react: ReactSnippet::Available {
+        svelte: StackSnippet::Available {
+            import: r#"import { SimpleFooter } from '@eona-x/ui-toolkit-svelte';"#,
+            code: r##"<SimpleFooter link={{ href: "#", label: "Label" }} text="Text" />"##,
+        },
+        react: StackSnippet::Available {
             import: r#"import { SimpleFooter } from '@eona-x/ui-toolkit-react';"#,
-            jsx: r##"<SimpleFooter link={{ href: "#", label: "Label" }} text="Text" />"##,
-            svelte_import: r#"import { SimpleFooter } from '@eona-x/ui-toolkit-svelte';"#,
-            svelte: r##"<SimpleFooter link={{ href: "#", label: "Label" }} text="Text" />"##,
+            code: r##"<SimpleFooter link={{ href: "#", label: "Label" }} text="Text" />"##,
         },
     },
     Snippet {
@@ -835,14 +935,16 @@ use yew::prelude::*;"#,
     links={vec![SiteNavLink { href: "#".into(), label: "Label".into(), current: false }]}
     show_login={true}
 />"##,
-        react: ReactSnippet::Available {
-            import: r#"import { SiteHeader } from '@eona-x/ui-toolkit-react';"#,
-            jsx: r##"<SiteHeader
+        svelte: StackSnippet::Available {
+            import: r#"import { SiteHeader } from '@eona-x/ui-toolkit-svelte';"#,
+            code: r##"<SiteHeader
   links={[{ href: "#", label: "Label", current: false }]}
   showLogin
 />"##,
-            svelte_import: r#"import { SiteHeader } from '@eona-x/ui-toolkit-svelte';"#,
-            svelte: r##"<SiteHeader
+        },
+        react: StackSnippet::Available {
+            import: r#"import { SiteHeader } from '@eona-x/ui-toolkit-react';"#,
+            code: r##"<SiteHeader
   links={[{ href: "#", label: "Label", current: false }]}
   showLogin
 />"##,
@@ -853,7 +955,11 @@ use yew::prelude::*;"#,
         source: r#"src/charts/stacked.rs:22"#,
         yew_uses: r#"use eona_ui_toolkit::charts::stacked::StackedBarChart;"#,
         yew: r#"<StackedBarChart fetch_error="Fetch Error" jsonld="Jsonld" lang="Lang" />"#,
-        react: ReactSnippet::Unavailable {
+        svelte: StackSnippet::Available {
+            import: r#"import { CubeChart } from '@eona-x/ui-toolkit-svelte/wasm';"#,
+            code: r#"<CubeChart component="StackedBarChart" src="/data/cube.jsonld" module={() => import('@eona-x/ui-toolkit-svelte/wasm/charts')} />"#,
+        },
+        react: StackSnippet::Unavailable {
             why: r#"not in the React package — data-driven chart: parses JSON-LD and renders in the browser via WebAssembly"#,
             disposition: r#"Svelte: CubeChart from @eona-x/ui-toolkit-svelte/wasm; React: not planned (eona-x/backlog#1219)"#,
             tracked_by: r#"eona-x/backlog#1219"#,
@@ -870,17 +976,19 @@ use yew::prelude::*;"#,
     usage="Primary brand colour"
     variants="Variants"
 />"##,
-        react: ReactSnippet::Available {
-            import: r#"import { Swatch } from '@eona-x/ui-toolkit-react';"#,
-            jsx: r##"<Swatch
+        svelte: StackSnippet::Available {
+            import: r#"import { Swatch } from '@eona-x/ui-toolkit-svelte';"#,
+            code: r##"<Swatch
   hex="#040553"
   ink="Ink"
   name="Name"
   usage="Primary brand colour"
   variants="Variants"
 />"##,
-            svelte_import: r#"import { Swatch } from '@eona-x/ui-toolkit-svelte';"#,
-            svelte: r##"<Swatch
+        },
+        react: StackSnippet::Available {
+            import: r#"import { Swatch } from '@eona-x/ui-toolkit-react';"#,
+            code: r##"<Swatch
   hex="#040553"
   ink="Ink"
   name="Name"
@@ -894,11 +1002,13 @@ use yew::prelude::*;"#,
         source: r#"src/atoms/tag_label.rs:27"#,
         yew_uses: r#"use eona_ui_toolkit::{TagLabel, TagLabelTone};"#,
         yew: r#"<TagLabel text="Text" tone={TagLabelTone::Blue} />"#,
-        react: ReactSnippet::Available {
+        svelte: StackSnippet::Available {
+            import: r#"import { TagLabel } from '@eona-x/ui-toolkit-svelte';"#,
+            code: r#"<TagLabel text="Text" tone="blue" />"#,
+        },
+        react: StackSnippet::Available {
             import: r#"import { TagLabel } from '@eona-x/ui-toolkit-react';"#,
-            jsx: r#"<TagLabel text="Text" tone="blue" />"#,
-            svelte_import: r#"import { TagLabel } from '@eona-x/ui-toolkit-svelte';"#,
-            svelte: r#"<TagLabel text="Text" tone="blue" />"#,
+            code: r#"<TagLabel text="Text" tone="blue" />"#,
         },
     },
     Snippet {
@@ -911,16 +1021,18 @@ use yew::prelude::*;"#,
     label="Label"
     placeholder="Placeholder"
 />"#,
-        react: ReactSnippet::Available {
-            import: r#"import { TextField } from '@eona-x/ui-toolkit-react';"#,
-            jsx: r#"<TextField
+        svelte: StackSnippet::Available {
+            import: r#"import { TextField } from '@eona-x/ui-toolkit-svelte';"#,
+            code: r#"<TextField
   id="example"
   kind="textarea"
   label="Label"
   placeholder="Placeholder"
 />"#,
-            svelte_import: r#"import { TextField } from '@eona-x/ui-toolkit-svelte';"#,
-            svelte: r#"<TextField
+        },
+        react: StackSnippet::Available {
+            import: r#"import { TextField } from '@eona-x/ui-toolkit-react';"#,
+            code: r#"<TextField
   id="example"
   kind="textarea"
   label="Label"
@@ -938,13 +1050,15 @@ use yew::prelude::*;"#,
     sample={html! { <span>{ "Slot content." }</span> }}
     spec="Spec"
 />"#,
-        react: ReactSnippet::Available {
-            import: r#"import { TypeScaleRow } from '@eona-x/ui-toolkit-react';"#,
-            jsx: r#"<TypeScaleRow role="Role" sample={<span>Slot content.</span>} spec="Spec" />"#,
-            svelte_import: r#"import { TypeScaleRow } from '@eona-x/ui-toolkit-svelte';"#,
-            svelte: r#"<TypeScaleRow role="Role" spec="Spec">
+        svelte: StackSnippet::Available {
+            import: r#"import { TypeScaleRow } from '@eona-x/ui-toolkit-svelte';"#,
+            code: r#"<TypeScaleRow role="Role" spec="Spec">
   {#snippet sample()}<span>Slot content.</span>{/snippet}
 </TypeScaleRow>"#,
+        },
+        react: StackSnippet::Available {
+            import: r#"import { TypeScaleRow } from '@eona-x/ui-toolkit-react';"#,
+            code: r#"<TypeScaleRow role="Role" sample={<span>Slot content.</span>} spec="Spec" />"#,
         },
     },
     Snippet {
@@ -954,13 +1068,15 @@ use yew::prelude::*;"#,
         yew: r##"<UsageExample on_dark={true} source={r#"<Button label="Go" />"#}>
     { "Children go here." }
 </UsageExample>"##,
-        react: ReactSnippet::Available {
-            import: r#"import { UsageExample } from '@eona-x/ui-toolkit-react';"#,
-            jsx: r#"<UsageExample onDark source={"<Button label=\"Go\" />"}>
+        svelte: StackSnippet::Available {
+            import: r#"import { UsageExample } from '@eona-x/ui-toolkit-svelte';"#,
+            code: r#"<UsageExample onDark source={"<Button label=\"Go\" />"}>
   Children go here.
 </UsageExample>"#,
-            svelte_import: r#"import { UsageExample } from '@eona-x/ui-toolkit-svelte';"#,
-            svelte: r#"<UsageExample onDark source={"<Button label=\"Go\" />"}>
+        },
+        react: StackSnippet::Available {
+            import: r#"import { UsageExample } from '@eona-x/ui-toolkit-react';"#,
+            code: r#"<UsageExample onDark source={"<Button label=\"Go\" />"}>
   Children go here.
 </UsageExample>"#,
         },
