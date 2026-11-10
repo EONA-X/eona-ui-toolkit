@@ -1,5 +1,5 @@
 # EONA-X site menu (illustrative content)
-@prefix menu: <https://eona-x.eu/ns/menu#> .
+@prefix menu: <https://eona-x.eu/ontology/ui-toolkit-menu#> .
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
 PREFIX ex: <https://eona-x.eu/menu/>
 

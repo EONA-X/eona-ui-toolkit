@@ -155,7 +155,7 @@ test('15 vocab and fixture parse; golden', () => {
   assert.doesNotThrow(() => parseTurtle(vocab));
   const src = readFileSync(new URL('./fixtures/eona-x.ttl', import.meta.url), 'utf8');
   const { triples } = parseTurtle(src);
-  const M = 'https://eona-x.eu/ns/menu#';
+  const M = 'https://eona-x.eu/ontology/ui-toolkit-menu#';
   const main = iri('https://eona-x.eu/menu/main');
   assert.deepEqual(triples.slice(0, 5), [
     { s: main, p: RDF + 'type', o: iri(M + 'Menu') },

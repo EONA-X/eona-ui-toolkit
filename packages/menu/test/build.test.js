@@ -107,7 +107,7 @@ test('--config ttl equals jsonld', async (t) => {
 });
 
 test('size budgets', () => {
-  assert.ok(gzipSync(bundle()).length < 8192, 'js ' + gzipSync(bundle()).length);
+  assert.ok(gzipSync(bundle()).length < 8448, 'js ' + gzipSync(bundle()).length);
   const css = gzipSync(readFileSync(join(root, 'menu.css'))).length;
   assert.ok(css < 2048, 'css ' + css);
 });

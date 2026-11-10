@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { graphToModel } from '../src/rdf.js';
 import { normalize } from '../src/model.js';
 
-const M = 'https://eona-x.eu/ns/menu#';
+const M = 'https://eona-x.eu/ontology/ui-toolkit-menu#';
 const RDF = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
 const XSD = 'http://www.w3.org/2001/XMLSchema#';
 const iri = (value) => ({ type: 'iri', value });

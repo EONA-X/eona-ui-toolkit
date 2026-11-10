@@ -1,5 +1,5 @@
 {
-  "@context": "https://eona-x.eu/ns/menu/context.jsonld",
+  "@context": "https://eona-x.eu/ontology/ui-toolkit-menu/context.jsonld",
   "@id": "https://eona-x.eu/menu/main",
   "@type": "Menu",
   "lang": "fr",

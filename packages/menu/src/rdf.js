@@ -1,12 +1,17 @@
 // Triples to authoring-shape model (un-normalized).
 import { MenuError } from './errors.js';
 
-const NS = 'https://eona-x.eu/ns/menu#';
+export const NS = 'https://eona-x.eu/ontology/ui-toolkit-menu#';
+// Legacy namespace (0.10.x and earlier), read as NS. Remove in 1.0.
+export const LEGACY_NS = 'https://eona-x.eu/ns/menu#';
+const upv = (v) => (v.startsWith(LEGACY_NS) ? NS + v.slice(LEGACY_NS.length) : v);
+const up = (n) => (n.type === 'iri' ? { ...n, value: upv(n.value) } : n);
 const RDF_NS = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
 const RDFS_LABEL = 'http://www.w3.org/2000/01/rdf-schema#label';
 const key = (n) => n.type + n.value;
 
-export function graphToModel(triples, opts) {
+export function graphToModel(rawTriples, opts) {
+  const triples = rawTriples.map((t) => ({ s: up(t.s), p: upv(t.p), o: up(t.o) }));
   const by = new Map();
   for (const t of triples) {
     if (!by.has(key(t.s))) by.set(key(t.s), []);

@@ -6,7 +6,7 @@ import { MenuError } from '../src/errors.js';
 
 const read = (n) => readFileSync(new URL('./fixtures/' + n, import.meta.url), 'utf8');
 const expected = JSON.parse(read('eona-x.model.json'));
-const PFX = '@prefix menu: <https://eona-x.eu/ns/menu#> .\n@prefix ex: <https://eona-x.eu/menu/> .\n';
+const PFX = '@prefix menu: <https://eona-x.eu/ontology/ui-toolkit-menu#> .\n@prefix ex: <https://eona-x.eu/menu/> .\n';
 
 test('16 eona-x.ttl matches the contract model', () => {
   assert.deepStrictEqual(ttlToModel(read('eona-x.ttl')), expected);

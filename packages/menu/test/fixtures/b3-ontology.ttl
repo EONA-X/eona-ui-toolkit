@@ -1,0 +1,174 @@
+# Eona-X UI Toolkit Menu Vocabulary v0.1.0
+#
+# RDFS vocabulary read by @eona-x/ui-toolkit-menu to build the site menu from
+# JSON-LD. Terms are minted in the stable namespace
+# https://eona-x.eu/ontology/ui-toolkit-menu# (prefix "menu"); the release is
+# identified by its owl:versionIRI. The local names and labels are those of the
+# vocabulary first published with the package (see TERMS.md, Legacy).
+
+@prefix menu: <https://eona-x.eu/ontology/ui-toolkit-menu#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+
+menu: a owl:Ontology ;
+  rdfs:label "EONA-X menu vocabulary"@en ;
+  owl:versionInfo "0.1.0" ;
+  owl:versionIRI <https://eona-x.eu/ontology/ui-toolkit-menu/v0.1.0#> .
+
+menu:Menu a rdfs:Class ;
+  rdfs:label "Menu"@en ;
+  rdfs:comment "A site menu. Exactly one per graph unless a menu IRI is given."@en .
+
+menu:Item a rdfs:Class ;
+  rdfs:label "Item"@en ;
+  rdfs:comment "A menu entry. The type is optional and inferred from position."@en .
+
+menu:Logo a rdfs:Class ;
+  rdfs:label "Logo"@en ;
+  rdfs:comment "The site logo."@en .
+
+menu:LinkAction a rdfs:Class ;
+  rdfs:label "Link action"@en ;
+  rdfs:comment "A button-style link shown in the actions area."@en .
+
+menu:LanguageSwitcher a rdfs:Class ;
+  rdfs:label "Language switcher"@en ;
+  rdfs:comment "An action offering the alternate language versions."@en .
+
+menu:Alternate a rdfs:Class ;
+  rdfs:label "Alternate"@en ;
+  rdfs:comment "One language version of the current page."@en .
+
+menu:lang a rdf:Property ;
+  rdfs:label "language"@en ;
+  rdfs:comment "Default language of a Menu, or the language of an Alternate (BCP 47)."@en ;
+  rdfs:range xsd:string .
+
+menu:ariaLabel a rdf:Property ;
+  rdfs:label "aria label"@en ;
+  rdfs:comment "Accessible name of the navigation landmark."@en ;
+  rdfs:domain menu:Menu ;
+  rdfs:range rdf:langString .
+
+menu:breakpoint a rdf:Property ;
+  rdfs:label "breakpoint"@en ;
+  rdfs:comment "Viewport width in px at which the menu switches to the desktop layout. Default 1024."@en ;
+  rdfs:domain menu:Menu ;
+  rdfs:range xsd:integer .
+
+menu:collapseOffset a rdf:Property ;
+  rdfs:label "collapse offset"@en ;
+  rdfs:comment "Scroll distance in px after which the header collapses into the pill. Default 200."@en ;
+  rdfs:domain menu:Menu ;
+  rdfs:range xsd:integer .
+
+menu:logo a rdf:Property ;
+  rdfs:label "logo"@en ;
+  rdfs:comment "The logo of the menu."@en ;
+  rdfs:domain menu:Menu ;
+  rdfs:range menu:Logo .
+
+menu:src a rdf:Property ;
+  rdfs:label "source"@en ;
+  rdfs:comment "Logo image URL."@en ;
+  rdfs:domain menu:Logo ;
+  rdfs:range xsd:string .
+
+menu:srcCompact a rdf:Property ;
+  rdfs:label "compact source"@en ;
+  rdfs:comment "Logo image URL for the collapsed state. Defaults to menu:src."@en ;
+  rdfs:domain menu:Logo ;
+  rdfs:range xsd:string .
+
+menu:width a rdf:Property ;
+  rdfs:label "width"@en ;
+  rdfs:comment "Intrinsic width in px."@en ;
+  rdfs:domain menu:Logo ;
+  rdfs:range xsd:integer .
+
+menu:height a rdf:Property ;
+  rdfs:label "height"@en ;
+  rdfs:comment "Intrinsic height in px."@en ;
+  rdfs:domain menu:Logo ;
+  rdfs:range xsd:integer .
+
+menu:label a rdf:Property ;
+  rdfs:label "label"@en ;
+  rdfs:comment "Visible text, one value per language. rdfs:label is the fallback."@en ;
+  rdfs:range rdf:langString .
+
+menu:href a rdf:Property ;
+  rdfs:label "href"@en ;
+  rdfs:comment "Link target, as a string literal or an IRI."@en ;
+  rdfs:range xsd:string .
+
+menu:current a rdf:Property ;
+  rdfs:label "current"@en ;
+  rdfs:comment "True when the entry points to the current page."@en ;
+  rdfs:range xsd:boolean .
+
+menu:external a rdf:Property ;
+  rdfs:label "external"@en ;
+  rdfs:comment "True when the link opens in a new tab."@en ;
+  rdfs:range xsd:boolean .
+
+menu:variant a rdf:Property ;
+  rdfs:label "variant"@en ;
+  rdfs:comment "Button style of a LinkAction: glass (default) or solid."@en ;
+  rdfs:domain menu:LinkAction ;
+  rdfs:range xsd:string .
+
+menu:items a rdf:Property ;
+  rdfs:label "items"@en ;
+  rdfs:comment "Ordered list of top-level items. Preferred over menu:item."@en ;
+  rdfs:domain menu:Menu ;
+  rdfs:range rdf:List .
+
+menu:children a rdf:Property ;
+  rdfs:label "children"@en ;
+  rdfs:comment "Ordered list of submenu items. Preferred over menu:child."@en ;
+  rdfs:domain menu:Item ;
+  rdfs:range rdf:List .
+
+menu:actions a rdf:Property ;
+  rdfs:label "actions"@en ;
+  rdfs:comment "Ordered list of actions. Preferred over menu:action."@en ;
+  rdfs:domain menu:Menu ;
+  rdfs:range rdf:List .
+
+menu:alternates a rdf:Property ;
+  rdfs:label "alternates"@en ;
+  rdfs:comment "Ordered list of alternates. Preferred over menu:alternate."@en ;
+  rdfs:domain menu:LanguageSwitcher ;
+  rdfs:range rdf:List .
+
+menu:item a rdf:Property ;
+  rdfs:label "item"@en ;
+  rdfs:comment "Unordered top-level item, sorted by menu:order."@en ;
+  rdfs:domain menu:Menu ;
+  rdfs:range menu:Item .
+
+menu:child a rdf:Property ;
+  rdfs:label "child"@en ;
+  rdfs:comment "Unordered submenu item, sorted by menu:order."@en ;
+  rdfs:domain menu:Item ;
+  rdfs:range menu:Item .
+
+menu:action a rdf:Property ;
+  rdfs:label "action"@en ;
+  rdfs:comment "Unordered action, sorted by menu:order."@en ;
+  rdfs:domain menu:Menu ;
+  rdfs:range rdfs:Resource .
+
+menu:alternate a rdf:Property ;
+  rdfs:label "alternate"@en ;
+  rdfs:comment "Unordered alternate, sorted by menu:order."@en ;
+  rdfs:domain menu:LanguageSwitcher ;
+  rdfs:range menu:Alternate .
+
+menu:order a rdf:Property ;
+  rdfs:label "order"@en ;
+  rdfs:comment "Sort key for the singular forms. Missing sorts last."@en ;
+  rdfs:range xsd:integer .

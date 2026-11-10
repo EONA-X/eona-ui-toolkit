@@ -3,8 +3,8 @@
 # every page (Yew-rendered and Vite-built). Hrefs are literals relative to the site
 # root; the build prefixes them with `../` once per directory level, so they
 # resolve from any page depth and under any base path (/eona-ui-toolkit/ on Pages).
-@prefix menu: <https://eona-x.eu/ns/menu#> .
-@prefix ex:   <https://eona-x.eu/ns/menu/example/> .
+@prefix menu: <https://eona-x.eu/ontology/ui-toolkit-menu#> .
+@prefix ex:   <https://eona-x.eu/menu/example/> .
 
 ex:docs a menu:Menu ;
   menu:lang "en" ;

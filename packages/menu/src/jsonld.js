@@ -1,11 +1,13 @@
 // JSON-LD subset to triples; never fetches.
 import { MenuError } from './errors.js';
-import { graphToModel } from './rdf.js';
+import { graphToModel, NS, LEGACY_NS } from './rdf.js';
 import { normalize } from './model.js';
 
-export const MENU_CONTEXT_URL = 'https://eona-x.eu/ns/menu/context.jsonld';
+export const MENU_CONTEXT_URL = NS.slice(0, -1) + '/context.jsonld';
+// Legacy context URL (0.10.x and earlier): same terms, never fetched. Remove in 1.0.
+const LEGACY_CONTEXT_URL = LEGACY_NS.slice(0, -1) + '/context.jsonld';
 function jsonldContext() {
-  const c = { menu: 'https://eona-x.eu/ns/menu#', xsd: 'http://www.w3.org/2001/XMLSchema#', id: '@id', type: '@type' };
+  const c = { menu: NS, xsd: 'http://www.w3.org/2001/XMLSchema#', id: '@id', type: '@type' };
   const add = (names, extra) => names.split(' ').forEach((k) => {
     const p = 'menu:' + k;
     c[k] = extra ? { '@id': p, ...extra } : p;
@@ -28,7 +30,7 @@ const asArr = (v) => (Array.isArray(v) ? v : [v]);
 function applyContext(ctx, c) {
   const next = { terms: Object.assign(Object.create(null), ctx.terms), vocab: ctx.vocab, lang: ctx.lang };
   for (const part of asArr(c)) {
-    if (part === MENU_CONTEXT_URL) Object.assign(next.terms, applyContext(next, MENU_CONTEXT).terms);
+    if (part === MENU_CONTEXT_URL || part === LEGACY_CONTEXT_URL) Object.assign(next.terms, applyContext(next, MENU_CONTEXT).terms);
     else if (typeof part === 'string') throw new MenuError('remote contexts are not fetched: ' + part);
     else if (isNodeObj(part)) {
       for (const k of Object.keys(part)) {

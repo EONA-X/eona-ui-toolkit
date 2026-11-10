@@ -16,11 +16,11 @@ It depends on `@eona-x/ui-toolkit-css` at the same version, which provides the `
 
 ## Configure in Turtle
 
-The menu is described with the vocabulary `https://eona-x.eu/ns/menu#` (`vocab/menu.ttl` in the package). A Turtle file is converted at build time:
+The menu is described with the vocabulary `https://eona-x.eu/ontology/ui-toolkit-menu#` (`vocab/menu.ttl` in the package). A Turtle file is converted at build time:
 
 ```turtle
-@prefix menu: <https://eona-x.eu/ns/menu#> .
-@prefix ex:   <https://eona-x.eu/ns/menu/example/> .
+@prefix menu: <https://eona-x.eu/ontology/ui-toolkit-menu#> .
+@prefix ex:   <https://eona-x.eu/menu/example/> .
 
 ex:docs a menu:Menu ;
   menu:lang "en" ;
@@ -46,7 +46,7 @@ The same model as JSON-LD, loaded at runtime. The context is built in and never 
 
 ```json
 {
-  "@context": "https://eona-x.eu/ns/menu/context.jsonld",
+  "@context": "https://eona-x.eu/ontology/ui-toolkit-menu/context.jsonld",
   "@type": "Menu",
   "lang": "en",
   "items": [

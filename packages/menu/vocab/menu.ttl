@@ -1,11 +1,21 @@
-# Vocabulary of the EONA-X menu (RDFS).
-@prefix menu: <https://eona-x.eu/ns/menu#> .
+# Eona-X UI Toolkit Menu Vocabulary v0.1.0
+#
+# RDFS vocabulary read by @eona-x/ui-toolkit-menu to build the site menu from
+# JSON-LD. Terms are minted in the stable namespace
+# https://eona-x.eu/ontology/ui-toolkit-menu# (prefix "menu"); the release is
+# identified by its owl:versionIRI. The local names and labels are those of the
+# vocabulary first published with the package (see TERMS.md, Legacy).
+
+@prefix menu: <https://eona-x.eu/ontology/ui-toolkit-menu#> .
 @prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
 @prefix owl:  <http://www.w3.org/2002/07/owl#> .
 
-<https://eona-x.eu/ns/menu#> a owl:Ontology ; rdfs:label "EONA-X menu vocabulary"@en .
+menu: a owl:Ontology ;
+  rdfs:label "EONA-X menu vocabulary"@en ;
+  owl:versionInfo "0.1.0" ;
+  owl:versionIRI <https://eona-x.eu/ontology/ui-toolkit-menu/v0.1.0#> .
 
 menu:Menu a rdfs:Class ;
   rdfs:label "Menu"@en ;

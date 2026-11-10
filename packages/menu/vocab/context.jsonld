@@ -1,6 +1,6 @@
 {
   "@context": {
-    "menu": "https://eona-x.eu/ns/menu#",
+    "menu": "https://eona-x.eu/ontology/ui-toolkit-menu#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "Menu": "menu:Menu",
     "Item": "menu:Item",
