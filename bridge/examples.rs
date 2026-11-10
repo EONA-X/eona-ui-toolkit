@@ -9,7 +9,7 @@
 //! (xtask/src/parse.rs), and a generated file inside `src/` would be an input
 //! to the hash of the document that describes it.
 //!
-//! src_hash e4d59088d570983d2fe65bf5f99d4ba097b29abef6718abe88bd5db660e30879
+//! src_hash c20cded2ea9006e797d4d9559e74d88314f31640c3ec1b56d34d4d7784e6bcf4
 
 /// Whether a component ships in `@eona-x/ui-toolkit-react` — and so in
 /// `@eona-x/ui-toolkit-svelte`, which is written from the same plan.
