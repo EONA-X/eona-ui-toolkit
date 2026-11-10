@@ -101,6 +101,26 @@
      absence of score, not a fourth status. */
   --eona-chart-track: #E4E9F2;
 
+  /* Categorical series for the data-driven charts (eona-x/backlog#1219). Unlike
+     the three status colours above, these are series colours: they carry no
+     meaning of their own and are assigned in order, so a chart never shows more
+     than eight (the chart profile caps a dataset at eight series). Each is at
+     least 3:1 against the white raised surface, and the dark set at least 3:1
+     against `--eona-slate`, so a bar, line or legend swatch clears what graphics
+     need. Neighbouring series stay apart under protanopia and deuteranopia (OKLab
+     ΔE x100 >= 8, Machado 2009 simulation) and in normal vision (>= 15); both
+     sets were checked with the dataviz palette validator, and
+     `tests/chart_tokens.rs` repeats the checks. A chart also names every series
+     in its legend and data table, so colour is never the only key. */
+  --eona-chart-series-1: #2A78D6;
+  --eona-chart-series-2: #EB6834;
+  --eona-chart-series-3: #0F8F78;
+  --eona-chart-series-4: #B87C00;
+  --eona-chart-series-5: #D4527F;
+  --eona-chart-series-6: #008300;
+  --eona-chart-series-7: #6250D6;
+  --eona-chart-series-8: #E34948;
+
   /* ---------------------------------------------------------------- */
   /* Typography                                                       */
   /* ---------------------------------------------------------------- */
@@ -192,6 +212,16 @@
 
   /* The triad is mode-invariant; only the recessive track follows the surface. */
   --eona-chart-track: #33445E;
+
+  /* Lighter steps of the series hues, for the slate and navy surfaces. */
+  --eona-chart-series-1: #3987E5;
+  --eona-chart-series-2: #D95926;
+  --eona-chart-series-3: #199E70;
+  --eona-chart-series-4: #C98500;
+  --eona-chart-series-5: #E0608F;
+  --eona-chart-series-6: #1A9C1A;
+  --eona-chart-series-7: #9085E9;
+  --eona-chart-series-8: #E66767;
 
   /* The exception to that: see `--eona-critical` in the light block. Lighter
      than `--eona-error` here, darker than it there — both directions mean

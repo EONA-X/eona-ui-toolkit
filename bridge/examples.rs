@@ -9,7 +9,7 @@
 //! (xtask/src/parse.rs), and a generated file inside `src/` would be an input
 //! to the hash of the document that describes it.
 //!
-//! src_hash c20cded2ea9006e797d4d9559e74d88314f31640c3ec1b56d34d4d7784e6bcf4
+//! src_hash 49344e57d95e368436041673951a203aca7916775fff19c65ea5c9cb985d106f
 
 /// Whether a component ships in `@eona-x/ui-toolkit-react` — and so in
 /// `@eona-x/ui-toolkit-svelte`, which is written from the same plan.
@@ -70,6 +70,17 @@ pub static SNIPPETS: &[Snippet] = &[
             jsx: r#"<BadgeNum number="01" />"#,
             svelte_import: r#"import { BadgeNum } from '@eona-x/ui-toolkit-svelte';"#,
             svelte: r#"<BadgeNum number="01" />"#,
+        },
+    },
+    Snippet {
+        component: r#"BarChart"#,
+        source: r#"src/charts/bar.rs:35"#,
+        yew_uses: r#"use eona_ui_toolkit::charts::bar::BarChart;"#,
+        yew: r#"<BarChart fetch_error="Fetch Error" jsonld="Jsonld" lang="Lang" />"#,
+        react: ReactSnippet::Unavailable {
+            why: r#"not in the React package — data-driven chart: parses JSON-LD and renders in the browser via WebAssembly"#,
+            disposition: r#"Svelte: CubeChart from @eona-x/ui-toolkit-svelte/wasm; React: not planned (eona-x/backlog#1219)"#,
+            tracked_by: r#"eona-x/backlog#1219"#,
         },
     },
     Snippet {
@@ -159,6 +170,38 @@ pub static SNIPPETS: &[Snippet] = &[
             why: r#"never generated — out of scope by rule: zero-prop demo section"#,
             disposition: "",
             tracked_by: "",
+        },
+    },
+    Snippet {
+        component: r#"CubeMetricTile"#,
+        source: r#"src/charts/cube_metric.rs:26"#,
+        yew_uses: r#"use eona_ui_toolkit::charts::cube_metric::CubeMetricTile;"#,
+        yew: r#"<CubeMetricTile
+    fetch_error="Fetch Error"
+    help="Help"
+    jsonld="Jsonld"
+    lang="Lang"
+/>"#,
+        react: ReactSnippet::Unavailable {
+            why: r#"not in the React package — data-driven chart: parses JSON-LD and renders in the browser via WebAssembly"#,
+            disposition: r#"Svelte: CubeChart from @eona-x/ui-toolkit-svelte/wasm; React: not planned (eona-x/backlog#1219)"#,
+            tracked_by: r#"eona-x/backlog#1219"#,
+        },
+    },
+    Snippet {
+        component: r#"CubeScoreDonut"#,
+        source: r#"src/charts/cube_donut.rs:26"#,
+        yew_uses: r#"use eona_ui_toolkit::charts::cube_donut::CubeScoreDonut;"#,
+        yew: r#"<CubeScoreDonut
+    fetch_error="Fetch Error"
+    jsonld="Jsonld"
+    lang="Lang"
+    select="Select"
+/>"#,
+        react: ReactSnippet::Unavailable {
+            why: r#"not in the React package — data-driven chart: parses JSON-LD and renders in the browser via WebAssembly"#,
+            disposition: r#"Svelte: CubeChart from @eona-x/ui-toolkit-svelte/wasm; React: not planned (eona-x/backlog#1219)"#,
+            tracked_by: r#"eona-x/backlog#1219"#,
         },
     },
     Snippet {
@@ -328,6 +371,17 @@ use eona_ui_toolkit::chart::Trend;"#,
             why: r#"never generated — out of scope by rule: zero-prop demo section"#,
             disposition: "",
             tracked_by: "",
+        },
+    },
+    Snippet {
+        component: r#"LineChart"#,
+        source: r#"src/charts/line.rs:21"#,
+        yew_uses: r#"use eona_ui_toolkit::charts::line::LineChart;"#,
+        yew: r#"<LineChart fetch_error="Fetch Error" jsonld="Jsonld" lang="Lang" />"#,
+        react: ReactSnippet::Unavailable {
+            why: r#"not in the React package — data-driven chart: parses JSON-LD and renders in the browser via WebAssembly"#,
+            disposition: r#"Svelte: CubeChart from @eona-x/ui-toolkit-svelte/wasm; React: not planned (eona-x/backlog#1219)"#,
+            tracked_by: r#"eona-x/backlog#1219"#,
         },
     },
     Snippet {
@@ -792,6 +846,17 @@ use yew::prelude::*;"#,
   links={[{ href: "#", label: "Label", current: false }]}
   showLogin
 />"##,
+        },
+    },
+    Snippet {
+        component: r#"StackedBarChart"#,
+        source: r#"src/charts/stacked.rs:22"#,
+        yew_uses: r#"use eona_ui_toolkit::charts::stacked::StackedBarChart;"#,
+        yew: r#"<StackedBarChart fetch_error="Fetch Error" jsonld="Jsonld" lang="Lang" />"#,
+        react: ReactSnippet::Unavailable {
+            why: r#"not in the React package — data-driven chart: parses JSON-LD and renders in the browser via WebAssembly"#,
+            disposition: r#"Svelte: CubeChart from @eona-x/ui-toolkit-svelte/wasm; React: not planned (eona-x/backlog#1219)"#,
+            tracked_by: r#"eona-x/backlog#1219"#,
         },
     },
     Snippet {

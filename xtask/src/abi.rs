@@ -1390,13 +1390,13 @@ mod tests {
         let in_scope = abi
             .components
             .iter()
-            .filter(|c| !matches!(c.status, Status::Excluded { .. }))
+            .filter(|c| !matches!(c.status, Status::Excluded { .. } | Status::WasmOnly { .. }))
             .count();
         assert_eq!(in_scope, 41, "#809 scopes 38 components, plus #822's three charts");
 
         // Every in-scope component must have rendered at least one cell; a zero
         // there is an axis the matrix dropped, not a component with no props.
-        for c in abi.components.iter().filter(|c| !matches!(c.status, Status::Excluded { .. })) {
+        for c in abi.components.iter().filter(|c| !matches!(c.status, Status::Excluded { .. } | Status::WasmOnly { .. })) {
             assert!(c.cells > 0, "{} is in scope but records no render cells", c.name);
         }
         // And every excluded one must carry the rule that excluded it.

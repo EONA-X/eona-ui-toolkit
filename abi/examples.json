@@ -1,6 +1,6 @@
 {
   "examplesVersion": 2,
-  "srcHash": "c20cded2ea9006e797d4d9559e74d88314f31640c3ec1b56d34d4d7784e6bcf4",
+  "srcHash": "49344e57d95e368436041673951a203aca7916775fff19c65ea5c9cb985d106f",
   "components": [
     {
       "component": "AccordionItem",
@@ -29,6 +29,20 @@
       "jsx": "<BadgeNum number=\"01\" />",
       "svelteImport": "import { BadgeNum } from '@eona-x/ui-toolkit-svelte';",
       "svelte": "<BadgeNum number=\"01\" />"
+    },
+    {
+      "component": "BarChart",
+      "source": "src/charts/bar.rs:35",
+      "status": "wasm-only",
+      "reason": "data-driven chart: parses JSON-LD and renders in the browser via WebAssembly",
+      "yew": {
+        "uses": "use eona_ui_toolkit::charts::bar::BarChart;",
+        "snippet": "<BarChart fetch_error=\"Fetch Error\" jsonld=\"Jsonld\" lang=\"Lang\" />"
+      },
+      "react": "unavailable",
+      "why": "not in the React package — data-driven chart: parses JSON-LD and renders in the browser via WebAssembly",
+      "disposition": "Svelte: CubeChart from @eona-x/ui-toolkit-svelte/wasm; React: not planned (eona-x/backlog#1219)",
+      "tracked_by": "eona-x/backlog#1219"
     },
     {
       "component": "BgCheckItem",
@@ -112,6 +126,34 @@
       "react": "unavailable",
       "why": "never generated — out of scope by rule: zero-prop demo section",
       "disposition": ""
+    },
+    {
+      "component": "CubeMetricTile",
+      "source": "src/charts/cube_metric.rs:26",
+      "status": "wasm-only",
+      "reason": "data-driven chart: parses JSON-LD and renders in the browser via WebAssembly",
+      "yew": {
+        "uses": "use eona_ui_toolkit::charts::cube_metric::CubeMetricTile;",
+        "snippet": "<CubeMetricTile\n    fetch_error=\"Fetch Error\"\n    help=\"Help\"\n    jsonld=\"Jsonld\"\n    lang=\"Lang\"\n/>"
+      },
+      "react": "unavailable",
+      "why": "not in the React package — data-driven chart: parses JSON-LD and renders in the browser via WebAssembly",
+      "disposition": "Svelte: CubeChart from @eona-x/ui-toolkit-svelte/wasm; React: not planned (eona-x/backlog#1219)",
+      "tracked_by": "eona-x/backlog#1219"
+    },
+    {
+      "component": "CubeScoreDonut",
+      "source": "src/charts/cube_donut.rs:26",
+      "status": "wasm-only",
+      "reason": "data-driven chart: parses JSON-LD and renders in the browser via WebAssembly",
+      "yew": {
+        "uses": "use eona_ui_toolkit::charts::cube_donut::CubeScoreDonut;",
+        "snippet": "<CubeScoreDonut\n    fetch_error=\"Fetch Error\"\n    jsonld=\"Jsonld\"\n    lang=\"Lang\"\n    select=\"Select\"\n/>"
+      },
+      "react": "unavailable",
+      "why": "not in the React package — data-driven chart: parses JSON-LD and renders in the browser via WebAssembly",
+      "disposition": "Svelte: CubeChart from @eona-x/ui-toolkit-svelte/wasm; React: not planned (eona-x/backlog#1219)",
+      "tracked_by": "eona-x/backlog#1219"
     },
     {
       "component": "DatasetCard",
@@ -208,6 +250,20 @@
       "react": "unavailable",
       "why": "never generated — out of scope by rule: zero-prop demo section",
       "disposition": ""
+    },
+    {
+      "component": "LineChart",
+      "source": "src/charts/line.rs:21",
+      "status": "wasm-only",
+      "reason": "data-driven chart: parses JSON-LD and renders in the browser via WebAssembly",
+      "yew": {
+        "uses": "use eona_ui_toolkit::charts::line::LineChart;",
+        "snippet": "<LineChart fetch_error=\"Fetch Error\" jsonld=\"Jsonld\" lang=\"Lang\" />"
+      },
+      "react": "unavailable",
+      "why": "not in the React package — data-driven chart: parses JSON-LD and renders in the browser via WebAssembly",
+      "disposition": "Svelte: CubeChart from @eona-x/ui-toolkit-svelte/wasm; React: not planned (eona-x/backlog#1219)",
+      "tracked_by": "eona-x/backlog#1219"
     },
     {
       "component": "LogoDownloadCard",
@@ -557,6 +613,20 @@
       "jsx": "<SiteHeader\n  links={[{ href: \"#\", label: \"Label\", current: false }]}\n  showLogin\n/>",
       "svelteImport": "import { SiteHeader } from '@eona-x/ui-toolkit-svelte';",
       "svelte": "<SiteHeader\n  links={[{ href: \"#\", label: \"Label\", current: false }]}\n  showLogin\n/>"
+    },
+    {
+      "component": "StackedBarChart",
+      "source": "src/charts/stacked.rs:22",
+      "status": "wasm-only",
+      "reason": "data-driven chart: parses JSON-LD and renders in the browser via WebAssembly",
+      "yew": {
+        "uses": "use eona_ui_toolkit::charts::stacked::StackedBarChart;",
+        "snippet": "<StackedBarChart fetch_error=\"Fetch Error\" jsonld=\"Jsonld\" lang=\"Lang\" />"
+      },
+      "react": "unavailable",
+      "why": "not in the React package — data-driven chart: parses JSON-LD and renders in the browser via WebAssembly",
+      "disposition": "Svelte: CubeChart from @eona-x/ui-toolkit-svelte/wasm; React: not planned (eona-x/backlog#1219)",
+      "tracked_by": "eona-x/backlog#1219"
     },
     {
       "component": "Swatch",

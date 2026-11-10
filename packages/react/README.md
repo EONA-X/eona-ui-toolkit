@@ -7,7 +7,7 @@ of truth is the Yew crate in this repository (`src/`): each component here was p
 rendering the Rust component with Yew's own server renderer and splicing the props back
 into the resulting markup, so the React and Yew renders are the same HTML by construction.
 
-Generated from src_hash `c20cded2ea9006e797d4d9559e74d88314f31640c3ec1b56d34d4d7784e6bcf4`.
+Generated from src_hash `49344e57d95e368436041673951a203aca7916775fff19c65ea5c9cb985d106f`.
 
 ## Documentation
 
@@ -126,6 +126,14 @@ snapshot test that diffs this package's SSR bytes against the Yew portal's:
 - `TextField` — `src/molecules/text_field.rs:22`
 - `TypeScaleRow` — `src/molecules/type_scale_row.rs:14`
 - `UsageExample` — `src/molecules/usage_example.rs:24`
+
+## Not exported (5)
+
+- `BarChart` — wasm-only — data-driven chart: parses JSON-LD and renders in the browser via WebAssembly (`src/charts/bar.rs:35`)
+- `CubeMetricTile` — wasm-only — data-driven chart: parses JSON-LD and renders in the browser via WebAssembly (`src/charts/cube_metric.rs:26`)
+- `CubeScoreDonut` — wasm-only — data-driven chart: parses JSON-LD and renders in the browser via WebAssembly (`src/charts/cube_donut.rs:26`)
+- `LineChart` — wasm-only — data-driven chart: parses JSON-LD and renders in the browser via WebAssembly (`src/charts/line.rs:21`)
+- `StackedBarChart` — wasm-only — data-driven chart: parses JSON-LD and renders in the browser via WebAssembly (`src/charts/stacked.rs:22`)
 
 ## Out of scope (4)
 
