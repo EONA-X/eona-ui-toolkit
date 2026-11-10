@@ -96,6 +96,7 @@ fn summary(tk: &Toolkit, root: &Path, out: &Path) -> Result<()> {
             Status::NeedsOverride { reason } => format!("needs-override: {reason}"),
             Status::Quarantined { reason } => format!("quarantined: {reason}"),
             Status::Excluded { reason } => format!("excluded: {reason}"),
+            Status::WasmOnly { reason } => format!("wasm-only: {reason}"),
         };
         buckets.entry(key).or_default().push(&c.name);
     }
@@ -285,6 +286,7 @@ fn render_summary(
             Status::NeedsOverride { reason } => format!("needs-override: {reason}"),
             Status::Quarantined { reason } => format!("quarantined: {reason}"),
             Status::Excluded { reason } => format!("excluded: {reason}"),
+            Status::WasmOnly { reason } => format!("wasm-only: {reason}"),
         };
         by_status.entry(key).or_default().push(&c.name);
     }

@@ -265,6 +265,16 @@ pub(crate) fn plan<'a>(
                 }
                 plan.omitted.push((c, format!("quarantined — {reason}")));
             }
+            Status::WasmOnly { reason } => {
+                if jsx.contains_key(&c.name) {
+                    bail!(
+                        "splice produced JSX for {}, which is wasm-only ({reason}) at {}",
+                        c.name,
+                        span(&c.span)
+                    );
+                }
+                plan.omitted.push((c, format!("wasm-only — {reason}")));
+            }
             Status::Excluded { reason } => {
                 if jsx.contains_key(&c.name) {
                     bail!(

@@ -751,6 +751,7 @@ fn describe_status(s: &Status) -> String {
         Status::NeedsOverride { reason } => format!("needs-override ({reason})"),
         Status::Quarantined { reason } => format!("quarantined ({reason})"),
         Status::Excluded { reason } => format!("excluded ({reason})"),
+        Status::WasmOnly { reason } => format!("wasm-only ({reason})"),
     }
 }
 
@@ -1415,7 +1416,9 @@ fn check_overrides(root: &Path, tk: &Toolkit) -> Result<Vec<Finding>> {
     let mut needed: BTreeSet<&str> = BTreeSet::new();
     for c in &tk.components {
         let reason = match &c.status {
-            Status::NeedsOverride { reason } | Status::Quarantined { reason } => reason,
+            Status::NeedsOverride { reason }
+            | Status::Quarantined { reason }
+            | Status::WasmOnly { reason } => reason,
             // An exclusion is a rule, not a decision to record twice; `Ok` needs
             // nothing.
             Status::Ok | Status::Excluded { .. } => continue,
@@ -1843,6 +1846,37 @@ mod tests {
             "{findings:#?}"
         );
         std::fs::remove_dir_all(&empty).ok();
+    }
+
+    fn wasm_only_toolkit() -> Toolkit {
+        let mut tk = real_toolkit();
+        let c = tk.components.iter_mut().find(|c| c.name == "Button").unwrap();
+        c.status = Status::WasmOnly { reason: "fixture: chart".into() };
+        tk
+    }
+
+    #[test]
+    fn a_wasm_only_component_must_carry_a_decision() {
+        let tk = wasm_only_toolkit();
+        let empty = scratch_root("wasm-only-missing");
+        let findings = check_overrides(&empty, &tk).unwrap();
+        assert!(
+            findings.iter().any(
+                |f| matches!(f, Finding::MissingOverride { component, .. } if component == "Button")
+            ),
+            "{findings:#?}"
+        );
+        std::fs::remove_dir_all(&empty).ok();
+    }
+
+    #[test]
+    fn a_wasm_only_override_is_not_stale() {
+        let tk = wasm_only_toolkit();
+        let dir = scratch_root("wasm-only-entry");
+        std::fs::write(dir.join(OVERRIDES_FILE), "[Button]\ndisposition = \"Svelte only\"\n").unwrap();
+        let findings = check_overrides(&dir, &tk).unwrap();
+        assert!(findings.is_empty(), "{findings:#?}");
+        std::fs::remove_dir_all(&dir).ok();
     }
 
     // ---------------------------------------------- invariants 5 and 6

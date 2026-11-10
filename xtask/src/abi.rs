@@ -536,6 +536,7 @@ pub fn status_name(s: &Status) -> &'static str {
         Status::NeedsOverride { .. } => "needs-override",
         Status::Quarantined { .. } => "quarantined",
         Status::Excluded { .. } => "excluded",
+        Status::WasmOnly { .. } => "wasm-only",
     }
 }
 

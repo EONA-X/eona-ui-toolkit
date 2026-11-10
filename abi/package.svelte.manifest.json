@@ -1,6 +1,6 @@
 {
   "srcHash": "6b5e166285546e8f773e7e24b49871d2b541213a89ce5a23b7ce030199f90c36",
-  "generatorHash": "9397c7617c9b14d9aeaf6bca760c04e34f19185c33b0e55af57a3902b44268c4",
+  "generatorHash": "be8b976e69086bc046624e42bbef8f2990f1fe0ba187db633b4930c1c90ce55a",
   "dir": "packages/svelte",
   "exported": [
     "AccordionItem",
