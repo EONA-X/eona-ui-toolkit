@@ -1,0 +1,7 @@
+{
+  "@context": "https://example.org/ctx.jsonld",
+  "@id": "https://example.org/cube/t",
+  "@type": "DataSet",
+  "label": "T",
+  "observations": []
+}

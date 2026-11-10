@@ -1,0 +1,12 @@
+{
+  "@context": "https://eona-x.eu/shape/chart-profile/context.jsonld",
+  "@id": "a",
+  "@type": "DataSet",
+  "observations": [
+    {
+      "@type": "Observation",
+      "category": "a",
+      "value": 1
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "@context": {
+    "qb": "http://purl.org/linked-data/cube#",
+    "chart": "https://eona-x.eu/shape/chart-profile#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "DataSet": "qb:DataSet",
+    "Observation": "qb:Observation",
+    "dataSet": {
+      "@id": "qb:dataSet",
+      "@type": "@id"
+    },
+    "observations": {
+      "@reverse": "qb:dataSet"
+    },
+    "label": "rdfs:label",
+    "comment": "rdfs:comment",
+    "category": "chart:category",
+    "series": "chart:series",
+    "date": {
+      "@id": "chart:date",
+      "@type": "xsd:date"
+    },
+    "value": "chart:value",
+    "unit": "chart:unit",
+    "order": "chart:order"
+  },
+  "@id": "https://example.org/cube/visitors",
+  "@type": "DataSet",
+  "label": "Visitors per airport",
+  "comment": "Passengers, 2025",
+  "unit": "pax",
+  "observations": [
+    {
+      "@type": "Observation",
+      "category": "Paris",
+      "value": 210000
+    },
+    {
+      "@type": "Observation",
+      "category": "Lyon",
+      "value": 128430
+    },
+    {
+      "@type": "Observation",
+      "category": "Nice",
+      "value": 96210.5
+    }
+  ]
+}

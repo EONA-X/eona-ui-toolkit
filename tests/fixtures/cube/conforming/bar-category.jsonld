@@ -1,0 +1,25 @@
+{
+  "@context": "https://eona-x.eu/shape/chart-profile/context.jsonld",
+  "@id": "https://example.org/cube/visitors",
+  "@type": "DataSet",
+  "label": "Visitors per airport",
+  "comment": "Passengers, 2025",
+  "unit": "pax",
+  "observations": [
+    {
+      "@type": "Observation",
+      "category": "Paris",
+      "value": 210000
+    },
+    {
+      "@type": "Observation",
+      "category": "Lyon",
+      "value": 128430
+    },
+    {
+      "@type": "Observation",
+      "category": "Nice",
+      "value": 96210.5
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "@context": "https://eona-x.eu/shape/chart-profile/context.jsonld",
+  "@graph": [
+    {
+      "@id": "a",
+      "@type": "DataSet",
+      "label": "A"
+    },
+    {
+      "@id": "b",
+      "@type": "DataSet",
+      "label": "B"
+    }
+  ]
+}

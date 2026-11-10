@@ -1,6 +1,6 @@
 {
-  "srcHash": "6b5e166285546e8f773e7e24b49871d2b541213a89ce5a23b7ce030199f90c36",
-  "generatorHash": "be8b976e69086bc046624e42bbef8f2990f1fe0ba187db633b4930c1c90ce55a",
+  "srcHash": "e4d59088d570983d2fe65bf5f99d4ba097b29abef6718abe88bd5db660e30879",
+  "generatorHash": "bbdd6bb5c680f684470e051b1f648dd51ce4ecbf1cc77f13bc7e822f4f657976",
   "dir": "packages/react",
   "exported": [
     "AccordionItem",
@@ -48,7 +48,7 @@
   "files": [
     {
       "path": "README.md",
-      "sha256": "0299543d9bc9ee88c2fb5be356028b28a69a1fb00073918e0b9749011949ed28"
+      "sha256": "640f1bcffb4bc1ba80fa4298df6bcbbb19d4de9073758ea7f3235c86e2287ab6"
     },
     {
       "path": "package.json",
@@ -220,7 +220,7 @@
     },
     {
       "path": "src/index.ts",
-      "sha256": "c51b4233501ddcfa011a916d3b294cecc9192f46ffd1d1d2a72aae87307692d3"
+      "sha256": "3549ccb38845ec8aeab6549b2bcdbb57d287c4667148713f2503ebccf181bee0"
     },
     {
       "path": "src/types.ts",

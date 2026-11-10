@@ -1,0 +1,21 @@
+{
+  "@context": "https://eona-x.eu/shape/chart-profile/context.jsonld",
+  "@id": "https://example.org/cube/t",
+  "@type": "DataSet",
+  "label": "T",
+  "observations": [
+    {
+      "@type": "Observation",
+      "date": "2025-01-01",
+      "value": 1
+    },
+    {
+      "@type": "Observation",
+      "date": {
+        "@value": "2025-02",
+        "@type": "xsd:gYearMonth"
+      },
+      "value": 2
+    }
+  ]
+}

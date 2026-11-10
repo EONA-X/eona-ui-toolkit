@@ -1,0 +1,62 @@
+{
+  "@context": "https://eona-x.eu/shape/chart-profile/context.jsonld",
+  "@id": "https://example.org/cube/t",
+  "@type": "DataSet",
+  "label": "T",
+  "observations": [
+    {
+      "@type": "Observation",
+      "category": "c0",
+      "series": "s0",
+      "value": 0
+    },
+    {
+      "@type": "Observation",
+      "category": "c1",
+      "series": "s1",
+      "value": 1
+    },
+    {
+      "@type": "Observation",
+      "category": "c2",
+      "series": "s2",
+      "value": 2
+    },
+    {
+      "@type": "Observation",
+      "category": "c3",
+      "series": "s3",
+      "value": 3
+    },
+    {
+      "@type": "Observation",
+      "category": "c4",
+      "series": "s4",
+      "value": 4
+    },
+    {
+      "@type": "Observation",
+      "category": "c5",
+      "series": "s5",
+      "value": 5
+    },
+    {
+      "@type": "Observation",
+      "category": "c6",
+      "series": "s6",
+      "value": 6
+    },
+    {
+      "@type": "Observation",
+      "category": "c7",
+      "series": "s7",
+      "value": 7
+    },
+    {
+      "@type": "Observation",
+      "category": "c8",
+      "series": "s8",
+      "value": 8
+    }
+  ]
+}
