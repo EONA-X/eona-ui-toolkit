@@ -1,11 +1,12 @@
 {
   "name": "eona-ui-toolkit-bridge-parity",
   "private": true,
-  "description": "Renders every generated component through the React and the Svelte package and compares the HTML; mounts the Svelte package's WASM entry against a real Yew build.",
+  "description": "Renders every generated component through the React and the Svelte package and compares the HTML; mounts the Svelte package's WASM entry and CubeChart against real Yew builds.",
   "type": "module",
   "scripts": {
     "test": "node parity.mjs",
     "test:wasm": "node --conditions=browser wasm.mjs",
+    "test:wasm-charts": "node --conditions=browser wasm-charts.mjs",
     "test:css": "node css.mjs"
   },
   "devDependencies": {

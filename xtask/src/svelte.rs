@@ -97,6 +97,7 @@ pub fn render_package(
     files.insert("src/wasm/index.ts".into(), WASM_INDEX_TS.into());
     files.insert("src/wasm/action.ts".into(), WASM_ACTION_TS.into());
     files.insert("src/wasm/YewMount.svelte".into(), WASM_MOUNT_SVELTE.into());
+    files.insert("src/wasm/CubeChart.svelte".into(), WASM_CUBECHART_SVELTE.into());
     files.insert("package.json".into(), package_json()?);
     files.insert("tsconfig.json".into(), tsconfig_json()?);
     files.insert("README.md".into(), readme_md(&plan, tk)?);
@@ -621,10 +622,20 @@ fn package_json() -> Result<String> {
                 "svelte": "./dist/wasm/index.js",
                 "default": "./dist/wasm/index.js",
             },
+            // The data-driven charts' WebAssembly, copied in by `postbuild`. Nothing
+            // imports it by name: `<CubeChart module={() => import(...)}>` does.
+            "./wasm/charts": {
+                "types": "./dist/wasm/charts/eona_ui_toolkit_charts.d.ts",
+                "default": "./dist/wasm/charts/eona_ui_toolkit_charts.js",
+            },
             "./package.json": "./package.json",
         },
         "scripts": {
             "build": "svelte-package -i src -o dist",
+            // `svelte-package` empties `dist`, so the wasm-pack output of `wasm/charts`
+            // (`wasm-pack build --target web --release wasm/charts`) is copied after it.
+            // A missing build fails here, not at a consumer's first import.
+            "postbuild": "mkdir -p dist/wasm/charts && cp ../../wasm/charts/pkg/eona_ui_toolkit_charts.js ../../wasm/charts/pkg/eona_ui_toolkit_charts.d.ts ../../wasm/charts/pkg/eona_ui_toolkit_charts_bg.wasm ../../wasm/charts/pkg/eona_ui_toolkit_charts_bg.wasm.d.ts dist/wasm/charts/",
             "check": "svelte-check --tsconfig ./tsconfig.json --fail-on-warnings",
         },
         // Runes (`$props`, `$derived`), snippets and native `lang="ts"` are all
@@ -683,7 +694,7 @@ fn readme_md(plan: &Plan<'_>, tk: &Toolkit) -> Result<String> {
     writeln!(s, "| Import | What it is | WebAssembly |")?;
     writeln!(s, "| --- | --- | --- |")?;
     writeln!(s, "| `{PACKAGE_NAME}` | the generated components, as `.svelte` | none |")?;
-    writeln!(s, "| `{PACKAGE_NAME}/wasm` | `<YewMount>` and `use:yew`, to mount a Yew component compiled to WASM | yours, loaded on demand |")?;
+    writeln!(s, "| `{PACKAGE_NAME}/wasm` | `<YewMount>`, `use:yew` and `<CubeChart>`, to mount a Yew component compiled to WASM | yours, loaded on demand; the charts' is `{PACKAGE_NAME}/wasm/charts` |")?;
     writeln!(s)?;
     writeln!(s, "Use the first for everything it exports: it server-renders, it tree-shakes, and its markup")?;
     writeln!(s, "is Yew's. Reach for the second only for a component the generator cannot reach — an")?;
@@ -729,6 +740,46 @@ fn readme_md(plan: &Plan<'_>, tk: &Toolkit) -> Result<String> {
     writeln!(s, "<YewMount module={{load}} component=\"Counter\" props={{{{ start: 3 }}}} />")?;
     writeln!(s, "```")?;
     writeln!(s)?;
+    writeln!(s, "### Data-driven charts")?;
+    writeln!(s)?;
+    writeln!(s, "`<CubeChart>` draws a JSON-LD dataset in the chart profile (`https://eona-x.eu/shape/chart-profile#`)")?;
+    writeln!(s, "with `BarChart`, `StackedBarChart`, `LineChart`, `CubeScoreDonut` or `CubeMetricTile`. The")?;
+    writeln!(s, "WebAssembly ships in this package as `{PACKAGE_NAME}/wasm/charts`; the parse, the layout and")?;
+    writeln!(s, "every error state are in Rust, so the component only fetches. There is no React counterpart.")?;
+    writeln!(s)?;
+    writeln!(s, "```svelte")?;
+    writeln!(s, "<script lang=\"ts\">")?;
+    writeln!(s, "  import '{}';", emit::CSS_PACKAGE)?;
+    writeln!(s, "  import {{ CubeChart }} from '{PACKAGE_NAME}/wasm';")?;
+    writeln!(s, "</script>")?;
+    writeln!(s)?;
+    writeln!(s, "<div class=\"eona-ui\">")?;
+    writeln!(s, "  <CubeChart")?;
+    writeln!(s, "    component=\"BarChart\"")?;
+    writeln!(s, "    src=\"/data/cube.jsonld\"")?;
+    writeln!(s, "    module={{() => import('{PACKAGE_NAME}/wasm/charts')}}")?;
+    writeln!(s, "  />")?;
+    writeln!(s, "</div>")?;
+    writeln!(s, "```")?;
+    writeln!(s)?;
+    writeln!(s, "| Prop | |")?;
+    writeln!(s, "| --- | --- |")?;
+    writeln!(s, "| `component` | which chart (required) |")?;
+    writeln!(s, "| `module` | the charts module or a function returning it (required); initialised for you |")?;
+    writeln!(s, "| `src` | URL of the JSON-LD; a new `src` aborts the previous fetch and updates the same chart |")?;
+    writeln!(s, "| `jsonld` | the document text, instead of `src` |")?;
+    writeln!(s, "| `lang` | language tag for the label and comment |")?;
+    writeln!(s, "| `select` | `CubeScoreDonut`: the category or date to show (default: the latest) |")?;
+    writeln!(s, "| `help` | `CubeMetricTile`: small print under the value |")?;
+    writeln!(s, "| `class` | class of the host element |")?;
+    writeln!(s)?;
+    writeln!(s, "A failed fetch or a document the profile rejects is drawn as the chart's own error state")?;
+    writeln!(s, "(`.chart--error`, `role=\"alert\"`). Nothing is rendered until the first reply.")?;
+    writeln!(s)?;
+    writeln!(s, "In this repository the module comes from `wasm-pack build --target web --release wasm/charts`,")?;
+    writeln!(s, "which `npm run build` copies into `dist/wasm/charts`. The module is about 416 kB (177 kB")?;
+    writeln!(s, "gzip) and, like `/wasm`, needs a CSP that allows `wasm-unsafe-eval`.")?;
+    writeln!(s)?;
     writeln!(s, "## Documentation")?;
     writeln!(s)?;
     writeln!(s, "- [Getting started](https://eona-x.github.io/eona-ui-toolkit/svelte/getting-started/) — install, a first component, a static site, theming")?;
@@ -762,6 +813,7 @@ const WASM_INDEX_TS: &str = r#"// Generated by `cargo xtask bridgegen`. Do not e
 // ships no WebAssembly and no loader.
 
 export { default as YewMount } from './YewMount.svelte';
+export { default as CubeChart } from './CubeChart.svelte';
 export { yew } from './action';
 export type { YewHandle, YewModule, YewModuleSource, YewParams } from './action';
 "#;
@@ -891,6 +943,89 @@ const WASM_MOUNT_SVELTE: &str = r#"<!-- Generated by `cargo xtask bridgegen`. Do
 </script>
 
 <div class={className} data-yew-component={component} use:yew={{ module, component, props }}></div>
+"#;
+
+const WASM_CUBECHART_SVELTE: &str = r#"<!-- Generated by `cargo xtask bridgegen`. Do not edit. -->
+<!--
+  A data-driven chart: fetches a JSON-LD dataset (chart profile) and mounts one
+  of the Rust charts over it through `use:yew`. The parse, the layout and every
+  error state are Rust's; this component only fetches the text. Like
+  `<YewMount>` it renders nothing on the server.
+
+  `module` is the charts' WebAssembly module, as `module` is for `<YewMount>`:
+  a dynamic `import()` of it (the package README has the specifier). It is
+  initialised here, so that import is all a caller writes.
+-->
+<script lang="ts">
+  import { yew, type YewModule, type YewModuleSource } from './action';
+
+  interface Props {
+    /** The charts' WebAssembly module, a promise of it, or a function returning either. */
+    module: YewModuleSource;
+    /** BarChart, StackedBarChart, LineChart, CubeScoreDonut or CubeMetricTile. */
+    component: string;
+    /** Where to fetch the JSON-LD from. A changed `src` aborts the previous fetch. */
+    src?: string | undefined;
+    /** The JSON-LD text itself, instead of `src`. */
+    jsonld?: string | undefined;
+    /** Language tag for the label and comment, e.g. `fr`. */
+    lang?: string | undefined;
+    /** CubeScoreDonut: the category or date to show. Default: the latest. */
+    select?: string | undefined;
+    /** CubeMetricTile: small print under the value. */
+    help?: string | undefined;
+    /** Class of the host element. */
+    class?: string | undefined;
+  }
+
+  let { module, component, src, jsonld, lang, select, help, class: className }: Props = $props();
+
+  // What the last fetch produced. `undefined` until the first reply, so the chart
+  // is mounted once, with data, and later replies reach it as `update()`.
+  let fetched = $state<{ text?: string; error?: string } | undefined>();
+
+  $effect(() => {
+    if (jsonld !== undefined || src === undefined) return;
+    const url = src;
+    const ctl = new AbortController();
+    fetch(url, { signal: ctl.signal, headers: { accept: 'application/ld+json, application/json' } })
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}${res.statusText ? ' ' + res.statusText : ''}`);
+        return res.text();
+      })
+      .then((text) => {
+        if (!ctl.signal.aborted) fetched = { text };
+      })
+      .catch((err: unknown) => {
+        if (ctl.signal.aborted) return;
+        fetched = { error: `Could not load ${url}: ${err instanceof Error ? err.message : String(err)}` };
+      });
+    return () => ctl.abort();
+  });
+
+  const data: { text?: string; error?: string } | undefined = $derived(
+    jsonld !== undefined ? { text: jsonld } : fetched,
+  );
+
+  // Stable while `module` is: `use:yew` remounts when the source's identity changes.
+  const source = $derived.by((): YewModuleSource => {
+    const original = module;
+    return async () => {
+      const m = (await (typeof original === 'function' ? original() : original)) as YewModule & {
+        default?: () => unknown;
+      };
+      // wasm-bindgen's `--target web` init; a second call returns the first.
+      if (typeof m.default === 'function') await m.default();
+      return m;
+    };
+  });
+
+  const chartProps = $derived({ jsonld: data?.text ?? '', fetchError: data?.error, lang, select, help });
+</script>
+
+{#if data}
+  <div class={className} data-yew-component={component} use:yew={{ module: source, component, props: chartProps }}></div>
+{/if}
 "#;
 
 #[cfg(test)]
@@ -1041,5 +1176,38 @@ mod tests {
                      export type { ButtonProps } from './Button.svelte';\n\
                      //   Swatch — quarantined\n";
         assert_eq!(exported_from_index(index), BTreeSet::from(["Button".to_string()]));
+    }
+
+    #[test]
+    fn cube_chart_is_exported_from_wasm_and_names_no_wasm_module() {
+        assert!(WASM_INDEX_TS.contains("export { default as CubeChart } from './CubeChart.svelte';"));
+        // The charts module is the caller's `module` prop: importing `/wasm` alone must
+        // not pull the 400 kB of WebAssembly in.
+        for text in [WASM_INDEX_TS, WASM_CUBECHART_SVELTE] {
+            assert!(!text.contains("wasm/charts"), "{text}");
+            assert!(!text.contains("eona_ui_toolkit_charts"), "{text}");
+        }
+    }
+
+    #[test]
+    fn cube_chart_has_the_documented_props_and_goes_through_use_yew() {
+        for prop in ["module", "component", "src", "jsonld", "lang", "select", "help", "class"] {
+            assert!(WASM_CUBECHART_SVELTE.contains(prop), "missing prop {prop}");
+        }
+        assert!(WASM_CUBECHART_SVELTE.contains("use:yew"));
+        assert!(WASM_CUBECHART_SVELTE.contains("new AbortController()"));
+        assert!(WASM_CUBECHART_SVELTE.contains("fetchError"));
+    }
+
+    #[test]
+    fn package_json_exports_the_charts_module_and_copies_it_after_packaging() {
+        let v: serde_json::Value = serde_json::from_str(&package_json().unwrap()).unwrap();
+        let charts = &v["exports"]["./wasm/charts"];
+        assert_eq!(charts["default"], "./dist/wasm/charts/eona_ui_toolkit_charts.js");
+        assert_eq!(charts["types"], "./dist/wasm/charts/eona_ui_toolkit_charts.d.ts");
+        // `svelte-package` empties `dist`, so the copy has to come after it.
+        let post = v["scripts"]["postbuild"].as_str().unwrap();
+        assert!(post.contains("wasm/charts/pkg") && post.contains("dist/wasm/charts"), "{post}");
+        assert_eq!(v["scripts"]["build"], "svelte-package -i src -o dist");
     }
 }

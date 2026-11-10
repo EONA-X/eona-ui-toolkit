@@ -5,5 +5,6 @@
 // ships no WebAssembly and no loader.
 
 export { default as YewMount } from './YewMount.svelte';
+export { default as CubeChart } from './CubeChart.svelte';
 export { yew } from './action';
 export type { YewHandle, YewModule, YewModuleSource, YewParams } from './action';
