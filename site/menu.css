@@ -1,0 +1,8 @@
+/* The docs site's frame around the menu: the page shell (page.css, and the Yew pages' own
+   copy) reserves 156px/224px at the top for the old fixed SiteHeader. Below the menu's
+   breakpoint the enhanced menu is a 116px bar and the static (no-JS) menu is in the
+   page flow, so the reserve shrinks to match. */
+@media (max-width: 1023px) {
+  html > body:has(.eona-menu.is-enhanced) { padding-top: 116px; }
+  html > body:has(.eona-menu:not(.is-enhanced)) { padding-top: 0; }
+}

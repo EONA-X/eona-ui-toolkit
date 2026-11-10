@@ -3,13 +3,15 @@
 #   /                          overview of the three stacks
 #   /<stack>/getting-started/  install, first component, static site, theming
 #                              (site/guides/<stack>.md), for yew, react, svelte
+#   /menu/, /create-app/       guides for the two packages (site/guides/*.md)
 #   /yew/                      the gallery: every component's Yew, React and
 #                              Svelte call side by side, and the design sections
 #   /react/, /svelte/          every call, rendered live by React / Svelte
 #
 # The Yew pages are rendered server-side by `examples/render-docs.rs`; every
-# page, the live ones included, carries the same navigation (the toolkit's own
-# SiteHeader; links in site/nav.json for the Vite builds).
+# page, the live ones included, carries the same navigation: site/menu.ttl,
+# rendered at build time by packages/menu (this commit's code, not the npm
+# release) and written into the finished pages by site/scripts/inject-menu.mjs.
 #
 # The two live pages (`site/`) render `site/*/src/gallery.*`, which bridgegen
 # writes from the same `abi/examples.json` the gallery prints, against the
@@ -62,6 +64,17 @@ jobs:
       - name: Test
         run: cargo test --features ssr
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # The site's menu and the step that injects it into every page.
+      - name: Test the menu
+        run: |
+          cd packages/menu
+          npm install --no-save --no-audit --no-fund ../css
+          npm test
+
       # The committed React package and ABI must match `src/`. The page documents
       # both stacks from one source of truth, so a stale `bridge/examples.rs` would
       # show React snippets for a crate that has moved on. Replays committed
@@ -71,10 +84,6 @@ jobs:
 
       - name: Render the gallery
         run: cargo run --example render-docs --features ssr -- dist
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
 
       # Against the local stylesheet: this commit's version may not be on npm yet.
       - name: Build the packages
@@ -90,6 +99,15 @@ jobs:
             # this stack's getting-started page.
             mkdir -p dist/$stack && cp -r site/$stack/dist/. dist/$stack/
           done
+
+      # The menu: site/menu.ttl -> markup in every page (the pages carry a
+      # <!--eona-menu--> placeholder), menu.css and menu.js beside them. Then
+      # check that every page has it and every link in it resolves to a built file.
+      - name: Add the menu
+        run: |
+          (cd packages/menu && node scripts/build.mjs)
+          node site/scripts/inject-menu.mjs dist
+          node site/scripts/inject-menu.mjs dist --check
 
       - uses: actions/upload-pages-artifact@v3
         with:

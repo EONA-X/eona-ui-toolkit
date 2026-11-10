@@ -1,15 +1,13 @@
 <script lang="ts">
-  import { HeroFilter, PillButton, SimpleFooter, SiteHeader } from '@eona-x/ui-toolkit-svelte';
+  import { HeroFilter, PillButton, SimpleFooter } from '@eona-x/ui-toolkit-svelte';
 
-  import nav from '../../nav.json';
   import Gallery from './Gallery.svelte';
 
-  // This page is /svelte/: one level below the site root.
-  const links = nav.links.map((l) => ({ href: `../${l.path}`, label: l.label, current: l.stack === 'svelte' }));
+  // The menu is not part of this app: pages.yml renders site/menu.ttl into index.html.
+  const repo = 'https://github.com/EONA-X/eona-ui-toolkit';
 </script>
 
 <div class="eona-ui">
-  <SiteHeader {links} />
   <HeroFilter
     title="Components"
     description="Every component @eona-x/ui-toolkit-svelte exports, rendered live by Svelte from the call the gallery prints, styled by @eona-x/ui-toolkit-css."
@@ -23,6 +21,6 @@
   </main>
   <SimpleFooter
     text="eona-ui-toolkit — one design system, generated for Yew, React and Svelte"
-    link={{ href: nav.repo, label: 'Source on GitHub' }}
+    link={{ href: repo, label: 'Source on GitHub' }}
   />
 </div>

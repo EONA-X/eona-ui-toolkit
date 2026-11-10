@@ -37,7 +37,7 @@ import { mountMenu } from '@eona-x/ui-toolkit-menu';
 await mountMenu('#nav', '/menu.jsonld', { lang: 'fr', currentUrl: location.pathname });
 ```
 
-Exports: `mountMenu`, `loadMenu`, `renderMenuHtml`, `enhance`, `normalize`, `validate`, `fromJsonLd`, `jsonldToTriples`, `graphToModel`, `safeHref`, `pickLabel`, `escapeHtml`, `MENU_CONTEXT`.
+Exports: `mountMenu`, `loadMenu`, `renderMenuHtml`, `enhance`, `normalize`, `validate`, `fromJsonLd`, `jsonldToTriples`, `graphToModel`, `safeHref`, `pickLabel`, `escapeHtml`, `MENU_CONTEXT`, `MENU_CONTEXT_URL`, `MenuError`.
 
 ## Build time: Turtle
 
@@ -77,7 +77,7 @@ A plain JSON object in the normalized shape (`version: 1`) is accepted too.
 
 - Disclosure buttons use `aria-expanded` and `aria-controls`. Escape closes and returns focus. Arrow keys, Home and End move between sublinks. Hover opens on pointer devices only.
 - Drawer: focus moves into the panel, Tab is trapped between the toggle and the panel, Escape and link clicks close it, and `html` gets `eona-menu-lock`.
-- Without JavaScript (no `.is-enhanced` on the root), above the breakpoint submenus open on hover and focus. Below it the menu is static: the toggle and disclosure buttons are hidden, the panel stays in the header flow, every submenu is expanded inline and the actions stay visible, so every link is reachable by tap and Tab; the header is in the page flow (`position: relative`) so it does not cover the content. The drawer rules apply only under `.is-enhanced`.
+- Without JavaScript (no `.is-enhanced` on the root), above the breakpoint submenus open on hover and focus. Below it the menu is static: the toggle, the chevrons and the icon and language disclosure buttons are hidden (a parent item without a link keeps its label as an inactive button above its expanded submenu), the panel stays in the header flow, every submenu is expanded inline and the actions stay visible, so every link is reachable by tap and Tab; the header is in the page flow (`position: relative`) so it does not cover the content. The drawer rules apply only under `.is-enhanced`.
 - Reduced motion is honoured in CSS.
 
 ## Security
