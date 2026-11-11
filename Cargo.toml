@@ -7,7 +7,7 @@ exclude = ["wasm/charts", "examples/svelte-wasm", "examples/yew-ssg", "examples/
 
 [package]
 name = "eona-ui-toolkit"
-version = "0.10.1"
+version = "0.11.0"
 edition = "2021"
 description = "Shared Yew atoms/molecules/organisms for the EONA-X design system — consumed by developer.eona-x.eu and, eventually, other EONA-X front-ends."
 license = "Apache-2.0"

@@ -1,6 +1,6 @@
 {
   "name": "@eona-x/ui-toolkit-menu",
-  "version": "0.10.1",
+  "version": "0.11.0",
   "description": "Fixed top menu for EONA-X sites: vanilla JS, configured from Turtle at build time or JSON-LD at runtime.",
   "license": "Apache-2.0",
   "repository": {"type":"git","url":"git+https://github.com/EONA-X/eona-ui-toolkit.git","directory":"packages/menu"},
@@ -18,7 +18,7 @@
   "bin": {"eona-menu-ttl": "./scripts/ttl-to-json.mjs", "eona-menu-build": "./scripts/build.mjs"},
   "files": ["src","lib","scripts","vocab","dist","menu.css","README.md"],
   "scripts": {"build": "node scripts/build.mjs", "test": "node scripts/build.mjs && node --test test/*.test.js"},
-  "dependencies": {"@eona-x/ui-toolkit-css": "0.10.1"},
+  "dependencies": {"@eona-x/ui-toolkit-css": "0.11.0"},
   "devDependencies": {"jsdom": "^25.0.0"},
   "engines": {"node": ">=20"},
   "publishConfig": {"access":"public","provenance":true}
