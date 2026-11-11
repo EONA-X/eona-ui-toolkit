@@ -859,3 +859,51 @@
   .eona-ui .chart-donut__value--good { stroke: #000; opacity: .3; }
   .eona-ui .chart-donut__track { stroke: #d8d8d8; }
 }
+.eona-ui .chart { margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.eona-ui .chart__svg { width: 100%; height: auto; display: block; overflow: visible; }
+.eona-ui .chart__axes,
+.eona-ui .chart__bars { shape-rendering: crispEdges; }
+.eona-ui .chart__lines { shape-rendering: geometricPrecision; }
+.eona-ui .chart__grid { stroke: var(--eona-chart-track); stroke-width: 1; }
+.eona-ui .chart__baseline { stroke: var(--eona-text-muted); stroke-width: 1; }
+.eona-ui .chart__tick {
+  font-family: var(--eona-font-family); font-size: 11px;
+  fill: var(--eona-text-muted); font-variant-numeric: tabular-nums;
+}
+.eona-ui .chart__series--1 { --chart-series: var(--eona-chart-series-1); }
+.eona-ui .chart__series--2 { --chart-series: var(--eona-chart-series-2); }
+.eona-ui .chart__series--3 { --chart-series: var(--eona-chart-series-3); }
+.eona-ui .chart__series--4 { --chart-series: var(--eona-chart-series-4); }
+.eona-ui .chart__series--5 { --chart-series: var(--eona-chart-series-5); }
+.eona-ui .chart__series--6 { --chart-series: var(--eona-chart-series-6); }
+.eona-ui .chart__series--7 { --chart-series: var(--eona-chart-series-7); }
+.eona-ui .chart__series--8 { --chart-series: var(--eona-chart-series-8); }
+.eona-ui .chart__bar { fill: var(--chart-series); }
+.eona-ui .chart__line { fill: none; stroke: var(--chart-series); stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+.eona-ui .chart__point { fill: var(--chart-series); stroke: var(--eona-surface-raised); stroke-width: 1.5; }
+.eona-ui .chart__legend {
+  display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 0; padding: 0; list-style: none;
+  font-size: 13px; color: var(--eona-text-muted);
+}
+.eona-ui .chart__legend-item { display: inline-flex; align-items: center; gap: 6px; }
+.eona-ui .chart__swatch { width: 12px; height: 12px; border-radius: 2px; background: var(--chart-series); }
+.eona-ui .chart__data { font-size: 13px; color: var(--eona-text-muted); }
+.eona-ui .chart__data summary { cursor: pointer; }
+.eona-ui .chart__data table { border-collapse: collapse; margin-top: 8px; font-variant-numeric: tabular-nums; }
+.eona-ui .chart__data th,
+.eona-ui .chart__data td {
+  padding: 4px 12px 4px 0; text-align: left; font-weight: var(--eona-weight-regular);
+  border-bottom: 1px solid var(--eona-border-subtle);
+}
+.eona-ui .chart__data thead th { color: var(--eona-text-primary); font-weight: var(--eona-weight-medium); }
+.eona-ui .chart--error,
+.eona-ui .chart--empty {
+  padding: 12px 16px; border-radius: var(--eona-radius-card); font-size: 14px;
+  border: 1px solid var(--eona-border-subtle); background: var(--eona-surface-raised);
+}
+.eona-ui .chart__state-label { font-weight: var(--eona-weight-medium); }
+.eona-ui .chart--error { color: var(--eona-text-primary); border-color: var(--eona-chart-danger); }
+.eona-ui .chart--empty { color: var(--eona-text-muted); }
+.eona-ui .chart--bar,
+.eona-ui .chart--stacked,
+.eona-ui .chart--line { min-width: 0; }

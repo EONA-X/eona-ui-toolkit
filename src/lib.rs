@@ -53,6 +53,10 @@ pub const LOGO_SVG: &str = include_str!("../assets/logo/logo-transparent.svg");
 
 pub mod atoms;
 
+/// Data-driven charts: JSON-LD in, SVG out. Wasm-only; see the module note.
+#[cfg(feature = "charts")]
+pub mod charts;
+
 /// Chart geometry — the arithmetic the chart components deliberately do not do.
 pub mod chart;
 /// The chart dataset model, and under the `charts` feature its JSON-LD reader.

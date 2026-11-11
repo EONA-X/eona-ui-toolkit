@@ -976,7 +976,7 @@ mod tests {
         let mut generated: Vec<&str> = tk
             .components
             .iter()
-            .filter(|c| !matches!(c.status, Status::Excluded { .. }))
+            .filter(|c| !matches!(c.status, Status::Excluded { .. } | Status::WasmOnly { .. }))
             .map(|c| c.name.as_str())
             .collect();
         generated.sort_unstable();
@@ -1387,7 +1387,7 @@ mod tests {
         let scope: Vec<&str> = tk
             .components
             .iter()
-            .filter(|c| !matches!(c.status, Status::Excluded { .. }))
+            .filter(|c| !matches!(c.status, Status::Excluded { .. } | Status::WasmOnly { .. }))
             .map(|c| c.name.as_str())
             .collect();
         assert_eq!(scope.len(), 41, "#809's list plus #822's charts: {scope:?}");
@@ -1398,7 +1398,7 @@ mod tests {
         );
 
         // No prop anywhere may reach the emitter as an unmappable type.
-        for c in tk.components.iter().filter(|c| !matches!(c.status, Status::Excluded { .. })) {
+        for c in tk.components.iter().filter(|c| !matches!(c.status, Status::Excluded { .. } | Status::WasmOnly { .. })) {
             for p in &c.props {
                 if let PropKind::Struct { name } = &p.kind {
                     assert!(

@@ -10,7 +10,8 @@
 # `source` points at the line that forces it; `disposition` says what consumers
 # should do until it changes.
 
-# Empty as of eona-x/backlog#822. Every former entry — Swatch, PaletteGroup,
+# Empty of NeedsOverride entries as of eona-x/backlog#822; the data-driven charts below are
+# WasmOnly and were added by eona-x/backlog#1219. Every former entry — Swatch, PaletteGroup,
 # DatasetCard, OntoAnnotation and Modal — was resolved by changing the component
 # rather than by recording a decision to live with it: the derivation moved out
 # and its result became a prop, so the markup is a pass-through and the generator
@@ -18,3 +19,33 @@
 #
 # The file stays because its job does. The next component that cannot be emitted
 # needs a human's decision here before `check` will pass.
+
+[BarChart]
+reason = "Parses a JSON-LD dataset in Rust and draws it in the browser; there is no React equivalent and the data-driven charts are WebAssembly-only."
+source = "src/charts/bar.rs"
+tracked_by = "eona-x/backlog#1219"
+disposition = "Svelte: CubeChart from @eona-x/ui-toolkit-svelte/wasm; React: not planned (eona-x/backlog#1219)"
+
+[StackedBarChart]
+reason = "Parses a JSON-LD dataset in Rust and draws it in the browser; there is no React equivalent and the data-driven charts are WebAssembly-only."
+source = "src/charts/stacked.rs"
+tracked_by = "eona-x/backlog#1219"
+disposition = "Svelte: CubeChart from @eona-x/ui-toolkit-svelte/wasm; React: not planned (eona-x/backlog#1219)"
+
+[LineChart]
+reason = "Parses a JSON-LD dataset in Rust and draws it in the browser; there is no React equivalent and the data-driven charts are WebAssembly-only."
+source = "src/charts/line.rs"
+tracked_by = "eona-x/backlog#1219"
+disposition = "Svelte: CubeChart from @eona-x/ui-toolkit-svelte/wasm; React: not planned (eona-x/backlog#1219)"
+
+[CubeScoreDonut]
+reason = "Parses a JSON-LD dataset in Rust and draws it in the browser; there is no React equivalent and the data-driven charts are WebAssembly-only."
+source = "src/charts/cube_donut.rs"
+tracked_by = "eona-x/backlog#1219"
+disposition = "Svelte: CubeChart from @eona-x/ui-toolkit-svelte/wasm; React: not planned (eona-x/backlog#1219)"
+
+[CubeMetricTile]
+reason = "Parses a JSON-LD dataset in Rust and draws it in the browser; there is no React equivalent and the data-driven charts are WebAssembly-only."
+source = "src/charts/cube_metric.rs"
+tracked_by = "eona-x/backlog#1219"
+disposition = "Svelte: CubeChart from @eona-x/ui-toolkit-svelte/wasm; React: not planned (eona-x/backlog#1219)"

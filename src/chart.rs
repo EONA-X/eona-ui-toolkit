@@ -171,7 +171,7 @@ const TICK_TARGET: usize = 5;
 const BAND_PADDING: f64 = 0.2;
 
 /// The plot area inside the margins: `(x0, y0, width, height)`.
-fn plot(size: Size) -> (f64, f64, f64, f64) {
+pub(crate) fn plot(size: Size) -> (f64, f64, f64, f64) {
     (
         MARGIN_LEFT,
         MARGIN_TOP,
@@ -297,7 +297,7 @@ pub fn format_with_unit(v: f64, unit: Option<&str>) -> String {
 }
 
 /// A coordinate as written into a path: two decimals, trailing zeros dropped.
-fn coord(v: f64) -> String {
+pub(crate) fn coord(v: f64) -> String {
     let s = format!("{v:.2}");
     s.trim_end_matches('0').trim_end_matches('.').to_owned()
 }

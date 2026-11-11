@@ -1,7 +1,7 @@
 {
   "abiVersion": 1,
-  "srcHash": "c20cded2ea9006e797d4d9559e74d88314f31640c3ec1b56d34d4d7784e6bcf4",
-  "generatorHash": "bbdd6bb5c680f684470e051b1f648dd51ce4ecbf1cc77f13bc7e822f4f657976",
+  "srcHash": "49344e57d95e368436041673951a203aca7916775fff19c65ea5c9cb985d106f",
+  "generatorHash": "18bc2c5542568252c898ea9cf2bd72a3d1db0af8d52b58624ce1bf9a3302cb1b",
   "components": [
     {
       "name": "AccordionItem",
@@ -50,6 +50,40 @@
           "optional": false,
           "default": "required",
           "source": "src/atoms/badge_num.rs:7"
+        }
+      ]
+    },
+    {
+      "name": "BarChart",
+      "status": "wasm-only",
+      "reason": "data-driven chart: parses JSON-LD and renders in the browser via WebAssembly",
+      "tier": "presentational",
+      "source": "src/charts/bar.rs:35",
+      "cells": 0,
+      "props": [
+        {
+          "name": "fetch_error",
+          "rust": "Option<AttrValue>",
+          "ts": "string | undefined",
+          "optional": true,
+          "default": "default-trait",
+          "source": "src/charts/bar.rs:14"
+        },
+        {
+          "name": "jsonld",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/charts/bar.rs:11"
+        },
+        {
+          "name": "lang",
+          "rust": "Option<AttrValue>",
+          "ts": "string | undefined",
+          "optional": true,
+          "default": "default-trait",
+          "source": "src/charts/bar.rs:17"
         }
       ]
     },
@@ -247,6 +281,90 @@
       "source": "src/organisms/components_gallery.rs:28",
       "cells": 0,
       "props": []
+    },
+    {
+      "name": "CubeMetricTile",
+      "status": "wasm-only",
+      "reason": "data-driven chart: parses JSON-LD and renders in the browser via WebAssembly",
+      "tier": "presentational",
+      "source": "src/charts/cube_metric.rs:26",
+      "cells": 0,
+      "props": [
+        {
+          "name": "fetch_error",
+          "rust": "Option<AttrValue>",
+          "ts": "string | undefined",
+          "optional": true,
+          "default": "default-trait",
+          "source": "src/charts/cube_metric.rs:16"
+        },
+        {
+          "name": "help",
+          "rust": "Option<AttrValue>",
+          "ts": "string | undefined",
+          "optional": true,
+          "default": "default-trait",
+          "source": "src/charts/cube_metric.rs:22"
+        },
+        {
+          "name": "jsonld",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/charts/cube_metric.rs:13"
+        },
+        {
+          "name": "lang",
+          "rust": "Option<AttrValue>",
+          "ts": "string | undefined",
+          "optional": true,
+          "default": "default-trait",
+          "source": "src/charts/cube_metric.rs:19"
+        }
+      ]
+    },
+    {
+      "name": "CubeScoreDonut",
+      "status": "wasm-only",
+      "reason": "data-driven chart: parses JSON-LD and renders in the browser via WebAssembly",
+      "tier": "presentational",
+      "source": "src/charts/cube_donut.rs:26",
+      "cells": 0,
+      "props": [
+        {
+          "name": "fetch_error",
+          "rust": "Option<AttrValue>",
+          "ts": "string | undefined",
+          "optional": true,
+          "default": "default-trait",
+          "source": "src/charts/cube_donut.rs:16"
+        },
+        {
+          "name": "jsonld",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/charts/cube_donut.rs:13"
+        },
+        {
+          "name": "lang",
+          "rust": "Option<AttrValue>",
+          "ts": "string | undefined",
+          "optional": true,
+          "default": "default-trait",
+          "source": "src/charts/cube_donut.rs:19"
+        },
+        {
+          "name": "select",
+          "rust": "Option<AttrValue>",
+          "ts": "string | undefined",
+          "optional": true,
+          "default": "default-trait",
+          "source": "src/charts/cube_donut.rs:22"
+        }
+      ]
     },
     {
       "name": "DatasetCard",
@@ -553,6 +671,40 @@
       "source": "src/organisms/integration_section.rs:33",
       "cells": 0,
       "props": []
+    },
+    {
+      "name": "LineChart",
+      "status": "wasm-only",
+      "reason": "data-driven chart: parses JSON-LD and renders in the browser via WebAssembly",
+      "tier": "presentational",
+      "source": "src/charts/line.rs:21",
+      "cells": 0,
+      "props": [
+        {
+          "name": "fetch_error",
+          "rust": "Option<AttrValue>",
+          "ts": "string | undefined",
+          "optional": true,
+          "default": "default-trait",
+          "source": "src/charts/line.rs:14"
+        },
+        {
+          "name": "jsonld",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/charts/line.rs:11"
+        },
+        {
+          "name": "lang",
+          "rust": "Option<AttrValue>",
+          "ts": "string | undefined",
+          "optional": true,
+          "default": "default-trait",
+          "source": "src/charts/line.rs:17"
+        }
+      ]
     },
     {
       "name": "LogoDownloadCard",
@@ -1338,6 +1490,40 @@
           "optional": false,
           "default": "default-trait",
           "source": "src/organisms/site_header.rs:92"
+        }
+      ]
+    },
+    {
+      "name": "StackedBarChart",
+      "status": "wasm-only",
+      "reason": "data-driven chart: parses JSON-LD and renders in the browser via WebAssembly",
+      "tier": "presentational",
+      "source": "src/charts/stacked.rs:22",
+      "cells": 0,
+      "props": [
+        {
+          "name": "fetch_error",
+          "rust": "Option<AttrValue>",
+          "ts": "string | undefined",
+          "optional": true,
+          "default": "default-trait",
+          "source": "src/charts/stacked.rs:15"
+        },
+        {
+          "name": "jsonld",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/charts/stacked.rs:12"
+        },
+        {
+          "name": "lang",
+          "rust": "Option<AttrValue>",
+          "ts": "string | undefined",
+          "optional": true,
+          "default": "default-trait",
+          "source": "src/charts/stacked.rs:18"
         }
       ]
     },

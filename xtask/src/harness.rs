@@ -1210,7 +1210,7 @@ mod tests {
         let in_scope = tk
             .components
             .iter()
-            .filter(|c| !matches!(c.status, Status::Excluded { .. }))
+            .filter(|c| !matches!(c.status, Status::Excluded { .. } | Status::WasmOnly { .. }))
             .count();
         assert_eq!(in_scope, 41, "in-scope components");
         assert_eq!(cells.len(), 41, "components with cells");

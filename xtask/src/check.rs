@@ -1875,7 +1875,12 @@ mod tests {
         let dir = scratch_root("wasm-only-entry");
         std::fs::write(dir.join(OVERRIDES_FILE), "[Button]\ndisposition = \"Svelte only\"\n").unwrap();
         let findings = check_overrides(&dir, &tk).unwrap();
-        assert!(findings.is_empty(), "{findings:#?}");
+        // The real crate's own WasmOnly charts have no entry in this scratch root.
+        let stale_or_button: Vec<_> = findings
+            .iter()
+            .filter(|f| !matches!(f, Finding::MissingOverride { component, .. } if component.ends_with("Chart") || component.starts_with("Cube")))
+            .collect();
+        assert!(stale_or_button.is_empty(), "{findings:#?}");
         std::fs::remove_dir_all(&dir).ok();
     }
 
