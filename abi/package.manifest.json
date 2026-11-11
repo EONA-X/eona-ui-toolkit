@@ -1,6 +1,6 @@
 {
-  "srcHash": "786c63f1553dc01864b774e3bece18806b892393d12257a29b7916c01a3bc079",
-  "generatorHash": "96c4f1549455281d5eb86959d6e0b6a0a2cc3f6fca97ae24ef4ce340ae6a7c1e",
+  "srcHash": "c4fd4939fd57cb211932b205421ce30309546eef866b44759bee5de1f4284ffc",
+  "generatorHash": "4e4c519d85fe646a02cf4791c0063de74bfbe320abfedf78d61f635cb641567e",
   "dir": "packages/react",
   "exported": [
     "AccordionItem",
@@ -10,6 +10,7 @@
     "Callout",
     "CaseCard",
     "CodeBlock",
+    "CodeTabs",
     "DatasetCard",
     "DeclCard",
     "EvolutionBadge",
@@ -48,7 +49,7 @@
   "files": [
     {
       "path": "README.md",
-      "sha256": "a797c38383af344963595679975e9138bb84fa237d023cb87fd548b5c1d5b217"
+      "sha256": "c534fdd62d1c5426648a264366aa4e3a3044ee17b43efa6f6abcda22cbfd0490"
     },
     {
       "path": "package.json",
@@ -81,6 +82,10 @@
     {
       "path": "src/CodeBlock.tsx",
       "sha256": "00a17e3cb84aac5f9314a50d04c351111d339c2118756ad8ff25351ea4cd3a2e"
+    },
+    {
+      "path": "src/CodeTabs.tsx",
+      "sha256": "0c65eca91617ed042b5ee9070f80e919664e58f3232e794f3b47bbb9dda8ba0d"
     },
     {
       "path": "src/DatasetCard.tsx",
@@ -216,11 +221,11 @@
     },
     {
       "path": "src/UsageExample.tsx",
-      "sha256": "b8e3095e7329466276f3ca87322ef8736a17b6a99ca8bbb618d289e5ead3a527"
+      "sha256": "6e4fdb97cb8ec06124c8926437ed2db069e7d6b81c7a2925f89958499455b5a2"
     },
     {
       "path": "src/index.ts",
-      "sha256": "8bc5701cce30f7bb192d6ab756bc8990cdf4ecb52a80d2b644e19449674cebe2"
+      "sha256": "33e14b713b7126cf0a52925602fda4ee7c32a5c7c16d08a65d6bffe645b64665"
     },
     {
       "path": "src/types.ts",

@@ -9,6 +9,7 @@
     Callout,
     CaseCard,
     CodeBlock,
+    CodeTabs,
     DatasetCard,
     DeclCard,
     EvolutionBadge,
@@ -81,6 +82,17 @@
 
 <Entry name="CodeBlock" source="src/atoms/code_block.rs:27" code={"import { CodeBlock } from '@eona-x/ui-toolkit-svelte';\n\n<CodeBlock code={\"let label = \\\"Go\\\";\"} copyable={false} language=\"rust\" />"}>
   <CodeBlock code={"let label = \"Go\";"} copyable={false} language="rust" />
+</Entry>
+
+<Entry name="CodeTabs" source="src/molecules/code_tabs.rs:38" code={"import { CodeTabs } from '@eona-x/ui-toolkit-svelte';\n\n<CodeTabs\n  id=\"example\"\n  react=\"React\"\n  reactAbsent=\"React Absent\"\n  svelte=\"Svelte\"\n  svelteAbsent=\"Svelte Absent\"\n  yew=\"Yew\"\n/>"}>
+  <CodeTabs
+    id="example"
+    react="React"
+    reactAbsent="React Absent"
+    svelte="Svelte"
+    svelteAbsent="Svelte Absent"
+    yew="Yew"
+  />
 </Entry>
 
 <Entry name="DatasetCard" source="src/molecules/dataset_card.rs:57" code={"import { DatasetCard } from '@eona-x/ui-toolkit-svelte';\n\n<DatasetCard\n  actionLabel=\"View documentation\"\n  badge=\"Badge\"\n  badgeClass=\"Badge Class\"\n  description=\"Description\"\n  href=\"#\"\n  initial=\"Initial\"\n  publisher=\"Publisher\"\n  thumbnail=\"logo/logo-transparent.svg\"\n  title=\"Title\"\n  version=\"Version\"\n/>"}>
@@ -304,8 +316,16 @@
   </TypeScaleRow>
 </Entry>
 
-<Entry name="UsageExample" source="src/molecules/usage_example.rs:24" code={"import { UsageExample } from '@eona-x/ui-toolkit-svelte';\n\n<UsageExample onDark source={\"<Button label=\\\"Go\\\" />\"}>\n  Children go here.\n</UsageExample>"}>
-  <UsageExample onDark source={"<Button label=\"Go\" />"}>
+<Entry name="UsageExample" source="src/molecules/usage_example.rs:41" code={"import { UsageExample } from '@eona-x/ui-toolkit-svelte';\n\n<UsageExample\n  id=\"example\"\n  onDark\n  react=\"React\"\n  reactAbsent=\"React Absent\"\n  source={\"<Button label=\\\"Go\\\" />\"}\n  svelte=\"Svelte\"\n  svelteAbsent=\"Svelte Absent\"\n>\n  Children go here.\n</UsageExample>"}>
+  <UsageExample
+    id="example"
+    onDark
+    react="React"
+    reactAbsent="React Absent"
+    source={"<Button label=\"Go\" />"}
+    svelte="Svelte"
+    svelteAbsent="Svelte Absent"
+  >
     Children go here.
   </UsageExample>
 </Entry>

@@ -1,10 +1,11 @@
 use yew::prelude::*;
 
-use crate::atoms::{BadgeVariant, CodeBlock, OntoBadge};
+use crate::atoms::{BadgeVariant, OntoBadge};
 use crate::molecules::{
-    DatasetCard, OntoAnnotation, PropSpec, PropsTable, SectionHead, UsageExample,
+    DatasetCard, OntoAnnotation, PropSpec, PropsTable, SectionHead,
 };
 use crate::molecules::dataset_initial;
+use super::components_gallery::{code_tabs, code_tabs_same, usage_example};
 use crate::ontology::{LiteralValue, TermKind};
 
 fn literal(value: &str, language: Option<&str>, datatype: Option<&str>) -> LiteralValue {
@@ -37,10 +38,10 @@ pub fn ontology_section() -> Html {
                         { " tags an RDF/OWL entity kind, a language or a datatype; each variant takes \
                            a charter hue rather than a colour of its own." }
                     </p>
-                    <UsageExample source={r##"<OntoBadge label="Class" variant={TermKind::Class.into()} />
+                    { usage_example("usage-onto-badge", &["OntoBadge"], r##"<OntoBadge label="Class" variant={TermKind::Class.into()} />
 <OntoBadge label="Object Property" variant={TermKind::ObjectProperty.into()} />
 <OntoBadge label="en" variant={BadgeVariant::Lang} />
-<OntoBadge label="Deprecated" variant={BadgeVariant::Deprecated} />"##}>
+<OntoBadge label="Deprecated" variant={BadgeVariant::Deprecated} />"##, html! { <>
                         <div class="gallery-row">
                             <OntoBadge label="Ontology" variant={BadgeVariant::from(TermKind::Ontology)} />
                             <OntoBadge label="Class" variant={BadgeVariant::from(TermKind::Class)} />
@@ -52,7 +53,7 @@ pub fn ontology_section() -> Html {
                             <OntoBadge label="dateTime" variant={BadgeVariant::Datatype} />
                             <OntoBadge label="Deprecated" variant={BadgeVariant::Deprecated} />
                         </div>
-                    </UsageExample>
+                    </> }) }
                     <PropsTable
                         component="OntoBadge"
                         props={vec![
@@ -65,13 +66,13 @@ pub fn ontology_section() -> Html {
                         { "An annotation row is one predicate and its literal values, each carrying \
                            its own language or datatype chip. A value with neither gets no chip." }
                     </p>
-                    <UsageExample source={r##"<OntoAnnotation
+                    { usage_example("usage-onto-annotation", &["OntoAnnotation"], r##"<OntoAnnotation
     label="rdfs:comment"
     values={vec![
         LiteralValue { value: "A journey…".into(), language: Some("en".into()), datatype: None },
         LiteralValue { value: "Un trajet…".into(), language: Some("fr".into()), datatype: None },
     ]}
-/>"##}>
+/>"##, html! { <>
                         <div>
                             <OntoAnnotation
                                 label="rdfs:comment"
@@ -87,7 +88,7 @@ pub fn ontology_section() -> Html {
                                 ]}
                             />
                         </div>
-                    </UsageExample>
+                    </> }) }
                 </div>
             </section>
 
@@ -122,11 +123,8 @@ pub fn ontology_section() -> Html {
                             </div>
                         </div>
                     </div>
-                    <CodeBlock
-                        language="html"
-                        code={r##"<!-- opt in on the root element; there is no automatic switch -->
-<html data-theme="dark">"##}
-                    />
+                    { code_tabs_same("code-theme-opt-in", r##"<!-- opt in on the root element; there is no automatic switch -->
+<html data-theme="dark">"##) }
                     <div class="integration-note">
                         <b>{ "Opt-in, deliberately." }</b>
                         <p>
@@ -180,8 +178,7 @@ pub fn ontology_section() -> Html {
                                rather than redefine, or its terms will not fit these props." }
                         </p>
                     </div>
-                    <CodeBlock
-                        code={r##"use eona_ui_toolkit::ontology::{LiteralValue, TermKind};
+                    { code_tabs("code-onto-usage", &["OntoBadge", "OntoAnnotation"], r##"use eona_ui_toolkit::ontology::{LiteralValue, TermKind};
 use eona_ui_toolkit::{BadgeVariant, OntoAnnotation, OntoBadge};
 
 html! {
@@ -189,8 +186,7 @@ html! {
         <OntoBadge label="Class" variant={BadgeVariant::Kind(TermKind::Class)} />
         <OntoAnnotation label="Definition" values={definitions} />
     </>
-}"##}
-                    />
+}"##) }
                 </div>
             </section>
 
@@ -203,14 +199,14 @@ html! {
                         { "' PatternFly card, which rendered a second design system's brand inside \
                            EONA-X pages and pulled PatternFly's entire stylesheet in to do it." }
                     </p>
-                    <UsageExample source={r##"<DatasetCard
+                    { usage_example("usage-dataset-card", &["DatasetCard"], r##"<DatasetCard
     title="EONA-X Mobility"
     href="ontologies?ontology=eona-mobility"
     version="1.2.0"
     publisher="EONA-X"
     badge="OWL"
     description="Core mobility vocabulary…"
-/>"##}>
+/>"##, html! { <>
                         <div class="gallery-grid">
                             <DatasetCard
                                 title="EONA-X Mobility"
@@ -231,7 +227,7 @@ html! {
                                 description="Alignment between the two dominant public-transport schedule formats."
                             />
                         </div>
-                    </UsageExample>
+                    </> }) }
                     <div class="integration-note">
                         <b>{ "A link, not a button." }</b>
                         <p>

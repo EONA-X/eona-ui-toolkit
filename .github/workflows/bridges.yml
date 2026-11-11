@@ -71,8 +71,23 @@ jobs:
           npm run check
           npm run build
 
+      # esbuild (the parity harness) strips types, so only tsc sees a prop of the
+      # wrong type in a generated .tsx.
+      - name: React package typechecks and builds
+        working-directory: packages/react
+        run: |
+          npm install --no-save --no-audit --no-fund ../css
+          npm run typecheck
+          npm run build
+
       - name: React and Svelte render the same HTML
         working-directory: tests/bridge-parity
+        run: |
+          npm ci --no-audit --no-fund
+          npm test
+
+      - name: The demo page script drives the stack tabs and Copy
+        working-directory: tests/demo-page
         run: |
           npm ci --no-audit --no-fund
           npm test

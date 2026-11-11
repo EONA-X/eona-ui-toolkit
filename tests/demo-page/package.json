@@ -1,0 +1,12 @@
+{
+  "name": "eona-ui-toolkit-demo-page",
+  "private": true,
+  "description": "jsdom tests for assets/demo-page.js: the YEW | SVELTE | REACT tabs and the Copy buttons.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  },
+  "devDependencies": {
+    "jsdom": "^26.1.0"
+  }
+}

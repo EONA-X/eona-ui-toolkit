@@ -1,7 +1,7 @@
 {
   "abiVersion": 1,
-  "srcHash": "786c63f1553dc01864b774e3bece18806b892393d12257a29b7916c01a3bc079",
-  "generatorHash": "96c4f1549455281d5eb86959d6e0b6a0a2cc3f6fca97ae24ef4ce340ae6a7c1e",
+  "srcHash": "c4fd4939fd57cb211932b205421ce30309546eef866b44759bee5de1f4284ffc",
+  "generatorHash": "4e4c519d85fe646a02cf4791c0063de74bfbe320abfedf78d61f635cb641567e",
   "components": [
     {
       "name": "AccordionItem",
@@ -270,6 +270,63 @@
           "expr": "AttrValue::Static(\"rust\")",
           "defaultTs": "\"rust\"",
           "source": "src/atoms/code_block.rs:19"
+        }
+      ]
+    },
+    {
+      "name": "CodeTabs",
+      "status": "ok",
+      "tier": "presentational",
+      "source": "src/molecules/code_tabs.rs:38",
+      "cells": 4,
+      "props": [
+        {
+          "name": "id",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/code_tabs.rs:20"
+        },
+        {
+          "name": "react",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "default-trait",
+          "source": "src/molecules/code_tabs.rs:28"
+        },
+        {
+          "name": "react_absent",
+          "rust": "Option<AttrValue>",
+          "ts": "string | undefined",
+          "optional": true,
+          "default": "default-trait",
+          "source": "src/molecules/code_tabs.rs:34"
+        },
+        {
+          "name": "svelte",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "default-trait",
+          "source": "src/molecules/code_tabs.rs:25"
+        },
+        {
+          "name": "svelte_absent",
+          "rust": "Option<AttrValue>",
+          "ts": "string | undefined",
+          "optional": true,
+          "default": "default-trait",
+          "source": "src/molecules/code_tabs.rs:31"
+        },
+        {
+          "name": "yew",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/code_tabs.rs:22"
         }
       ]
     },
@@ -1074,7 +1131,7 @@
       "status": "excluded",
       "reason": "zero-prop demo section",
       "tier": "presentational",
-      "source": "src/organisms/ontology_section.rs:28",
+      "source": "src/organisms/ontology_section.rs:29",
       "cells": 0,
       "props": []
     },
@@ -1681,8 +1738,8 @@
       "name": "UsageExample",
       "status": "ok",
       "tier": "presentational",
-      "source": "src/molecules/usage_example.rs:24",
-      "cells": 2,
+      "source": "src/molecules/usage_example.rs:41",
+      "cells": 8,
       "props": [
         {
           "name": "children",
@@ -1690,7 +1747,15 @@
           "ts": "ReactNode",
           "optional": false,
           "default": "required",
-          "source": "src/molecules/usage_example.rs:20"
+          "source": "src/molecules/usage_example.rs:37"
+        },
+        {
+          "name": "id",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "required",
+          "source": "src/molecules/usage_example.rs:17"
         },
         {
           "name": "on_dark",
@@ -1698,7 +1763,23 @@
           "ts": "boolean",
           "optional": false,
           "default": "default-trait",
-          "source": "src/molecules/usage_example.rs:18"
+          "source": "src/molecules/usage_example.rs:23"
+        },
+        {
+          "name": "react",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "default-trait",
+          "source": "src/molecules/usage_example.rs:29"
+        },
+        {
+          "name": "react_absent",
+          "rust": "Option<AttrValue>",
+          "ts": "string | undefined",
+          "optional": true,
+          "default": "default-trait",
+          "source": "src/molecules/usage_example.rs:35"
         },
         {
           "name": "source",
@@ -1706,7 +1787,23 @@
           "ts": "string",
           "optional": false,
           "default": "required",
-          "source": "src/molecules/usage_example.rs:14"
+          "source": "src/molecules/usage_example.rs:19"
+        },
+        {
+          "name": "svelte",
+          "rust": "AttrValue",
+          "ts": "string",
+          "optional": false,
+          "default": "default-trait",
+          "source": "src/molecules/usage_example.rs:26"
+        },
+        {
+          "name": "svelte_absent",
+          "rust": "Option<AttrValue>",
+          "ts": "string | undefined",
+          "optional": true,
+          "default": "default-trait",
+          "source": "src/molecules/usage_example.rs:32"
         }
       ]
     }

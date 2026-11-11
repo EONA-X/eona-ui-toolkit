@@ -699,6 +699,25 @@ const BOOL_ATTRS: &[&str] = &[
     "allowfullscreen",
 ];
 
+/// Attributes React types as `number`: a string literal fails `tsc`
+/// (`tabIndex="0"` is TS2322), so an integer literal becomes `{0}`.
+const NUMERIC_ATTRS: &[&str] =
+    &["tabindex", "colspan", "rowspan", "maxlength", "minlength", "rows", "cols", "start"];
+
+fn numeric_attr(name: &str, value: AttrValue) -> AttrValue {
+    if !NUMERIC_ATTRS.contains(&name) {
+        return value;
+    }
+    match value {
+        AttrValue::Lit(v) if v.parse::<i64>().is_ok() => AttrValue::Expr(v),
+        AttrValue::Cond { arms, fallback } => AttrValue::Cond {
+            arms: arms.into_iter().map(|(c, v)| (c, numeric_attr(name, v))).collect(),
+            fallback: fallback.map(|f| Box::new(numeric_attr(name, *f))),
+        },
+        other => other,
+    }
+}
+
 fn react_attr(name: &str, svg: bool, component: &str, tag: &str) -> Result<String> {
     if name.starts_with("aria-") || name.starts_with("data-") {
         return Ok(name.to_string());
@@ -1947,7 +1966,7 @@ fn unify_attrs(ctx: &Ctx, group: &[ElemGroup]) -> Result<Vec<Attr>> {
             } else {
                 unify_values(ctx, group, &have, &values)?
             };
-            out.push(Attr { name: react, value });
+            out.push(Attr { name: react, value: numeric_attr(&name, value) });
             continue;
         }
 
@@ -1977,7 +1996,7 @@ fn unify_attrs(ctx: &Ctx, group: &[ElemGroup]) -> Result<Vec<Attr>> {
             };
             AttrValue::Cond { arms: vec![(cond, inner)], fallback: None }
         };
-        out.push(Attr { name: react, value });
+        out.push(Attr { name: react, value: numeric_attr(&name, value) });
     }
     Ok(out)
 }
@@ -2279,6 +2298,17 @@ mod tests {
         assert_eq!(variant_literal("Kind(TermKind::ObjectProperty)"), "object-property");
         assert_eq!(variant_literal("Kind(TermKind::Class)"), "class");
         assert_eq!(variant_literal("Lang"), "lang");
+    }
+
+    #[test]
+    fn integer_attributes_become_jsx_expressions() {
+        assert!(matches!(numeric_attr("tabindex", AttrValue::Lit("-1".into())), AttrValue::Expr(e) if e == "-1"));
+        assert!(matches!(numeric_attr("tabindex", AttrValue::Lit("0".into())), AttrValue::Expr(e) if e == "0"));
+        assert!(matches!(numeric_attr("title", AttrValue::Lit("0".into())), AttrValue::Lit(_)));
+        assert!(matches!(numeric_attr("tabindex", AttrValue::Lit("x".into())), AttrValue::Lit(_)));
+        let c = AttrValue::Cond { arms: vec![("a".into(), AttrValue::Lit("0".into()))], fallback: None };
+        let AttrValue::Cond { arms, .. } = numeric_attr("tabindex", c) else { panic!() };
+        assert!(matches!(&arms[0].1, AttrValue::Expr(e) if e == "0"));
     }
 
     #[test]

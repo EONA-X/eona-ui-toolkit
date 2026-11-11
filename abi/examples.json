@@ -1,6 +1,6 @@
 {
   "examplesVersion": 3,
-  "srcHash": "786c63f1553dc01864b774e3bece18806b892393d12257a29b7916c01a3bc079",
+  "srcHash": "c4fd4939fd57cb211932b205421ce30309546eef866b44759bee5de1f4284ffc",
   "components": [
     {
       "component": "AccordionItem",
@@ -154,6 +154,25 @@
         "state": "available",
         "import": "import { CodeBlock } from '@eona-x/ui-toolkit-react';",
         "code": "<CodeBlock code={\"let label = \\\"Go\\\";\"} copyable={false} language=\"rust\" />"
+      }
+    },
+    {
+      "component": "CodeTabs",
+      "source": "src/molecules/code_tabs.rs:38",
+      "status": "ok",
+      "yew": {
+        "uses": "use eona_ui_toolkit::CodeTabs;",
+        "snippet": "<CodeTabs\n    id=\"example\"\n    react=\"React\"\n    react_absent=\"React Absent\"\n    svelte=\"Svelte\"\n    svelte_absent=\"Svelte Absent\"\n    yew=\"Yew\"\n/>"
+      },
+      "svelte": {
+        "state": "available",
+        "import": "import { CodeTabs } from '@eona-x/ui-toolkit-svelte';",
+        "code": "<CodeTabs\n  id=\"example\"\n  react=\"React\"\n  reactAbsent=\"React Absent\"\n  svelte=\"Svelte\"\n  svelteAbsent=\"Svelte Absent\"\n  yew=\"Yew\"\n/>"
+      },
+      "react": {
+        "state": "available",
+        "import": "import { CodeTabs } from '@eona-x/ui-toolkit-react';",
+        "code": "<CodeTabs\n  id=\"example\"\n  react=\"React\"\n  reactAbsent=\"React Absent\"\n  svelte=\"Svelte\"\n  svelteAbsent=\"Svelte Absent\"\n  yew=\"Yew\"\n/>"
       }
     },
     {
@@ -585,7 +604,7 @@
     },
     {
       "component": "OntologySection",
-      "source": "src/organisms/ontology_section.rs:28",
+      "source": "src/organisms/ontology_section.rs:29",
       "status": "excluded",
       "reason": "zero-prop demo section",
       "yew": {
@@ -949,21 +968,21 @@
     },
     {
       "component": "UsageExample",
-      "source": "src/molecules/usage_example.rs:24",
+      "source": "src/molecules/usage_example.rs:41",
       "status": "ok",
       "yew": {
         "uses": "use eona_ui_toolkit::UsageExample;",
-        "snippet": "<UsageExample on_dark={true} source={r#\"<Button label=\"Go\" />\"#}>\n    { \"Children go here.\" }\n</UsageExample>"
+        "snippet": "<UsageExample\n    id=\"example\"\n    on_dark={true}\n    react=\"React\"\n    react_absent=\"React Absent\"\n    source={r#\"<Button label=\"Go\" />\"#}\n    svelte=\"Svelte\"\n    svelte_absent=\"Svelte Absent\"\n>\n    { \"Children go here.\" }\n</UsageExample>"
       },
       "svelte": {
         "state": "available",
         "import": "import { UsageExample } from '@eona-x/ui-toolkit-svelte';",
-        "code": "<UsageExample onDark source={\"<Button label=\\\"Go\\\" />\"}>\n  Children go here.\n</UsageExample>"
+        "code": "<UsageExample\n  id=\"example\"\n  onDark\n  react=\"React\"\n  reactAbsent=\"React Absent\"\n  source={\"<Button label=\\\"Go\\\" />\"}\n  svelte=\"Svelte\"\n  svelteAbsent=\"Svelte Absent\"\n>\n  Children go here.\n</UsageExample>"
       },
       "react": {
         "state": "available",
         "import": "import { UsageExample } from '@eona-x/ui-toolkit-react';",
-        "code": "<UsageExample onDark source={\"<Button label=\\\"Go\\\" />\"}>\n  Children go here.\n</UsageExample>"
+        "code": "<UsageExample\n  id=\"example\"\n  onDark\n  react=\"React\"\n  reactAbsent=\"React Absent\"\n  source={\"<Button label=\\\"Go\\\" />\"}\n  svelte=\"Svelte\"\n  svelteAbsent=\"Svelte Absent\"\n>\n  Children go here.\n</UsageExample>"
       }
     }
   ]

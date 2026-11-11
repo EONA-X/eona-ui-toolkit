@@ -1,6 +1,6 @@
 {
-  "srcHash": "786c63f1553dc01864b774e3bece18806b892393d12257a29b7916c01a3bc079",
-  "generatorHash": "96c4f1549455281d5eb86959d6e0b6a0a2cc3f6fca97ae24ef4ce340ae6a7c1e",
+  "srcHash": "c4fd4939fd57cb211932b205421ce30309546eef866b44759bee5de1f4284ffc",
+  "generatorHash": "4e4c519d85fe646a02cf4791c0063de74bfbe320abfedf78d61f635cb641567e",
   "dir": "packages/svelte",
   "exported": [
     "AccordionItem",
@@ -10,6 +10,7 @@
     "Callout",
     "CaseCard",
     "CodeBlock",
+    "CodeTabs",
     "DatasetCard",
     "DeclCard",
     "EvolutionBadge",
@@ -48,7 +49,7 @@
   "files": [
     {
       "path": "README.md",
-      "sha256": "6c9bbafa528c3e0ef02925a5ce105df9b5cb7e2d08dfd5eb3a47c5282c1e6f25"
+      "sha256": "042ef987b1e4f372d2b2e6cd7bd4aa947fc8e539879ae54073d0bf79b43ee65b"
     },
     {
       "path": "package.json",
@@ -81,6 +82,10 @@
     {
       "path": "src/CodeBlock.svelte",
       "sha256": "a99e0672334ddc623b61bec9448407cb04cc0ada09136ae9cc9f120e0eed5be9"
+    },
+    {
+      "path": "src/CodeTabs.svelte",
+      "sha256": "23be59085d61abe4f7b87f1ea85143b60b47e956cac4a9434bdd210667a19f10"
     },
     {
       "path": "src/DatasetCard.svelte",
@@ -216,11 +221,11 @@
     },
     {
       "path": "src/UsageExample.svelte",
-      "sha256": "012c2de17a5dde9eedcedd75661d7004c1a1aa0c46f67f3eaaf29a4d25392717"
+      "sha256": "76d81601c372a327b8991601c509d7a36fadca658b8472835adc4f28625db916"
     },
     {
       "path": "src/index.ts",
-      "sha256": "5f400f20032647f6ade4c2b072823005e313f4c7f7d1c672b83afb530a2f544a"
+      "sha256": "a093bf80224b75bd99575efb59e3c6cc2eb32de87674327d3738d09a5e08e3b2"
     },
     {
       "path": "src/types.ts",
