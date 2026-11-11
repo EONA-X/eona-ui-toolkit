@@ -31,6 +31,7 @@ jobs:
           workspaces: |
             .
             examples/svelte-wasm
+            wasm/charts
             examples/yew-ssg
             examples/yew-trunk
 
@@ -47,6 +48,18 @@ jobs:
 
       - name: Generated output is not stale
         run: cargo run -p xtask -- check
+
+      # Before the Svelte build: its `postbuild` copies this output into `dist`.
+      - name: Build the charts WASM
+        run: |
+          npm install -g wasm-pack
+          wasm-pack build --target web --release wasm/charts
+
+      - name: The charts WASM is within its size budget
+        run: |
+          size=$(gzip -9 -c wasm/charts/pkg/eona_ui_toolkit_charts_bg.wasm | wc -c)
+          echo "charts wasm: $size bytes gzip (budget 200000)"
+          test "$size" -le 200000 || { echo "::error::charts wasm is $size bytes gzip, over the 200000 budget"; exit 1; }
 
       # `../css`, not the registry: both component packages depend on
       # @eona-x/ui-toolkit-css at their own version, which is not on npm until
@@ -72,12 +85,15 @@ jobs:
 
       - name: Build the WASM example
         run: |
-          npm install -g wasm-pack
           wasm-pack build --target web --release examples/svelte-wasm
 
       - name: The WASM entry mounts a real Yew build
         working-directory: tests/bridge-parity
         run: npm run test:wasm
+
+      - name: CubeChart fetches, mounts and updates a real charts build
+        working-directory: tests/bridge-parity
+        run: npm run test:wasm-charts
 
       - name: The Yew static-site sample renders its pages
         working-directory: examples/yew-ssg

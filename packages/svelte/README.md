@@ -14,7 +14,7 @@ Generated from src_hash `786c63f1553dc01864b774e3bece18806b892393d12257a29b7916c
 | Import | What it is | WebAssembly |
 | --- | --- | --- |
 | `@eona-x/ui-toolkit-svelte` | the generated components, as `.svelte` | none |
-| `@eona-x/ui-toolkit-svelte/wasm` | `<YewMount>` and `use:yew`, to mount a Yew component compiled to WASM | yours, loaded on demand |
+| `@eona-x/ui-toolkit-svelte/wasm` | `<YewMount>`, `use:yew` and `<CubeChart>`, to mount a Yew component compiled to WASM | yours, loaded on demand; the charts' is `@eona-x/ui-toolkit-svelte/wasm/charts` |
 
 Use the first for everything it exports: it server-renders, it tree-shakes, and its markup
 is Yew's. Reach for the second only for a component the generator cannot reach — an
@@ -59,6 +59,46 @@ working one.
 
 <YewMount module={load} component="Counter" props={{ start: 3 }} />
 ```
+
+### Data-driven charts
+
+`<CubeChart>` draws a JSON-LD dataset in the chart profile (`https://eona-x.eu/shape/chart-profile#`)
+with `BarChart`, `StackedBarChart`, `LineChart`, `CubeScoreDonut` or `CubeMetricTile`. The
+WebAssembly ships in this package as `@eona-x/ui-toolkit-svelte/wasm/charts`; the parse, the layout and
+every error state are in Rust, so the component only fetches. There is no React counterpart.
+
+```svelte
+<script lang="ts">
+  import '@eona-x/ui-toolkit-css';
+  import { CubeChart } from '@eona-x/ui-toolkit-svelte/wasm';
+</script>
+
+<div class="eona-ui">
+  <CubeChart
+    component="BarChart"
+    src="/data/cube.jsonld"
+    module={() => import('@eona-x/ui-toolkit-svelte/wasm/charts')}
+  />
+</div>
+```
+
+| Prop | |
+| --- | --- |
+| `component` | which chart (required) |
+| `module` | the charts module or a function returning it (required); initialised for you |
+| `src` | URL of the JSON-LD; a new `src` aborts the previous fetch and updates the same chart |
+| `jsonld` | the document text, instead of `src` |
+| `lang` | language tag for the label and comment |
+| `select` | `CubeScoreDonut`: the category or date to show (default: the latest) |
+| `help` | `CubeMetricTile`: small print under the value |
+| `class` | class of the host element |
+
+A failed fetch or a document the profile rejects is drawn as the chart's own error state
+(`.chart--error`, `role="alert"`). Nothing is rendered until the first reply.
+
+In this repository the module comes from `wasm-pack build --target web --release wasm/charts`,
+which `npm run build` copies into `dist/wasm/charts`. The module is about 416 kB (177 kB
+gzip) and, like `/wasm`, needs a CSP that allows `wasm-unsafe-eval`.
 
 ## Documentation
 

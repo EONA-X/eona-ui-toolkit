@@ -1,6 +1,6 @@
 {
   "srcHash": "786c63f1553dc01864b774e3bece18806b892393d12257a29b7916c01a3bc079",
-  "generatorHash": "9f4280d84485c2a04f54c74ec88720383027476266c27065f59582c6388fb026",
+  "generatorHash": "96c4f1549455281d5eb86959d6e0b6a0a2cc3f6fca97ae24ef4ce340ae6a7c1e",
   "dir": "packages/svelte",
   "exported": [
     "AccordionItem",
@@ -48,11 +48,11 @@
   "files": [
     {
       "path": "README.md",
-      "sha256": "1f411e87df8facfefeaa622413423292d95d274bf08188e2a5ed6b6624c81ab0"
+      "sha256": "6c9bbafa528c3e0ef02925a5ce105df9b5cb7e2d08dfd5eb3a47c5282c1e6f25"
     },
     {
       "path": "package.json",
-      "sha256": "ae9024852fecd2aa6d567202ff94fa17b52d16b569393e2592ad8111337910af"
+      "sha256": "cef0763ac5951a3098a656ce85ef7cbbbfa8c5bcf17404f2482a6727f79c08cd"
     },
     {
       "path": "src/AccordionItem.svelte",
@@ -227,6 +227,10 @@
       "sha256": "5883ba7fa571ea2ab07f2a32b26a315bd4f96f7a963067429876a0811a7d1978"
     },
     {
+      "path": "src/wasm/CubeChart.svelte",
+      "sha256": "198df5a5838abe244259568f1755077218480a7f292e546b2ff7cb31aeb3659d"
+    },
+    {
       "path": "src/wasm/YewMount.svelte",
       "sha256": "06017197e4225b3915dae0d88c4d7fcae8783cc5ce46cc590143f515515f4310"
     },
@@ -236,7 +240,7 @@
     },
     {
       "path": "src/wasm/index.ts",
-      "sha256": "5d8a3be7d9cf6e1eaa29a5043107a344a92401245569c5039a510f0852e9aa86"
+      "sha256": "c2359f85f13752cc730d9ede1068180e3ecb1909885f747e4064fc49cf9a8545"
     },
     {
       "path": "tsconfig.json",

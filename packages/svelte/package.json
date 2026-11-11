@@ -29,10 +29,15 @@
       "svelte": "./dist/wasm/index.js",
       "default": "./dist/wasm/index.js"
     },
+    "./wasm/charts": {
+      "types": "./dist/wasm/charts/eona_ui_toolkit_charts.d.ts",
+      "default": "./dist/wasm/charts/eona_ui_toolkit_charts.js"
+    },
     "./package.json": "./package.json"
   },
   "scripts": {
     "build": "svelte-package -i src -o dist",
+    "postbuild": "mkdir -p dist/wasm/charts && cp ../../wasm/charts/pkg/eona_ui_toolkit_charts.js ../../wasm/charts/pkg/eona_ui_toolkit_charts.d.ts ../../wasm/charts/pkg/eona_ui_toolkit_charts_bg.wasm ../../wasm/charts/pkg/eona_ui_toolkit_charts_bg.wasm.d.ts dist/wasm/charts/",
     "check": "svelte-check --tsconfig ./tsconfig.json --fail-on-warnings"
   },
   "peerDependencies": {
