@@ -65,7 +65,7 @@ use crate::splice::{js_prop_name, variant_literal};
 /// Bumped when the *shape* of `abi/examples.json` changes, so a stale file fails
 /// to deserialise loudly instead of diffing as if every component moved at once.
 /// Same contract as [`crate::abi::ABI_VERSION`].
-pub const EXAMPLES_VERSION: u32 = 2;
+pub const EXAMPLES_VERSION: u32 = 3;
 
 /// The reviewable artifact, relative to the toolkit root.
 pub const EXAMPLES_JSON: &str = "abi/examples.json";
@@ -123,8 +123,8 @@ pub struct Example {
     #[serde(flatten)]
     pub status: Status,
     pub yew: YewSnippet,
-    #[serde(flatten)]
-    pub react: ReactSnippet,
+    pub svelte: StackSnippet,
+    pub react: StackSnippet,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -138,25 +138,21 @@ pub struct YewSnippet {
     pub snippet: String,
 }
 
-/// Whether the component exists in `@eona-x/ui-toolkit-react`, and if not, the
-/// honest note to print in place of a snippet.
+/// One stack's half of a component's snippet: the call, or the honest note to
+/// print in its place.
 ///
-/// Five components are in the crate and not in the package — `Modal` needs an
-/// override, `Swatch`, `PaletteGroup`, `DatasetCard` and `OntoAnnotation` are
-/// quarantined — and a docs page that showed them a React snippet anyway would
-/// be handing a reader an import that does not resolve.
+/// The stacks are independent. Five components are in the crate and not in the
+/// npm packages (`Modal` needs an override; `Swatch`, `PaletteGroup`,
+/// `DatasetCard` and `OntoAnnotation` are quarantined), and the data-driven
+/// charts are in the Svelte package only, through `/wasm`. A docs page that
+/// showed a call anyway would hand a reader an import that does not resolve.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(tag = "react", rename_all = "kebab-case")]
-pub enum ReactSnippet {
+#[serde(tag = "state", rename_all = "kebab-case")]
+pub enum StackSnippet {
     Available {
-        /// The import the JSX needs, naming only what `index.ts` exports.
+        /// The import the call needs, naming only what the package exports.
         import: String,
-        jsx: String,
-        /// The same call for `@eona-x/ui-toolkit-svelte`, which exports exactly
-        /// what the React package does: the two are written from one plan.
-        #[serde(rename = "svelteImport")]
-        svelte_import: String,
-        svelte: String,
+        code: String,
     },
     Unavailable {
         /// The generator's own rule, in its own words.
@@ -212,24 +208,35 @@ fn example(
         );
     };
     let call = Call::build(c, tk)?;
-    let react = match &c.status {
-        Status::Ok => ReactSnippet::Available {
-            import: format!("import {{ {} }} from '{PACKAGE_NAME}';", c.name),
-            jsx: call.jsx(&c.name),
-            svelte_import: format!("import {{ {} }} from '{SVELTE_PACKAGE}';", c.name),
-            svelte: call.svelte(&c.name),
-        },
-        other => {
-            let entry = overrides.get(&c.name);
-            ReactSnippet::Unavailable {
-                why: why(other),
-                disposition: entry
-                    .and_then(|e| e.get("disposition"))
-                    .cloned()
-                    .unwrap_or_default(),
-                tracked_by: entry.and_then(|e| e.get("tracked_by")).cloned().unwrap_or_default(),
-            }
-        }
+    let entry = overrides.get(&c.name);
+    let unavailable = |pkg: &str| StackSnippet::Unavailable {
+        why: why(&c.status, pkg),
+        disposition: entry.and_then(|e| e.get("disposition")).cloned().unwrap_or_default(),
+        tracked_by: entry.and_then(|e| e.get("tracked_by")).cloned().unwrap_or_default(),
+    };
+    let (react, svelte) = match &c.status {
+        Status::Ok => (
+            StackSnippet::Available {
+                import: format!("import {{ {} }} from '{PACKAGE_NAME}';", c.name),
+                code: call.jsx(&c.name),
+            },
+            StackSnippet::Available {
+                import: format!("import {{ {} }} from '{SVELTE_PACKAGE}';", c.name),
+                code: call.svelte(&c.name),
+            },
+        ),
+        Status::WasmOnly { .. } => (
+            unavailable("React"),
+            StackSnippet::Available {
+                import: format!("import {{ {WASM_MOUNT} }} from '{SVELTE_PACKAGE}/wasm';"),
+                code: format!(
+                    "<{WASM_MOUNT} component=\"{}\" src=\"/data/cube.jsonld\" \
+                     module={{() => import('{SVELTE_PACKAGE}/wasm/charts')}} />",
+                    c.name
+                ),
+            },
+        ),
+        _ => (unavailable("React"), unavailable("Svelte")),
     };
     Ok(Example {
         component: c.name.clone(),
@@ -239,23 +246,28 @@ fn example(
             uses: call.uses(&c.name, &ir.span, tk)?,
             snippet: call.html(&c.name),
         },
+        svelte,
         react,
     })
 }
 
-/// The React half's note, phrased for a reader of the page rather than for the
-/// gate: `Status`'s own reason is the machine's sentence, and it is quoted
-/// rather than rewritten so the note and `abi/toolkit.abi.json` cannot diverge.
-fn why(status: &Status) -> String {
+/// The wrapper the Svelte `/wasm` entry exports for every data-driven chart.
+const WASM_MOUNT: &str = "CubeChart";
+
+/// A stack's note, phrased for a reader of the page rather than for the gate:
+/// `Status`'s own reason is the machine's sentence, and it is quoted rather
+/// than rewritten so the note and `abi/toolkit.abi.json` cannot diverge. `pkg`
+/// is the stack the note is printed under.
+fn why(status: &Status, pkg: &str) -> String {
     match status {
         Status::Ok => String::new(),
         Status::NeedsOverride { reason } => {
-            format!("not in the React package — it needs an override: {reason}")
+            format!("not in the {pkg} package — it needs an override: {reason}")
         }
         Status::Quarantined { reason } => {
-            format!("not in the React package — the verify gate quarantined it: {reason}")
+            format!("not in the {pkg} package — the verify gate quarantined it: {reason}")
         }
-        Status::WasmOnly { reason } => format!("not in the React package \u{2014} {reason}"),
+        Status::WasmOnly { reason } => format!("not in the {pkg} package \u{2014} {reason}"),
         Status::Excluded { reason } => {
             format!("never generated — out of scope by rule: {reason}")
         }
@@ -897,7 +909,7 @@ pub fn to_rust(ex: &Examples) -> Result<String> {
          //! src_hash {}\n\n",
         ex.src_hash
     ));
-    s.push_str(REACT_SNIPPET_TY);
+    s.push_str(STACK_SNIPPET_TY);
     s.push_str(SNIPPET_TY);
     s.push_str(
         "/// Every component the crate defines, sorted by name — excluded ones\n\
@@ -911,21 +923,21 @@ pub fn to_rust(ex: &Examples) -> Result<String> {
         s.push_str(&format!("        source: {},\n", rust_lit(&e.source)));
         s.push_str(&format!("        yew_uses: {},\n", rust_lit(&e.yew.uses)));
         s.push_str(&format!("        yew: {},\n", rust_lit(&e.yew.snippet)));
-        match &e.react {
-            ReactSnippet::Available { import, jsx, svelte_import, svelte } => {
-                s.push_str("        react: ReactSnippet::Available {\n");
-                s.push_str(&format!("            import: {},\n", rust_lit(import)));
-                s.push_str(&format!("            jsx: {},\n", rust_lit(jsx)));
-                s.push_str(&format!("            svelte_import: {},\n", rust_lit(svelte_import)));
-                s.push_str(&format!("            svelte: {},\n", rust_lit(svelte)));
-                s.push_str("        },\n");
-            }
-            ReactSnippet::Unavailable { why, disposition, tracked_by } => {
-                s.push_str("        react: ReactSnippet::Unavailable {\n");
-                s.push_str(&format!("            why: {},\n", rust_lit(why)));
-                s.push_str(&format!("            disposition: {},\n", rust_lit(disposition)));
-                s.push_str(&format!("            tracked_by: {},\n", rust_lit(tracked_by)));
-                s.push_str("        },\n");
+        for (field, stack) in [("svelte", &e.svelte), ("react", &e.react)] {
+            match stack {
+                StackSnippet::Available { import, code } => {
+                    s.push_str(&format!("        {field}: StackSnippet::Available {{\n"));
+                    s.push_str(&format!("            import: {},\n", rust_lit(import)));
+                    s.push_str(&format!("            code: {},\n", rust_lit(code)));
+                    s.push_str("        },\n");
+                }
+                StackSnippet::Unavailable { why, disposition, tracked_by } => {
+                    s.push_str(&format!("        {field}: StackSnippet::Unavailable {{\n"));
+                    s.push_str(&format!("            why: {},\n", rust_lit(why)));
+                    s.push_str(&format!("            disposition: {},\n", rust_lit(disposition)));
+                    s.push_str(&format!("            tracked_by: {},\n", rust_lit(tracked_by)));
+                    s.push_str("        },\n");
+                }
             }
         }
         s.push_str("    },\n");
@@ -938,20 +950,13 @@ pub fn to_rust(ex: &Examples) -> Result<String> {
     Ok(s)
 }
 
-const REACT_SNIPPET_TY: &str = "\
-/// Whether a component ships in `@eona-x/ui-toolkit-react` — and so in
-/// `@eona-x/ui-toolkit-svelte`, which is written from the same plan.
+const STACK_SNIPPET_TY: &str = "\
+/// One stack's half of a component's snippet.
 ///
-/// A page that showed a component's JSX anyway would hand a reader an import
-/// that does not resolve. `abi/overrides.toml` is where the disposition comes
-/// from.
-pub enum ReactSnippet {
-    Available {
-        import: &'static str,
-        jsx: &'static str,
-        svelte_import: &'static str,
-        svelte: &'static str,
-    },
+/// A page that showed a call anyway would hand a reader an import that does not
+/// resolve. `abi/overrides.toml` is where the disposition comes from.
+pub enum StackSnippet {
+    Available { import: &'static str, code: &'static str },
     Unavailable { why: &'static str, disposition: &'static str, tracked_by: &'static str },
 }
 
@@ -966,7 +971,8 @@ pub struct Snippet {
     /// The `use` lines the Yew snippet needs, newline-separated.
     pub yew_uses: &'static str,
     pub yew: &'static str,
-    pub react: ReactSnippet,
+    pub svelte: StackSnippet,
+    pub react: StackSnippet,
 }
 
 ";
@@ -987,15 +993,18 @@ pub fn snippet(component: &str) -> Option<&'static Snippet> {
 }
 ";
 
-/// The available snippets, in name order: what the live pages render.
+/// The generated components the live pages render, in name order: those with
+/// a call in both packages. The wasm charts (Svelte only, through `/wasm`) are
+/// not rendered here.
 fn available(ex: &Examples) -> Vec<(&Example, &str, &str, &str, &str)> {
     ex.components
         .iter()
-        .filter_map(|e| match &e.react {
-            ReactSnippet::Available { import, jsx, svelte_import, svelte } => {
-                Some((e, import.as_str(), jsx.as_str(), svelte_import.as_str(), svelte.as_str()))
-            }
-            ReactSnippet::Unavailable { .. } => None,
+        .filter_map(|e| match (&e.react, &e.svelte) {
+            (
+                StackSnippet::Available { import, code: jsx },
+                StackSnippet::Available { import: svelte_import, code: svelte },
+            ) => Some((e, import.as_str(), jsx.as_str(), svelte_import.as_str(), svelte.as_str())),
+            _ => None,
         })
         .collect()
 }
@@ -1174,6 +1183,11 @@ mod tests {
                     Status::Quarantined { reason: "panics while rendering a sentinel".into() },
                     vec![prop("code", "AttrValue", PropKind::Text, false, PropDefault::Required)],
                 ),
+                component(
+                    "Chart",
+                    Status::WasmOnly { reason: "draws in the browser".into() },
+                    vec![prop("jsonld", "AttrValue", PropKind::Text, false, PropDefault::Required)],
+                ),
                 component("Excluded", Status::Excluded { reason: "zero-prop demo section".into() }, vec![]),
             ],
             enums: vec![PropEnum {
@@ -1199,7 +1213,10 @@ mod tests {
         let mut entry = BTreeMap::new();
         entry.insert("disposition".to_string(), "hand-port the thumb.".to_string());
         entry.insert("tracked_by".to_string(), "#809".to_string());
-        BTreeMap::from([("Withheld".to_string(), entry)])
+        let mut chart = BTreeMap::new();
+        chart.insert("disposition".to_string(), "React: not planned.".to_string());
+        chart.insert("tracked_by".to_string(), "#1219".to_string());
+        BTreeMap::from([("Withheld".to_string(), entry), ("Chart".to_string(), chart)])
     }
 
     fn built() -> Examples {
@@ -1218,7 +1235,7 @@ mod tests {
     fn every_component_reaches_the_table_including_the_excluded_ones() {
         let ex = built();
         let names: Vec<&str> = ex.components.iter().map(|e| e.component.as_str()).collect();
-        assert_eq!(names, vec!["Excluded", "Probe", "Withheld"], "sorted, and all three");
+        assert_eq!(names, vec!["Chart", "Excluded", "Probe", "Withheld"], "sorted, and all four");
     }
 
     /// The requirement the whole stage exists for: one prop added in Rust, both
@@ -1239,8 +1256,10 @@ mod tests {
 
         assert!(!before.yew.snippet.contains("subtitle"));
         assert!(after.yew.snippet.contains("subtitle=\"Subtitle\""), "{}", after.yew.snippet);
-        let ReactSnippet::Available { jsx, .. } = &after.react else { panic!("Probe is Ok") };
-        assert!(jsx.contains("subtitle=\"Subtitle\""), "{jsx}");
+        let StackSnippet::Available { code, .. } = &after.react else { panic!("Probe is Ok") };
+        assert!(code.contains("subtitle=\"Subtitle\""), "{code}");
+        let StackSnippet::Available { code, .. } = &after.svelte else { panic!("Probe is Ok") };
+        assert!(code.contains("subtitle=\"Subtitle\""), "{code}");
     }
 
     /// A withheld component gets the Yew call and the human's disposition, never
@@ -1251,31 +1270,78 @@ mod tests {
         let ex = built();
         let w = ex.get("Withheld").unwrap();
         assert!(w.yew.snippet.starts_with("<Withheld code="), "{}", w.yew.snippet);
-        match &w.react {
-            ReactSnippet::Unavailable { why, disposition, tracked_by } => {
-                assert!(why.contains("quarantined it: panics while rendering a sentinel"));
-                assert_eq!(disposition, "hand-port the thumb.");
-                assert_eq!(tracked_by, "#809");
+        for (stack, snippet) in [("React", &w.react), ("Svelte", &w.svelte)] {
+            match snippet {
+                StackSnippet::Unavailable { why, disposition, tracked_by } => {
+                    assert!(why.contains(&format!("not in the {stack} package")), "{why}");
+                    assert!(why.contains("quarantined it: panics while rendering a sentinel"));
+                    assert_eq!(disposition, "hand-port the thumb.");
+                    assert_eq!(tracked_by, "#809");
+                }
+                StackSnippet::Available { .. } => panic!("a quarantined component has no {stack} half"),
             }
-            ReactSnippet::Available { .. } => panic!("a quarantined component has no React half"),
         }
         // An exclusion is a rule, not a decision to record, so `overrides.toml`
         // carries no entry and the disposition is empty rather than invented.
-        match &ex.get("Excluded").unwrap().react {
-            ReactSnippet::Unavailable { why, disposition, .. } => {
-                assert!(why.contains("out of scope by rule: zero-prop demo section"));
-                assert!(disposition.is_empty());
+        let e = ex.get("Excluded").unwrap();
+        for snippet in [&e.react, &e.svelte] {
+            match snippet {
+                StackSnippet::Unavailable { why, disposition, .. } => {
+                    assert!(why.contains("out of scope by rule: zero-prop demo section"));
+                    assert!(disposition.is_empty());
+                }
+                StackSnippet::Available { .. } => panic!("an excluded component has no package half"),
             }
-            ReactSnippet::Available { .. } => panic!("an excluded component has no React half"),
         }
     }
 
     #[test]
-    fn a_wasm_only_component_has_no_react_half_and_says_why() {
+    fn a_wasm_only_component_has_a_svelte_wasm_half_and_no_react_half() {
         assert_eq!(
-            why(&Status::WasmOnly { reason: "chart".into() }),
+            why(&Status::WasmOnly { reason: "chart".into() }, "React"),
             "not in the React package \u{2014} chart"
         );
+        let c = built().get("Chart").unwrap().clone();
+        let StackSnippet::Available { import, code } = &c.svelte else {
+            panic!("a wasm-only component ships through /wasm in Svelte")
+        };
+        assert_eq!(import, "import { CubeChart } from '@eona-x/ui-toolkit-svelte/wasm';");
+        assert_eq!(
+            code,
+            "<CubeChart component=\"Chart\" src=\"/data/cube.jsonld\" \
+             module={() => import('@eona-x/ui-toolkit-svelte/wasm/charts')} />"
+        );
+        let StackSnippet::Unavailable { why, disposition, tracked_by } = &c.react else {
+            panic!("a wasm-only component has no React half")
+        };
+        assert!(why.contains("not in the React package"), "{why}");
+        assert_eq!(disposition, "React: not planned.");
+        assert_eq!(tracked_by, "#1219");
+        assert!(c.yew.snippet.starts_with("<Chart"), "the Yew call is kept");
+    }
+
+    /// An Ok component is Available in both stacks, with the import each package
+    /// exports, and the v2 text unchanged.
+    #[test]
+    fn an_ok_component_is_available_in_both_stacks() {
+        let p = probe();
+        let StackSnippet::Available { import, .. } = &p.react else { panic!() };
+        assert_eq!(import, "import { Probe } from '@eona-x/ui-toolkit-react';");
+        let StackSnippet::Available { import, .. } = &p.svelte else { panic!() };
+        assert_eq!(import, "import { Probe } from '@eona-x/ui-toolkit-svelte';");
+    }
+
+    #[test]
+    fn the_document_is_version_3_and_stacks_are_tagged() {
+        let ex = built();
+        assert_eq!(ex.examples_version, 3);
+        let json = to_json(&ex).unwrap();
+        assert!(json.contains("\"examplesVersion\": 3"), "{json}");
+        let v: serde_json::Value = serde_json::from_str(&json).unwrap();
+        let chart = &v["components"][0];
+        assert_eq!(chart["component"], "Chart");
+        assert_eq!(chart["svelte"]["state"], "available");
+        assert_eq!(chart["react"]["state"], "unavailable");
     }
 
     /// Attributes come out in `AbiComponent::props` order, which is alphabetical
@@ -1297,7 +1363,8 @@ mod tests {
              \x20   { \"Children go here.\" }\n\
              </Probe>"
         );
-        let ReactSnippet::Available { jsx, import, svelte_import, svelte } = &p.react else {
+        let StackSnippet::Available { code: jsx, import } = &p.react else { panic!("Probe is Ok") };
+        let StackSnippet::Available { code: svelte, import: svelte_import } = &p.svelte else {
             panic!("Probe is Ok")
         };
         assert_eq!(import, "import { Probe } from '@eona-x/ui-toolkit-react';");
@@ -1330,7 +1397,7 @@ mod tests {
         assert!(p.yew.snippet.contains("note: None"), "an optional field is written out");
         assert!(p.yew.snippet.contains("href: \"#\".into()"), "AttrValue needs the conversion");
         assert!(p.yew.snippet.contains("tag: \"Tag\""), "&'static str must not carry .into()");
-        let ReactSnippet::Available { jsx, .. } = &p.react else { panic!() };
+        let StackSnippet::Available { code: jsx, .. } = &p.react else { panic!() };
         assert!(!jsx.contains("note"), "an optional field is omitted from the JS object");
     }
 
@@ -1341,7 +1408,10 @@ mod tests {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).parent().unwrap();
         let ex: Examples =
             serde_json::from_str(&std::fs::read_to_string(root.join(EXAMPLES_JSON)).unwrap()).unwrap();
-        let ReactSnippet::Available { jsx, svelte, .. } = &ex.get("ShapeCard").unwrap().react else {
+        let shape = ex.get("ShapeCard").unwrap();
+        let (StackSnippet::Available { code: jsx, .. }, StackSnippet::Available { code: svelte, .. }) =
+            (&shape.react, &shape.svelte)
+        else {
             panic!("ShapeCard ships")
         };
         assert!(jsx.contains("demo={<span>Slot content.</span>}"), "{jsx}");
@@ -1358,6 +1428,9 @@ mod tests {
         let n = available(&ex).len();
         assert_eq!(site_react(&ex).unwrap().matches("\n    element: (").count(), n);
         assert_eq!(site_svelte(&ex).unwrap().matches("\n<Entry name=").count(), n);
+        // The galleries render generated components; the wasm charts are not.
+        assert!(!site_react(&ex).unwrap().contains("BarChart"));
+        assert!(!site_svelte(&ex).unwrap().contains("BarChart"));
     }
 
     /// `shown_bool` and `shown_variant` both pick the value that is *not* the

@@ -2,7 +2,7 @@ use yew::prelude::*;
 
 use crate::atoms::{CodeBlock, EvolutionBadge, PillButton, PillButtonKind, TagLabel, TagLabelTone};
 use crate::chart::{donut_arc, trend_of};
-use crate::examples::{ReactSnippet, Snippet, SNIPPETS};
+use crate::examples::{Snippet, StackSnippet, SNIPPETS};
 use crate::molecules::{
     AccordionItem, CaseCard, MemberCard, MemberFilterCard, MetricTile, Modal, NavDropdown,
     NewsCard, PropSpec, PropsTable, ScoreDonut, SectionHead, TextField, TextFieldKind, UsageExample,
@@ -377,8 +377,8 @@ pub fn components_gallery() -> Html {
                         <code>{ "@eona-x/ui-toolkit-css" }</code>{ "." }
                     </p>
                     <p class="section-intro">
-                        { format!("The remaining {} carry a note instead of JSX, because a React \
-                                   or Svelte snippet for a component ", SNIPPETS.len() - react_available()) }
+                        { format!("The remaining {} carry a note instead of JSX for each stack that \
+                                   does not ship them, because a snippet for a component ", SNIPPETS.len() - react_available()) }
                         <code>{ "index.ts" }</code>
                         { " does not export is an import that does not resolve. Section 18 argues \
                            the rule the notes quote; " }
@@ -412,7 +412,7 @@ const LIVE_SVELTE: &str = "https://eona-x.github.io/eona-ui-toolkit/svelte/";
 fn react_available() -> usize {
     SNIPPETS
         .iter()
-        .filter(|s| matches!(s.react, ReactSnippet::Available { .. }))
+        .filter(|s| matches!(s.react, StackSnippet::Available { .. }))
         .count()
 }
 
@@ -436,40 +436,42 @@ fn snippet_entry(s: &'static Snippet) -> Html {
                     <span class="snippet-pane-label">{ "Yew" }</span>
                     <CodeBlock code={yew} language="rust" />
                 </div>
-                { react_pane(&s.react) }
+                { stack_pane("React", "tsx", &s.react, |import, code| format!("{import}\n\n{code}")) }
+                { stack_pane("Svelte", "svelte", &s.svelte, |import, code| {
+                    format!("<script>\n  {import}\n</script>\n\n{code}")
+                }) }
             </div>
         </article>
     }
 }
 
-/// The React and Svelte panes: the two calls, or one note for why there are none.
+/// One stack's pane: the call, or a note for why there is none.
 ///
 /// The note is the generator's own words — `why` is the machine's rule, read
 /// off `Status`, and `disposition` is the human's answer from
 /// `abi/overrides.toml`. Neither is restated here, because a component missing
 /// on purpose and one missing by accident look identical from the outside and
 /// only these two strings tell them apart.
-fn react_pane(react: &'static ReactSnippet) -> Html {
-    match react {
-        ReactSnippet::Available { import, jsx, svelte_import, svelte } => html! {
-            <>
-                <div class="snippet-pane">
-                    <span class="snippet-pane-label">{ "React" }</span>
-                    <CodeBlock code={format!("{import}\n\n{jsx}")} language="tsx" />
-                </div>
-                <div class="snippet-pane">
-                    <span class="snippet-pane-label">{ "Svelte" }</span>
-                    <CodeBlock code={format!("<script>\n  {svelte_import}\n</script>\n\n{svelte}")} language="svelte" />
-                </div>
-            </>
+fn stack_pane(
+    label: &'static str,
+    language: &'static str,
+    stack: &'static StackSnippet,
+    source: fn(&'static str, &'static str) -> String,
+) -> Html {
+    match stack {
+        StackSnippet::Available { import, code } => html! {
+            <div class="snippet-pane">
+                <span class="snippet-pane-label">{ label }</span>
+                <CodeBlock code={source(import, code)} language={language} />
+            </div>
         },
-        ReactSnippet::Unavailable {
+        StackSnippet::Unavailable {
             why,
             disposition,
             tracked_by,
         } => html! {
             <div class="snippet-pane snippet-pane-absent">
-                <span class="snippet-pane-label">{ "React & Svelte — not shipped" }</span>
+                <span class="snippet-pane-label">{ format!("{label} — not shipped") }</span>
                 <div class="snippet-absent">
                     <p>{ *why }</p>
                     if !disposition.is_empty() {

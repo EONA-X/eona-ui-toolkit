@@ -128,30 +128,30 @@ async fn section_09_reaches_every_component_in_both_stacks() {
         );
     }
 
-    // Every row carries a Yew pane; a row whose component ships in the npm
-    // packages carries a React and a Svelte one, and a row whose component does
-    // not carries a note instead. Counted off the same table the page renders from, so the
-    // expected numbers move with the verify gate rather than with this file.
-    let absent = eona_ui_toolkit::examples::SNIPPETS
+    // Every row carries a Yew pane, and for each of React and Svelte either a
+    // call pane (the component ships in that package) or a note (it does not).
+    // Counted off the same table the page renders from, so the expected numbers
+    // move with the verify gate rather than with this file.
+    use eona_ui_toolkit::examples::StackSnippet;
+    let stacks: Vec<&StackSnippet> = eona_ui_toolkit::examples::SNIPPETS
         .iter()
-        .filter(|s| {
-            matches!(
-                s.react,
-                eona_ui_toolkit::examples::ReactSnippet::Unavailable { .. }
-            )
-        })
+        .flat_map(|s| [&s.react, &s.svelte])
+        .collect();
+    let absent = stacks
+        .iter()
+        .filter(|s| matches!(s, StackSnippet::Unavailable { .. }))
         .count();
     let rows = eona_ui_toolkit::examples::SNIPPETS.len();
 
     assert_eq!(
         html.matches(r#"class="snippet-absent""#).count(),
         absent,
-        "one honest note per component React does not ship"
+        "one honest note per stack that does not ship the component"
     );
     assert_eq!(
         html.matches(r#"class="snippet-pane">"#).count(),
-        rows + 2 * (rows - absent),
-        "one Yew pane per row, plus a React and a Svelte pane per row that ships"
+        rows + (stacks.len() - absent),
+        "one Yew pane per row, plus a pane per stack that ships the component"
     );
 }
 
