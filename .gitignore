@@ -19,6 +19,10 @@ Cargo.lock
 # Rendered by `cargo run --example render-docs`; the Pages workflow builds it.
 /dist/
 
+# The charts WASM crate's build output (`wasm-pack build --target web --release wasm/charts`).
+/wasm/charts/target/
+/wasm/charts/pkg/
+
 # The svelte-wasm example's build output (`wasm-pack build --target web examples/svelte-wasm`).
 /examples/svelte-wasm/target/
 /examples/svelte-wasm/pkg/
