@@ -1070,7 +1070,9 @@ pub fn splice_toolkit(
     for c in &tk.components {
         match c.status {
             Status::Ok | Status::NeedsOverride { .. } => {}
-            Status::Quarantined { .. } | Status::Excluded { .. } => continue,
+            Status::Quarantined { .. } | Status::Excluded { .. } | Status::WasmOnly { .. } => {
+                continue
+            }
         }
         let Some(list) = cells.get(&c.name) else { continue };
         let mut pairs: Vec<(Cell, String)> = Vec::new();

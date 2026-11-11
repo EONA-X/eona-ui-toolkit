@@ -255,6 +255,7 @@ fn why(status: &Status) -> String {
         Status::Quarantined { reason } => {
             format!("not in the React package — the verify gate quarantined it: {reason}")
         }
+        Status::WasmOnly { reason } => format!("not in the React package \u{2014} {reason}"),
         Status::Excluded { reason } => {
             format!("never generated — out of scope by rule: {reason}")
         }
@@ -1267,6 +1268,14 @@ mod tests {
             }
             ReactSnippet::Available { .. } => panic!("an excluded component has no React half"),
         }
+    }
+
+    #[test]
+    fn a_wasm_only_component_has_no_react_half_and_says_why() {
+        assert_eq!(
+            why(&Status::WasmOnly { reason: "chart".into() }),
+            "not in the React package \u{2014} chart"
+        );
     }
 
     /// Attributes come out in `AbiComponent::props` order, which is alphabetical

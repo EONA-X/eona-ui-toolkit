@@ -278,9 +278,9 @@ fn component<'a>(tk: &'a Toolkit, name: &str) -> Result<&'a Component> {
     // An excluded component reaching the harness means two stages disagree about
     // scope, and the harness would then emit a wrapper for something the ABI
     // says was never generated. Fail loudly rather than render it.
-    if let Status::Excluded { reason } = &c.status {
+    if let Status::Excluded { reason } | Status::WasmOnly { reason } = &c.status {
         bail!(
-            "{}:{}: `{name}` is Excluded ({reason}) but the matrix produced cells for it; \
+            "{}:{}: `{name}` is Excluded or WasmOnly ({reason}) but the matrix produced cells for it; \
              the scope rule and the cell enumerator disagree",
             c.span.file,
             c.span.line,

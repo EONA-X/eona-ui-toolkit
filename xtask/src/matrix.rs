@@ -816,12 +816,12 @@ pub fn cells_with_report(c: &Component, tk: &Toolkit) -> Result<(Vec<Cell>, Cell
 }
 
 /// Cells for every component the generator has not excluded, in IR order.
-/// `Excluded` components are skipped — they are never rendered, so cells for
+/// `Excluded` and `WasmOnly` components are skipped — they are never rendered, so cells for
 /// them would be noise in the ABI.
 pub fn all_cells(tk: &Toolkit) -> Result<Vec<(String, Vec<Cell>, CellReport)>> {
     let mut out = Vec::new();
     for c in &tk.components {
-        if matches!(c.status, Status::Excluded { .. }) {
+        if matches!(c.status, Status::Excluded { .. } | Status::WasmOnly { .. }) {
             continue;
         }
         let (cells, report) = cells_with_report(c, tk)?;
@@ -1772,5 +1772,20 @@ mod tests {
             report.depth_limited.iter().any(|d| d.ty.contains("recursive") || d.ty.contains("Node")),
             "{report:?}"
         );
+    }
+
+    /// A `WasmOnly` component is never rendered by the harness, so cells for it
+    /// would describe markup the React package does not ship.
+    #[test]
+    fn all_cells_skips_wasm_only_components() {
+        let mut tk = fixture();
+        let n = tk.components.len();
+        let before = all_cells(&tk).unwrap();
+        tk.components[0].status = Status::WasmOnly { reason: "chart".into() };
+        let name = tk.components[0].name.clone();
+        let after = all_cells(&tk).unwrap();
+        assert!(before.iter().any(|(c, _, _)| *c == name));
+        assert!(!after.iter().any(|(c, _, _)| *c == name));
+        assert_eq!(tk.components.len(), n);
     }
 }

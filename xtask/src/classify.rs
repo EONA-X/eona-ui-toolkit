@@ -244,6 +244,15 @@ fn scope(c: &Component) -> Status {
     if c.name == SHOWCASE {
         return Status::Excluded { reason: "crate showcase page".into() };
     }
+    // The data-driven charts parse JSON-LD in Rust and draw in the browser.
+    // Keyed on the path, like the interactive rule. Matches nothing until
+    // `src/charts/` exists.
+    if c.span.file.replace('\\', "/").contains("src/charts/") {
+        return Status::WasmOnly {
+            reason: "data-driven chart: parses JSON-LD and renders in the browser via WebAssembly"
+                .into(),
+        };
+    }
     if let Some(p) = c.props.iter().find(|p| matches!(p.kind, PropKind::Callback { .. })) {
         return Status::NeedsOverride {
             reason: format!(
@@ -1198,6 +1207,56 @@ mod tests {
             }
             other => panic!("expected NeedsOverride, got {other:?}"),
         }
+    }
+
+    /// A component under `src/charts/` parses JSON-LD and renders in the browser
+    /// through WebAssembly; React has no equivalent, so scope records it.
+    #[test]
+    fn a_chart_component_is_wasm_only() {
+        let mut tk = fixture();
+        tk.components.push(Component {
+            name: "BarChart".into(),
+            props_ty: Some("BarChartProps".into()),
+            tier: Tier::Presentational,
+            status: Status::Ok,
+            props: vec![Prop {
+                name: "jsonld".into(),
+                rust_ty: "AttrValue".into(),
+                kind: PropKind::Text,
+                optional: false,
+                default: PropDefault::Required,
+                span: Span { file: "src/charts/bar.rs".into(), line: 9 },
+            }],
+            span: Span { file: "src/charts/bar.rs".into(), line: 14 },
+        });
+        classify(&mut tk).unwrap();
+        match &tk.component("BarChart").unwrap().status {
+            Status::WasmOnly { reason } => assert_eq!(
+                reason,
+                "data-driven chart: parses JSON-LD and renders in the browser via WebAssembly"
+            ),
+            other => panic!("expected WasmOnly, got {other:?}"),
+        }
+    }
+
+    /// The exclusions run first: a zero-prop component under `src/charts/` is a
+    /// demo section, not a chart.
+    #[test]
+    fn the_exclusions_outrank_the_chart_rule() {
+        let mut tk = fixture();
+        tk.components.push(Component {
+            name: "ChartsDemo".into(),
+            props_ty: None,
+            tier: Tier::Presentational,
+            status: Status::Ok,
+            props: vec![],
+            span: Span { file: "src/charts/demo.rs".into(), line: 3 },
+        });
+        classify(&mut tk).unwrap();
+        assert!(matches!(
+            tk.component("ChartsDemo").unwrap().status,
+            Status::Excluded { .. }
+        ));
     }
 
     /// One slot is `children`; two are not expressible as `children`.

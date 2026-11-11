@@ -30,6 +30,10 @@ pub enum Status {
     Quarantined { reason: String },
     /// Deliberately out of scope. `reason` is the rule that excluded it.
     Excluded { reason: String },
+    /// Rendered in the browser through WebAssembly (the data-driven charts).
+    /// Not in the React package; needs an `abi/overrides.toml` entry, which
+    /// carries the human disposition shown on the docs page.
+    WasmOnly { reason: String },
 }
 
 /// Where something came from, for diagnostics that a human can act on.
@@ -155,5 +159,18 @@ impl Toolkit {
         self.components
             .iter()
             .filter(|c| matches!(c.status, Status::Ok))
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn wasm_only_serialises_with_its_own_tag() {
+        let s = Status::WasmOnly { reason: "chart".into() };
+        let json = serde_json::to_string(&s).unwrap();
+        assert_eq!(json, r#"{"status":"wasm-only","reason":"chart"}"#);
+        assert_eq!(serde_json::from_str::<Status>(&json).unwrap(), s);
     }
 }
