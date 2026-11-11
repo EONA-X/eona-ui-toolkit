@@ -1,0 +1,54 @@
+{
+  "@context": "https://eona-x.eu/shape/chart-profile/context.jsonld",
+  "@id": "https://example.org/cube/t",
+  "@type": "DataSet",
+  "label": "T",
+  "observations": [
+    {
+      "@type": "Observation",
+      "date": {
+        "@value": "2025-03",
+        "@type": "xsd:gYearMonth"
+      },
+      "series": "Departures",
+      "value": 31
+    },
+    {
+      "@type": "Observation",
+      "date": {
+        "@value": "2025-01",
+        "@type": "xsd:gYearMonth"
+      },
+      "series": "Arrivals",
+      "value": 10
+    },
+    {
+      "@type": "Observation",
+      "date": {
+        "@value": "2025-03",
+        "@type": "xsd:gYearMonth"
+      },
+      "series": "Arrivals",
+      "value": 30
+    },
+    {
+      "@type": "Observation",
+      "date": {
+        "@value": "2025-01",
+        "@type": "xsd:gYearMonth"
+      },
+      "series": "Departures",
+      "value": 12
+    },
+    {
+      "@type": "Observation",
+      "date": {
+        "@value": "2025-02",
+        "@type": "xsd:gYearMonth"
+      },
+      "series": "Arrivals",
+      "value": 20
+    }
+  ],
+  "unit": "k"
+}

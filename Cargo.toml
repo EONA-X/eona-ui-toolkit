@@ -21,6 +21,8 @@ readme = "README.md"
 # five `csr`-gated crates left with the `interactive` tier — both now live in
 # `eona-vocabulary-ui`, their only consumer.
 yew = "0.23"
+# Read only by the chart profile's JSON-LD reader (`cube::from_jsonld`), behind `charts`.
+serde_json = { version = "1", optional = true }
 
 [features]
 # Consumers pick a renderer: `ssr` for static generation (developer.eona-x.eu),
@@ -32,6 +34,9 @@ ssr = ["yew/ssr"]
 # has moved to `eona-vocabulary-ui`. Kept as a feature name so that consumer's
 # `features = ["csr"]` keeps resolving.
 csr = ["yew/csr"]
+# The data-driven charts: the JSON-LD reader for the chart profile. Off by default so
+# the crate stays `yew`-only.
+charts = ["dep:serde_json"]
 
 [dev-dependencies]
 yew = { version = "0.23", features = ["ssr"] }

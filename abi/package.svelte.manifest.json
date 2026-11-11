@@ -1,6 +1,6 @@
 {
-  "srcHash": "6b5e166285546e8f773e7e24b49871d2b541213a89ce5a23b7ce030199f90c36",
-  "generatorHash": "be8b976e69086bc046624e42bbef8f2990f1fe0ba187db633b4930c1c90ce55a",
+  "srcHash": "e4d59088d570983d2fe65bf5f99d4ba097b29abef6718abe88bd5db660e30879",
+  "generatorHash": "bbdd6bb5c680f684470e051b1f648dd51ce4ecbf1cc77f13bc7e822f4f657976",
   "dir": "packages/svelte",
   "exported": [
     "AccordionItem",
@@ -48,7 +48,7 @@
   "files": [
     {
       "path": "README.md",
-      "sha256": "fc50d269c2b7578faf432e892cfd1aa6c46298e46b8d1ce8124a85d620b795ca"
+      "sha256": "d34839a8c645277ab26c29a99937c382b5b2e626f3c6f23c3235ce5451ba618f"
     },
     {
       "path": "package.json",
@@ -220,7 +220,7 @@
     },
     {
       "path": "src/index.ts",
-      "sha256": "32e619f050826a3def5f66dc6c9e983a273860a341d3ae3d1c074445d7089287"
+      "sha256": "3c3540124aa8d6c90f0051eb7861b5009b3bdbaece5113a440f1a30fe7b927ef"
     },
     {
       "path": "src/types.ts",

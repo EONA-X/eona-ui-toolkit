@@ -1,0 +1,11 @@
+{
+  "@context": "https://eona-x.eu/shape/chart-profile/context.jsonld",
+  "@id": "https://example.org/cube/t",
+  "@type": "DataSet",
+  "label": "T",
+  "observations": [
+    { "@type": "Observation", "date": { "@value": "-0044", "@type": "xsd:gYear" }, "value": 2 },
+    { "@type": "Observation", "date": { "@value": "-0100", "@type": "xsd:gYear" }, "value": 1 },
+    { "@type": "Observation", "date": { "@value": "2024Z", "@type": "xsd:gYear" }, "value": 3 }
+  ]
+}

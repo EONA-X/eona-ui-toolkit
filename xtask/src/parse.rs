@@ -708,10 +708,13 @@ mod tests {
     #[test]
     fn data_carrying_enums_expand_rather_than_flatten() {
         let collected = collect(&root()).unwrap();
+        // `collect` walks every `src/**/*.rs`, so the chart dataset model
+        // (`src/cube/`: `Axis`, `AxisKey`, and the reader's private `Val`) shows up
+        // too. None of them is a component prop, so `link` never reaches them.
         assert_eq!(
             collected.data_enums.iter().map(|e| e.name.as_str()).collect::<Vec<_>>(),
-            ["BadgeVariant"],
-            "the crate's only data-carrying enum"
+            ["BadgeVariant", "Val", "Axis", "AxisKey"],
+            "the component tier's only data-carrying enum, then the cube model's"
         );
         assert!(
             collected.data_enums[0].variants.contains(&"Kind(TermKind)".to_string()),

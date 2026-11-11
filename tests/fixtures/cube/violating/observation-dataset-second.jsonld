@@ -1,0 +1,14 @@
+{
+  "@context": "https://eona-x.eu/shape/chart-profile/context.jsonld",
+  "@id": "https://example.org/cube/t",
+  "@type": "DataSet",
+  "label": "T",
+  "observations": [
+    {
+      "@type": "Observation",
+      "dataSet": "https://example.org/cube/other",
+      "category": "a",
+      "value": 1
+    }
+  ]
+}

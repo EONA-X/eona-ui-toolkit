@@ -1,0 +1,5 @@
+{
+  "@context": "https://eona-x.eu/shape/chart-profile/context.jsonld",
+  "@id": "x",
+  "@type": "Observation"
+}

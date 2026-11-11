@@ -1,0 +1,22 @@
+{
+  "@context": "https://eona-x.eu/shape/chart-profile/context.jsonld",
+  "@id": "https://example.org/cube/t",
+  "@type": "DataSet",
+  "label": [
+    {
+      "@value": "Qualité",
+      "@language": "fr"
+    },
+    {
+      "@value": "Quality",
+      "@language": "en"
+    }
+  ],
+  "observations": [
+    {
+      "@type": "Observation",
+      "category": "Completeness",
+      "value": 0.82
+    }
+  ]
+}

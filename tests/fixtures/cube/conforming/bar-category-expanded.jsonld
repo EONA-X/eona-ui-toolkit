@@ -1,0 +1,88 @@
+{
+  "@graph": [
+    {
+      "@id": "https://example.org/cube/visitors",
+      "@type": [
+        "http://purl.org/linked-data/cube#DataSet"
+      ],
+      "http://www.w3.org/2000/01/rdf-schema#label": [
+        {
+          "@value": "Visitors per airport"
+        }
+      ],
+      "http://www.w3.org/2000/01/rdf-schema#comment": [
+        {
+          "@value": "Passengers, 2025"
+        }
+      ],
+      "https://eona-x.eu/shape/chart-profile#unit": [
+        {
+          "@value": "pax"
+        }
+      ]
+    },
+    {
+      "@id": "_:o0",
+      "@type": [
+        "http://purl.org/linked-data/cube#Observation"
+      ],
+      "http://purl.org/linked-data/cube#dataSet": [
+        {
+          "@id": "https://example.org/cube/visitors"
+        }
+      ],
+      "https://eona-x.eu/shape/chart-profile#category": [
+        {
+          "@value": "Paris"
+        }
+      ],
+      "https://eona-x.eu/shape/chart-profile#value": [
+        {
+          "@value": 210000
+        }
+      ]
+    },
+    {
+      "@id": "_:o1",
+      "@type": [
+        "http://purl.org/linked-data/cube#Observation"
+      ],
+      "http://purl.org/linked-data/cube#dataSet": [
+        {
+          "@id": "https://example.org/cube/visitors"
+        }
+      ],
+      "https://eona-x.eu/shape/chart-profile#category": [
+        {
+          "@value": "Lyon"
+        }
+      ],
+      "https://eona-x.eu/shape/chart-profile#value": [
+        {
+          "@value": 128430
+        }
+      ]
+    },
+    {
+      "@id": "_:o2",
+      "@type": [
+        "http://purl.org/linked-data/cube#Observation"
+      ],
+      "http://purl.org/linked-data/cube#dataSet": [
+        {
+          "@id": "https://example.org/cube/visitors"
+        }
+      ],
+      "https://eona-x.eu/shape/chart-profile#category": [
+        {
+          "@value": "Nice"
+        }
+      ],
+      "https://eona-x.eu/shape/chart-profile#value": [
+        {
+          "@value": 96210.5
+        }
+      ]
+    }
+  ]
+}
