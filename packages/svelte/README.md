@@ -7,7 +7,7 @@ source of truth is the Yew crate in this repository (`src/`): each component was
 rendering the Rust component with Yew's own server renderer and splicing the props back
 into the resulting markup — the same tree `@eona-x/ui-toolkit-react` is written from.
 
-Generated from src_hash `e4d59088d570983d2fe65bf5f99d4ba097b29abef6718abe88bd5db660e30879`. 41 components exported.
+Generated from src_hash `c20cded2ea9006e797d4d9559e74d88314f31640c3ec1b56d34d4d7784e6bcf4`. 41 components exported.
 
 ## Two entry points
 
