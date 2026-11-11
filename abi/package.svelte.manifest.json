@@ -1,6 +1,6 @@
 {
   "srcHash": "322fbbacaa320346dec85302f8099332033211b18edaa586e265597e824b9625",
-  "generatorHash": "4e4c519d85fe646a02cf4791c0063de74bfbe320abfedf78d61f635cb641567e",
+  "generatorHash": "ccba7675088b4956d1ab3827fc0f42c0af7f25ff464f35c47adc3a4f516edf26",
   "dir": "packages/svelte",
   "exported": [
     "AccordionItem",
@@ -53,7 +53,7 @@
     },
     {
       "path": "package.json",
-      "sha256": "cef0763ac5951a3098a656ce85ef7cbbbfa8c5bcf17404f2482a6727f79c08cd"
+      "sha256": "2a4a9752548dd2fd1f9be9da520dc7e9c0e2eeba3d8e84ee8c7237addeb15e35"
     },
     {
       "path": "src/AccordionItem.svelte",
