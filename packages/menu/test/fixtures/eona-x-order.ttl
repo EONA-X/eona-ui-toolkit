@@ -1,5 +1,5 @@
 # Same menu as eona-x.ttl, using menu:order instead of lists.
-@prefix menu: <https://eona-x.eu/ns/menu#> .
+@prefix menu: <https://eona-x.eu/ontology/ui-toolkit-menu#> .
 @prefix ex:   <https://eona-x.eu/menu/> .
 
 ex:main a menu:Menu ;

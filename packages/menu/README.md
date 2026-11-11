@@ -50,7 +50,9 @@ npx eona-menu-build --config menu.ttl --name eona-x   # dist/menu.eona-x.js, mod
 
 ## Vocabulary
 
-Namespace `https://eona-x.eu/ns/menu#` (`vocab/menu.ttl`). The JSON-LD context is built in (`https://eona-x.eu/ns/menu/context.jsonld`, also `vocab/context.jsonld`) and is never fetched.
+Namespace `https://eona-x.eu/ontology/ui-toolkit-menu#` (`vocab/menu.ttl`, the `eonax-ui-toolkit-menu` v0.1.0 ontology). The JSON-LD context is built in (`https://eona-x.eu/ontology/ui-toolkit-menu/context.jsonld`, also `vocab/context.jsonld`) and is never fetched.
+
+Legacy alias: versions up to 0.10.x used `https://eona-x.eu/ns/menu#` and `https://eona-x.eu/ns/menu/context.jsonld`. The reader still accepts both and maps them to the terms above, so existing Turtle and JSON-LD files keep working; the context URL is not fetched either. Switch your files to the new namespace. The alias will be removed in 1.0.
 
 - Classes: `Menu`, `Item`, `Logo`, `LinkAction`, `LanguageSwitcher`, `Alternate`.
 - Menu: `lang`, `ariaLabel`, `breakpoint` (1024), `collapseOffset` (200), `logo`, `items`, `actions`.
@@ -61,7 +63,7 @@ Namespace `https://eona-x.eu/ns/menu#` (`vocab/menu.ttl`). The JSON-LD context i
 
 ```json
 {
-  "@context": "https://eona-x.eu/ns/menu/context.jsonld",
+  "@context": "https://eona-x.eu/ontology/ui-toolkit-menu/context.jsonld",
   "@type": "Menu",
   "lang": "en",
   "items": [

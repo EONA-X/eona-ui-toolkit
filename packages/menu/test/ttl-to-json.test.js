@@ -58,7 +58,7 @@ test('23 syntax error returns 1 with file:line:col', async () => {
 test('23b validation errors one per line', async () => {
   const dir = mkdtempSync(join(tmpdir(), 'menu-'));
   const f = join(dir, 'v.ttl');
-  writeFileSync(f, '@prefix menu: <https://eona-x.eu/ns/menu#> .\n<urn:m> a menu:Menu ; menu:items ( [ menu:label "A" ; menu:href "javascript:x" ] ) .\n');
+  writeFileSync(f, '@prefix menu: <https://eona-x.eu/ontology/ui-toolkit-menu#> .\n<urn:m> a menu:Menu ; menu:items ( [ menu:label "A" ; menu:href "javascript:x" ] ) .\n');
   const r = await run([f]);
   assert.equal(r.code, 1);
   assert.match(r.err, /v\.ttl: items\[0\]\.href: /);

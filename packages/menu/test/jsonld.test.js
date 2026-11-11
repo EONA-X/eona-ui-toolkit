@@ -5,7 +5,7 @@ import { jsonldToTriples, fromJsonLd, MENU_CONTEXT, MENU_CONTEXT_URL } from '../
 import { MenuError } from '../src/errors.js';
 
 const rd = (f) => readFileSync(new URL('./fixtures/' + f, import.meta.url), 'utf8');
-const M = 'https://eona-x.eu/ns/menu#';
+const M = 'https://eona-x.eu/ontology/ui-toolkit-menu#';
 const XSD = 'http://www.w3.org/2001/XMLSchema#';
 const RDF = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
 const find = (ts, p) => ts.filter((t) => t.p === p);
