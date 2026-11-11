@@ -6,12 +6,18 @@
   "observations": [
     {
       "@type": "Observation",
-      "date": "2025-03-01",
+      "date": {
+        "@value": "2025-03-01",
+        "@type": "xsd:date"
+      },
       "value": 3
     },
     {
       "@type": "Observation",
-      "date": "2025-01-15",
+      "date": {
+        "@value": "2025-01-15",
+        "@type": "xsd:date"
+      },
       "value": 1
     }
   ]

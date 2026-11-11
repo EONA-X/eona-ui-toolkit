@@ -1,0 +1,64 @@
+{
+  "@context": "https://eona-x.eu/shape/chart-profile/context.jsonld",
+  "@id": "https://eona-x.eu/sample/stacked-modes",
+  "@type": "DataSet",
+  "label": "Journeys by mode and year",
+  "comment": "Sample data",
+  "unit": "M journeys",
+  "observations": [
+    {
+      "@type": "Observation",
+      "category": "2023",
+      "series": "Rail",
+      "value": 52
+    },
+    {
+      "@type": "Observation",
+      "category": "2023",
+      "series": "Road",
+      "value": 31
+    },
+    {
+      "@type": "Observation",
+      "category": "2023",
+      "series": "Air",
+      "value": 17
+    },
+    {
+      "@type": "Observation",
+      "category": "2024",
+      "series": "Rail",
+      "value": 58
+    },
+    {
+      "@type": "Observation",
+      "category": "2024",
+      "series": "Road",
+      "value": 29
+    },
+    {
+      "@type": "Observation",
+      "category": "2024",
+      "series": "Air",
+      "value": 18
+    },
+    {
+      "@type": "Observation",
+      "category": "2025",
+      "series": "Rail",
+      "value": 63
+    },
+    {
+      "@type": "Observation",
+      "category": "2025",
+      "series": "Road",
+      "value": 28
+    },
+    {
+      "@type": "Observation",
+      "category": "2025",
+      "series": "Air",
+      "value": 21
+    }
+  ]
+}

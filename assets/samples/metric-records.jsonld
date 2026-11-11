@@ -1,0 +1,26 @@
+{
+  "@context": "https://eona-x.eu/shape/chart-profile/context.jsonld",
+  "@id": "https://eona-x.eu/sample/metric-records",
+  "@type": "DataSet",
+  "label": "Records analysed",
+  "comment": "Sample data",
+  "unit": "records",
+  "observations": [
+    {
+      "@type": "Observation",
+      "date": {
+        "@value": "2025-09",
+        "@type": "xsd:gYearMonth"
+      },
+      "value": 118200
+    },
+    {
+      "@type": "Observation",
+      "date": {
+        "@value": "2025-10",
+        "@type": "xsd:gYearMonth"
+      },
+      "value": 128430
+    }
+  ]
+}

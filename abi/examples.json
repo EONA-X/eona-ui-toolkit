@@ -1,6 +1,6 @@
 {
   "examplesVersion": 3,
-  "srcHash": "c4fd4939fd57cb211932b205421ce30309546eef866b44759bee5de1f4284ffc",
+  "srcHash": "322fbbacaa320346dec85302f8099332033211b18edaa586e265597e824b9625",
   "components": [
     {
       "component": "AccordionItem",
@@ -277,7 +277,7 @@
     },
     {
       "component": "DemoPage",
-      "source": "src/demo.rs:62",
+      "source": "src/demo.rs:83",
       "status": "excluded",
       "reason": "crate showcase page",
       "yew": {

@@ -44,3 +44,8 @@ tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
 # examples/render-docs.rs turns site/guides/*.md into the getting-started pages.
 # A dev-dependency only: the crate's own dependency set stays `yew` alone.
 pulldown-cmark = { version = "0.13", default-features = false, features = ["html"] }
+
+# Prints the reader's verdict per file; `tests/differential.sh` compares it with pySHACL's.
+[[example]]
+name = "cube-verdict"
+required-features = ["charts"]

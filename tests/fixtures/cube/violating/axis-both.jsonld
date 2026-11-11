@@ -7,7 +7,10 @@
     {
       "@type": "Observation",
       "category": "a",
-      "date": "2025-01-01",
+      "date": {
+        "@value": "2025-01-01",
+        "@type": "xsd:date"
+      },
       "value": 1
     }
   ]

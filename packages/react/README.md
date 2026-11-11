@@ -7,7 +7,7 @@ of truth is the Yew crate in this repository (`src/`): each component here was p
 rendering the Rust component with Yew's own server renderer and splicing the props back
 into the resulting markup, so the React and Yew renders are the same HTML by construction.
 
-Generated from src_hash `c4fd4939fd57cb211932b205421ce30309546eef866b44759bee5de1f4284ffc`.
+Generated from src_hash `322fbbacaa320346dec85302f8099332033211b18edaa586e265597e824b9625`.
 
 ## Documentation
 

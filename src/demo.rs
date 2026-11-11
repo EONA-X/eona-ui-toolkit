@@ -43,6 +43,27 @@ pub const DEMO_SHELL: &str = include_str!("../assets/demo-shell.html");
 /// `<details>` and handles itself.
 pub const DEMO_JS: &str = include_str!("../assets/demo-page.js");
 
+/// Page glue for the live charts section (`charts` feature): loads the charts
+/// WebAssembly module when a `[data-cube-chart]` container nears the viewport,
+/// fetches its `data-src`, and mounts the chart into it. A host that renders
+/// [`DemoPage`] with `charts` writes this as `charts-page.js` beside `demo-page.js`,
+/// the module as `wasm/eona_ui_toolkit_charts.js` beside it, and [`CHART_SAMPLES`]
+/// under `samples/`.
+#[cfg(feature = "charts")]
+pub const CHARTS_JS: &str = include_str!("../assets/charts-page.js");
+
+/// The sample datasets the live charts load, as (file name, JSON-LD text). Each is a
+/// document in the chart profile, with `rdfs:comment` "Sample data".
+#[cfg(feature = "charts")]
+pub const CHART_SAMPLES: [(&str, &str); 6] = [
+    ("bar-airports.jsonld", include_str!("../assets/samples/bar-airports.jsonld")),
+    ("bar-stations.jsonld", include_str!("../assets/samples/bar-stations.jsonld")),
+    ("stacked-modes.jsonld", include_str!("../assets/samples/stacked-modes.jsonld")),
+    ("line-traffic.jsonld", include_str!("../assets/samples/line-traffic.jsonld")),
+    ("donut-completeness.jsonld", include_str!("../assets/samples/donut-completeness.jsonld")),
+    ("metric-records.jsonld", include_str!("../assets/samples/metric-records.jsonld")),
+];
+
 #[derive(Properties, PartialEq, Default)]
 pub struct DemoPageProps {
     /// Site-header links. Empty by default — a standalone demo has no sibling

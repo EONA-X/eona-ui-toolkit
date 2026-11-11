@@ -1,0 +1,118 @@
+{
+  "@context": "https://eona-x.eu/shape/chart-profile/context.jsonld",
+  "@id": "https://eona-x.eu/sample/line-traffic",
+  "@type": "DataSet",
+  "label": "Monthly departures by hub",
+  "comment": "Sample data",
+  "unit": "departures",
+  "observations": [
+    {
+      "@type": "Observation",
+      "date": {
+        "@value": "2025-01",
+        "@type": "xsd:gYearMonth"
+      },
+      "series": "Paris",
+      "value": 300
+    },
+    {
+      "@type": "Observation",
+      "date": {
+        "@value": "2025-02",
+        "@type": "xsd:gYearMonth"
+      },
+      "series": "Paris",
+      "value": 318
+    },
+    {
+      "@type": "Observation",
+      "date": {
+        "@value": "2025-03",
+        "@type": "xsd:gYearMonth"
+      },
+      "series": "Paris",
+      "value": 340
+    },
+    {
+      "@type": "Observation",
+      "date": {
+        "@value": "2025-04",
+        "@type": "xsd:gYearMonth"
+      },
+      "series": "Paris",
+      "value": 335
+    },
+    {
+      "@type": "Observation",
+      "date": {
+        "@value": "2025-05",
+        "@type": "xsd:gYearMonth"
+      },
+      "series": "Paris",
+      "value": 362
+    },
+    {
+      "@type": "Observation",
+      "date": {
+        "@value": "2025-06",
+        "@type": "xsd:gYearMonth"
+      },
+      "series": "Paris",
+      "value": 390
+    },
+    {
+      "@type": "Observation",
+      "date": {
+        "@value": "2025-01",
+        "@type": "xsd:gYearMonth"
+      },
+      "series": "Lyon",
+      "value": 120
+    },
+    {
+      "@type": "Observation",
+      "date": {
+        "@value": "2025-02",
+        "@type": "xsd:gYearMonth"
+      },
+      "series": "Lyon",
+      "value": 138
+    },
+    {
+      "@type": "Observation",
+      "date": {
+        "@value": "2025-03",
+        "@type": "xsd:gYearMonth"
+      },
+      "series": "Lyon",
+      "value": 160
+    },
+    {
+      "@type": "Observation",
+      "date": {
+        "@value": "2025-04",
+        "@type": "xsd:gYearMonth"
+      },
+      "series": "Lyon",
+      "value": 155
+    },
+    {
+      "@type": "Observation",
+      "date": {
+        "@value": "2025-05",
+        "@type": "xsd:gYearMonth"
+      },
+      "series": "Lyon",
+      "value": 182
+    },
+    {
+      "@type": "Observation",
+      "date": {
+        "@value": "2025-06",
+        "@type": "xsd:gYearMonth"
+      },
+      "series": "Lyon",
+      "value": 210
+    }
+  ]
+}

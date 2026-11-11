@@ -49,6 +49,9 @@ jobs:
       - name: Generated output is not stale
         run: cargo run -p xtask -- check
 
+      - name: Rust tests, with the charts and the page
+        run: cargo test --features ssr,charts
+
       # Before the Svelte build: its `postbuild` copies this output into `dist`.
       - name: Build the charts WASM
         run: |
@@ -86,7 +89,7 @@ jobs:
           npm ci --no-audit --no-fund
           npm test
 
-      - name: The demo page script drives the stack tabs and Copy
+      - name: The demo page scripts drive the stack tabs, Copy and the live charts
         working-directory: tests/demo-page
         run: |
           npm ci --no-audit --no-fund
@@ -134,3 +137,37 @@ jobs:
           npm run build
           grep -q 'class="site-header' build/index.html
           grep -q 'class="site-header' build/about.html
+
+  # The chart reader and the vocabulary's chart profile, held to each other: the
+  # fixtures and the context are byte-for-byte copies, and pySHACL (the shapes) and
+  # `cube::from_jsonld` (the reader) reach the same verdict on every fixture and
+  # accept every sample of the components page.
+  chart-profile:
+    runs-on: ubuntu-latest
+    env:
+      # The eona-vocabularies-reference commit whose `eonax-chart-profile` this tree is
+      # checked against. Bump it together with src/cube/context.jsonld and
+      # tests/fixtures/cube/profile/ when the profile changes.
+      VOCABULARIES_SHA: f218a5c97a73880a0bca30b28c6f96c0e0a7277b
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/checkout@v4
+        with:
+          repository: Eona-X/eona-vocabularies-reference
+          ref: ${{ env.VOCABULARIES_SHA }}
+          path: vocabularies
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install pySHACL
+        run: pip install pyshacl==0.40.1
+
+      - name: The reader and the shapes agree
+        run: tests/differential.sh vocabularies

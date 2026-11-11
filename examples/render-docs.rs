@@ -22,11 +22,19 @@
 //! inside a larger site; this renders it standalone so the crate's own repository
 //! can serve it without the portal.
 //!
-//! Usage: `cargo run --example render-docs --features ssr -- <out-dir>`, then
-//! `node site/scripts/inject-menu.mjs <out-dir>`.
+//! With the `charts` feature the components page also has the live charts section,
+//! and this writes what it loads, beside `/yew/index.html`: `samples/*.jsonld` and
+//! `charts-page.js`. The WebAssembly module (`wasm/eona_ui_toolkit_charts.js` and its
+//! `_bg.wasm`) is built by `wasm-pack` and copied there by `.github/workflows/pages.yml`.
+//!
+//! Usage: `cargo run --example render-docs --features ssr,charts -- <out-dir>`, then
+//! `node site/scripts/inject-menu.mjs <out-dir>`. Without `charts` the live charts
+//! section and its files are left out, as in the portal's build.
 
 use std::{env, fs, path::Path, path::PathBuf};
 
+#[cfg(feature = "charts")]
+use eona_ui_toolkit::demo::{CHARTS_JS, CHART_SAMPLES};
 use eona_ui_toolkit::{
     demo::{DEMO_JS, DEMO_SHELL},
     ComponentsGallery, HeroFilter, IntegrationSection, NavLink, OntologySection, PillButton,
@@ -340,11 +348,28 @@ fn shell_html(page: Page, title: &str, body: &str) -> String {
     }
     let ontology = format!("<link rel=\"stylesheet\" href=\"{root}ontology.css\">");
     let html = html.replacen(&ontology, &format!("{ontology}\n<link rel=\"stylesheet\" href=\"{root}docs.css\">"), 1);
+    let html = with_charts_script(page, html, &root);
     let html = match (html.find("<title>"), html.find("</title>")) {
         (Some(a), Some(b)) => format!("{}<title>{title}</title>{}", &html[..a], &html[b + "</title>".len()..]),
         _ => html,
     };
     html.replace("__APP__", body)
+}
+
+/// The components page loads the live charts' glue after `demo-page.js`; it sits in
+/// the page's own directory, next to `samples/` and `wasm/`.
+#[cfg(feature = "charts")]
+fn with_charts_script(page: Page, html: String, root: &str) -> String {
+    if page != Page::Components(Stack::Yew) {
+        return html;
+    }
+    let tag = format!("<script src=\"{root}demo-page.js\"></script>");
+    html.replacen(&tag, &format!("{tag}\n<script src=\"charts-page.js\"></script>"), 1)
+}
+
+#[cfg(not(feature = "charts"))]
+fn with_charts_script(_page: Page, html: String, _root: &str) -> String {
+    html
 }
 
 /// Write a page, with the logo `SiteHeader` loads from `logo/` beside it.
@@ -441,6 +466,16 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     fs::write(out.join("ontology.css"), ONTOLOGY_CSS)?;
     fs::write(out.join("docs.css"), DOCS_CSS)?;
     fs::write(out.join("demo-page.js"), DEMO_JS)?;
+
+    #[cfg(feature = "charts")]
+    {
+        let yew = out.join(Page::Components(Stack::Yew).dir());
+        fs::create_dir_all(yew.join("samples"))?;
+        for (name, text) in CHART_SAMPLES {
+            fs::write(yew.join("samples").join(name), text)?;
+        }
+        fs::write(yew.join("charts-page.js"), CHARTS_JS)?;
+    }
 
     // Pages runs the upload through Jekyll unless told not to; `_`-prefixed paths
     // would be dropped silently. Nothing here starts with `_` today, so this is a

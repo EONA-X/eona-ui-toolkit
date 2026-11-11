@@ -1,6 +1,6 @@
 {
   "abiVersion": 1,
-  "srcHash": "c4fd4939fd57cb211932b205421ce30309546eef866b44759bee5de1f4284ffc",
+  "srcHash": "322fbbacaa320346dec85302f8099332033211b18edaa586e265597e824b9625",
   "generatorHash": "4e4c519d85fe646a02cf4791c0063de74bfbe320abfedf78d61f635cb641567e",
   "components": [
     {
@@ -576,7 +576,7 @@
       "status": "excluded",
       "reason": "crate showcase page",
       "tier": "presentational",
-      "source": "src/demo.rs:62",
+      "source": "src/demo.rs:83",
       "cells": 0,
       "props": [
         {
@@ -585,7 +585,7 @@
           "ts": "NavLink | undefined",
           "optional": true,
           "default": "default-trait",
-          "source": "src/demo.rs:58"
+          "source": "src/demo.rs:79"
         },
         {
           "name": "footer_text",
@@ -593,7 +593,7 @@
           "ts": "string | undefined",
           "optional": true,
           "default": "default-trait",
-          "source": "src/demo.rs:54"
+          "source": "src/demo.rs:75"
         },
         {
           "name": "nav",
@@ -601,7 +601,7 @@
           "ts": "SiteNavLink[]",
           "optional": false,
           "default": "default-trait",
-          "source": "src/demo.rs:51"
+          "source": "src/demo.rs:72"
         }
       ]
     },

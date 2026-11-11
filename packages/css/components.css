@@ -924,3 +924,6 @@
 .eona-ui .chart--bar,
 .eona-ui .chart--stacked,
 .eona-ui .chart--line { min-width: 0; }
+.eona-ui .chart-switch { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 12px; }
+.eona-ui .chart-switch[hidden] { display: none; }
+.eona-ui .chart-switch .pill-btn[aria-pressed="true"] { background: var(--eona-navy); color: #fff; }

@@ -1,0 +1,30 @@
+{
+  "@context": "https://eona-x.eu/shape/chart-profile/context.jsonld",
+  "@id": "https://eona-x.eu/sample/bar-stations",
+  "@type": "DataSet",
+  "label": "Travellers per rail station, 2025",
+  "comment": "Sample data",
+  "unit": "travellers",
+  "observations": [
+    {
+      "@type": "Observation",
+      "category": "Gare de Lyon",
+      "value": 142000
+    },
+    {
+      "@type": "Observation",
+      "category": "Gare du Nord",
+      "value": 187500
+    },
+    {
+      "@type": "Observation",
+      "category": "Part-Dieu",
+      "value": 93400
+    },
+    {
+      "@type": "Observation",
+      "category": "Saint-Charles",
+      "value": 61250
+    }
+  ]
+}

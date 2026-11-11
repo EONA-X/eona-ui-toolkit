@@ -166,6 +166,39 @@ It has a cost: one component over WebAssembly is about 75 KB gzip against about 
 pre-rendered, it renders nothing on the server, and a Content-Security-Policy must allow
 `wasm-unsafe-eval`. Reach for it only for what the default entry does not export.
 
+## Data-driven charts
+
+`CubeChart` mounts one of the Rust charts over a JSON-LD dataset: the fetch is Svelte's, the parse,
+the layout and every error state are Rust's. It is in the `/wasm` entry, and the WebAssembly is its
+own subpath, loaded when the component mounts:
+
+```svelte
+<script>
+  import { CubeChart } from '@eona-x/ui-toolkit-svelte/wasm';
+</script>
+
+<CubeChart
+  component="BarChart"
+  src="/data/airports.jsonld"
+  module={() => import('@eona-x/ui-toolkit-svelte/wasm/charts')}
+/>
+```
+
+| Prop | |
+| --- | --- |
+| `component` | `BarChart`, `StackedBarChart`, `LineChart`, `CubeScoreDonut` or `CubeMetricTile` |
+| `module` | the charts module, a promise of it, or a function returning either |
+| `src` | where to fetch the document; a changed `src` aborts the previous fetch and updates the chart |
+| `jsonld` | the document text, instead of `src` |
+| `lang`, `select`, `help` | as the Yew props: language tag; the donut's category or date; the tile's small print |
+| `class` | class of the host element |
+
+The document is in the chart profile, `https://eona-x.eu/shape/chart-profile#`: one `qb:DataSet` with
+a label and `qb:Observation`s carrying `chart:category` or `chart:date`, `chart:value` and optionally
+`chart:series`. A failed fetch or an invalid document renders `.chart--error` in place of the chart.
+The Yew guide lists the terms. The component renders nothing on the server and needs a
+Content-Security-Policy that allows `wasm-unsafe-eval`. There is no React version.
+
 ## Theming
 
 `@eona-x/ui-toolkit-css` has a semantic layer named after the job rather than the ink —
